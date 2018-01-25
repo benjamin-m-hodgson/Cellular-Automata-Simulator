@@ -4,7 +4,7 @@ Katherine Van Dyk
 Michael Acker
 
 
-EXERCISE 1: INHERITANCE REVIEW (Using Ben's Game)
+# EXERCISE 1: INHERITANCE REVIEW (Using Ben's Game)
 
 BLOCK HIERARCHY: Block superclass, subclass for each type of block (One-hit, Two-hit, Three-Hit, Speed Boost Block)
 
@@ -67,7 +67,7 @@ public interface PowerUp {
 	public void fade();
 
 
-EXERCISE 2: CELL SOCIETY, HIGH LEVEL DESIGN
+# EXERCISE 2: CELL SOCIETY, HIGH LEVEL DESIGN
 
 1. Cell Object
 	/**
@@ -132,10 +132,10 @@ EXERCISE 2: CELL SOCIETY, HIGH LEVEL DESIGN
 	*COMING BACK
 	
 	
-EXERCISE 3: CRC CARDS 
+# EXERCISE 3: CRC CARDS 
 Used in discussion of design in Exercise 2
 
-EXERCISE 4: USE CASES
+# EXERCISE 4: USE CASES
 
 Apply the rules to a middle cell: set the next state of a cell to dead by counting its number of neighbors using the Game of Life rules for a cell in the middle (i.e., with all its neighbors)
 -Create method HandleNeighbors()
