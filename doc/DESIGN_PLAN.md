@@ -11,7 +11,7 @@ Our goal is to create a cellular automata program that can accurately animate a 
 To accomplish this, we will create a cell object that is closed to all other cells and only knows of its own state. A grid object will hold an array of cells and have knowledge of all cells in it. The ruleset has no knowledge of the cells or grid, and an engine class will create an instance of the grid and apply the ruleset to all cells in the grid by passing the rule set as a parameter to some methods within the grid class.
 
 ## Overview
-Our program consists of a Driver class, which includes the main method and any global variables. The Driver class calls an instance of the Engine class, which handles all instance variables and the current state of the simulation. The Engine class, in its initialization, calls the XMLParser() class, which iterates through all files in the 'XML' directory to create rulesets/grids for each type of simulation the user defines. Grids are made of cell objects. The Engine class includes a step function and processes the current grid based on its corresponding ruleset. The Screen class is also under the engine and updates the screen based on the current state of the simulation. It also includes subclasses for the start screen and error screen. An overview of each component and its specific classes are below. See the 'Design Details' section for a more in-depth description of a specific class' implementation and links to other classes. 
+Our program consists of a Driver class, which includes the main method and any global variables. The Driver class calls an instance of the Engine class, which handles all instance variables and the current state of the simulation. The Engine class, in its initialization, calls the XMLParser() class, which iterates through all files in the 'XML' directory to create rulesets/grids for each type of simulation the user defines. Grids are made of cell objects. The Engine class includes a step function and processes the current grid based on its corresponding ruleset. The Screen class is also under the engine and updates the screen based on the current state of the simulation. It also includes subclasses for the start screen and error screen. An overview of each component and its specific classes are below. See the 'Design Details' section for a more in-depth description of a specific class' implementation and links to other classes.
 
 Below is a diagram of the design. Arrows represent calls to a certain class, while thick lines represent subclasses.
 
@@ -72,7 +72,7 @@ This is a private method that returns the a specific cell's neighbors. This meth
 
 ### 3. RuleSet Class
 #### Description
-The ruleset superclass initializes a template for cells to be updated by any simulation. Each simulation extends the RuleSet class and overrides the `processRules()` and constructor methods. The `initialize()` method of the game engine calls the RuleSet constructor and inputs any simulation parameters. The grid class calls the RuleSet `processRules()` method to find the current cell state. 
+The ruleset superclass initializes a template for cells to be updated by any simulation. Each simulation extends the RuleSet class and overrides the `processRules()` and constructor methods. The `initialize()` method of the game engine calls the RuleSet constructor and inputs any simulation parameters. The grid class calls the RuleSet `processRules()` method to find the current cell state.
 
 #### Methods/Subclasses
 ##### `RuleSet()`
@@ -111,7 +111,7 @@ The step function calls the Grid class’ `updateGrid()` method to update the ce
 
 ### 5.  Screen
 #### Description
-The Screen class is a super class that contains some basic methods used to generate some scene roots. The sub classes can be used to make more specific aspects of the layout, such as `GenerateStartScreen`, which returns the root collection for the start scene. 
+The Screen class is a super class that contains some basic methods used to generate some scene roots. The sub classes can be used to make more specific aspects of the layout, such as `GenerateStartScreen`, which returns the root collection for the start scene.
 
 #### Methods/Subclasses
 ##### `makeLabel(String text)`
@@ -127,14 +127,14 @@ Returns the root to be used for the specified scene
 Returns a collection of objects to be displayed for the Error Screen, which includes a text label indicating the error.
 
 ##### `AnimationScreen()`
-Returns a collection of objects to be displayed for the Animation Screen, including a toolbar and grid. 
+Returns a collection of objects to be displayed for the Animation Screen, including a toolbar and grid.
 
 ##### `StartScreen()`
 Returns a collection of objects to be displayed for the Start Screen, which includes a dropdown menu to select the initial simulation and a Start button.
 
 ### 6. XML Parser
 #### Description
-The XML parser scans each file in the XML directory of the application. The format of the XML file is detailed in Design Details. On a high level, each XML file/simulation is stored in a HashMap, where its key is its name. The XML file is a subclass of Engine() and populates the Grid and RuleSet hash maps stored in the Engine class. Hash maps were chosen as the data structure to hold all grids/rulesets because of the quick access time and ability to hold multiple simulations with different names, even if they're of the same type (the HashMap is indexed by Simulation name). 
+The XML parser scans each file in the XML directory of the application. The format of the XML file is detailed in Design Details. On a high level, each XML file/simulation is stored in a HashMap, where its key is its name. The XML file is a subclass of Engine() and populates the Grid and RuleSet hash maps stored in the Engine class. Hash maps were chosen as the data structure to hold all grids/rulesets because of the quick access time and ability to hold multiple simulations with different names, even if they're of the same type (the HashMap is indexed by Simulation name).
 #### Methods
 ##### `XMLParser()  extends Engine`
 Calls XML parser class to iterate through all files in the XML directory.
@@ -153,10 +153,14 @@ Having drop down menus to switch between simulations/start eliminations eliminat
 ## Design Details
 ### Components
 #### 1. Cell Object
-A cell is one element of the grid, which has one or more states, whose behavior from generation to generation is described by the states of its neighbors. It will be defined as an abstract class so that it is flexible enough to accommodate multiple different types of cells as subclasses, depending on the needs of different automata simulations. Information stored in a cell should include one or more states, as well as corresponding previous states, its coordinates on the grid, and different colors/shapes to accommodate a visual difference between states in the animation. Methods for the cell class should be a constructor, set current state, set previous state, get current state, get previous state, and display shape.
+A cell is an element of the grid’s cell array. Each cell has one or more states during any given generation, and its behavior from generation to generation is described by the states of its neighbors. It will be defined as an abstract class so that it is flexible enough to accommodate multiple different types of cells as subclasses, depending on the needs of different automata simulations. Information stored in a cell should include one or more states, as well as corresponding previous states, its coordinates on the grid, and different colors/shapes to accommodate a visual difference between states in the animation. Methods for the cell class should be a constructor, set current state, set previous state, get current state, get previous state, and display shape.
+The purpose of the subclasses of cells is to accommodate the specific data and variable needs of cells in different types of simulations.For example, in Game of Life, a cell only needs to know if it is dead or alive. In Wa-Tor, however, a cell must be either a fish, shark, or empty water, fish and shark cells must know when to breed, shark cells must know how much energy they have, etc. Thus, varying data needs are best accommodated by varying cell subtypes.
+The cell class’s methods help it manage its own state and color information and communicate that information to the grid class. When its state is updated, it saves its previous state as well, so that as its neighbors are updated, they can draw from information regarding the same consistent cell generation. Then, it is able to, if necessary, draw itself again to accommodate a change in color reflecting its state.
+
 
 #### 2. Grid
 The grid contains a two-dimensional array of cells. It is initialized in the game engine, and it contains all cells in the simulation and is responsible for systematically updating the states of each cell based on the states of its neighbors for each generation. The grid is defined as an abstract class so that it has the flexibility necessary to implement different types of grids if need be. Information stored in the grid should be the array of all cells and the coordinates of each cell such that it can determine the set of neighbors for any given cell. Methods for the grid class should be a constructor, get initial state (from XML file), update grid (to update cells’ states each generation), and get neighbors (to return the set of neighbors for a cell).
+Any time a new XML file is loaded, a new grid may be generated of the relevant cell type with initial states corresponding to those indicated in the file. The grid is primarily responsible for managing cells, retrieving information about the states of cells and their neighbors, passing that information to the relevant ruleset class, then updating cells each generation based on the result. It does this by calling the cells’ setState, getState, getPreviousState, and displayShape methods when necessary, in conjunction with the use of the rulesets.
 
 #### 3. Rules
 The rules superclass has four subclasses, and contains one method `processRules()` that takes a cell object input and returns the correct state for the cell in the current generation. The rules superclass has four subclasses, each with its own constructor that takes in initial parameter inputs, depending on the type of simulation. Each subclass overrides the `processRule()` method with its own ruleset and cell object type. An abstract class is used for the rules class so that another simulation’s ruleset can be easily added and be consistent with the format of other rulesets.
@@ -165,10 +169,13 @@ The XML parser class constructs a ruleset for each simulation in the input XML f
 
 #### 4. Driver/Engine
 
-The Driver class contains the main method and any global variables. It calls an instance of the Game Engine, which holds the current state of the simulation- including instance variables such as grid size, simulation type, and the current grid/the state of the cells contained within it. The Engine class also contains a step method, which updates the state of the cells for each generation, and also the display, by calling the Screen class.
+The Driver class contains the main method and any global variables. It calls an instance of the Game Engine, which holds the current state of the simulation- including instance variables such as grid size, simulation type, and the current grid/the state of the cells contained within it. The Engine class also contains a step method, which updates the state of the cells for each generation, by calling the updateGrid() method from the Grid class. The engine will also contain a method to update the root collection depending on the  group of nodes returned from the Scene() class- whether they be for the Start Screen, Animation Screen or Error Screen. 
+
 
 #### 5. Screen
+The primary job of the Screen class is to manage the visual and interactive elements of the GUI. The Screen class contains methods such as getRoot() to return nodes to which visual elements will be attached, and makeLabel() and makeButton() to generate Text objects and buttons. Subclasses of the Screen class include the StartScreen() subclass, the AnimationScreen() subclass, and ErrorScreen() subclass, which all implement the method getRoot(). These methods will return the appropriate collection of nodes which represent all features of the specific scene, including buttons, labels, and the current grid. 
 
+The AnimationScreen() will be updated during each iteration of the step() function of the engine class. A separate method updateGrid() within the AnimationScreen() class will iterate through the cells during each generation (which update their own displays) and return them as a collection of nodes. The Engine() class will handle changing scenes between button presses and changing the Grid if the simulation type changes.
 
 #### 6. XML Parser
 The XML Parser is a subclass of the Game Engine. The Game Engine calls the XML Parser once during its initialization. The XML Parser reads all input files in the ‘XML’ directory of the application. The anticipated template for the XML files is outlined in the Design Details section. For each XML file/simulation, a grid and ruleset are constructed from the input parameters and stored within two hashmaps in the Game Engine class, which are protected and therefore accessible by the XML parser class. If the XML parser is missing data that can be easily set to a default value, such as an input parameter for a function, no error screen will be thrown. If it encounters a missing cell, however, an error screen is thrown. Once the XML parser has finished, rule sets and grids should exist for each XML file, mapped by their simulation names.
@@ -213,60 +220,68 @@ The ruleset is constructed using the XML file as well, using the initial ruleset
 A drop down menu on the side of the animation screen, as displayed above under the **User Interface** heading, will be used to switch between simulations. The game engine will have hash map instance variables from the XML Parser class with String object keys mapping to a Cell object array that contains the initial Cells. Depending upon the button, it will retrieve the correct array of initial Cell objects and reset the grid with these new Cell objects using the `createGrid(Cell[] cellObjects)` method within the grid Class.
 
 ## Design Considerations
-
 ### 1. Cell abstract class:
 #### Pros:
-More flexibility, some animations may require the cells to have different properties.
-All cell subclasses can be referenced as Cell types
-All cell subclasses share basic methods
+* More flexibility, some animations may require the cells to have different properties.
+* All cell subclasses can be referenced as Cell types
+* All cell subclasses share basic methods
 #### Cons:
-Size - Object oriented programming approaches create larger programs. In this case an extra class is needed to serve as a super class for the different cell subclasses.
-To add a new type of cell, must create an additional cell subclass.
+* Size - Object oriented programming approaches create larger programs. In this case an extra class is needed to serve as a super class for the different cell subclasses.
+* To add a new type of cell, must create an additional cell subclass.
 
 ### 2. Separate driver and simulation engine classes
 #### Pros:
-Driver creates an instance of the simulation, so multiple simulations can be generated and running simultaneously
+* Driver creates an instance of the simulation, so multiple simulations can be generated and running simultaneously
 #### Cons:
-Size - Object oriented programming approaches create larger programs. In this case an extra driver class is used to separate the steps required to start and execute a simulation.
+* Size - Object oriented programming approaches create larger programs. In this case an extra driver class is used to separate the steps required to start and execute a simulation.
 
 ### 3. Rules abstract class:
 #### Pros:
-More flexibility, some animations may require different rules
+* More flexibility, some animations may require different rules
 Every rule set can be referenced as a Rules type.
 #### Cons:
-To add a new set of rules, must create a new rules subclass
-Size - Object oriented programming approaches create larger programs. In this case an extra class is needed to serve as a super class for the different rule sub classes.
+* To add a new set of rules, must create a new rules subclass
+* Size - Object oriented programming approaches create larger programs. In this case an extra class is needed to serve as a super class for the different rule subclasses.
 ### 4. Creating an XML Parser class
 #### Pros:
-Using a class with the specific task of reading through the XML file and storing its data eliminates the need to reread the file if the animation type is changed later during the program. For example, to change from one animation type to another mid simulation the engine class can reference this object to find the initial starting Cell properties it stored from the XML file. This data will be stored in a hashmap with simulation titles as String object keys mapping to a Cell object array that contains the initial Cells. This lookup time is O(1) and prevents from having to reprocess the file.
-
-Separating this functionality also makes the code more readable and adaptable since any feature changes or additions related to processing data from the XML file can be handled in this one class.
+* Using a class with the specific task of reading through the XML file and storing its data eliminates the need to reread the file if the animation type is changed later during the program. For example, to change from one animation type to another mid simulation the engine class can reference this object to find the initial starting Cell properties it stored from the XML file. This data will be stored in a hashmap with simulation titles as String object keys mapping to a Cell object array that contains the initial Cells.
+* Lookup time is O(1) and prevents from having to reprocess the file.
+* Separating this functionality also makes the code more readable and adaptable since any feature changes or additions related to processing data from the XML file can be handled in this one class.
 
 #### Cons:
-Creates a dependency upon this object. To re-initialize the grid for a certain simulation the program depends upon the data taken from this object. This class must tell the program this information.
-Size - An extra class is used to handle reading the XML as opposed to doing so within another, pre-existing class
+* Creates a dependency upon this object. To re-initialize the grid for a certain simulation the program depends upon the data taken from this object. This class must tell the program this information.
+* Size - An extra class is used to handle reading the XML as opposed to doing so within another, pre-existing class
 
 ### 5. Creating a Screen class
 #### Pros:
-Enhanced readability and flexibility. If a new scene is needed for an aspect of the program, say a start scene, the program can call a method in this class to construct and return the root for the scene and attach this root to the current game scene. This way adding new scenes to the program can be done by creating a new method in this class to generate its nodes, put them in a root, and return this root.
+* Enhanced readability and flexibility. If a new scene is needed for an aspect of the program, say a start scene, the program can call a method in this class to construct and return the root for the scene and attach this root to the current game scene. This way adding new scenes to the program can be done by creating a new method in this class to generate its nodes, put them in a root, and return this root.
 
 #### Cons:
-Size - requires an extra class to handle creating new scenes.
-Dependency - the program is dependent upon values returned from methods in this class to generate new scenes
+* Size - requires an extra class to handle creating new scenes.
+* Dependency - the program is dependent upon values returned from methods in this class to generate new scenes
 ## Team Responsibilities
-This section describes the program components each team member plans to take primary and secondary responsibility for and a high-level plan of how the team will complete the program.
-
-
-
-
-
-
-
-
-
-
-
-
-
+### High Level Plan
+We plan to each create our own separate working branch, and only push to master once our code has been peer reviewed to ensure that every piece of code on master is functional and clean. We will start by creating separate classes for each object, and work on linking them as a group. First, we will create a working simulation- both functionally and visually- for the Game of Life simulation. We will then base the other, more complicated simulations, on this basic template by creating other subclasses. We will save the last two days of development of each sprint for refactoring, cleaning up, and commenting code.
+### Delegation of Responsibilities
+#### Michael Acker
+##### Primary Responsibility: Grid and Cell Superclasses and Subclasses, RuleSet Algorithms
+Michael’s primary responsibility will be to develop the Grid and Cell superclasses/subclasses, as well as the algorithmic portion of the RuleSet, and how the three will work together to update the grid.
+##### Secondary Responsibility: Linking Grid/Cell classes to Engine and Testing
+Michael’s secondary responsibility will be to link the grid and cell classes to the Engine and test all three components individually/together. Michael will work closely with Ben to determine how the engine will hold and interpret cell/grid data, and will work with Katie to determine how XML file data will be obtained and used by the cells, grid, and rulesets.
+#### Ben Hodgson
+##### Primary Responsibility: Scene and Driver/Engine Classes
+Ben’s primary responsibility will be to develop the display portion of the project and the game engine. Ben will work closely with both Katie/Michael to determine exactly how the Engine will interact with their subclasses and how data will be held in the Engine. 
+##### Secondary Responsibility: Linking Scene Classes to Engine and Testing
+Ben’s secondary responsibility will be to link the Scene classes to the Engine and to test the two, especially with data from the Cell/Grid. Ben will work closely with Michael in this regard to ensure that cell display data is being updated and passed to the Engine properly. 
+#### Katherine Van Dyk
+##### Primary Responsibility: XML Files, Parser and RuleSet Initialization
+Katie’s primary responsibility is to develop the XML files and parser class. She will also develop the RuleSet initialization methods, which requires XML parameters. She will work closely with Michael in determining how the RuleSet algorithms and initialization data will link together, as well as how the XML cell initialization data will be passed to the grid/cells.
+##### Secondary Responsibility: Linking Ruleset/XML Classes to Engine and Testing
+Katie’s secondary responsibility will be to link the RuleSet and XML classes to the Engine and test the three, especially for when the XML files contain incomplete or invalid data. She will work closely with Ben to determine when an error screen should be displayed versus when default values should be used in the ruleset/cell initialization. 
+#### Shared Responsibilities
+##### High Level Testing and Debugging
+Shared responsibilities include testing components beyond one person’s scope to make sure that they are linked correctly. All members will run multiple simulations fully and debug on a high level.
+##### Refactoring and Peer Reviewing Code
+All group members will be assigned someone’s code to review before that code is pushed to the master branch. This will ensure code readability and functionality, as well as cohesiveness. 
 
 
