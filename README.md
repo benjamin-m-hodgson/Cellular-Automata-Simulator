@@ -4,5 +4,5 @@ CompSci 308 Cell Society Project
 
 * Team 1
     * Ben Hodgson
-    * Katherine Van Dyk 
+    * Katherine Van Dyk (kmv10)
     * Michael Acker
