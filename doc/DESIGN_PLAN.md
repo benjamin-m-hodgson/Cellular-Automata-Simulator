@@ -225,6 +225,7 @@ A drop down menu on the side of the animation screen, as displayed above under t
 * More flexibility, some animations may require the cells to have different properties.
 * All cell subclasses can be referenced as Cell types
 * All cell subclasses share basic methods
+
 #### Cons:
 * Size - Object oriented programming approaches create larger programs. In this case an extra class is needed to serve as a super class for the different cell subclasses.
 * To add a new type of cell, must create an additional cell subclass.
@@ -232,6 +233,7 @@ A drop down menu on the side of the animation screen, as displayed above under t
 ### 2. Separate driver and simulation engine classes
 #### Pros:
 * Driver creates an instance of the simulation, so multiple simulations can be generated and running simultaneously
+
 #### Cons:
 * Size - Object oriented programming approaches create larger programs. In this case an extra driver class is used to separate the steps required to start and execute a simulation.
 
@@ -239,9 +241,11 @@ A drop down menu on the side of the animation screen, as displayed above under t
 #### Pros:
 * More flexibility, some animations may require different rules
 Every rule set can be referenced as a Rules type.
+
 #### Cons:
 * To add a new set of rules, must create a new rules subclass
 * Size - Object oriented programming approaches create larger programs. In this case an extra class is needed to serve as a super class for the different rule subclasses.
+
 ### 4. Creating an XML Parser class
 #### Pros:
 * Using a class with the specific task of reading through the XML file and storing its data eliminates the need to reread the file if the animation type is changed later during the program. For example, to change from one animation type to another mid simulation the engine class can reference this object to find the initial starting Cell properties it stored from the XML file. This data will be stored in a hashmap with simulation titles as String object keys mapping to a Cell object array that contains the initial Cells.
