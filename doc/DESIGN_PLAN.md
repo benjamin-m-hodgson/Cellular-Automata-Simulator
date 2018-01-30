@@ -259,6 +259,7 @@ Every rule set can be referenced as a Rules type.
 #### Cons:
 * Size - requires an extra class to handle creating new scenes.
 * Dependency - the program is dependent upon values returned from methods in this class to generate new scenes
+
 ## Team Responsibilities
 ### High Level Plan
 We plan to each create our own separate working branch, and only push to master once our code has been peer reviewed to ensure that every piece of code on master is functional and clean. We will start by creating separate classes for each object, and work on linking them as a group. First, we will create a working simulation- both functionally and visually- for the Game of Life simulation. We will then base the other, more complicated simulations, on this basic template by creating other subclasses. We will save the last two days of development of each sprint for refactoring, cleaning up, and commenting code.
