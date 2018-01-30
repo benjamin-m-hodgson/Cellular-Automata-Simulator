@@ -146,7 +146,7 @@ The user interface for the program will consist of two screens: a start screen a
 
 The animation screen, as shown in Figure 2, features a grid on the left side of the screen and a toolbar on the right. The toolbar features a step button, to iterate through the simulation one generation at a time, a play button, to play the animation continuously, a pause button, to stop the animation at any time, and a refresh button, to reset the simulation to its initial state. A dropdown menu at the right allows the user to switch simulations. The ‘Go’ button becomes clickable once a simulation is chosen. The grid features an array of ‘Rectangle’ shapes, which are stored in the cell object and extracted by the Screen class described in the Design Overview/Details portion of the document.
 
-![Figure 2. Animation Screen](animationScreen.png)
+![Figure 2. Animation Screen](startScreen.png)
 
 Having drop down menus to switch between simulations/start eliminations eliminates the user’s selection form being a source of error. Our program will handle a bad input data or empty input data by showing an “Error Screen”, or a screen with text warning the user that they have entered an invalid XML input file. The default cell state is 0, and hence simulations will not run with no input data.
 
