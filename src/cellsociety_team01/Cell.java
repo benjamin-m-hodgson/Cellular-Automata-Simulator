@@ -1,10 +1,16 @@
 package cellsociety_team01;
 
 public abstract class Cell {
-	private int myState;
-	private int myPreviousState;
-	private int myXPos;
-	private int myYPos;
+	protected int myState;
+	protected int myPreviousState;
+	protected int myXPos;
+	protected int myYPos;
+	
+	public Cell(int x, int y, int state) {
+		myState = state;
+		myXPos = x;
+		myYPos = y;
+	}
 	
 	public void setState(int state) {
 		myPreviousState = myState;
