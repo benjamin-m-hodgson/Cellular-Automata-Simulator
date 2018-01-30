@@ -1,11 +1,13 @@
-package cellsociety_team01;
+package simulation.screen;
 
 /**
  * 
  * @author Benjamin Hodgson
  * @date 1/30/18
  *
+ * 
  */
-public class Engine {
+public abstract class Screen {
+
 
 }
