@@ -1,6 +1,6 @@
-package cellsociety_team01;
+package simulation;
 
-/** 
+/**
  * 
  * @author Benjamin Hodgson
  * @author Katherine Van Dyk
@@ -8,6 +8,6 @@ package cellsociety_team01;
  * @date 1/30/18
  *
  */
-public class Driver {
+public class Engine {
 
 }
