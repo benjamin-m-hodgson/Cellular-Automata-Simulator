@@ -1,4 +1,4 @@
-package cellsociety_team01;
+package simulation.cell;
 
 public class GameOfLifeCell extends Cell {
 
