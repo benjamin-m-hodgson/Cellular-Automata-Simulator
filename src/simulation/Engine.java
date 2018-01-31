@@ -1,5 +1,7 @@
 package simulation;
 
+import javafx.stage.Stage;
+
 /**
  * 
  * @author Benjamin Hodgson
@@ -10,4 +12,8 @@ package simulation;
  */
 public class Engine {
 
+	public void startProgram(Stage primaryStage) {
+		
+	}
+	
 }
