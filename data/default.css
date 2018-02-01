@@ -1,0 +1,20 @@
+.root {
+	-fx-background-color: #d3d3d3;
+}
+#startScreenRoot {
+	-fx-alignment: center;
+	-fx-hgap: 10;
+	-fx-vgap: 10;
+}
+#startLabel {
+	-fx-alignment: center;
+	-fx-text-alignment: center;
+	-fx-font: 32px Excelsior;
+	-fx-font-weight: bold;
+	-fx-text-fill: #ffffff;
+	-fx-effect: innershadow(gaussian, rgba(255,255,255,0.5), 0, 0, 0, 1);
+}
+#startLabel .text {
+	-fx-stroke: #696969;
+	-fx-stroke-width: 1px;
+}

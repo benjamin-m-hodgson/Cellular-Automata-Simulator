@@ -12,8 +12,12 @@ import simulation.Engine;
  * The driver JavaFX program to start and animate a cellular automata simulation.
  */
 public class Driver extends Application {
-
-	private Engine programEngine = new Engine();
+	
+	private final int DEFAULT_HEIGHT = 600;
+	private final int DEFAULT_WIDTH = 800;
+	private final String DEFAULT_NAME = "Cellular Automata";
+	
+	private Engine programEngine = new Engine(DEFAULT_NAME);
 
 	/**
 	 * Initialize the program and begin the animation loop 
@@ -21,7 +25,7 @@ public class Driver extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		// display the menu screen
-		programEngine.startProgram(primaryStage);
+		programEngine.startProgram(primaryStage, DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		primaryStage.show();		
 	}
 	
