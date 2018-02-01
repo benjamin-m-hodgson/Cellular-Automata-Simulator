@@ -2,6 +2,8 @@ package simulation;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -42,7 +44,7 @@ public class Engine {
 	public void startProgram(Stage primaryStage, int width, int height) {
 		PROGRAM_STAGE = primaryStage;
 		PROGRAM_STAGE.setTitle(PROGRAM_TITLE);
-		// attach "game loop" to time line to play it
+		// attach "program loop" to time line to play it
         KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
                                       e -> step(SECOND_DELAY));
         Timeline animation = new Timeline();
@@ -51,6 +53,23 @@ public class Engine {
         animation.play();	
         // attach a Scene to the primaryStage 
         generateStartScene(width, height);
+	}
+	
+	/**
+	 * 
+	 * @param type: The type of simulation to start
+	 */
+	public void startSimulation(String type) {
+		//System.out.println("Start simulation!");
+	}
+	
+	/**
+	 * 
+	 * @return the Simulation titles to be displayed to the user
+	 */
+	public ObservableList<String> getSimulations() {
+		ObservableList<String> retList = FXCollections.observableArrayList("a", "b", "c");
+		return retList;
 	}
 
 	/**
