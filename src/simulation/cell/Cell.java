@@ -16,4 +16,16 @@ public abstract class Cell {
 		myPreviousState = myState;
 		myState = state;
 	}
+	
+	public int getState() {
+		return myState;
+	}
+	
+	public int getPreviousState() {
+		return myPreviousState;
+	}
+	
+	public void drawShape() {
+		
+	}
 }
