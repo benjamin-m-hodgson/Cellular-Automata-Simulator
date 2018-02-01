@@ -1,4 +1,4 @@
-package configuration;
+package DataTemplates;
 
 import java.io.File;
 import java.util.Map;

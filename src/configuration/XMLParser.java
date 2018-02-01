@@ -10,7 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
+import DataTemplates.XMLData;
 
 /**
  * This class handles parsing XML files and returning a completed object.
@@ -49,7 +49,12 @@ public class XMLParser {
     }
 
 
-    // Get root element of an XML file
+    /**
+     * Returns root element of XML File
+     * 
+     * @param xmlFile
+     * @return
+     */
     private Element getRootElement (File xmlFile) {
         try {
             DOCUMENT_BUILDER.reset();

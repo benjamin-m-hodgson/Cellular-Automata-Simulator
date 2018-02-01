@@ -1,3 +1,6 @@
+import java.io.File;
+import java.io.FilenameFilter;
+
 import javafx.application.Application;
 import javafx.stage.Stage;
 import simulation.Engine;
@@ -12,7 +15,8 @@ import simulation.Engine;
  * The driver JavaFX program to start and animate a cellular automata simulation.
  */
 public class Driver extends Application {
-
+	// Idea: Get grids, rulesets from controller, pass to engine via "setGrids" and "setRules" method
+	
 	private Engine programEngine = new Engine();
 
 	/**
@@ -25,10 +29,14 @@ public class Driver extends Application {
 		primaryStage.show();		
 	}
 	
+	
 	/**
      * Start the program
      */
     public static void main (String[] args) {
         launch(args);
     }
+    
+    
+    
 }
