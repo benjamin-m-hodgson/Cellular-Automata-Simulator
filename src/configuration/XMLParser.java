@@ -24,17 +24,16 @@ import java.util.Map;
  */
 public class XMLParser {
 	public static final String ERROR_MESSAGE = "XML file does not represent %s";
+	public static final String FIRE = "Fire";
 	private String TYPE_ATTRIBUTE = "type";
 	private final DocumentBuilder DOCUMENT_BUILDER;
 	private XMLData data;
-	private String SIMULATION_TYPE;
 
 	
 	/**
 	 * Create a parser for XML files of given type.
 	 */
 	public XMLParser () {
-		SIMULATION_TYPE = null;
 		data = new XMLData();
 		DOCUMENT_BUILDER = getDocumentBuilder();
 	}
@@ -82,8 +81,9 @@ public class XMLParser {
 	}
 	
 	public void setType(File dataFile) {
-		this.SIMULATION_TYPE = getAttribute(getRootElement(dataFile), "type");
-		this.data = new FireXMLData();
+		if(getAttribute(getRootElement(dataFile), "type").equals(FIRE)) {
+			this.data = new FireXMLData();
+		}
 		data.setMap(getMap(dataFile));
 	}
 
