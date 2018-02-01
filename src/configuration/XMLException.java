@@ -1,6 +1,5 @@
 package configuration;
 
-
 /**
  * This class represents what might go wrong when using XML files.
  * 

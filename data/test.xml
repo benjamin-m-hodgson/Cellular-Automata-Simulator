@@ -1,11 +1,12 @@
-<simulation name="Blinking Fire" type="Fire">
+<simulation type = "sim" name = "Blinking Fire">
+	<type>"Fire"</type>
+	<name>"Blinking Fire"</name>
 	<probCatch>.5</probCatch>
-    <sizeX>1</sizeX>
-    <sizeY>1</sizeY>
-	<cell>
-		<x>0</x>
-		<y>0</y>
-		<initState>1</initState>
-	</cell>
+    <sizeX>4</sizeX>
+    <sizeY>4</sizeY>
+	<cell>1 0 1 1 
+		1 1 1 2
+		2 0 0 2
+		2 2 1 0</cell>
 </simulation>
 	
