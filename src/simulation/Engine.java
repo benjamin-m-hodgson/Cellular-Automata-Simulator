@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import simulation.screen.SimulationScreen;
 import simulation.screen.StartScreen;
 
 /**
@@ -30,6 +31,8 @@ public class Engine {
     
     private Stage PROGRAM_STAGE;
     private Scene PROGRAM_SCENE;
+    private String SIMULATION_TYPE;
+    private int GENERATION;
 
     // Give the program a title
 	public Engine(String programTitle) {
@@ -61,6 +64,10 @@ public class Engine {
 	 */
 	public void startSimulation(String type) {
 		//System.out.println("Start simulation!");
+		SIMULATION_TYPE = type;
+		PROGRAM_STAGE.setTitle(SIMULATION_TYPE);
+		Parent root = new SimulationScreen(this).getRoot();
+		PROGRAM_SCENE.setRoot(root);
 	}
 	
 	/**
@@ -70,6 +77,30 @@ public class Engine {
 	public ObservableList<String> getSimulations() {
 		ObservableList<String> retList = FXCollections.observableArrayList("a", "b", "c");
 		return retList;
+	}
+	
+	/**
+	 * 
+	 * @return PROGRAM_STAGE: the stage used by the application
+	 */
+	public Stage getProgramStage() {
+		return PROGRAM_STAGE;
+	}
+	
+	/**
+	 * 
+	 * @return SIMULATION_TYPE: the current simulation being animated 
+	 */
+	public String getSimulationType() {
+		return SIMULATION_TYPE;
+	}
+	
+	/**
+	 * 
+	 * @return GENERATION: the current generation number in the simulation
+	 */
+	public int getGeneration() {
+		return GENERATION;
 	}
 
 	/**

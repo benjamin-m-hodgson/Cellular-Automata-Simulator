@@ -86,3 +86,46 @@
 	-fx-text-fill: #ffffff;
 }
 /******************************************************************************************/
+/* The root containing the elements displayed in the simulation screen*/
+/******************************************************************************************/
+#simulateScreenRoot {
+	-fx-alignment: center;
+	-fx-hgap: 30;
+	-fx-vgap: 30;
+	-fx-padding: 10;
+	-fx-border-style: solid inside;
+	-fx-border-width: 2;
+	-fx-border-insets: 5;
+	-fx-border-radius: 1;
+	-fx-border-color: #696969;
+}
+/******************************************************************************************/
+/* The side panel containing the control elements displayed in the simulation screen*/
+/******************************************************************************************/
+#simulateSidePanel {
+	-fx-alignment: center-right;
+	-fx-padding: 10;
+	-fx-border-style: solid inside;
+	-fx-border-width: 2;
+	-fx-border-insets: 5;
+	-fx-border-radius: 1;
+	-fx-border-color: #696969;
+	-fx-pref-width: 200;
+}
+/******************************************************************************************/
+/* The side panel containing the control elements displayed in the simulation screen*/
+/******************************************************************************************/
+#simulationInfoLabel {
+	-fx-alignment: center;
+	-fx-pref-width: 200;
+	-fx-text-alignment: center;
+	-fx-wrap-text: true;
+	-fx-font: 16px Excelsior;
+	-fx-font-weight: bold;
+	-fx-text-fill: #696969;
+}
+#simulationInfoLabel .text {
+	-fx-stroke: #ffffff;
+	-fx-stroke-width: 0.4px;
+}
+}

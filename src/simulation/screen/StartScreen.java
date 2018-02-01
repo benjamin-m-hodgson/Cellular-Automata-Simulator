@@ -18,12 +18,22 @@ import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import simulation.Engine;
 
+/**
+ * 
+ * @author Benjamin Hodgson
+ * @date 2/1/2018
+ *
+ * Creates the root object to be placed in the start up Scene. 
+ * This consists of a program title, a drop down menu to select a 
+ * simulation to simulate, and a simulate button to begin the simulation.
+ *
+ */
 public class StartScreen extends Screen {
 	
 	private final int FRAMES_PER_SECOND = 60;
 	private final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
     private final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
-	private final String DEFAULT_NAME = "Cellular Automata";
+	private final String DEFAULT_NAME = "Cellular Automata Simulator";
 	private final Engine PROGRAM_ENGINE;
 	
 	private String TYPE;
@@ -38,7 +48,7 @@ public class StartScreen extends Screen {
 	// make the root for the start screen to display on application start up
 	@Override
 	public void makeRoot() {
-		Label programTitle = makeLabel(DEFAULT_NAME + " Simulator");
+		Label programTitle = makeLabel(DEFAULT_NAME);
 		ChoiceBox<Object> simulationChoices = simulatorChooser();
 		SIMULATE = makeButton("Simulate");
 		HBox alignBoxes = new HBox(30, simulationChoices, SIMULATE);
