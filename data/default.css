@@ -1,0 +1,131 @@
+.root {
+	-fx-background-color: #d3d3d3;
+}
+/******************************************************************************************/
+/* The root containing the elements displayed in the start up screen*/
+/******************************************************************************************/
+#startScreenRoot {
+	-fx-alignment: center;
+	-fx-hgap: 30;
+	-fx-vgap: 30;
+}
+/******************************************************************************************/
+/* The application title to be displayed in the start up screen */
+/******************************************************************************************/
+#startLabel {
+	-fx-text-alignment: center;
+	-fx-font: 32px Excelsior;
+	-fx-font-weight: bold;
+	-fx-text-fill: #ffffff;
+	-fx-effect: innershadow(gaussian, rgba(255,255,255,0.5), 0, 0, 0, 1);
+}
+#startLabel .text {
+	-fx-stroke: #696969;
+	-fx-stroke-width: 1px;
+}
+/******************************************************************************************/
+/* The drop down choice box the user uses to pick a simulation to simulate*/
+/******************************************************************************************/
+#simulatorChooser {
+	-fx-pref-width: 200px;
+	-fx-pref-height: 20px;
+	-fx-background-radius: 0;
+	-fx-background-color: #ffffff;
+    -fx-border-width: 0px;
+    -fx-border-color: #d3d3d3;
+    -fx-mark-color: #696969;
+    -fx-font: 14px Excelsior;
+}
+#simulatorChooser .label {
+	-fx-text-fill: #696969;
+}
+#simulatorChooser .arrow {
+	-fx-background-color: #696969;
+}
+#simulatorChooser .context-menu {
+	-fx-pref-width: 200px;
+}
+#simulatorChooser .menu-item > .label {
+	-fx-text-fill: #696969;
+}
+#simulatorChooser:hover {
+	-fx-background-color: #696969;
+} 
+#simulatorChooser:hover .label {
+	-fx-text-fill: #ffffff;
+}
+#simulatorChooser:hover .arrow {
+	-fx-background-color: #ffffff;
+}
+#simulatorChooser .menu-item:focused {
+	-fx-background-color: #696969;
+}
+#simulatorChooser .menu-item:focused > .label {
+	-fx-text-fill: #ffffff;
+}
+/******************************************************************************************/
+/* The Simulate button to begin a simulation */
+/******************************************************************************************/
+#simulateButton {
+	-fx-pref-width: 200px;
+	-fx-pref-height: 20px;
+	-fx-background-radius: 0;
+	-fx-background-color: #ffffff;
+    -fx-border-width: 0px;
+    -fx-border-color: #d3d3d3;
+    -fx-text-fill: #696969;
+    -fx-font: 14px Excelsior;
+}
+#simulateButton:disabled, #simulateButton:disabled > * {
+	-fx-opacity: 0.7;
+}
+#simulateButton:hover {
+	-fx-background-color: #696969;
+} 
+#simulateButton:hover {
+	-fx-text-fill: #ffffff;
+}
+/******************************************************************************************/
+/* The root containing the elements displayed in the simulation screen*/
+/******************************************************************************************/
+#simulateScreenRoot {
+	-fx-alignment: center;
+	-fx-hgap: 30;
+	-fx-vgap: 30;
+	-fx-padding: 10;
+	-fx-border-style: solid inside;
+	-fx-border-width: 2;
+	-fx-border-insets: 5;
+	-fx-border-radius: 1;
+	-fx-border-color: #696969;
+}
+/******************************************************************************************/
+/* The side panel containing the control elements displayed in the simulation screen*/
+/******************************************************************************************/
+#simulateSidePanel {
+	-fx-alignment: center-right;
+	-fx-padding: 10;
+	-fx-border-style: solid inside;
+	-fx-border-width: 2;
+	-fx-border-insets: 5;
+	-fx-border-radius: 1;
+	-fx-border-color: #696969;
+	-fx-pref-width: 200;
+}
+/******************************************************************************************/
+/* The side panel containing the control elements displayed in the simulation screen*/
+/******************************************************************************************/
+#simulationInfoLabel {
+	-fx-alignment: center;
+	-fx-pref-width: 200;
+	-fx-text-alignment: center;
+	-fx-wrap-text: true;
+	-fx-font: 16px Excelsior;
+	-fx-font-weight: bold;
+	-fx-text-fill: #696969;
+}
+#simulationInfoLabel .text {
+	-fx-stroke: #ffffff;
+	-fx-stroke-width: 0.4px;
+}
+}
