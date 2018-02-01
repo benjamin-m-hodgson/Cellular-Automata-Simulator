@@ -12,12 +12,9 @@ import simulation.Engine;
  * The driver JavaFX program to start and animate a cellular automata simulation.
  */
 public class Driver extends Application {
-	
-	private final int DEFAULT_HEIGHT = 600;
-	private final int DEFAULT_WIDTH = 800;
-	private final String DEFAULT_NAME = "Cellular Automata Simulator";
-	
-	private Engine programEngine = new Engine(DEFAULT_NAME);
+	// Idea: Get grids from controller, pass to engine via "setGrids" and "setRules methods
+
+	private Engine programEngine = new Engine();
 
 	/**
 	 * Initialize the program and begin the animation loop 
@@ -25,9 +22,14 @@ public class Driver extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		// display the menu screen
-		programEngine.startProgram(primaryStage, DEFAULT_WIDTH, DEFAULT_HEIGHT);
+		// Idea for file parsing: have file controller access the files, call method to parse them, access grids from controller, give them to engine
+		FileController fileControl = new FileController();
+		fileControl.parseFiles();
+		
+		programEngine.startProgram(primaryStage);
 		primaryStage.show();		
 	}
+	
 	
 	/**
      * Start the program
@@ -35,4 +37,7 @@ public class Driver extends Application {
     public static void main (String[] args) {
         launch(args);
     }
+    
+    
+    
 }

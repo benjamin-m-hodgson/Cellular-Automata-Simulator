@@ -1,0 +1,64 @@
+package configuration.datatemplates;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+
+import simulation.cell.*;
+import simulation.grid.*;
+import simulation.ruleSet.Ruleset;
+
+public class XMLData {
+
+	public static final String DATA_TYPE = "simulation";
+	protected Map<String, String> myDataValues;
+	private static final List<String> DATA_FIELDS = Arrays.asList(new String[] {
+			"type",
+			"name",
+			"sizeX",
+			"sizeY",
+			"cell"
+	});
+
+	/**
+	 * XML Data constructor
+	 * 
+	 * @param dataValues
+	 */
+	public XMLData () {
+		myDataValues = null;
+	}
+	
+	public void setMap(Map<String, String> dataValues) {
+		myDataValues = dataValues;
+	}
+	
+	public String getType() {
+		return myDataValues.get(DATA_FIELDS.get(0)); 
+	}
+
+	public String getName() {
+		return myDataValues.get(DATA_FIELDS.get(1)); 
+	}
+	
+	public int getXSize() {
+		return Integer.parseInt(myDataValues.get(DATA_FIELDS.get(2))); 
+	}
+
+	public int getYSize() {
+		return Integer.parseInt(myDataValues.get(DATA_FIELDS.get(3))); 
+	}
+	
+	public Grid getGrid() {
+		return null;
+	}
+
+	public Ruleset getRules() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	public List<String> getDataField() {
+		return DATA_FIELDS;
+	}
+
+}
