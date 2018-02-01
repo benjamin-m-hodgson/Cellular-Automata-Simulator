@@ -12,7 +12,7 @@ import simulation.ruleSet.*;
  * @author Katherine Van DYk
  *
  */
-public class FileController extends Driver {
+public class FileController {
 
 	private String FILEPATH = "./data"; 
 	private String EXTENSION = ".xml";

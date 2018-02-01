@@ -3,8 +3,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import simulation.cell.Cell;
-import simulation.grid.Grid;
+import simulation.cell.*;
+import simulation.grid.*;
 import simulation.ruleSet.Ruleset;
 
 public class XMLData {
@@ -16,8 +16,7 @@ public class XMLData {
 			"name",
 			"sizeX",
 			"sizeY",
-			"cell",
-			"params"
+			"cell"
 	});
 
 	/**
@@ -48,18 +47,9 @@ public class XMLData {
 	public int getYSize() {
 		return Integer.parseInt(myDataValues.get(DATA_FIELDS.get(3))); 
 	}
-
+	
 	public Grid getGrid() {
-		Grid g = new Grid(this.getXSize(), this.getYSize());
-		String[] ints = myDataValues.get(DATA_FIELDS.get(4)).split("\\W+");
-		int p=0;
-		for(int r= 0; r < this.getXSize(); r++) {
-			for(int c = 0; c < this.getYSize(); c++) {
-				g.add(r, c, new Cell(Integer.parseInt(ints[p])));
-				p++;
-			}
-		}
-		return g;
+		return null;
 	}
 
 	public Ruleset getRules() {
