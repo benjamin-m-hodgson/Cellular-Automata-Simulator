@@ -1,0 +1,12 @@
+<simulation name="Blinking Fire" type="Fire">
+	<probCatch>.5</probCatch>
+    <sizeX>1</sizeX>
+    <sizeY>1</sizeY>
+	<cell>
+		<x>0</x>
+		<y>0</y>
+		<initState>1</initState>
+	</cell>
+    </cell>
+</simulation>
+	
