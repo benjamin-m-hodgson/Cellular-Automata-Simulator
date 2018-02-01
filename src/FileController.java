@@ -3,7 +3,7 @@ import java.io.FilenameFilter;
 import java.util.HashMap;
 import configuration.XMLParser;
 import simulation.grid.Grid;
-//import simulation.ruleSet.Ruleset;
+import simulation.ruleSet.Ruleset;
 
 
 /**
@@ -17,14 +17,14 @@ public class FileController extends Driver {
 	private String FILEPATH = "./data"; 
 	private String EXTENSION = ".xml";
 	private HashMap<String, Grid> grids;  
-	//private HashMap<String, Ruleset> rules;  
-
+	private HashMap<String, Ruleset> rules; 
+	
 	/**
 	 * Constructor
 	 */
 	public FileController() {
 		grids = new HashMap<String, Grid>();
-		//rules = new HashMap<String, Ruleset>();
+		rules = new HashMap<String, Ruleset>();
 	}
 	
 	
@@ -35,6 +35,7 @@ public class FileController extends Driver {
     		File[] files = getFiles();
 		XMLParser p = new XMLParser();
     		for(File file : files) {
+    			p.setSimulationType(file);
         		grids.put(p.getName(file), p.getGrid(file));	
     		}
     }
@@ -53,4 +54,7 @@ public class FileController extends Driver {
     	});
     	return files;
     }
+    
 }
+
+

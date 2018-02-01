@@ -3,10 +3,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-
-import configuration.datatemplates.XMLData;
+import configuration.datatemplates.*;
 import simulation.grid.Grid;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -21,18 +19,20 @@ import java.util.Map;
  * @author Katherine Van Dyk
  */
 public class XMLParser {
+	public static final String FIRE = "Fire";
 	public static final String ERROR_MESSAGE = "XML file does not represent %s";
 	private String TYPE_ATTRIBUTE = "type";
 	private final DocumentBuilder DOCUMENT_BUILDER;
+	private XMLData data;
 
 	
 	/**
 	 * Create a parser for XML files of given type.
 	 */
 	public XMLParser () {
+		data = new XMLData();
 		DOCUMENT_BUILDER = getDocumentBuilder();
 	}
-
 	
 	/**
 	 * Get data contained in XML file as object
@@ -59,8 +59,8 @@ public class XMLParser {
 	 * @return
 	 */
 	public Grid getGrid(File dataFile) {
-		XMLData d = new XMLData(getMap(dataFile));
-		return d.getGrid();
+		data.setMap(getMap(dataFile));
+		return data.getGrid();
 	}
 	
 
@@ -71,8 +71,13 @@ public class XMLParser {
 	 * @return String containing simulation name
 	 */
 	public String getName(File dataFile) {
-		XMLData d = new XMLData(getMap(dataFile));
-		return d.getName();
+		data.setMap(getMap(dataFile));
+		return data.getName();
+	}
+	
+	public void setSimulationType(File dataFile) {
+		String type = getAttribute(getRootElement(dataFile), "type");
+		if(type.equals(FIRE)) data = new FireXMLData();
 	}
 
 
