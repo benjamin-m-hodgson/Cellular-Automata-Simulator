@@ -5,17 +5,19 @@ import java.util.Map;
 
 import simulation.cell.Cell;
 import simulation.grid.Grid;
+import simulation.ruleSet.Ruleset;
 
 public class XMLData {
 
 	public static final String DATA_TYPE = "simulation";
-	private Map<String, String> myDataValues;
-	public static final List<String> DATA_FIELDS = Arrays.asList(new String[] {
+	protected Map<String, String> myDataValues;
+	private static final List<String> DATA_FIELDS = Arrays.asList(new String[] {
 			"type",
 			"name",
 			"sizeX",
 			"sizeY",
-			"cell"
+			"cell",
+			"params"
 	});
 
 	/**
@@ -58,6 +60,15 @@ public class XMLData {
 			}
 		}
 		return g;
+	}
+
+	public Ruleset getRules() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	public List<String> getDataField() {
+		return DATA_FIELDS;
 	}
 
 }

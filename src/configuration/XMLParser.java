@@ -3,8 +3,12 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-import configuration.datatemplates.*;
+
+import configuration.datatemplates.FireXMLData;
+import configuration.datatemplates.XMLData;
 import simulation.grid.Grid;
+import simulation.ruleSet.*;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -19,17 +23,18 @@ import java.util.Map;
  * @author Katherine Van Dyk
  */
 public class XMLParser {
-	public static final String FIRE = "Fire";
 	public static final String ERROR_MESSAGE = "XML file does not represent %s";
 	private String TYPE_ATTRIBUTE = "type";
 	private final DocumentBuilder DOCUMENT_BUILDER;
 	private XMLData data;
+	private String SIMULATION_TYPE;
 
 	
 	/**
 	 * Create a parser for XML files of given type.
 	 */
 	public XMLParser () {
+		SIMULATION_TYPE = null;
 		data = new XMLData();
 		DOCUMENT_BUILDER = getDocumentBuilder();
 	}
@@ -45,7 +50,7 @@ public class XMLParser {
 			throw new XMLException(ERROR_MESSAGE, "simulation file type");
 		}
 		Map<String, String> results = new HashMap<>();
-		for (String field : XMLData.DATA_FIELDS) {
+		for (String field : data.getDataField()) {
 			results.put(field, getTextValue(root, field));
 		}
 		return results;
@@ -58,11 +63,13 @@ public class XMLParser {
 	 * @param dataFile
 	 * @return
 	 */
-	public Grid getGrid(File dataFile) {
-		data.setMap(getMap(dataFile));
+	public Grid getGrid() {
 		return data.getGrid();
 	}
 	
+	public Ruleset getRules() {
+		return data.getRules();
+	}
 
 	/**
 	 * Get simulation name from XML Data Object
@@ -70,14 +77,14 @@ public class XMLParser {
 	 * @param dataFile
 	 * @return String containing simulation name
 	 */
-	public String getName(File dataFile) {
-		data.setMap(getMap(dataFile));
+	public String getName() {
 		return data.getName();
 	}
 	
-	public void setSimulationType(File dataFile) {
-		String type = getAttribute(getRootElement(dataFile), "type");
-		if(type.equals(FIRE)) data = new FireXMLData();
+	public void setType(File dataFile) {
+		this.SIMULATION_TYPE = getAttribute(getRootElement(dataFile), "type");
+		this.data = new FireXMLData();
+		data.setMap(getMap(dataFile));
 	}
 
 
@@ -136,7 +143,7 @@ public class XMLParser {
 			return nodeList.item(0).getTextContent();
 		}
 		else {
-			return "";
+			return null;
 		}
 	}
 

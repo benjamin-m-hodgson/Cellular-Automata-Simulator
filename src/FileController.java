@@ -3,7 +3,7 @@ import java.io.FilenameFilter;
 import java.util.HashMap;
 import configuration.XMLParser;
 import simulation.grid.Grid;
-import simulation.ruleSet.Ruleset;
+import simulation.ruleSet.*;
 
 
 /**
@@ -35,8 +35,9 @@ public class FileController extends Driver {
     		File[] files = getFiles();
 		XMLParser p = new XMLParser();
     		for(File file : files) {
-    			p.setSimulationType(file);
-        		grids.put(p.getName(file), p.getGrid(file));	
+    			p.setType(file);
+        		grids.put(p.getName(), p.getGrid());	
+        		rules.put(p.getName(), p.getRules());
     		}
     }
     
