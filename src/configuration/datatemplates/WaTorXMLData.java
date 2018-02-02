@@ -3,12 +3,12 @@ package configuration.datatemplates;
 import java.util.Arrays;
 import java.util.List;
 
-import simulation.cell.FireCell;
+import simulation.cell.*;
 import simulation.grid.Grid;
 import simulation.grid.StandardGrid;
 import simulation.ruleSet.*;
 
-public class SegregationXMLData extends XMLData {
+public class WaTorXMLData extends XMLData {
 	
 	public static final List<String> DATA_FIELDS = Arrays.asList(new String[] {
 			"type",
@@ -16,17 +16,24 @@ public class SegregationXMLData extends XMLData {
 			"sizeX",
 			"sizeY",
 			"cell",
-			"tolerance"
+			"fishBreedTime",
+			"sharkBreedTime",
+			"sharkInitEnergy",
+			"fishEnergy"
 	});
 
 	
-	public SegregationXMLData() {
+	public WaTorXMLData() {
 		super();
 	}
 
 	@Override
-	public SegregationRuleset getRules() {
-		return new SegregationRuleset(Double.parseDouble(myDataValues.get(DATA_FIELDS.get(5))));
+	public WaTorRuleset getRules() {
+		int fishBreedTime = Integer.parseInt(myDataValues.get(DATA_FIELDS.get(5)));
+		int sharkBreedTime = Integer.parseInt(myDataValues.get(DATA_FIELDS.get(6)));
+		int sharkInitEnergy = Integer.parseInt(myDataValues.get(DATA_FIELDS.get(7)));
+		int fishEnergy = Integer.parseInt(myDataValues.get(DATA_FIELDS.get(8)));
+		return new WaTorRuleset(fishBreedTime, sharkBreedTime, sharkInitEnergy, fishEnergy);
 	}
 	
 	@Override
@@ -41,7 +48,7 @@ public class SegregationXMLData extends XMLData {
 		int p=0;
 		for(int r= 0; r < this.getXSize(); r++) {
 			for(int c = 0; c < this.getYSize(); c++) {
-				g.addCell(r, c, new FireCell(r, c, Integer.parseInt(ints[p])));
+				g.addCell(r, c, new WaTorCell(r, c, Integer.parseInt(ints[p])));
 				p++;
 			}
 		}

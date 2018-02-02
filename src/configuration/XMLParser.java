@@ -4,8 +4,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import configuration.datatemplates.FireXMLData;
-import configuration.datatemplates.XMLData;
+import configuration.datatemplates.*;
 import simulation.grid.Grid;
 import simulation.ruleSet.*;
 
@@ -25,7 +24,11 @@ import java.util.Map;
 public class XMLParser {
 	public static final String ERROR_MESSAGE = "XML file does not represent %s";
 	public static final String FIRE = "Fire";
-	private String TYPE_ATTRIBUTE = "type";
+	public static final String WATOR = "WaTor";
+	public static final String SEGREGATION = "Segregation";
+	public static final String GAMEOFLIFE = "Game of Life";
+	
+	private String TYPE_ATTRIBUTE = "simulation";
 	private final DocumentBuilder DOCUMENT_BUILDER;
 	private XMLData data;
 
@@ -44,7 +47,7 @@ public class XMLParser {
 	 */
 	private Map<String, String> getMap (File dataFile) {
 		Element root = getRootElement(dataFile);
-		if (! isValidFile(root, "sim")) {
+		if (! isValidFile(root, "CA")) {
 			throw new XMLException(ERROR_MESSAGE, "simulation file type");
 		}
 		Map<String, String> results = new HashMap<>();
@@ -79,10 +82,17 @@ public class XMLParser {
 	}
 	
 	public void setType(File dataFile) {
-		if(getAttribute(getRootElement(dataFile), "type").equals(FIRE)) {
-			this.data = new FireXMLData();
+		try {
+			String simType = getAttribute(getRootElement(dataFile), "type");
+			if(simType.equals(FIRE))	this.data = new FireXMLData();
+			else if(simType.equals(WATOR)) this.data = new WaTorXMLData();
+			else if(simType.equals(GAMEOFLIFE)) this.data = new GameOfLifeXMLData();
+			else if(simType.equals(SEGREGATION)) this.data = new SegregationXMLData();
+			data.setMap(getMap(dataFile));
 		}
-		data.setMap(getMap(dataFile));
+		catch (Exception e) {
+			throw new XMLException(e);
+		}
 	}
 
 
@@ -145,7 +155,6 @@ public class XMLParser {
 		}
 	}
 
-	
 	/**
 	 * Helper method to do the boilerplate code needed to make a documentBuilder.
 	 * 

@@ -4,8 +4,7 @@ import java.util.List;
 
 import simulation.cell.*;
 import simulation.grid.*;
-import simulation.grid.StandardGrid;
-import simulation.ruleSet.FireRuleset;
+import simulation.ruleSet.*;
 
 public class FireXMLData extends XMLData {
 	public static final List<String> DATA_FIELDS = Arrays.asList(new String[] {
@@ -22,6 +21,7 @@ public class FireXMLData extends XMLData {
 		super();
 	}
 	
+	@Override
 	public FireRuleset getRules() {
 		return new FireRuleset(Double.parseDouble(myDataValues.get(DATA_FIELDS.get(5))));
 	}
