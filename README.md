@@ -15,5 +15,5 @@ CompSci 308 Cell Society Project
         * https://www.iconfinder.com/icons/227568/play_icon#size=128
         * https://www.iconfinder.com/icons/2561275/forward_skip_icon#size=128
         * https://www.iconfinder.com/icons/352446/replay_icon#size=128
-        *https://docs.oracle.com/javafx/2/api/javafx/scene/doc-files/cssref.html#label
+        * https://docs.oracle.com/javafx/2/api/javafx/scene/doc-files/cssref.html#label
         
