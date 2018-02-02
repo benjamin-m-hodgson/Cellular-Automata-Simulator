@@ -6,24 +6,29 @@ import simulation.cell.*;
 import simulation.grid.*;
 import simulation.ruleSet.*;
 
-public class FireXMLData extends XMLData {
+public class GameOfLifeXMLData extends XMLData {
 	public static final List<String> DATA_FIELDS = Arrays.asList(new String[] {
 			"type",
 			"name",
 			"sizeX",
 			"sizeY",
 			"cell",
-			"probCatch"
+			"minLife",
+			"maxLife",
+			"birth"
 	});
 
 	
-	public FireXMLData() {
+	public GameOfLifeXMLData() {
 		super();
 	}
 	
 	@Override
-	public FireRuleset getRules() {
-		return new FireRuleset(Double.parseDouble(myDataValues.get(DATA_FIELDS.get(5))));
+	public GameOfLifeRuleset getRules() {
+		int minLife = Integer.parseInt(myDataValues.get(DATA_FIELDS.get(5)));
+		int maxLife = Integer.parseInt(myDataValues.get(DATA_FIELDS.get(6)));
+		int birth = Integer.parseInt(myDataValues.get(DATA_FIELDS.get(7)));
+		return new GameOfLifeRuleset(minLife, maxLife, birth);
 	}
 	
 	@Override

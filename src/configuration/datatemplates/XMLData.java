@@ -3,11 +3,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import simulation.cell.*;
-import simulation.grid.*;
+import simulation.grid.Grid;
 import simulation.ruleSet.Ruleset;
 
-public class XMLData {
+public abstract class XMLData {
 
 	public static final String DATA_TYPE = "simulation";
 	protected Map<String, String> myDataValues;
@@ -53,7 +52,6 @@ public class XMLData {
 	}
 
 	public Ruleset getRules() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	
