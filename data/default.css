@@ -1,11 +1,9 @@
-.root {
-	-fx-background-color: #d3d3d3;
-}
 /******************************************************************************************/
 /* The root containing the elements displayed in the start up screen*/
 /******************************************************************************************/
 #startScreenRoot {
 	-fx-alignment: center;
+	-fx-background-color: #d3d3d3;
 	-fx-hgap: 30;
 	-fx-vgap: 30;
 }
@@ -38,6 +36,7 @@
 }
 #simulatorChooser .label {
 	-fx-text-fill: #696969;
+	-fx-alignment: center;
 }
 #simulatorChooser .arrow {
 	-fx-background-color: #696969;
@@ -90,12 +89,13 @@
 /******************************************************************************************/
 #simulateScreenRoot {
 	-fx-alignment: center;
+	-fx-background-color: #d3d3d3;
 	-fx-hgap: 30;
 	-fx-vgap: 30;
 	-fx-padding: 10;
 	-fx-border-style: solid inside;
 	-fx-border-width: 2;
-	-fx-border-insets: 5;
+	-fx-border-insets: 2;
 	-fx-border-radius: 1;
 	-fx-border-color: #696969;
 }
@@ -104,10 +104,10 @@
 /******************************************************************************************/
 #simulateSidePanel {
 	-fx-alignment: center-right;
-	-fx-padding: 10;
+	-fx-padding: 0 15 0 15;
 	-fx-border-style: solid inside;
 	-fx-border-width: 2;
-	-fx-border-insets: 5;
+	-fx-border-insets: 2;
 	-fx-border-radius: 1;
 	-fx-border-color: #696969;
 	-fx-pref-width: 200;
@@ -122,10 +122,152 @@
 	-fx-wrap-text: true;
 	-fx-font: 16px Excelsior;
 	-fx-font-weight: bold;
-	-fx-text-fill: #696969;
+	-fx-text-fill: #ffffff;
+	-fx-background-color: #a9a9a9;
+	-fx-border-style: solid outside;
+	-fx-border-width: 2;
+	-fx-border-insets: 0;
+	-fx-border-radius: 1;
+	-fx-border-color: #696969;
 }
 #simulationInfoLabel .text {
 	-fx-stroke: #ffffff;
-	-fx-stroke-width: 0.4px;
+	-fx-stroke-width: 0px;
+}
+/******************************************************************************************/
+/* The area of the side panel containing buttons to control the simulation */
+/******************************************************************************************/
+#simulationSettings {
+	-fx-alignment: center;
+	-fx-padding: 0 0 0 20;
+	-fx-pref-width: 200;
+}
+/******************************************************************************************/
+/* The Play button to start a paused simulation */
+/******************************************************************************************/
+#playButton {
+	-fx-background-image: url("/playIcon.png");
+	-fx-background-size: 50px 50px;
+	-fx-background-position: center;
+	-fx-background-repeat: no-repeat;
+	-fx-opacity: 0.6;
+	-fx-pref-width: 50px;
+	-fx-pref-height: 50px;
+	-fx-focus-color: transparent;
+	-fx-faint-focus-color: transparent;
+	-fx-border-style: solid outside;
+	-fx-border-width: 2;
+	-fx-border-insets: 1;
+	-fx-border-radius: 1;
+	-fx-border-color: #696969;
+}
+#playButton:hover {
+    
+}
+#playButton:pressed {
+	-fx-border-style: solid outside;
+	-fx-border-width: 2;
+	-fx-border-insets: 1;
+	-fx-border-radius: 1;
+	-fx-border-color: #696969;
+}
+#playButton:disabled {
+    -fx-opacity: 0.3;
+}
+/******************************************************************************************/
+/* The Pause button to pause a running simulation */
+/******************************************************************************************/
+#pauseButton {
+	-fx-background-image: url("/pauseIcon.png");
+	-fx-background-size: 50px 50px;
+	-fx-background-position: center;
+	-fx-background-repeat: no-repeat;
+	-fx-opacity: 0.6;
+	-fx-pref-width: 50px;
+	-fx-pref-height: 50px;
+	-fx-focus-color: transparent;
+	-fx-faint-focus-color: transparent;
+	-fx-border-style: solid outside;
+	-fx-border-width: 2;
+	-fx-border-insets: 1;
+	-fx-border-radius: 1;
+	-fx-border-color: #696969;
+}
+#pauseButton:hover {
+    
+}
+#pauseButton:pressed {
+	-fx-border-style: solid outside;
+	-fx-border-width: 2;
+	-fx-border-insets: 1;
+	-fx-border-radius: 1;
+	-fx-border-color: #696969;
+}
+#pauseButton:disabled {
+    -fx-opacity: 0.3;
+}
+/******************************************************************************************/
+/* The Reset button to reset a running simulation from the beginning */
+/******************************************************************************************/
+#resetButton {
+	-fx-background-image: url("/resetIcon.png");
+	-fx-background-size: 50px 50px;
+	-fx-background-position: center;
+	-fx-background-repeat: no-repeat;
+	-fx-opacity: 0.6;
+	-fx-pref-width: 50px;
+	-fx-pref-height: 50px;
+	-fx-focus-color: transparent;
+	-fx-faint-focus-color: transparent;
+	-fx-border-style: solid outside;
+	-fx-border-width: 2;
+	-fx-border-insets: 1;
+	-fx-border-radius: 1;
+	-fx-border-color: #696969;
+}
+#resetButton:hover {
+    
+}
+#resetButton:pressed {
+	-fx-border-style: solid outside;
+	-fx-border-width: 2;
+	-fx-border-insets: 1;
+	-fx-border-radius: 1;
+	-fx-border-color: #696969;
+}
+#resetButton:disabled {
+    -fx-opacity: 0.3;
+}
+/******************************************************************************************/
+/* The Step button to step through a simulation frame by frame */
+/******************************************************************************************/
+#stepButton {
+	-fx-background-image: url("/stepIcon.png");
+	-fx-background-size: 50px 50px;
+	-fx-background-position: center;
+	-fx-background-repeat: no-repeat;
+	-fx-opacity: 0.6;
+	-fx-pref-width: 50px;
+	-fx-pref-height: 50px;
+	-fx-focus-color: transparent;
+	-fx-faint-focus-color: transparent;
+	-fx-border-style: solid outside;
+	-fx-border-width: 2;
+	-fx-border-insets: 1;
+	-fx-border-radius: 1;
+	-fx-border-color: #696969;
+}
+#stepButton:hover {
+    
+}
+#stepButton:pressed {
+	-fx-border-style: solid outside;
+	-fx-border-width: 2;
+	-fx-border-insets: 1;
+	-fx-border-radius: 1;
+	-fx-border-color: #696969;
+}
+#stepButton:disabled {
+    -fx-opacity: 0.3;
 }
 }

@@ -29,6 +29,7 @@ public class Engine {
     
     private final String PROGRAM_TITLE;   
     
+    private Timeline PROGRAM_TIMELINE;
     private Stage PROGRAM_STAGE;
     private Scene PROGRAM_SCENE;
     private String SIMULATION_TYPE;
@@ -50,10 +51,10 @@ public class Engine {
 		// attach "program loop" to time line to play it
         KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
                                       e -> step(SECOND_DELAY));
-        Timeline animation = new Timeline();
-        animation.setCycleCount(Timeline.INDEFINITE);
-        animation.getKeyFrames().add(frame);
-        animation.play();	
+        PROGRAM_TIMELINE = new Timeline();
+        PROGRAM_TIMELINE.setCycleCount(Timeline.INDEFINITE);
+        PROGRAM_TIMELINE.getKeyFrames().add(frame);
+        playAnimation();	
         // attach a Scene to the primaryStage 
         generateStartScene(width, height);
 	}
@@ -68,6 +69,29 @@ public class Engine {
 		PROGRAM_STAGE.setTitle(SIMULATION_TYPE);
 		Parent root = new SimulationScreen(this).getRoot();
 		PROGRAM_SCENE.setRoot(root);
+		playAnimation();
+	}
+	
+	/**
+	 * Performs one frame or step in the animation
+	 */
+	public void singleStep() {
+		pauseAnimation();
+		step(SECOND_DELAY);
+	}
+	
+	/**
+	 * Pauses the animation
+	 */
+	public void pauseAnimation() {
+		PROGRAM_TIMELINE.pause();
+	}
+	
+	/**
+	 * Starts the animation
+	 */
+	public void playAnimation() {
+		PROGRAM_TIMELINE.play();
 	}
 	
 	/**
