@@ -1,4 +1,6 @@
 package simulation.grid;
+
+import java.util.*;
 import simulation.cell.Cell;
 
 public abstract class Grid {
@@ -24,8 +26,25 @@ public abstract class Grid {
 		
 	}
 	
-	public Cell[] getNeighbors(int x, int y) {
-		Cell[] neighbors = new Cell[8];
+	public Cell getCell(int x, int y) {
+		return myCells[x][y];
+	}
+	
+	public Set <Cell> getNeighbors(int x, int y) {
+		Set <Cell> neighbors = new HashSet<Cell>();
+		if (x == 0 && y == 0) {
+			neighbors.add(this.getCell(x + 1, y));
+			neighbors.add(this.getCell(x, y + 1));
+			neighbors.add(this.getCell(x + 1, y + 1));
+		} else if (x == 0 && y == myY - 1) {
+			neighbors.add(this.getCell(x + 1, y));
+			neighbors.add(this.getCell(x + 1, y - 1));
+			neighbors.add(this.getCell(x, y - 1));
+		} else if (x == myX && y == 0) {
+			neighbors.add(this.getCell(x + 1, y));
+			neighbors.add(this.getCell(x + 1, y));
+			neighbors.add(this.getCell(x + 1, y));
+		}
 		return neighbors;
 	}
 	
