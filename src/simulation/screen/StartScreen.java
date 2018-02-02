@@ -99,7 +99,7 @@ public class StartScreen extends Screen {
 	 * @return dropDownMenu: a drop down menu that lets the user choose a 
 	 * simulation to simulate
 	 */
-	public ChoiceBox<Object> simulatorChooser() {
+	private ChoiceBox<Object> simulatorChooser() {
 		ChoiceBox<Object> dropDownMenu = new ChoiceBox<Object>();
 		String defaultChoice = "Select a Simulation";
 		dropDownMenu.setValue(defaultChoice);
