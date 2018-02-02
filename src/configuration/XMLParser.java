@@ -34,7 +34,6 @@ public class XMLParser {
 	 * Create a parser for XML files of given type.
 	 */
 	public XMLParser () {
-		data = new XMLData();
 		DOCUMENT_BUILDER = getDocumentBuilder();
 	}
 	
@@ -54,7 +53,6 @@ public class XMLParser {
 		}
 		return results;
 	}
-
 	
 	/**
 	 * Get grid from XML Data Object

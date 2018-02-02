@@ -1,29 +1,31 @@
 package configuration.datatemplates;
+
 import java.util.Arrays;
 import java.util.List;
 
-import simulation.cell.*;
-import simulation.grid.*;
+import simulation.cell.FireCell;
+import simulation.grid.Grid;
 import simulation.grid.StandardGrid;
-import simulation.ruleSet.FireRuleset;
+import simulation.ruleSet.*;
 
-public class FireXMLData extends XMLData {
+public class SegregationXMLData extends XMLData {
+	
 	public static final List<String> DATA_FIELDS = Arrays.asList(new String[] {
 			"type",
 			"name",
 			"sizeX",
 			"sizeY",
 			"cell",
-			"probCatch"
+			"tolerance"
 	});
 
 	
-	public FireXMLData() {
+	public SegregationXMLData() {
 		super();
 	}
 	
-	public FireRuleset getRules() {
-		return new FireRuleset(Double.parseDouble(myDataValues.get(DATA_FIELDS.get(5))));
+	public SegregationRuleset getRules() {
+		return new SegregationRuleset(Double.parseDouble(myDataValues.get(DATA_FIELDS.get(5))));
 	}
 	
 	@Override
@@ -43,5 +45,5 @@ public class FireXMLData extends XMLData {
 		}
 		return g;
 	}
-	
+
 }
