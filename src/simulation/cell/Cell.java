@@ -12,6 +12,14 @@ public abstract class Cell {
 		myYPos = y;
 	}
 	
+	public int getX() {
+		return this.myXPos;
+	}
+	
+	public int getY() {
+		return this.myYPos;
+	}
+	
 	public void setState(int state) {
 		myPreviousState = myState;
 		myState = state;
@@ -30,7 +38,6 @@ public abstract class Cell {
 	}
 	
 	public Cell[] getNeighbors() {
-	}
-	
+		return null;
 	}
 }
