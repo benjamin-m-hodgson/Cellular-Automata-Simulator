@@ -1,7 +1,6 @@
 import javafx.application.Application;
 import javafx.stage.Stage;
 import simulation.Engine;
-import simulation.grid.Grid;
 
 /** 
  * 
@@ -30,6 +29,7 @@ public class Driver extends Application {
 		// Transfer maps of grids, rules from file controller to game engine
 		programEngine.setGrids(filecontrol.getGrid());
 		programEngine.setRules(filecontrol.getRules());
+		
 		programEngine.startProgram(primaryStage, DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		primaryStage.show();		
 	}

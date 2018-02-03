@@ -25,7 +25,6 @@ public class FireRuleset implements Ruleset {
 	 *  @param Cell c: cell whose state is being evaluated
 	 *  @param Cell[] neighbors: neighbors of c
 	 */
-	@Override
 	public int processCell(Cell c, Cell[] neighbors) {
 		Random rand = new Random();
 		if(c.getState() == BURNING) {
@@ -58,8 +57,16 @@ public class FireRuleset implements Ruleset {
 		
 		return (Cell[]) neighbors.toArray();
 	}
-	
 
-	
+	@Override
+	public void processCells(Grid g) {
+		for(int r = 0; r < g.getXSize(); r++) {
+			for(int c = 0; c < g.getYSize(); r++) {
+				Cell cell = g.getCell(r, c);
+				int newState = processCell(cell, getNeighbors(cell, g));
+				cell.setState(newState);
+			}
+		}
+	}
 
 }

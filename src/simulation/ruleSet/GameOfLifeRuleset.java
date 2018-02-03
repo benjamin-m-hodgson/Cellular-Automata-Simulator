@@ -27,7 +27,7 @@ public class GameOfLifeRuleset implements Ruleset {
 	 *  @param Cell c: cell whose state is being evaluated
 	 *  @param Cell[] neighbors: neighbors of c
 	 */
-	@Override
+
 	public int processCell(Cell c, Cell[] neighbors) {
 		int liveCount = neighborCount(neighbors);
 		if(c.getState() == LIVE) {
@@ -58,6 +58,17 @@ public class GameOfLifeRuleset implements Ruleset {
 		neighbors.addAll(Arrays.asList(nm.NSEWCells(c ,g)));
 
 		return (Cell[]) neighbors.toArray();
+	}
+
+	@Override
+	public void processCells(Grid g) {
+		for(int r = 0; r < g.getXSize(); r++) {
+			for(int c = 0; c < g.getYSize(); r++) {
+				Cell cell = g.getCell(r, c);
+				int newState = processCell(cell, getNeighbors(cell, g));
+				cell.setState(newState);
+			}
+		}
 	}
 	
 }
