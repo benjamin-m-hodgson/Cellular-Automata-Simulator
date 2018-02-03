@@ -149,6 +149,13 @@ public class Engine {
 	public void setRules(HashMap<String, Ruleset> rules) {
 		RULES = rules;
 	}
+	
+	/**
+	 * Gets grid
+	 */
+	public Grid getGrid(String name) {
+		return GRIDS.get(name);
+	}
 
 	/**
 	 * Calls the Screen object to generate a start screen to display 

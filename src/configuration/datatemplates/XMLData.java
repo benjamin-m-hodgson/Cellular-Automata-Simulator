@@ -35,8 +35,12 @@ public abstract class XMLData {
 		return myDataValues.get(DATA_FIELDS.get(0)); 
 	}
 
+	/**
+	 * Source: https://stackoverflow.com/questions/2608665/how-can-i-trim-beginning-and-ending-double-quotes-from-a-string
+	 * @return
+	 */
 	public String getName() {
-		return myDataValues.get(DATA_FIELDS.get(1)); 
+		return myDataValues.get(DATA_FIELDS.get(1)).replaceAll("^\"|\"$", "");
 	}
 	
 	public int getXSize() {
