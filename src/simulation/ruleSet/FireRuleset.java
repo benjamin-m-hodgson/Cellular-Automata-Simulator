@@ -19,8 +19,8 @@ public class FireRuleset implements Ruleset {
 
 	/**
 	 * RULES: 
-	 * Live Cell: < MINLIFE or > MAXLIFE neighbors -> cell dies
-	 * Dead Cell: Exactly BIRTH neighbors -> cell comes back to life
+	 * Tree Cell: If tree surrounding it burns, and rand # < probCatch -> burn
+	 * Burning Cell: Always burning
 	 * 
 	 *  @param Cell c: cell whose state is being evaluated
 	 *  @param Cell[] neighbors: neighbors of c

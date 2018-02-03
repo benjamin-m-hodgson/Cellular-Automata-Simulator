@@ -38,7 +38,7 @@ public class FileController {
     			p.setType(file);
         		grids.put(p.getName(), p.getGrid());	
         		rules.put(p.getName(), p.getRules());
-    		}
+    		}    		
     }
    
 	
