@@ -13,4 +13,10 @@ public class SegregationRuleset implements Ruleset {
 		return 0;
 	}
 
+	@Override
+	public int neighborCount(Cell[] neighbors) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

@@ -1,5 +1,6 @@
 package simulation.ruleSet;
 import simulation.cell.*;
+import simulation.grid.Grid;
 
 public class GameOfLifeRuleset implements Ruleset {
 	private int MAXLIFE;
@@ -18,7 +19,7 @@ public class GameOfLifeRuleset implements Ruleset {
 	/**
 	 * RULES: 
 	 * Live Cell: < MINLIFE or > MAXLIFE neighbors -> cell dies
-	 * Dead Cell: Exactly BIRTH neighbors, comes back to life
+	 * Dead Cell: Exactly BIRTH neighbors -> cell comes back to life
 	 * 
 	 *  @param Cell c: cell whose state is being evaluated
 	 *  @param Cell[] neighbors: neighbors of c
@@ -45,6 +46,12 @@ public class GameOfLifeRuleset implements Ruleset {
 			}
 		}
 		return count;
+	}
+
+	@Override
+	public Cell[] getNeighbors(Cell c, Grid g) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

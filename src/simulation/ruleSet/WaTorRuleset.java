@@ -12,6 +12,12 @@ public class WaTorRuleset implements Ruleset {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	@Override
+	public int neighborCount(Cell[] neighbors) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	
 
 }
