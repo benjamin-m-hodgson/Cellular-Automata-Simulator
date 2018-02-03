@@ -1,4 +1,7 @@
 package simulation.ruleSet;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import simulation.cell.*;
 import simulation.grid.Grid;
 
@@ -9,7 +12,7 @@ public class GameOfLifeRuleset implements Ruleset {
 
 	private static final int LIVE = 1;
 	private static final int DEAD = 0;
-	
+
 	public GameOfLifeRuleset(int minLife, int maxLife, int birth) {
 		this.MINLIFE = minLife;
 		this.MAXLIFE = maxLife;
@@ -50,8 +53,11 @@ public class GameOfLifeRuleset implements Ruleset {
 
 	@Override
 	public Cell[] getNeighbors(Cell c, Grid g) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		ArrayList<Cell> neighbors = new ArrayList<Cell>();
+		NeighborManager nm = new NeighborManager();
+		neighbors.addAll(Arrays.asList(nm.NSEWCells(c ,g)));
 
+		return (Cell[]) neighbors.toArray();
+	}
+	
 }

@@ -1,5 +1,6 @@
 package simulation.ruleSet;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import simulation.cell.*;
 import simulation.grid.*;
@@ -24,27 +25,14 @@ public class FireRuleset implements Ruleset {
 
 	@Override
 	public Cell[] getNeighbors(Cell c, Grid g) {
-			int x = c.getX();
-			int y = c.getY();
+		ArrayList<Cell> neighbors = new ArrayList<Cell>();
+		NeighborManager nm = new NeighborManager();
+		neighbors.addAll(Arrays.asList(nm.NSEWCells(c ,g)));
+		neighbors.addAll(Arrays.asList(nm.diagonalCells(c ,g)));
 		
-			ArrayList<Cell> neighbors = new ArrayList<Cell>();
-			if (x == 0 && y == 0) {
-				neighbors.add(g.getCell(x + 1, y));
-				neighbors.add(g.getCell(x, y + 1));
-				neighbors.add(g.getCell(x + 1, y + 1));
-			} else if (x == 0 && y == g.getYSize() - 1) {
-				neighbors.add(g.getCell(x + 1, y));
-				neighbors.add(g.getCell(x + 1, y - 1));
-				neighbors.add(g.getCell(x, y - 1));
-			} else if (x == g.getXSize() && y == 0) {
-				neighbors.add(g.getCell(x + 1, y));
-				neighbors.add(g.getCell(x + 1, y));
-				neighbors.add(g.getCell(x + 1, y));
-			}
-			
-			return (Cell[]) neighbors.toArray();
-		
+		return (Cell[]) neighbors.toArray();
 	}
+	
 
 	
 
