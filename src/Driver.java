@@ -26,6 +26,9 @@ public class Driver extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		FileController filecontrol = new FileController();
 		filecontrol.parseFiles();
+		// Transfer maps of grids, rules from file controller to game engine
+		programEngine.setGrids(filecontrol.getGrid());
+		programEngine.setRules(filecontrol.getRules());
 		programEngine.startProgram(primaryStage, DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		primaryStage.show();		
 	}

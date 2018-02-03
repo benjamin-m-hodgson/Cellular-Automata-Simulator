@@ -1,5 +1,7 @@
 package simulation;
 
+import java.util.HashMap;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
@@ -8,6 +10,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import simulation.grid.Grid;
+import simulation.ruleSet.Ruleset;
 import simulation.screen.SimulationScreen;
 import simulation.screen.StartScreen;
 
@@ -34,10 +38,15 @@ public class Engine {
     private Scene PROGRAM_SCENE;
     private String SIMULATION_TYPE;
     private int GENERATION;
+    
+    private HashMap<String, Grid> GRIDS;
+    private HashMap<String, Ruleset> RULES;
 
     // Give the program a title
 	public Engine(String programTitle) {
 		PROGRAM_TITLE = programTitle;
+		GRIDS = null;
+		RULES = null;
 	}
 	
 	/**
@@ -125,6 +134,20 @@ public class Engine {
 	 */
 	public int getGeneration() {
 		return GENERATION;
+	}
+	
+	/**
+	 * Sets grids
+	 */
+	public void setGrids(HashMap<String, Grid> grids) {
+		GRIDS = grids;
+	}
+	
+	/**
+	 * Sets rules
+	 */
+	public void setRules(HashMap<String, Ruleset> rules) {
+		RULES = rules;
 	}
 
 	/**

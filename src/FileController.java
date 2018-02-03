@@ -40,7 +40,7 @@ public class FileController {
         		rules.put(p.getName(), p.getRules());
     		}
     }
-    
+   
 	
     /**
      * Get all files in directory
@@ -55,6 +55,21 @@ public class FileController {
     	});
     	return files;
     }
+    
+    /**
+     * Return grids to game driver
+     */
+    public HashMap<String, Grid> getGrid() {
+    		return grids;
+    }
+    
+    /**
+     * Return rules to game driver
+     */
+    public HashMap<String, Ruleset> getRules() {
+    		return rules;
+    }
+    
     
 }
 
