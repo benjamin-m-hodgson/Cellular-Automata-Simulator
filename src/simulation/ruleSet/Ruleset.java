@@ -1,9 +1,10 @@
 package simulation.ruleSet;
+import simulation.cell.*;
 
-public class Ruleset {
+public interface Ruleset {
 	
-	public Ruleset() {
-		
-	}
+	int processCell(Cell c, Cell[] neighbors);
+	
+	int neighborCount(Cell[] neighbors);
 
 }

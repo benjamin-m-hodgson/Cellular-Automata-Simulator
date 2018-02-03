@@ -30,7 +30,6 @@ public abstract class Cell {
 	}
 	
 	public Cell[] getNeighbors() {
-	}
-	
+		return null;
 	}
 }
