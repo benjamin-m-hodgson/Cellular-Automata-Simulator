@@ -6,12 +6,13 @@ import simulation.cell.*;
 import simulation.grid.Grid;
 
 public class SegregationRuleset implements Ruleset {
-	
-	int DISSATISFIED = 0;
-	int SATISFIED = 1;
-	
+
+	private int GROUP1 = 0;
+	private int GROUP2 = 1;
+	private int VACANT = 2;
+
 	double TOLERANCE;
-	
+
 	/**
 	 * RULES: 
 	 * Satisfied Cell: % neighbors satisfied < tolerance -> Dissatisfied
@@ -24,21 +25,39 @@ public class SegregationRuleset implements Ruleset {
 		this.TOLERANCE = tolerance;
 	}
 
-	@Override
-	public int processCell(Cell c, Cell[] neighbors) {
-		// TODO Auto-generated method stub
-		return 0;
+	private void moveCell(Cell c, Grid g) {
+		SegregationCell newCell = findVacantCell(g);
+		newCell.setState(c.getState());
+		newCell.setMove(true);
+		c.setState(VACANT);
 	}
+
+	private SegregationCell findVacantCell(Grid g) {
+		for(int r = 0; r < g.getXSize(); r++) {
+			for(int c = 0; c < g.getYSize(); r++) {
+				SegregationCell cell = (SegregationCell) g.getCell(r, c);
+				if(!cell.getMove() && cell.getState() == VACANT) {
+					return cell;
+				}
+			}
+		}
+		return null;
+	}
+
 
 	@Override
 	public int neighborCount(Cell[] neighbors) {
 		int count = 0;
-		for(Cell neighbor : neighbors) {
-			if(neighbor.getState() == SATISFIED) {
-				count++;
-			}
+		SegregationCell[] sNeighbors = (SegregationCell[]) neighbors;
+		for(SegregationCell neighbor : sNeighbors) {
+			if(neighbor.getSatisfaction()) count++;
 		}
 		return count;
+	}
+
+
+	private double getSatisfaction(Cell c, Cell[] neighbors) {
+		return neighborCount(neighbors) / neighbors.length;
 	}
 
 	@Override
@@ -47,8 +66,20 @@ public class SegregationRuleset implements Ruleset {
 		NeighborManager nm = new NeighborManager();
 		neighbors.addAll(Arrays.asList(nm.NSEWCells(c ,g)));
 		neighbors.addAll(Arrays.asList(nm.diagonalCells(c ,g)));
-		
+
 		return (Cell[]) neighbors.toArray();
 	}
 
+	@Override
+	public void processCells(Grid g) {
+		for(int r = 0; r < g.getXSize(); r++) {
+			for(int c = 0; c < g.getYSize(); r++) {
+				Cell cell = g.getCell(r, c);
+				if(getSatisfaction(cell, getNeighbors(cell, g)) < TOLERANCE)	moveCell(cell, g);
+			}
+		}
+	}
+
+
 }
+

@@ -176,6 +176,8 @@ public class Engine {
 	 */
     private void step (double elapsedTime) {
     	//System.out.printf("Stepping!\n");
+    	
+    	// TO PROCESS CELLS: just call method processCells(Grid g), it should handle the rest
     }
 	
 }
