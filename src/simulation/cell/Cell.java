@@ -28,4 +28,9 @@ public abstract class Cell {
 	public void drawShape() {
 		
 	}
+	
+	public Cell[] getNeighbors() {
+	}
+	
+	}
 }
