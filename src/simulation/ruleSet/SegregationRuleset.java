@@ -82,7 +82,9 @@ public class SegregationRuleset implements Ruleset {
 			for(int c = 0; c < g.getYSize(); r++) {
 				Cell cell = g.getCell(r, c);
 				if(cell.getState() == VACANT) continue;
-				else if(getSatisfaction(cell, getNeighbors(cell, g)) < TOLERANCE)	moveCell(cell, g);
+				else if(getSatisfaction(cell, getNeighbors(cell, g)) < TOLERANCE) {
+					moveCell(cell, g);
+				}
 			}
 		}
 	}
