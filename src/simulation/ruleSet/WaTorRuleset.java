@@ -39,8 +39,22 @@ public class WaTorRuleset implements Ruleset {
 		this.FISH_ENERGY = fishEnergy;
 	}
 
-	public void moveFish(SegregationCell c, Grid g) {
-		for()
+
+	@Override
+	public void processCells(Grid g) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public Cell[] getNeighbors(Cell c, Grid g) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/*public void moveFish(SegregationCell c, Grid g) {
+	
 
 
 	}
@@ -56,7 +70,7 @@ public class WaTorRuleset implements Ruleset {
 			moveShark(cell, g);
 		}
 		else if(cell.getState() == FISH) {
-			moveFish(cell, g);
+			//moveFish(cell, g);
 		}
 
 	}
@@ -91,7 +105,7 @@ public class WaTorRuleset implements Ruleset {
 				}
 			}
 		}
-	}
+	}*/
 
 
 }
