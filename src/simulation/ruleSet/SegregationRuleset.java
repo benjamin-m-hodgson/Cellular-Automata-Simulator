@@ -45,19 +45,25 @@ public class SegregationRuleset implements Ruleset {
 	}
 
 
-	@Override
-	public int neighborCount(Cell[] neighbors) {
+	/**
+	 * Returns number of cells in group 1
+	 */
+	
+	public int neighborCount(Cell[] neighbors, Cell c) {
 		int count = 0;
+		int cellState = c.getState();
+		int oppositeState;
+		if(cellState == GROUP1) oppositeState = GROUP2;
+		else oppositeState = GROUP1;
 		SegregationCell[] sNeighbors = (SegregationCell[]) neighbors;
 		for(SegregationCell neighbor : sNeighbors) {
-			if(neighbor.getSatisfaction()) count++;
+			if(neighbor.getState() == oppositeState) count++;
 		}
 		return count;
 	}
 
-
 	private double getSatisfaction(Cell c, Cell[] neighbors) {
-		return neighborCount(neighbors) / neighbors.length;
+		return neighborCount(neighbors, c) / neighbors.length;
 	}
 
 	@Override
@@ -75,7 +81,10 @@ public class SegregationRuleset implements Ruleset {
 		for(int r = 0; r < g.getXSize(); r++) {
 			for(int c = 0; c < g.getYSize(); r++) {
 				Cell cell = g.getCell(r, c);
-				if(getSatisfaction(cell, getNeighbors(cell, g)) < TOLERANCE)	moveCell(cell, g);
+				if(cell.getState() == VACANT) continue;
+				else if(getSatisfaction(cell, getNeighbors(cell, g)) < TOLERANCE) {
+					moveCell(cell, g);
+				}
 			}
 		}
 	}

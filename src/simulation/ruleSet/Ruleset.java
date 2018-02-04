@@ -6,7 +6,7 @@ public interface Ruleset {
 
 	void processCells(Grid g);
 	//int processCell(Cell c, Cell[] neighbors);
-	int neighborCount(Cell[] neighbors);
+	//int neighborCount(Cell[] neighbors);
 	
 	/**
 	 * Important change to plan: neighbors vary 

@@ -38,7 +38,7 @@ public class FireRuleset implements Ruleset {
 		}
 	}
 
-	@Override
+
 	public int neighborCount(Cell[] neighbors) {
 		for(Cell neighbor : neighbors) {
 			if(neighbor.getState() == BURNING) {
@@ -61,7 +61,7 @@ public class FireRuleset implements Ruleset {
 	@Override
 	public void processCells(Grid g) {
 		for(int r = 0; r < g.getXSize(); r++) {
-			for(int c = 0; c < g.getYSize(); r++) {
+			for(int c = 0; c < g.getYSize(); c++) {
 				Cell cell = g.getCell(r, c);
 				int newState = processCell(cell, getNeighbors(cell, g));
 				cell.setState(newState);
