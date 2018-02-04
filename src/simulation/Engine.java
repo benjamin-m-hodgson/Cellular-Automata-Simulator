@@ -40,7 +40,7 @@ public class Engine {
     private Scene PROGRAM_SCENE;
     private String SIMULATION_TYPE;
     private int GENERATION;
-    private boolean SIMULATING = false;
+    private boolean SIMULATING;
     
     private HashMap<String, Grid> GRIDS;
     private HashMap<String, Ruleset> RULES;
@@ -77,9 +77,12 @@ public class Engine {
 	 */
 	public void startSimulation(String type) {
 		//System.out.println("Start simulation!");
-		PROGRAM_TIMELINE.stop();
+		if (SIMULATING) {
+			stopSimulation();
+		}
 		SIMULATION_TYPE = type;
 		SIMULATING = true;
+		GENERATION = 0;
 		PROGRAM_STAGE.setTitle(SIMULATION_TYPE);
 		Parent root = new SimulationScreen(this).getRoot();
 		PROGRAM_SCENE.setRoot(root);
@@ -203,6 +206,22 @@ public class Engine {
 	}
 	
 	/**
+	 * Stops and clears the current animation
+	 */
+	private void stopSimulation() {
+		SIMULATING = false;
+		GENERATIONS_PER_SECOND = 1;
+		// update instance variables
+		MILLISECOND_DELAY = 1000 / GENERATIONS_PER_SECOND;
+		SECOND_DELAY = 1.0 / GENERATIONS_PER_SECOND;
+		KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
+                e -> step(SECOND_DELAY));
+		PROGRAM_TIMELINE.stop();
+		PROGRAM_TIMELINE.getKeyFrames().setAll(frame);
+		
+	}
+	
+	/**
 	 * Change properties of shapes to animate them 
 	 * 
 	 * @param elapsedTime: time since last animation update
@@ -211,6 +230,7 @@ public class Engine {
     	// TO PROCESS CELLS: just call method processCells(Grid g), it should handle the rest
     	if (SIMULATING) {
     		RULES.get(SIMULATION_TYPE).processCells(getGrid(SIMULATION_TYPE));
+    		GENERATION++;
     	}
     }
 }

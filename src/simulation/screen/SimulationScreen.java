@@ -357,9 +357,9 @@ public class SimulationScreen extends Screen {
 				Cell thisCell = simulationCells[i][j];
 				Rectangle cellShape = (Rectangle) thisCell.getShape();
 				cellShape.setId("defaultCell");
-				// set cell size to match window size				
-				cellShape.setWidth(580/numCol);
-				cellShape.setHeight(565/numRow);
+				// set cell size to match window size	
+				cellShape.setWidth(540.0/numCol);
+				cellShape.setHeight(540.0/numRow);
 				row.getChildren().add(cellShape);
 			}
 			cols.getChildren().add(row);
