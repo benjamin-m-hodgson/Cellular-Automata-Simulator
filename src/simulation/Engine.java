@@ -77,6 +77,7 @@ public class Engine {
 	 */
 	public void startSimulation(String type) {
 		//System.out.println("Start simulation!");
+		PROGRAM_TIMELINE.stop();
 		SIMULATION_TYPE = type;
 		SIMULATING = true;
 		PROGRAM_STAGE.setTitle(SIMULATION_TYPE);
@@ -206,11 +207,8 @@ public class Engine {
 	 * 
 	 * @param elapsedTime: time since last animation update
 	 */
-    private void step (double elapsedTime) {
-    	//System.out.printf("Stepping!\n");    	
+    private void step (double elapsedTime) {   	
     	// TO PROCESS CELLS: just call method processCells(Grid g), it should handle the rest
-    	System.out.println(RULES.containsKey(SIMULATION_TYPE));
-    	System.out.printf("Current type: %s\n", SIMULATION_TYPE);
     	if (SIMULATING) {
     		RULES.get(SIMULATION_TYPE).processCells(getGrid(SIMULATION_TYPE));
     	}
