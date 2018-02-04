@@ -49,8 +49,10 @@ public class SimulationScreen extends Screen {
 	@Override
 	public void makeRoot() {
 		VBox sidePanel = sidePanel();
+		VBox cellPanel = cellPanel();
 		BorderPane newRoot = new BorderPane();
 		newRoot.setRight(sidePanel);
+		newRoot.setCenter(cellPanel);
      	newRoot.setId("simulateScreenRoot");
 		ROOT = newRoot;
 		// attach "animation loop" to time line to play it
@@ -62,7 +64,44 @@ public class SimulationScreen extends Screen {
         animation.play();	
 		
 	}
-
+	
+/*****************************************************************************************/
+/* Methods related to generating the side panel */
+/*****************************************************************************************/
+	/**
+	 * Method to create and return the side panel that contains information about the 
+	 * current simulation and gives the user some control buttons to manipulate
+	 * the simulation animation. 
+	 * 
+	 * @return sidePanel: the panel on the side with information and animation controls
+	 */
+	private VBox sidePanel() {
+		VBox simulationInfo = makeInfo();
+		VBox simulationMenu = makeMenu();
+		VBox simulationSettings = makeSettings();
+		VBox sidePanel = new VBox(50, simulationInfo, simulationMenu, simulationSettings);
+		sidePanel.setId("simulateSidePanel");
+		sidePanel.prefHeightProperty().bind(Bindings.divide(PROGRAM_ENGINE.getProgramStage()
+				.heightProperty(), 1.0));
+		return sidePanel;
+	}
+	
+	/**
+	 * Creates the section of the side panel that contains information about the current
+	 * simulation. 
+	 * 
+	 * @return simulationInfo: a VBox containing the simulation information to be displayed
+	 */
+	private VBox makeInfo() {
+		Label currentSimulation = makeLabel("Current Simulation:");
+		Label simulationName = makeLabel(PROGRAM_ENGINE.getSimulationType());
+		Label currentGeneration = makeLabel("Current Generation:");
+		Label generationNum = makeLabel(Integer.toString(GENERATION));
+		VBox simulationInfo = new VBox(5, currentSimulation, simulationName,
+				currentGeneration, generationNum);
+		return simulationInfo;
+	}
+	
 	// create an info Label to be placed in the side panel in the simulation screen
 	@Override
 	public Label makeLabel(String text) {
@@ -71,20 +110,20 @@ public class SimulationScreen extends Screen {
 		return infoLabel;
 	}
 
-	// make a simulate button
-	@Override
-	public Button makeButton(String text) {
-		Button simulateButton = new Button(text);
-		simulateButton.setId("simulateButton");
-		// handle click event
-		simulateButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent arg0) {
-				PROGRAM_ENGINE.startSimulation(TYPE);	
-			}
-		});
-		simulateButton.setDisable(true);
-		return simulateButton;
+	/**
+	 * Creates the component of the side panel that allows for simulation change. The 
+	 * drop down choice box and the simulate button are identical to the ones in the 
+	 * StartScreen class.
+	 * 
+	 * 
+	 * @return simulationMenu: a VBox containing controls to change the animation
+	 */
+	private VBox makeMenu() {
+		Label simulationPrompt = makeLabel("Change Simulation:"); 
+		ChoiceBox<Object> simulationChoices = simulatorChooser();
+		SIMULATE = makeButton("Simulate");
+		VBox simulationMenu = new VBox(5, simulationPrompt, simulationChoices, SIMULATE);
+		return simulationMenu;
 	}
 	
 	/**
@@ -118,52 +157,20 @@ public class SimulationScreen extends Screen {
 		return dropDownMenu;
 	}
 		
-	
-	/**
-	 * 
-	 * @return
-	 */
-	private VBox sidePanel() {
-		VBox simulationInfo = makeInfo();
-		VBox simulationMenu = makeMenu();
-		VBox simulationSettings = makeSettings();
-		VBox sidePanel = new VBox(50, simulationInfo, simulationMenu, simulationSettings);
-		sidePanel.setId("simulateSidePanel");
-		sidePanel.prefHeightProperty().bind(Bindings.divide(PROGRAM_ENGINE.getProgramStage()
-				.heightProperty(), 1.0));
-		return sidePanel;
-	}
-	
-	/**
-	 * Creates the section of the side panel that contains information about the current
-	 * simulation. 
-	 * 
-	 * @return simulationInfo: a VBox containing the simulation information to be displayed
-	 */
-	private VBox makeInfo() {
-		Label currentSimulation = makeLabel("Current Simulation:");
-		Label simulationName = makeLabel(PROGRAM_ENGINE.getSimulationType());
-		Label currentGeneration = makeLabel("Current Generation:");
-		Label generationNum = makeLabel(Integer.toString(GENERATION));
-		VBox simulationInfo = new VBox(5, currentSimulation, simulationName,
-				currentGeneration, generationNum);
-		return simulationInfo;
-	}
-	
-	/**
-	 * Creates the component of the side panel that allows for simulation change. The 
-	 * drop down choice box and the simulate button are identical to the ones in the 
-	 * StartScreen class.
-	 * 
-	 * 
-	 * @return simulationMenu: a VBox containing controls to change the animation
-	 */
-	private VBox makeMenu() {
-		Label simulationPrompt = makeLabel("Change Simulation:"); 
-		ChoiceBox<Object> simulationChoices = simulatorChooser();
-		SIMULATE = makeButton("Simulate");
-		VBox simulationMenu = new VBox(5, simulationPrompt, simulationChoices, SIMULATE);
-		return simulationMenu;
+	// make a simulate button
+	@Override
+	public Button makeButton(String text) {
+		Button simulateButton = new Button(text);
+		simulateButton.setId("simulateButton");
+		// handle click event
+		simulateButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent arg0) {
+				PROGRAM_ENGINE.startSimulation(TYPE);	
+			}
+		});
+		simulateButton.setDisable(true);
+		return simulateButton;
 	}
 	
 	/**
@@ -264,6 +271,18 @@ public class SimulationScreen extends Screen {
 			}
 		});
 		return stepButton;
+	}
+	
+/*****************************************************************************************/
+/* Methods related to generating the cell panel */
+/*****************************************************************************************/
+
+	private VBox cellPanel() {
+		VBox cellPanel = new VBox();
+		cellPanel.setId("simulateCellPanel");
+		cellPanel.prefHeightProperty().bind(Bindings.divide(PROGRAM_ENGINE.getProgramStage()
+				.heightProperty(), 1.0));
+		return cellPanel;
 	}
 	
 	/**

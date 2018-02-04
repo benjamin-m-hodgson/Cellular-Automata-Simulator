@@ -1,5 +1,6 @@
 package simulation;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javafx.animation.KeyFrame;
@@ -104,11 +105,21 @@ public class Engine {
 	}
 	
 	/**
+	 * Loops through the @param GRIDS HashMap to find all of the String types that
+	 * map to grid objects and then checks to ensure they have a corresponding rule
+	 * set by making sure the same String type is a key in the @param RULES HashMap
+	 * to determine the valid simulations
 	 * 
 	 * @return the Simulation titles to be displayed to the user
 	 */
 	public ObservableList<String> getSimulations() {
-		ObservableList<String> retList = FXCollections.observableArrayList("a", "b", "c");
+		ArrayList<String> typeList = new ArrayList<String>();
+		for (String type : GRIDS.keySet()) {
+			if (RULES.containsKey(type)) {
+				typeList.add(type);
+			}
+		}
+		ObservableList<String> retList = FXCollections.observableArrayList(typeList);
 		return retList;
 	}
 	

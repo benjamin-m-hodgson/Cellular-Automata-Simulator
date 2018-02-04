@@ -30,6 +30,14 @@ public abstract class Grid {
 		return myCells[x][y];
 	}
 	
+	/**
+	 * 
+	 * @return myCells: a 2-dimensional array containing cells for a simulation
+	 */
+	public Cell[][] getCells() {
+		return myCells;
+	}
+	
 	public int getXSize() {
 		return this.myX;
 	}
