@@ -90,8 +90,8 @@ public class NeighborManager {
 		if(y == g.getYSize() - 1) {
 			neighbors.add(g.getCell(0, y));
 		}
-		
-		return (Cell[]) neighbors.toArray();
+		Cell[] retNeighbors = neighbors.toArray(new Cell[neighbors.size()]);
+		return retNeighbors;
 	}
 	
 	/**

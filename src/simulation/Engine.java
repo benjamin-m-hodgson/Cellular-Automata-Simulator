@@ -26,13 +26,14 @@ import simulation.screen.StartScreen;
  */
 public class Engine {
 	
-	private final int FRAMES_PER_SECOND = 60;
-	private final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
-    private final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
     private final String DEFAULT_STYLESHEET = 
     		Engine.class.getClassLoader().getResource("default.css").toExternalForm();
     
     private final String PROGRAM_TITLE;   
+    
+    private double GENERATIONS_PER_SECOND = 1;
+	private double MILLISECOND_DELAY = 1000 / GENERATIONS_PER_SECOND;
+    private double SECOND_DELAY = 1.0 / GENERATIONS_PER_SECOND;
     
     private Timeline PROGRAM_TIMELINE;
     private Stage PROGRAM_STAGE;
@@ -102,6 +103,24 @@ public class Engine {
 	 */
 	public void playAnimation() {
 		PROGRAM_TIMELINE.play();
+	}
+	
+	/**
+	 * Changes @param GENERATIONS_PER_SECOND to @param speed, which has the 
+	 * effect of visually changing the speed of the simulation animation.
+	 * 
+	 * @param speed: new Generation Speed to use for the animation
+	 */
+	public void setGenerationSpeed(double speed) {
+		GENERATIONS_PER_SECOND = speed;
+		// update instance variables
+		MILLISECOND_DELAY = 1000 / GENERATIONS_PER_SECOND;
+		SECOND_DELAY = 1.0 / GENERATIONS_PER_SECOND;
+		KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
+                e -> step(SECOND_DELAY));
+		PROGRAM_TIMELINE.stop();
+		PROGRAM_TIMELINE.getKeyFrames().setAll(frame);
+        playAnimation();
 	}
 	
 	/**
@@ -186,9 +205,9 @@ public class Engine {
 	 * @param elapsedTime: time since last animation update
 	 */
     private void step (double elapsedTime) {
-    	//System.out.printf("Stepping!\n");
-    	
+    	//System.out.printf("Stepping!\n");    	
     	// TO PROCESS CELLS: just call method processCells(Grid g), it should handle the rest
+    	System.out.print(RULES.containsKey(SIMULATION_TYPE));
+    	//RULES.get(SIMULATION_TYPE).processCells(getGrid(SIMULATION_TYPE));
     }
-	
 }

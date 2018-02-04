@@ -139,8 +139,8 @@
 /******************************************************************************************/
 #simulationSettings {
 	-fx-alignment: center;
+	-fx-pref-width: 150;
 	-fx-padding: 0 0 0 20;
-	-fx-pref-width: 200;
 }
 /******************************************************************************************/
 /* The Play button to start a paused simulation */
@@ -271,6 +271,33 @@
     -fx-opacity: 0.3;
 }
 /******************************************************************************************/
+/* The slider that changes the speed of the animation */
+/******************************************************************************************/
+#simulateSpeedSlider {
+	-fx-focus-color: transparent;
+	-fx-faint-focus-color: transparent;
+	-fx-alignment: center;
+	-fx-padding: 0 20 0 0;
+	-fx-pref-width: 100;
+}
+/******************************************************************************************/
+/* The label that indicates the speed of the animation */
+/******************************************************************************************/
+#simulateSpeedLabel {
+	-fx-alignment: center;
+	-fx-pref-width: 130;
+	-fx-text-alignment: center;
+	-fx-wrap-text: true;
+	-fx-font: 12px Excelsior;
+	-fx-font-weight: bold;
+	-fx-text-fill: #696969;
+	-fx-padding: 0 15 0 0;
+}
+#simulateSpeedLabel .text {
+	-fx-stroke: #ffffff;
+	-fx-stroke-width: 0px;
+}
+/******************************************************************************************/
 /* The panel containing the cell objects */
 /******************************************************************************************/
 #simulateCellPanel {
@@ -281,5 +308,11 @@
 	-fx-border-insets: 1;
 	-fx-border-radius: 1;
 	-fx-border-color: #696969;
+}
+/******************************************************************************************/
+/* The default Cell object */
+/******************************************************************************************/
+#defaultCell {
+	-fx-fill: #696969;
 }
 }
