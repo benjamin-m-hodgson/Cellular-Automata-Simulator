@@ -20,20 +20,20 @@ public class NeighborManager {
 		ArrayList<Cell> neighbors = new ArrayList<Cell>();
 		neighbors.addAll(Arrays.asList(wrapNSEWCells(c ,g)));
 		
-		if(x < g.getXSize()) {
+		if(x + 1 < g.getXSize()) {
 			neighbors.add(g.getCell(x + 1, y));
 		}
-		if(x > 0) {
+		if(x - 1 >= 0) {
 			neighbors.add(g.getCell(x - 1, y));
 		}
-		if(y < g.getYSize()) {
+		if(y + 1 < g.getYSize()) {
 			neighbors.add(g.getCell(x, y + 1));
 		}
-		if(y > 0) {
+		if(y - 1 >= 0) {
 			neighbors.add(g.getCell(x, y - 1));
 		}
-		
-		return (Cell[]) neighbors.toArray();
+		Cell[] retNeighbors = neighbors.toArray(new Cell[neighbors.size()]);
+		return retNeighbors;
 	}
 
 	/**
@@ -61,8 +61,8 @@ public class NeighborManager {
 		if(x < g.getXSize() - 1 && y > 0) {
 			neighbors.add(g.getCell(x + 1, y - 1));
 		}
-		
-		return (Cell[]) neighbors.toArray();
+		Cell[] retNeighbors = neighbors.toArray(new Cell[neighbors.size()]);
+		return retNeighbors;
 	}
 	
 	
@@ -90,8 +90,8 @@ public class NeighborManager {
 		if(y == g.getYSize() - 1) {
 			neighbors.add(g.getCell(0, y));
 		}
-		
-		return (Cell[]) neighbors.toArray();
+		Cell[] retNeighbors = neighbors.toArray(new Cell[neighbors.size()]);
+		return retNeighbors;
 	}
 	
 	/**
@@ -118,8 +118,8 @@ public class NeighborManager {
 		if(x < g.getXSize() - 1 && y == 0) {
 			neighbors.add(g.getCell(x + 1, g.getYSize() -1));
 		}
-		
-		return (Cell[]) neighbors.toArray();
+		Cell[] retNeighbors = neighbors.toArray(new Cell[neighbors.size()]);
+		return retNeighbors;
 	}
 
 
