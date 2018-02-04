@@ -1,5 +1,7 @@
 package simulation.screen;
 
+import java.text.DecimalFormat;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.binding.Bindings;
@@ -12,12 +14,18 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
+import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import simulation.Engine;
+import simulation.cell.Cell;
+import simulation.grid.Grid;
 
 /**
  * 
@@ -34,7 +42,8 @@ public class SimulationScreen extends Screen {
     private final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
 	private final Engine PROGRAM_ENGINE;
 	
-	private int GENERATION;
+	private Label GENERATION;
+	private Label SPEED;
 	private String TYPE;
 	private boolean VALID;
 	private Button SIMULATE;
@@ -49,7 +58,7 @@ public class SimulationScreen extends Screen {
 	@Override
 	public void makeRoot() {
 		VBox sidePanel = sidePanel();
-		VBox cellPanel = cellPanel();
+		HBox cellPanel = cellPanel();
 		BorderPane newRoot = new BorderPane();
 		newRoot.setRight(sidePanel);
 		newRoot.setCenter(cellPanel);
@@ -96,9 +105,9 @@ public class SimulationScreen extends Screen {
 		Label currentSimulation = makeLabel("Current Simulation:");
 		Label simulationName = makeLabel(PROGRAM_ENGINE.getSimulationType());
 		Label currentGeneration = makeLabel("Current Generation:");
-		Label generationNum = makeLabel(Integer.toString(GENERATION));
+		GENERATION = makeLabel(Integer.toString(PROGRAM_ENGINE.getGeneration()));
 		VBox simulationInfo = new VBox(5, currentSimulation, simulationName,
-				currentGeneration, generationNum);
+				currentGeneration, GENERATION);
 		return simulationInfo;
 	}
 	
@@ -174,17 +183,23 @@ public class SimulationScreen extends Screen {
 	}
 	
 	/**
+	 * Creates the section of the side panel with the play, pause, reset, step, and speed
+	 * animation controls. 
 	 * 
-	 * @return
+	 * @return simulationSettings: the bottom section of the side panel with animation 
+	 * controls
 	 */
 	private VBox makeSettings() {
 		PLAY = makePlayButton();
 		PAUSE = makePauseButton();
 		Button resetButton = makeResetButton();
 		Button stepButton = makeStepButton();
+		Slider speedSlider = makeSlider();
+		SPEED = makeSliderLabel();
 		HBox topButtonRow = new HBox(20, PLAY, PAUSE);
 		HBox bottomButtonRow = new HBox(20, resetButton, stepButton);
-		VBox simulationSettings = new VBox(20, topButtonRow, bottomButtonRow);
+		VBox simulationSettings = new VBox(20, topButtonRow, bottomButtonRow, 
+				speedSlider, SPEED);
 		simulationSettings.setId("simulationSettings");
 		return simulationSettings;
 	}
@@ -273,16 +288,87 @@ public class SimulationScreen extends Screen {
 		return stepButton;
 	}
 	
+	/**
+	 * Slider that adjusts the number of generations animated per second in the 
+	 * simulation.
+	 * 
+	 * @return speedSlider: a Slider to change the generation speed
+	 */
+	private Slider makeSlider() {
+		Slider speedSlider = new Slider(0.25, 2, 1);
+		speedSlider.setId("simulateSpeedSlider");
+		speedSlider.valueProperty().addListener(new ChangeListener<Number>() {
+		@Override
+		public void changed(ObservableValue<? extends Number> arg0, 
+				Number arg1, Number arg2) {
+			PROGRAM_ENGINE.setGenerationSpeed((double) arg2);
+			DecimalFormat twoPlaces = new DecimalFormat("#.00");
+			String speedArgs = twoPlaces.format(arg2);
+			String speedText = "Animation Speed: " + speedArgs;
+			SPEED.setText(speedText);
+		}
+		});
+		return speedSlider;
+	}
+	
+	/**
+	 * Creates a Label object that displays the current speed of the animation with
+	 * respect to the number of generations processed per second.
+	 * 
+	 * @return sliderLabel: a Label indicating the current selected generation speed
+	 */
+	private Label makeSliderLabel() {
+		Label sliderLabel = new Label("Animation Speed: 1.00");
+		sliderLabel.setId("simulateSpeedLabel");
+		return sliderLabel;
+	}
+	
 /*****************************************************************************************/
 /* Methods related to generating the cell panel */
 /*****************************************************************************************/
 
-	private VBox cellPanel() {
-		VBox cellPanel = new VBox();
+	/**
+	 * 
+	 * @return cellPanel: the Panel that contains the cell objects
+	 */
+	private HBox cellPanel() {
+		HBox cellPanel = new HBox();
 		cellPanel.setId("simulateCellPanel");
 		cellPanel.prefHeightProperty().bind(Bindings.divide(PROGRAM_ENGINE.getProgramStage()
 				.heightProperty(), 1.0));
+		addCells(cellPanel);
 		return cellPanel;
+	}
+	
+	/**
+	 * A panel of that contains the Cell objects
+	 * 
+	 * @param cellPanel: the Panel that contains the cell Objects
+	 */
+	private void addCells(HBox cellPanel) {
+		Grid typeGrid = PROGRAM_ENGINE.getGrid(PROGRAM_ENGINE.getSimulationType());
+		Cell[][] simulationCells = typeGrid.getCells();
+		double numRow = simulationCells.length;
+		double numCol = simulationCells[0].length;
+		VBox cols = new VBox(1);
+		for (int i = 0; i < numRow; i++) {
+			HBox row = new HBox(1);
+			for (int j = 0; j < numCol; j++) {
+				Cell thisCell = simulationCells[i][j];
+				Rectangle cellShape = (Rectangle) thisCell.getShape();
+				cellShape.setId("defaultCell");
+				// set cell size to match window size				
+				cellShape.setWidth(580/numCol);
+				cellShape.setHeight(565/numRow);
+				row.getChildren().add(cellShape);
+			}
+			cols.getChildren().add(row);
+		}
+		// add a region to align the cell grid in the top left of the cellPanel
+		cellPanel.getChildren().add(cols);
+		Region fillerRegion = new Region();
+		HBox.setHgrow(fillerRegion, Priority.ALWAYS);
+		cellPanel.getChildren().add(fillerRegion);
 	}
 	
 	/**
@@ -293,7 +379,7 @@ public class SimulationScreen extends Screen {
 	 * @param elapsedTime: time since last animation update
 	 */
     private void step (double elapsedTime) {
-    	GENERATION = PROGRAM_ENGINE.getGeneration();
+    	GENERATION.setText(Integer.toString(PROGRAM_ENGINE.getGeneration()));
     	if (VALID && SIMULATE.isDisabled()) {
     		SIMULATE.setDisable(false);
     	}

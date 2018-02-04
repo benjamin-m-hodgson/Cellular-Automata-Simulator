@@ -8,4 +8,16 @@ public class WaTorCell extends Cell {
 		super(x, y, state);
 		MOVED = false;
 	}
+
+	@Override
+	public void drawShape() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setState(int state) {
+		// TODO Auto-generated method stub
+		
+	}	
 }

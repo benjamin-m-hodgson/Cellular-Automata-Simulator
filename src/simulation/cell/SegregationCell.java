@@ -26,6 +26,20 @@ public class SegregationCell extends Cell {
 	public boolean getSatisfaction() {
 		return SATISFIED;
 	}
+
+
+	@Override
+	public void drawShape() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void setState(int state) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 }
