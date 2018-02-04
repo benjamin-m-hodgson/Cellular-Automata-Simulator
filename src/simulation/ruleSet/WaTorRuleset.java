@@ -8,7 +8,7 @@ public class WaTorRuleset implements Ruleset {
 		
 	}
 	
-	@Override
+
 	public int neighborCount(Cell[] neighbors) {
 		// TODO Auto-generated method stub
 		return 0;

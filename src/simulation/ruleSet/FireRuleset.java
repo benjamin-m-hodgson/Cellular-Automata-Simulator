@@ -38,7 +38,7 @@ public class FireRuleset implements Ruleset {
 		}
 	}
 
-	@Override
+
 	public int neighborCount(Cell[] neighbors) {
 		for(Cell neighbor : neighbors) {
 			if(neighbor.getState() == BURNING) {

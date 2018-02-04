@@ -40,7 +40,7 @@ public class GameOfLifeRuleset implements Ruleset {
 		}
 	}
 
-	@Override
+
 	public int neighborCount(Cell[] neighbors) {
 		int count = 0;
 		for(Cell neighbor : neighbors) {
