@@ -40,6 +40,7 @@ public class Engine {
     private Scene PROGRAM_SCENE;
     private String SIMULATION_TYPE;
     private int GENERATION;
+    private boolean SIMULATING = false;
     
     private HashMap<String, Grid> GRIDS;
     private HashMap<String, Ruleset> RULES;
@@ -77,6 +78,7 @@ public class Engine {
 	public void startSimulation(String type) {
 		//System.out.println("Start simulation!");
 		SIMULATION_TYPE = type;
+		SIMULATING = true;
 		PROGRAM_STAGE.setTitle(SIMULATION_TYPE);
 		Parent root = new SimulationScreen(this).getRoot();
 		PROGRAM_SCENE.setRoot(root);
@@ -207,7 +209,10 @@ public class Engine {
     private void step (double elapsedTime) {
     	//System.out.printf("Stepping!\n");    	
     	// TO PROCESS CELLS: just call method processCells(Grid g), it should handle the rest
-    	System.out.print(RULES.containsKey(SIMULATION_TYPE));
-    	//RULES.get(SIMULATION_TYPE).processCells(getGrid(SIMULATION_TYPE));
+    	System.out.println(RULES.containsKey(SIMULATION_TYPE));
+    	System.out.printf("Current type: %s\n", SIMULATION_TYPE);
+    	if (SIMULATING) {
+    		RULES.get(SIMULATION_TYPE).processCells(getGrid(SIMULATION_TYPE));
+    	}
     }
 }

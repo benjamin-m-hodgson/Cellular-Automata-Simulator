@@ -54,8 +54,8 @@ public class FireRuleset implements Ruleset {
 		NeighborManager nm = new NeighborManager();
 		neighbors.addAll(Arrays.asList(nm.NSEWCells(c ,g)));
 		neighbors.addAll(Arrays.asList(nm.diagonalCells(c ,g)));
-		
-		return (Cell[]) neighbors.toArray();
+		Cell[] retNeighbors = neighbors.toArray(new Cell[neighbors.size()]);
+		return retNeighbors;
 	}
 
 	@Override
