@@ -15,9 +15,8 @@ public class Driver extends Application {
 
 	private final int DEFAULT_HEIGHT = 600;
 	private final int DEFAULT_WIDTH = 800;
-	private final String DEFAULT_NAME = "Cellular Automata Simulator";
 
-	private Engine programEngine = new Engine(DEFAULT_NAME);
+	private Engine programEngine = new Engine();
 
 	/**
 	 * Initialize the program and begin the animation loop 

@@ -33,7 +33,6 @@ public class StartScreen extends Screen {
 	private final int FRAMES_PER_SECOND = 60;
 	private final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
     private final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
-	private final String DEFAULT_NAME = "Cellular Automata Simulator";
 	private final Engine PROGRAM_ENGINE;
 	
 	private String TYPE;
@@ -48,9 +47,11 @@ public class StartScreen extends Screen {
 	// make the root for the start screen to display on application start up
 	@Override
 	public void makeRoot() {
-		Label programTitle = makeLabel(DEFAULT_NAME);
+		Label programTitle = makeLabel(PROGRAM_ENGINE.getResourceBundle()
+				.getString("programTitleString"));
 		ChoiceBox<Object> simulationChoices = simulatorChooser();
-		SIMULATE = makeButton("Simulate");
+		SIMULATE = makeButton(PROGRAM_ENGINE.getResourceBundle()
+				.getString("simulateString"));
 		HBox alignBoxes = new HBox(30, simulationChoices, SIMULATE);
 		VBox alignTitle = new VBox(30, programTitle, alignBoxes);
      	GridPane newRoot = new GridPane();

@@ -102,9 +102,11 @@ public class SimulationScreen extends Screen {
 	 * @return simulationInfo: a VBox containing the simulation information to be displayed
 	 */
 	private VBox makeInfo() {
-		Label currentSimulation = makeLabel("Current Simulation:");
+		Label currentSimulation = makeLabel(PROGRAM_ENGINE.getResourceBundle()
+				.getString("currentSimulationString"));
 		Label simulationName = makeLabel(PROGRAM_ENGINE.getSimulationType());
-		Label currentGeneration = makeLabel("Current Generation:");
+		Label currentGeneration = makeLabel(PROGRAM_ENGINE.getResourceBundle()
+				.getString("currentGenerationString"));
 		GENERATION = makeLabel(Integer.toString(PROGRAM_ENGINE.getGeneration()));
 		VBox simulationInfo = new VBox(5, currentSimulation, simulationName,
 				currentGeneration, GENERATION);
@@ -128,9 +130,11 @@ public class SimulationScreen extends Screen {
 	 * @return simulationMenu: a VBox containing controls to change the animation
 	 */
 	private VBox makeMenu() {
-		Label simulationPrompt = makeLabel("Change Simulation:"); 
+		Label simulationPrompt = makeLabel(PROGRAM_ENGINE.getResourceBundle()
+				.getString("changeSimulationString")); 
 		ChoiceBox<Object> simulationChoices = simulatorChooser();
-		SIMULATE = makeButton("Simulate");
+		SIMULATE = makeButton(PROGRAM_ENGINE.getResourceBundle()
+				.getString("simulateString"));
 		VBox simulationMenu = new VBox(5, simulationPrompt, simulationChoices, SIMULATE);
 		return simulationMenu;
 	}
@@ -318,7 +322,8 @@ public class SimulationScreen extends Screen {
 	 * @return sliderLabel: a Label indicating the current selected generation speed
 	 */
 	private Label makeSliderLabel() {
-		Label sliderLabel = new Label("Animation Speed: 1.00");
+		Label sliderLabel = new Label(PROGRAM_ENGINE.getResourceBundle()
+				.getString("animationSpeedString") + " 1.00");
 		sliderLabel.setId("simulateSpeedLabel");
 		return sliderLabel;
 	}
