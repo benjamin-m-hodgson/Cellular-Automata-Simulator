@@ -13,7 +13,7 @@ public class GameOfLifeNeighborManager extends NeighborManager {
 	 * @return
 	 */
 	public int neighborCount(GameOfLifeCell c, Grid g) {
-		GameOfLifeCell[] neighbors = getNeighbors(c, g);
+		Cell[] neighbors = getNeighbors(c, g);
 		int count = 0;
 		for(Cell neighbor : neighbors) {
 			if(neighbor.getState() == LIVE) {
@@ -23,9 +23,15 @@ public class GameOfLifeNeighborManager extends NeighborManager {
 		return count;
 	}
 	
-	
-	private GameOfLifeCell[] getNeighbors(GameOfLifeCell c, Grid g){
-		return (GameOfLifeCell[]) NSEWCells(c ,g);
+	/**
+	 * Gets all neighbors of current cell c
+	 * 
+	 * @param c
+	 * @param g
+	 * @return
+	 */
+	private Cell[] getNeighbors(Cell c, Grid g){
+		return NSEWCells(c ,g);
 	}
 	
 }

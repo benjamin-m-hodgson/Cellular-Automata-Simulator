@@ -1,8 +1,5 @@
 package simulation.ruleSet;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
-
+import neighbormanager.WaTorNeighborManager;
 import simulation.cell.*;
 import simulation.grid.Grid;
 
@@ -14,6 +11,7 @@ public class WaTorRuleset implements Ruleset {
 	private Grid GRID;
 	private int FISH_BREEDTIME;
 	private int SHARK_BREEDENERGY;
+	private WaTorNeighborManager NEIGHBOR_MANAGER = new WaTorNeighborManager();
 
 	/**
 	 * RULES:
@@ -31,105 +29,90 @@ public class WaTorRuleset implements Ruleset {
 	public WaTorRuleset(int fishBreedTime, int sharkBreedEnergy) {
 		this.FISH_BREEDTIME = fishBreedTime;
 		this.SHARK_BREEDENERGY = sharkBreedEnergy;
+		this.NEIGHBOR_MANAGER = new WaTorNeighborManager();
 	}
 
-
+	/**
+	 * Sets grid to current grid 
+	 * 
+	 * @param g: Current simulation grid
+	 */
 	@Override
-	public Cell[] getNeighbors(Cell c) {
-		ArrayList<Cell> neighbors = new ArrayList<Cell>();
-		ArrayList<Cell> freeNeighbors = new ArrayList<Cell>();
-		NeighborManager nm = new NeighborManager();
-		neighbors.addAll(Arrays.asList(nm.NSEWCells(c ,GRID)));
-		for(Cell neighbor : neighbors) {
-			WaTorCell castNeighbor = (WaTorCell) neighbor;
-			if(neighbor.getState() == VACANT || neighbor.getState() == FISH 
-					&& !castNeighbor.getMoved()) {
-				freeNeighbors.add((WaTorCell) castNeighbor);
-			}
-		}
-		Cell[] retNeighbors = freeNeighbors.toArray(new Cell[freeNeighbors.size()]);
-		return retNeighbors;
+	public void setGrid(Grid g) {
+		GRID = g;
 	}
 
-	public Cell[] getVacantNeighbors(Cell c) {
-		ArrayList<Cell> neighbors = new ArrayList<Cell>();
-		ArrayList<Cell> freeNeighbors = new ArrayList<Cell>();
-		NeighborManager nm = new NeighborManager();
-		neighbors.addAll(Arrays.asList(nm.NSEWCells(c ,GRID)));
-		for(Cell neighbor : neighbors) {
-			WaTorCell castNeighbor = (WaTorCell) neighbor;
-			if(castNeighbor.getState() == VACANT && !castNeighbor.getMoved()) {
-				freeNeighbors.add(castNeighbor);
-			}
-		}
-		Cell[] retNeighbors = freeNeighbors.toArray(new Cell[freeNeighbors.size()]);
-		return retNeighbors;
-	}
-
+	/**
+	 * Processes all cells in current grid
+	 */
 	@Override
 	public void processCells() {
-		for(int r = 0; r < GRID.getXSize(); r++) {
-			for(int c = 0; c < GRID.getYSize(); c++) {
-				WaTorCell cell = (WaTorCell) GRID.getCell(r, c);
-				if(cell.getState() == FISH) {
-					cell.incrementBreedingTime();
-					checkBreedingTime(cell);
-					moveFish(cell);
+		for(Cell[] row : (Cell[][]) GRID.getCells())
+			for(Cell cell : row) {
+				WaTorCell wCell = (WaTorCell) cell;
+				if(wCell.getState() == FISH) {
+					wCell.incrementBreedingTime();
+					checkBreedingTime(wCell);
+					moveFish(wCell);
 				}
 				else if(cell.getState() == SHARK) {
-					cell.decrementEnergy();
-					checkEnergy(cell);
-					moveShark(cell);
+					wCell.decrementEnergy();
+					checkEnergy(wCell);
+					moveShark(wCell);
 				}
 			}
-		}
 		cleanMove();
-		
 	}
 
+	/**
+	 * Moves fish cell on grid
+	 * 
+	 * @param fish
+	 */
 	private void moveFish(WaTorCell fish) {
-		Random rand = new Random();
-		Cell[] freeNeighbors =  getVacantNeighbors(fish);
-		if(freeNeighbors.length == 0) {
+		WaTorCell freeNeighbor = NEIGHBOR_MANAGER.vacantNeighbor(fish, GRID);
+		if(freeNeighbor == null) {
 			fish.setState(fish.getState());
 			return;
 		}
-
-		WaTorCell cell = (WaTorCell) freeNeighbors[rand.nextInt(freeNeighbors.length)];
-		cell.setBreedingTime(fish.getEnergy());
-		cell.setState(FISH);
-		cell.setMoved(true);
-		fish.kill();
+		else {
+			freeNeighbor.setBreedingTime(fish.getEnergy());
+			freeNeighbor.setState(FISH);
+			freeNeighbor.setMove(true);
+			fish.kill();
+		}
 	}
 
-
+	/**
+	 * Moves shark cell on grid
+	 * 
+	 * @param shark
+	 */
 	private void moveShark(WaTorCell shark) {
-		Random rand = new Random();
-		Cell[] freeNeighbors =  getNeighbors(shark);
-		if(freeNeighbors.length == 0) {
+		WaTorCell freeNeighbor = NEIGHBOR_MANAGER.vacantOrFishNeighbor(shark, GRID);
+		if(freeNeighbor == null) {
 			shark.setState(shark.getState());
 			return;
 		}
-		WaTorCell cell = (WaTorCell) freeNeighbors[rand.nextInt(freeNeighbors.length)];
-
-		if(cell.getState() == VACANT) {
-			cell.setEnergy(shark.getEnergy());
-			cell.setState(SHARK);
-			cell.setMoved(true);
-			shark.setState(VACANT);
-			shark.setMoved(true);
+		else if(freeNeighbor.getState() == VACANT) {
+			freeNeighbor.setEnergy(shark.getEnergy());
 		}
-		else if(cell.getState() == FISH) {
+		else if(freeNeighbor.getState() == FISH) {
 			shark.incrementEnergy();
-			cell.setEnergy(shark.getEnergy());
-			cell.setState(SHARK);
-			cell.setMoved(true);
-			shark.setState(VACANT);
-			shark.setMoved(true);
+			freeNeighbor.setEnergy(shark.getEnergy());
 		}
 		
+		freeNeighbor.setState(SHARK);
+		shark.setState(VACANT);
+		freeNeighbor.setMove(true);
+		shark.setMove(true);
 	}
 
+	/**
+	 * Checks energy of shark cell
+	 * 
+	 * @param shark
+	 */
 	private void checkEnergy(WaTorCell shark) {
 		if(shark.getEnergy() > SHARK_BREEDENERGY) {
 			giveBirth(shark);
@@ -139,37 +122,42 @@ public class WaTorRuleset implements Ruleset {
 		}
 	}
 
-
+	/**
+	 * Checks if fish should give birth
+	 * 
+	 * @param fish
+	 */
 	private void checkBreedingTime(WaTorCell fish) {
 		if(fish.getBreedingTime() > FISH_BREEDTIME) {
 			giveBirth(fish);
 		}
 	}
-	
+
+	/**
+	 * Method that lets cell c give birth
+	 * 
+	 * @param cell: Fish cell giving birth
+	 */
 	private void giveBirth(WaTorCell cell) {
-		Cell[] neighbors = getVacantNeighbors(cell);
-		if(neighbors.length > 0) {
-			Random rand = new Random();
-			WaTorCell baby = (WaTorCell) neighbors[rand.nextInt(neighbors.length)];
+		WaTorCell baby = NEIGHBOR_MANAGER.vacantNeighbor(cell, GRID);
+		if(baby != null) {
 			baby.setState(cell.getState());
-			baby.setMoved(true);
+			baby.setMove(true);
 			cell.setEnergy(0);
 			cell.setBreedingTime(0);
 		}
 	}
 
-	
+	/**
+	 * Changes all setMoves() to false (so that cells don't overwrite each other)
+	 */
 	private void cleanMove() {
 		for(int r = 0; r < GRID.getXSize(); r++) {
 			for(int c = 0; c < GRID.getYSize(); c++) {
 				WaTorCell cell = (WaTorCell) GRID.getCell(r,c);
-				cell.setMoved(false);
+				cell.setMove(false);
 			}
 		}
 	}
 
-	@Override
-	public void setGrid(Grid g) {
-		GRID = g;
-	}
 }

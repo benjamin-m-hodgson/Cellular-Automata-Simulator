@@ -15,8 +15,6 @@ import simulation.grid.Grid;
  */
 public class SegregationRuleset implements Ruleset {
 
-	private int GROUP1 = 0;
-	private int GROUP2 = 1;
 	private int VACANT = 2;
 	private double TOLERANCE;
 	private Grid GRID;
@@ -30,29 +28,37 @@ public class SegregationRuleset implements Ruleset {
 	public SegregationRuleset(double tolerance) {
 		this.TOLERANCE = tolerance;
 	}
-
 	
+
+	/**
+	 * Sets grid to current grid 
+	 * 
+	 * @param g: Current simulation grid
+	 */
+	@Override
+	public void setGrid(Grid g) {
+		GRID = g;
+	}
+
+	/**
+	 * Updates all states in current grid
+	 */
 	@Override
 	public void processCells() {
-		for(SegregationCell row[] : (SegregationCell[][]) GRID.getCells()) {
-			for(SegregationCell cell : row) {
-				if(NEIGHBOR_MANAGER.getNeighborSatisfaction(cell, GRID) < TOLERANCE) {
-					moveCell(cell);
+		for(Cell row[] : GRID.getCells()) {
+			for(Cell cell : row) {
+				SegregationCell sCell = (SegregationCell) cell;
+				if(NEIGHBOR_MANAGER.getNeighborSatisfaction(sCell, GRID) < TOLERANCE) {
+					moveCell(sCell);
 				}
 				else {
-					cell.setState(cell.getState());
+					sCell.setState(sCell.getState());
 				}
 			}
 		}
 		
 		cleanMove();
-	}
-
-	@Override
-	public void setGrid(Grid g) {
-		GRID = g;
-	}
-	
+	}	
 	
 	/**
 	 * Moves cell to vacant spot
@@ -81,7 +87,6 @@ public class SegregationRuleset implements Ruleset {
 			}
 		}
 	}
-
 
 }
 

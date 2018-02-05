@@ -21,9 +21,10 @@ public class SegregationNeighborManager extends NeighborManager {
 	public SegregationCell findVacantCell(Grid g) {
 		ArrayList<SegregationCell> vacant = new ArrayList<SegregationCell>();
 		Random rand = new Random();
-		for(SegregationCell[] row : (SegregationCell[][]) g.getCells()) {
-			for(SegregationCell cell : row) {
-				if(!cell.getMove() && cell.getState() == VACANT) vacant.add(cell);
+		for(Cell[] row : g.getCells()) {
+			for(Cell cell : row) {
+				SegregationCell sCell = (SegregationCell) cell;
+				if(!sCell.getMove() && sCell.getState() == VACANT) vacant.add(sCell);
 			}
 		}
 		if(vacant.size() > 0) return vacant.get(rand.nextInt(vacant.size()));
@@ -37,12 +38,12 @@ public class SegregationNeighborManager extends NeighborManager {
 	 * @param g
 	 * @return
 	 */
-	private SegregationCell[] getNeighbors(SegregationCell c, Grid g) {
-		ArrayList<SegregationCell> neighbors = new ArrayList<SegregationCell>();
-		neighbors.addAll(Arrays.asList( (SegregationCell[]) NSEWCells(c , g)));
-		neighbors.addAll(Arrays.asList( (SegregationCell[]) diagonalCells(c ,g)));
+	private Cell[] getNeighbors(Cell c, Grid g) {
+		ArrayList<Cell> neighbors = new ArrayList<Cell>();
+		neighbors.addAll(Arrays.asList(NSEWCells(c , g)));
+		neighbors.addAll(Arrays.asList(diagonalCells(c ,g)));
 
-		return neighbors.toArray(new SegregationCell[neighbors.size()]);
+		return neighbors.toArray(new Cell[neighbors.size()]);
 	}
 
 	/**
@@ -52,8 +53,8 @@ public class SegregationNeighborManager extends NeighborManager {
 	 * @param c
 	 * @return
 	 */
-	private int neighborCount(SegregationCell c, Grid g) {
-		SegregationCell[] neighbors = getNeighbors(c, g);
+	private int neighborCount(Cell c, Grid g) {
+		Cell[] neighbors = getNeighbors(c, g);
 		int count = 0;
 		int cellState = c.getState();
 		int oppositeState;
@@ -67,7 +68,7 @@ public class SegregationNeighborManager extends NeighborManager {
 		return count;
 	}
 
-	public double getNeighborSatisfaction(SegregationCell c, Grid g) {
+	public double getNeighborSatisfaction(Cell c, Grid g) {
 		return (double) neighborCount(c, g) / getNeighbors(c, g).length;
 	}
 
