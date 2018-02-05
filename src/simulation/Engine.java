@@ -1,5 +1,6 @@
 package simulation;
 
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -210,8 +211,6 @@ public class Engine {
 		Grid cloneGrid = null;
 		try {
 			cloneGrid = (Grid) GRIDS.get(name).clone();
-			System.out.println(cloneGrid.getCells()[0]);
-			System.out.println(GRIDS.get(name).getCells()[0]);
 			// NEED TO COPY ARRAYS
 			return cloneGrid;
 		} catch (CloneNotSupportedException e) {
