@@ -54,7 +54,7 @@ public class SegregationCell extends Cell {
 			myShape.setFill(Color.AZURE);
 		}
 		else {
-			myShape.setFill(Color.rgb(105, 105, 105));
+			myShape.setFill(Color.DIMGRAY);
 		}
 	}
 
