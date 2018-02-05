@@ -187,7 +187,9 @@ public class Engine {
 	}
 	
 	/**
-	 * Gets grid
+	 * 
+	 * @param name: the key that maps to a Grid object in the map @param GRIDS.
+	 * @return the Grid object @param name maps to. 
 	 */
 	public Grid getGrid(String name) {
 		return GRIDS.get(name);
@@ -206,7 +208,8 @@ public class Engine {
 	}
 	
 	/**
-	 * Stops and clears the current animation
+	 * Stops and clears the current animation, resetting instance variables
+	 * to their default values.
 	 */
 	private void stopSimulation() {
 		SIMULATING = false;
@@ -218,7 +221,6 @@ public class Engine {
                 e -> step(SECOND_DELAY));
 		PROGRAM_TIMELINE.stop();
 		PROGRAM_TIMELINE.getKeyFrames().setAll(frame);
-		
 	}
 	
 	/**
