@@ -8,8 +8,9 @@ import simulation.grid.*;
 
 public class FireRuleset implements Ruleset {
 	
-	int BURNING = 0;
-	int TREE = 1;
+	private int BURNING = 0;
+	private int TREE = 1;
+	private Grid GRID;
 	
 	double PROBCATCH;
 	
@@ -49,24 +50,30 @@ public class FireRuleset implements Ruleset {
 	}
 
 	@Override
-	public Cell[] getNeighbors(Cell c, Grid g) {
+	public Cell[] getNeighbors(Cell c) {
 		ArrayList<Cell> neighbors = new ArrayList<Cell>();
 		NeighborManager nm = new NeighborManager();
-		neighbors.addAll(Arrays.asList(nm.NSEWCells(c ,g)));
-		neighbors.addAll(Arrays.asList(nm.diagonalCells(c ,g)));
+		neighbors.addAll(Arrays.asList(nm.NSEWCells(c ,GRID)));
+		neighbors.addAll(Arrays.asList(nm.diagonalCells(c ,GRID)));
 		Cell[] retNeighbors = neighbors.toArray(new Cell[neighbors.size()]);
 		return retNeighbors;
 	}
 
 	@Override
-	public void processCells(Grid g) {
-		for(int r = 0; r < g.getXSize(); r++) {
-			for(int c = 0; c < g.getYSize(); c++) {
-				Cell cell = g.getCell(r, c);
-				int newState = processCell(cell, getNeighbors(cell, g));
+	public void processCells() {
+		for(int r = 0; r < GRID.getXSize(); r++) {
+			for(int c = 0; c < GRID.getYSize(); c++) {
+				Cell cell = GRID.getCell(r, c);
+				int newState = processCell(cell, getNeighbors(cell));
 				cell.setState(newState);
 			}
 		}
+	}
+
+
+	@Override
+	public void setGrid(Grid g) {
+		GRID = g;
 	}
 
 }

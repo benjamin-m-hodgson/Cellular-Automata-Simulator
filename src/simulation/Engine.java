@@ -25,33 +25,33 @@ import simulation.screen.StartScreen;
  *
  */
 public class Engine {
-	
-    private final String DEFAULT_STYLESHEET = 
-    		Engine.class.getClassLoader().getResource("default.css").toExternalForm();
-    
-    private final String PROGRAM_TITLE;   
-    
-    private double GENERATIONS_PER_SECOND = 1;
-	private double MILLISECOND_DELAY = 1000 / GENERATIONS_PER_SECOND;
-    private double SECOND_DELAY = 1.0 / GENERATIONS_PER_SECOND;
-    
-    private Timeline PROGRAM_TIMELINE;
-    private Stage PROGRAM_STAGE;
-    private Scene PROGRAM_SCENE;
-    private String SIMULATION_TYPE;
-    private int GENERATION;
-    private boolean SIMULATING;
-    
-    private HashMap<String, Grid> GRIDS;
-    private HashMap<String, Ruleset> RULES;
 
-    // Give the program a title
+	private final String DEFAULT_STYLESHEET = 
+			Engine.class.getClassLoader().getResource("default.css").toExternalForm();
+
+	private final String PROGRAM_TITLE;   
+
+	private double GENERATIONS_PER_SECOND = 1;
+	private double MILLISECOND_DELAY = 1000 / GENERATIONS_PER_SECOND;
+	private double SECOND_DELAY = 1.0 / GENERATIONS_PER_SECOND;
+
+	private Timeline PROGRAM_TIMELINE;
+	private Stage PROGRAM_STAGE;
+	private Scene PROGRAM_SCENE;
+	private String SIMULATION_TYPE;
+	private int GENERATION;
+	private boolean SIMULATING;
+
+	private HashMap<String, Grid> GRIDS;
+	private HashMap<String, Ruleset> RULES;
+
+	// Give the program a title
 	public Engine(String programTitle) {
 		PROGRAM_TITLE = programTitle;
 		GRIDS = null;
 		RULES = null;
 	}
-	
+
 	/**
 	 * Initializes the animation time line and assigns instance variables
 	 * 
@@ -61,16 +61,16 @@ public class Engine {
 		PROGRAM_STAGE = primaryStage;
 		PROGRAM_STAGE.setTitle(PROGRAM_TITLE);
 		// attach "program loop" to time line to play it
-        KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
-                                      e -> step(SECOND_DELAY));
-        PROGRAM_TIMELINE = new Timeline();
-        PROGRAM_TIMELINE.setCycleCount(Timeline.INDEFINITE);
-        PROGRAM_TIMELINE.getKeyFrames().add(frame);
-        playAnimation();	
-        // attach a Scene to the primaryStage 
-        generateStartScene(width, height);
+		KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
+				e -> step(SECOND_DELAY));
+		PROGRAM_TIMELINE = new Timeline();
+		PROGRAM_TIMELINE.setCycleCount(Timeline.INDEFINITE);
+		PROGRAM_TIMELINE.getKeyFrames().add(frame);
+		playAnimation();	
+		// attach a Scene to the primaryStage 
+		generateStartScene(width, height);
 	}
-	
+
 	/**
 	 * 
 	 * @param type: The type of simulation to start
@@ -88,7 +88,7 @@ public class Engine {
 		PROGRAM_SCENE.setRoot(root);
 		playAnimation();
 	}
-	
+
 	/**
 	 * Performs one frame or step in the animation
 	 */
@@ -96,21 +96,21 @@ public class Engine {
 		pauseAnimation();
 		step(SECOND_DELAY);
 	}
-	
+
 	/**
 	 * Pauses the animation
 	 */
 	public void pauseAnimation() {
 		PROGRAM_TIMELINE.pause();
 	}
-	
+
 	/**
 	 * Starts the animation
 	 */
 	public void playAnimation() {
 		PROGRAM_TIMELINE.play();
 	}
-	
+
 	/**
 	 * Changes @param GENERATIONS_PER_SECOND to @param speed, which has the 
 	 * effect of visually changing the speed of the simulation animation.
@@ -123,12 +123,12 @@ public class Engine {
 		MILLISECOND_DELAY = 1000 / GENERATIONS_PER_SECOND;
 		SECOND_DELAY = 1.0 / GENERATIONS_PER_SECOND;
 		KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
-                e -> step(SECOND_DELAY));
+				e -> step(SECOND_DELAY));
 		PROGRAM_TIMELINE.stop();
 		PROGRAM_TIMELINE.getKeyFrames().setAll(frame);
-        playAnimation();
+		playAnimation();
 	}
-	
+
 	/**
 	 * Loops through the @param GRIDS HashMap to find all of the String types that
 	 * map to grid objects and then checks to ensure they have a corresponding rule
@@ -147,7 +147,7 @@ public class Engine {
 		ObservableList<String> retList = FXCollections.observableArrayList(typeList);
 		return retList;
 	}
-	
+
 	/**
 	 * 
 	 * @return PROGRAM_STAGE: the stage used by the application
@@ -155,7 +155,16 @@ public class Engine {
 	public Stage getProgramStage() {
 		return PROGRAM_STAGE;
 	}
-	
+
+	public void initialize(HashMap<String, Grid> grids, HashMap<String, Ruleset> rules) {
+		for (String key : rules.keySet()) {
+			Grid g = grids.get(key);
+			rules.get(key).setGrid(g);
+		}
+		RULES = rules;
+		GRIDS = grids;
+	}
+
 	/**
 	 * 
 	 * @return SIMULATION_TYPE: the current simulation being animated 
@@ -163,7 +172,7 @@ public class Engine {
 	public String getSimulationType() {
 		return SIMULATION_TYPE;
 	}
-	
+
 	/**
 	 * 
 	 * @return GENERATION: the current generation number in the simulation
@@ -171,21 +180,27 @@ public class Engine {
 	public int getGeneration() {
 		return GENERATION;
 	}
-	
+
 	/**
 	 * Sets grids
 	 */
 	public void setGrids(HashMap<String, Grid> grids) {
 		GRIDS = grids;
 	}
-	
+
 	/**
 	 * Sets rules
 	 */
 	public void setRules(HashMap<String, Ruleset> rules) {
+		for (String key : rules.keySet()) {
+			Grid g = getGrid(key);
+			rules.get(key).setGrid(g);
+		}
+
 		RULES = rules;
 	}
-	
+
+
 	/**
 	 * 
 	 * @param name: the key that maps to a Grid object in the map @param GRIDS.
@@ -206,7 +221,7 @@ public class Engine {
 		PROGRAM_SCENE.getStylesheets().add(DEFAULT_STYLESHEET);
 		PROGRAM_STAGE.setScene(PROGRAM_SCENE);
 	}
-	
+
 	/**
 	 * Stops and clears the current animation, resetting instance variables
 	 * to their default values.
@@ -218,21 +233,20 @@ public class Engine {
 		MILLISECOND_DELAY = 1000 / GENERATIONS_PER_SECOND;
 		SECOND_DELAY = 1.0 / GENERATIONS_PER_SECOND;
 		KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
-                e -> step(SECOND_DELAY));
+				e -> step(SECOND_DELAY));
 		PROGRAM_TIMELINE.stop();
 		PROGRAM_TIMELINE.getKeyFrames().setAll(frame);
 	}
-	
+
 	/**
 	 * Change properties of shapes to animate them 
 	 * 
 	 * @param elapsedTime: time since last animation update
 	 */
-    private void step (double elapsedTime) {   	
-    	// TO PROCESS CELLS: just call method processCells(Grid g), it should handle the rest
-    	if (SIMULATING) {
-    		RULES.get(SIMULATION_TYPE).processCells(getGrid(SIMULATION_TYPE));
-    		GENERATION++;
-    	}
-    }
+	private void step (double elapsedTime) {   	
+		if (SIMULATING) {
+			RULES.get(SIMULATION_TYPE).processCells();
+			GENERATION++;
+		}
+	}
 }

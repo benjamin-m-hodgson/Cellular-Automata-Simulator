@@ -42,7 +42,7 @@ public class GameOfLifeXMLData extends XMLData {
 		int p=0;
 		for(int r= 0; r < this.getXSize(); r++) {
 			for(int c = 0; c < this.getYSize(); c++) {
-				g.addCell(r, c, new FireCell(r, c, Integer.parseInt(ints[p])));
+				g.addCell(r, c, new GameOfLifeCell(r, c, Integer.parseInt(ints[p])));
 				p++;
 			}
 		}
