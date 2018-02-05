@@ -211,7 +211,6 @@ public class Engine {
 		Grid cloneGrid = null;
 		try {
 			cloneGrid = (Grid) GRIDS.get(name).clone();
-			// NEED TO COPY ARRAYS
 			return cloneGrid;
 		} catch (CloneNotSupportedException e) {
 			System.out.printf("Could not clone Grid object with key %s\n", name);

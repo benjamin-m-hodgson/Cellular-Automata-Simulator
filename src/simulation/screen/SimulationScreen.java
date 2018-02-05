@@ -355,7 +355,7 @@ public class SimulationScreen extends Screen {
 					+ "SimulationScreen class\n");
 		}
 		Cell[][] simulationCells = typeGrid.getCells();
-		System.out.println(simulationCells);
+		//System.out.println(simulationCells);
 		double numRow = simulationCells.length;
 		double numCol = simulationCells[0].length;
 		VBox cols = new VBox(1);

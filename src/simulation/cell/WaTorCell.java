@@ -81,7 +81,7 @@ public class WaTorCell extends Cell {
 			myShape.setFill(Color.POWDERBLUE);
 		}
 		else {
-			myShape.setFill(Color.rgb(105, 105, 105));
+			myShape.setFill(Color.DIMGRAY);
 		}
 	}	
 }
