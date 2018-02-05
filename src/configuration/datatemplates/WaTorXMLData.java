@@ -12,7 +12,6 @@ public class WaTorXMLData extends XMLData {
 	
 	private int FISH = 0;
 	private int SHARK = 1; 
-	private int VACANT = 2;
 	
 	private int FISHENERGY;
 	private int SHARKENERGY;
@@ -56,7 +55,6 @@ public class WaTorXMLData extends XMLData {
 		String[] ints = myDataValues.get(DATA_FIELDS.get(4)).split("\\W+");
 		int p=0;
 		for(int r= 0; r < this.getXSize(); r++) {
-		//	System.out.println("HERE");
 			for(int c = 0; c < this.getYSize(); c++) {
 				state = Integer.parseInt(ints[p]);
 				if(state == FISH) {
