@@ -8,7 +8,6 @@ import simulation.grid.Grid;
 
 public class WaTorRuleset implements Ruleset {
 
-
 	private int FISH = 0;
 	private int SHARK = 1; 
 	private int VACANT = 2;
@@ -45,7 +44,7 @@ public class WaTorRuleset implements Ruleset {
 			WaTorCell castNeighbor = (WaTorCell) neighbor;
 			if(neighbor.getState() == VACANT || neighbor.getState() == FISH 
 					&& !castNeighbor.getMoved()) {
-				freeNeighbors.add((WaTorCell) c);
+				freeNeighbors.add((WaTorCell) castNeighbor);
 			}
 		}
 		Cell[] retNeighbors = freeNeighbors.toArray(new Cell[freeNeighbors.size()]);
@@ -59,8 +58,8 @@ public class WaTorRuleset implements Ruleset {
 		neighbors.addAll(Arrays.asList(nm.NSEWCells(c ,GRID)));
 		for(Cell neighbor : neighbors) {
 			WaTorCell castNeighbor = (WaTorCell) neighbor;
-			if(neighbor.getState() == VACANT && !castNeighbor.getMoved()) {
-				freeNeighbors.add((WaTorCell) c);
+			if(castNeighbor.getState() == VACANT && !castNeighbor.getMoved()) {
+				freeNeighbors.add(castNeighbor);
 			}
 		}
 		Cell[] retNeighbors = freeNeighbors.toArray(new Cell[freeNeighbors.size()]);
@@ -114,13 +113,17 @@ public class WaTorRuleset implements Ruleset {
 		if(cell.getState() == VACANT) {
 			cell.setEnergy(shark.getEnergy());
 			cell.setState(SHARK);
+			cell.setMoved(true);
 			shark.setState(VACANT);
+			shark.setMoved(true);
 		}
 		else if(cell.getState() == FISH) {
 			shark.incrementEnergy();
 			cell.setEnergy(shark.getEnergy());
 			cell.setState(SHARK);
+			cell.setMoved(true);
 			shark.setState(VACANT);
+			shark.setMoved(true);
 		}
 	}
 
