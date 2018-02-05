@@ -55,11 +55,11 @@ public class WaTorCell extends Cell {
 		this.myState = VACANT;
 	}
 	
-	public void setMoved(boolean b) {
+	public void setMove(boolean b) {
 		this.MOVED = b;
 	}
 	
-	public boolean getMoved() {
+	public boolean getMove() {
 		return this.MOVED;
 	}
 
