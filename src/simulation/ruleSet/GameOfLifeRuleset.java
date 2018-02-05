@@ -9,9 +9,10 @@ public class GameOfLifeRuleset implements Ruleset {
 	private int MAXLIFE;
 	private int MINLIFE;
 	private int BIRTH;
+	private Grid GRID;
 
-	private static final int LIVE = 1;
-	private static final int DEAD = 0;
+	private static final int LIVE = 0;
+	private static final int DEAD = 1;
 
 	public GameOfLifeRuleset(int minLife, int maxLife, int birth) {
 		this.MINLIFE = minLife;
@@ -31,7 +32,7 @@ public class GameOfLifeRuleset implements Ruleset {
 	public int processCell(Cell c, Cell[] neighbors) {
 		int liveCount = neighborCount(neighbors);
 		if(c.getState() == LIVE) {
-			if(liveCount >= this.MINLIFE || liveCount <= this.MAXLIFE) return LIVE;
+			if(liveCount > this.MINLIFE || liveCount < this.MAXLIFE) return LIVE;
 			else return DEAD;
 		}
 		else {
@@ -52,23 +53,29 @@ public class GameOfLifeRuleset implements Ruleset {
 	}
 
 	@Override
-	public Cell[] getNeighbors(Cell c, Grid g) {
+	public Cell[] getNeighbors(Cell c) {
 		ArrayList<Cell> neighbors = new ArrayList<Cell>();
 		NeighborManager nm = new NeighborManager();
-		neighbors.addAll(Arrays.asList(nm.NSEWCells(c ,g)));
-
-		return (Cell[]) neighbors.toArray();
+		neighbors.addAll(Arrays.asList(nm.NSEWCells(c ,GRID)));
+		Cell[] retNeighbors = neighbors.toArray(new Cell[neighbors.size()]);
+		return retNeighbors;
 	}
-
+	
 	@Override
-	public void processCells(Grid g) {
-		for(int r = 0; r < g.getXSize(); r++) {
-			for(int c = 0; c < g.getYSize(); r++) {
-				Cell cell = g.getCell(r, c);
-				int newState = processCell(cell, getNeighbors(cell, g));
+	public void processCells() {
+		for(int r = 0; r < GRID.getXSize(); r++) {
+			for(int c = 0; c < GRID.getYSize(); c++) {
+				Cell cell = GRID.getCell(r, c);
+				int newState = processCell(cell, getNeighbors(cell));
 				cell.setState(newState);
 			}
 		}
+	}
+
+	@Override
+	public void setGrid(Grid g) {
+		GRID = g;
+		
 	}
 	
 }

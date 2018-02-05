@@ -121,7 +121,4 @@ public class NeighborManager {
 		Cell[] retNeighbors = neighbors.toArray(new Cell[neighbors.size()]);
 		return retNeighbors;
 	}
-
-
-
 }
