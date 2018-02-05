@@ -210,8 +210,8 @@ public class Engine {
 		Grid cloneGrid = null;
 		try {
 			cloneGrid = (Grid) GRIDS.get(name).clone();
-			System.out.println(cloneGrid.getCells()[0]);
-			System.out.println(GRIDS.get(name).getCells()[0]);
+			System.out.println(cloneGrid.getCells()[0][0].getShape());
+			System.out.println(GRIDS.get(name).getCells()[0][0].getShape());
 			// NEED TO COPY ARRAYS
 			return cloneGrid;
 		} catch (CloneNotSupportedException e) {

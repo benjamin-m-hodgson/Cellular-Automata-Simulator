@@ -60,6 +60,7 @@ public abstract class Grid implements Cloneable{
 		copyGrid.myCells = this.myCells.clone();
 		for (int i = 0; i < copyGrid.myCells.length
 				&& i < this.myCells.length; i++) {
+			copyGrid.myCells[i] = this.myCells[i].clone();			
 			for (int j = 0; j < copyGrid.myCells[0].length 
 					&& j < this.myCells[0].length; j++) {
 				copyGrid.myCells[i][j] = this.myCells[i][j].clone();
