@@ -21,9 +21,6 @@ public abstract class Grid implements Cloneable{
 		myCells[x][y].setState(state);
 	}
 	
-	public void getInitialState() {
-		
-	}
 	
 	public Cell getCell(int x, int y) {
 		return myCells[x][y];

@@ -1,100 +1,42 @@
 package simulation.ruleSet;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
-
+import neighbormanager.SegregationNeighborManager;
 import simulation.cell.*;
 import simulation.grid.Grid;
 
+/**
+ * RULES: 
+ * Satisfied Cell: % neighbors satisfied < tolerance -> Dissatisfied
+ * Dissatisfied Cell: moves to random vacant spot
+ * 
+ *  @param Cell c: cell whose state is being evaluated
+ *  @param Cell[] neighbors: neighbors of c
+ *  @author Katherine Van Dyk
+ *  @author Ben Hodgson
+ */
 public class SegregationRuleset implements Ruleset {
 
 	private int GROUP1 = 0;
 	private int GROUP2 = 1;
 	private int VACANT = 2;
+	private double TOLERANCE;
 	private Grid GRID;
-
-	double TOLERANCE;
+	private SegregationNeighborManager NEIGHBOR_MANAGER = new SegregationNeighborManager();
 
 	/**
-	 * RULES: 
-	 * Satisfied Cell: % neighbors satisfied < tolerance -> Dissatisfied
-	 * Dissatisfied Cell: 
+	 * Constructor that sets simulation parameters
 	 * 
-	 *  @param Cell c: cell whose state is being evaluated
-	 *  @param Cell[] neighbors: neighbors of c
+	 * @param tolerance
 	 */
 	public SegregationRuleset(double tolerance) {
 		this.TOLERANCE = tolerance;
 	}
 
-	private void moveCell(SegregationCell cell) {
-		SegregationCell newCell = findVacantCell();
-		cell = (SegregationCell) cell;
-		if(newCell == null) return;
-		newCell.setState(cell.getState());
-		newCell.setMove(true);
-		cell.setState(VACANT);
-		cell.setMove(true);
-	}
-
-	private SegregationCell findVacantCell() {
-		ArrayList<SegregationCell> vacant = new ArrayList<SegregationCell>();
-		for(int r = 0; r < GRID.getXSize(); r++) {
-			for(int c = 0; c < GRID.getYSize(); c++) {
-				SegregationCell cell = (SegregationCell) GRID.getCell(r, c);
-				if(!cell.getMove() && cell.getState() == VACANT) {
-					vacant.add(cell);
-				}
-			}
-		}
-		if(vacant.size() > 0) {
-			Random rand = new Random();
-			return vacant.get(rand.nextInt(vacant.size()));
-		}
-		return null;
-	}
-
-
-	/**
-	 * Returns number of cells in group 1
-	 */
 	
-	public int neighborCount(Cell[] neighbors, Cell c) {
-		int count = 0;
-		int cellState = c.getState();
-		int oppositeState;
-		if(cellState == GROUP1) oppositeState = GROUP2;
-		else oppositeState = GROUP1;
-		for(Cell neighbor : neighbors) {
-			if(neighbor.getState() == oppositeState) count++;
-		}
-		return count;
-	}
-
-	private double getSatisfaction(Cell c, Cell[] neighbors) {
-		Double sat = (double) neighborCount(neighbors, c) / neighbors.length;
-		return sat;
-	}
-
-	@Override
-	public Cell[] getNeighbors(Cell c) {
-		ArrayList<Cell> neighbors = new ArrayList<Cell>();
-		NeighborManager nm = new NeighborManager();
-		neighbors.addAll(Arrays.asList(nm.NSEWCells(c ,GRID)));
-		neighbors.addAll(Arrays.asList(nm.diagonalCells(c ,GRID)));
-		Cell[] retNeighbors = neighbors.toArray(new Cell[neighbors.size()]);
-		return retNeighbors;
-	}
-
 	@Override
 	public void processCells() {
-		for(int r = 0; r < GRID.getXSize(); r++) {
-			for(int c = 0; c < GRID.getYSize(); c++) {
-				SegregationCell cell = (SegregationCell) GRID.getCell(r, c);
-				if(cell.getState() == VACANT) {
-					cell.setState(cell.getState());
-				}
-				else if(getSatisfaction(cell, getNeighbors(cell)) < TOLERANCE) {
+		for(SegregationCell row[] : (SegregationCell[][]) GRID.getCells()) {
+			for(SegregationCell cell : row) {
+				if(NEIGHBOR_MANAGER.getNeighborSatisfaction(cell, GRID) < TOLERANCE) {
 					moveCell(cell);
 				}
 				else {
@@ -102,15 +44,35 @@ public class SegregationRuleset implements Ruleset {
 				}
 			}
 		}
+		
 		cleanMove();
 	}
 
 	@Override
 	public void setGrid(Grid g) {
 		GRID = g;
-		
 	}
 	
+	
+	/**
+	 * Moves cell to vacant spot
+	 * 
+	 * @param cell
+	 */
+	private void moveCell(SegregationCell cell) {
+		SegregationCell newCell = NEIGHBOR_MANAGER.findVacantCell(GRID);
+		if(newCell == null) return;
+		else{
+			newCell.setState(cell.getState());
+			newCell.setMove(true);
+			cell.setState(VACANT);
+			cell.setMove(true);
+		}
+	}
+
+	/**
+	 * Changes all setMoves() to false (so that cells don't overwrite each other)
+	 */
 	private void cleanMove() {
 		for(int r = 0; r < GRID.getXSize(); r++) {
 			for(int c = 0; c < GRID.getYSize(); c++) {
