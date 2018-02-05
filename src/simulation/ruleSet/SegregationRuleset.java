@@ -1,6 +1,7 @@
 package simulation.ruleSet;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
 
 import simulation.cell.*;
 import simulation.grid.Grid;
@@ -26,21 +27,27 @@ public class SegregationRuleset implements Ruleset {
 		this.TOLERANCE = tolerance;
 	}
 
-	private void moveCell(Cell c) {
+	private void moveCell(Cell cell) {
 		SegregationCell newCell = findVacantCell();
-		newCell.setState(c.getState());
+		if(newCell == null) return;
+		newCell.setState(cell.getState());
 		newCell.setMove(true);
-		c.setState(VACANT);
+		cell.setState(VACANT);
 	}
 
 	private SegregationCell findVacantCell() {
+		ArrayList<SegregationCell> vacant = new ArrayList<SegregationCell>();
 		for(int r = 0; r < GRID.getXSize(); r++) {
-			for(int c = 0; c < GRID.getYSize(); r++) {
+			for(int c = 0; c < GRID.getYSize(); c++) {
 				SegregationCell cell = (SegregationCell) GRID.getCell(r, c);
 				if(!cell.getMove() && cell.getState() == VACANT) {
-					return cell;
+					vacant.add(cell);
 				}
 			}
+		}
+		if(vacant.size() > 0) {
+			Random rand = new Random();
+			return vacant.get(rand.nextInt(vacant.size()));
 		}
 		return null;
 	}
@@ -56,8 +63,7 @@ public class SegregationRuleset implements Ruleset {
 		int oppositeState;
 		if(cellState == GROUP1) oppositeState = GROUP2;
 		else oppositeState = GROUP1;
-		SegregationCell[] sNeighbors = (SegregationCell[]) neighbors;
-		for(SegregationCell neighbor : sNeighbors) {
+		for(Cell neighbor : neighbors) {
 			if(neighbor.getState() == oppositeState) count++;
 		}
 		return count;
@@ -73,8 +79,8 @@ public class SegregationRuleset implements Ruleset {
 		NeighborManager nm = new NeighborManager();
 		neighbors.addAll(Arrays.asList(nm.NSEWCells(c ,GRID)));
 		neighbors.addAll(Arrays.asList(nm.diagonalCells(c ,GRID)));
-
-		return (Cell[]) neighbors.toArray();
+		Cell[] retNeighbors = neighbors.toArray(new Cell[neighbors.size()]);
+		return retNeighbors;
 	}
 
 	@Override
@@ -100,8 +106,8 @@ public class SegregationRuleset implements Ruleset {
 	private void cleanMove() {
 		for(int r = 0; r < GRID.getXSize(); r++) {
 			for(int c = 0; c < GRID.getYSize(); c++) {
-				WaTorCell cell = (WaTorCell) GRID.getCell(r,c);
-				cell.setMoved(false);
+				SegregationCell cell = (SegregationCell) GRID.getCell(r,c);
+				cell.setMove(false);
 			}
 		}
 	}

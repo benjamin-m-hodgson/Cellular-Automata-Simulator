@@ -3,7 +3,7 @@ package configuration.datatemplates;
 import java.util.Arrays;
 import java.util.List;
 
-import simulation.cell.FireCell;
+import simulation.cell.*;
 import simulation.grid.Grid;
 import simulation.grid.StandardGrid;
 import simulation.ruleSet.*;
@@ -41,7 +41,7 @@ public class SegregationXMLData extends XMLData {
 		int p=0;
 		for(int r= 0; r < this.getXSize(); r++) {
 			for(int c = 0; c < this.getYSize(); c++) {
-				g.addCell(r, c, new FireCell(r, c, Integer.parseInt(ints[p])));
+				g.addCell(r, c, new SegregationCell(r, c, Integer.parseInt(ints[p])));
 				p++;
 			}
 		}
