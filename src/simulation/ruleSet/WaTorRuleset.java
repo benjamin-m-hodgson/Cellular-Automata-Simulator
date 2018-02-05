@@ -37,29 +37,34 @@ public class WaTorRuleset implements Ruleset {
 
 	@Override
 	public Cell[] getNeighbors(Cell c) {
-		ArrayList<WaTorCell> neighbors = new ArrayList<WaTorCell>();
-		ArrayList<WaTorCell> freeNeighbors = new ArrayList<WaTorCell>();
+		ArrayList<Cell> neighbors = new ArrayList<Cell>();
+		ArrayList<Cell> freeNeighbors = new ArrayList<Cell>();
 		NeighborManager nm = new NeighborManager();
-		WaTorCell[] cells = (WaTorCell[]) nm.NSEWCells(c ,GRID);
-		neighbors.addAll(Arrays.asList(cells));
-		for(WaTorCell neighbor : neighbors) {
-			if(neighbor.getState() == VACANT || neighbor.getState() == FISH && !neighbor.getMoved()) {
+		neighbors.addAll(Arrays.asList(nm.NSEWCells(c ,GRID)));
+		for(Cell neighbor : neighbors) {
+			WaTorCell castNeighbor = (WaTorCell) neighbor;
+			if(neighbor.getState() == VACANT || neighbor.getState() == FISH 
+					&& !castNeighbor.getMoved()) {
 				freeNeighbors.add((WaTorCell) c);
 			}
 		}
-		return (Cell[]) freeNeighbors.toArray();
+		Cell[] retNeighbors = freeNeighbors.toArray(new Cell[freeNeighbors.size()]);
+		return retNeighbors;
 	}
 
 	public Cell[] getVacantNeighbors(Cell c) {
-		ArrayList<WaTorCell> neighbors = new ArrayList<WaTorCell>();
-		ArrayList<WaTorCell> freeNeighbors = new ArrayList<WaTorCell>();
+		ArrayList<Cell> neighbors = new ArrayList<Cell>();
+		ArrayList<Cell> freeNeighbors = new ArrayList<Cell>();
 		NeighborManager nm = new NeighborManager();
-		WaTorCell[] cells = (WaTorCell[]) nm.NSEWCells(c ,GRID);
-		neighbors.addAll(Arrays.asList(cells));
-		for(WaTorCell neighbor : neighbors) {
-			if(neighbor.getState() == VACANT && !neighbor.getMoved()) freeNeighbors.add((WaTorCell) c);
+		neighbors.addAll(Arrays.asList(nm.NSEWCells(c ,GRID)));
+		for(Cell neighbor : neighbors) {
+			WaTorCell castNeighbor = (WaTorCell) neighbor;
+			if(neighbor.getState() == VACANT && !castNeighbor.getMoved()) {
+				freeNeighbors.add((WaTorCell) c);
+			}
 		}
-		return (Cell[]) freeNeighbors.toArray();
+		Cell[] retNeighbors = freeNeighbors.toArray(new Cell[freeNeighbors.size()]);
+		return retNeighbors;
 	}
 
 	@Override
@@ -85,12 +90,12 @@ public class WaTorRuleset implements Ruleset {
 
 	private void moveFish(WaTorCell fish) {
 		Random rand = new Random();
-		WaTorCell[] freeNeighbors =  (WaTorCell[]) getVacantNeighbors(fish);
+		Cell[] freeNeighbors =  getVacantNeighbors(fish);
 		if(freeNeighbors.length == 0) {
 			return;
 		}
 
-		WaTorCell cell = freeNeighbors[rand.nextInt(freeNeighbors.length)];
+		WaTorCell cell = (WaTorCell) freeNeighbors[rand.nextInt(freeNeighbors.length)];
 		cell.setBreedingTime(fish.getEnergy());
 		cell.setState(FISH);
 		cell.setMoved(true);
@@ -100,11 +105,11 @@ public class WaTorRuleset implements Ruleset {
 
 	private void moveShark(WaTorCell shark) {
 		Random rand = new Random();
-		WaTorCell[] freeNeighbors =  (WaTorCell[]) getNeighbors(shark);
+		Cell[] freeNeighbors =  getNeighbors(shark);
 		if(freeNeighbors.length == 0) {
 			return;
 		}
-		WaTorCell cell = freeNeighbors[rand.nextInt(freeNeighbors.length)];
+		WaTorCell cell = (WaTorCell) freeNeighbors[rand.nextInt(freeNeighbors.length)];
 
 		if(cell.getState() == VACANT) {
 			cell.setEnergy(shark.getEnergy());

@@ -65,7 +65,7 @@ public class WaTorXMLData extends XMLData {
 				else if(state == SHARK) {
 					g.addCell(r, c, new WaTorCell(r, c, state, SHARKENERGY));
 				}
-				else {
+				else if(state == VACANT){
 					g.addCell(r, c, new WaTorCell(r, c, state, NOENERGY));
 				}
 				p++;

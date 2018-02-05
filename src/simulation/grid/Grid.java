@@ -1,9 +1,8 @@
 package simulation.grid;
 
-import java.util.*;
 import simulation.cell.Cell;
 
-public abstract class Grid {
+public abstract class Grid implements Cloneable{
 	protected Cell[][] myCells;
 	protected int myX;
 	protected int myY;
@@ -48,5 +47,24 @@ public abstract class Grid {
 	
 	public void updateGrid() {
 		
+	}
+	
+	/**
+	 * Returns a copy of this object using the Cloneable interface 
+	 * and a deep-copy implementation
+	 */
+	public Grid clone() throws CloneNotSupportedException {
+		Grid copyGrid = (Grid) super.clone();
+		copyGrid.myX = this.myX;
+		copyGrid.myY = this.myY;
+		copyGrid.myCells = this.myCells.clone();
+		for (int i = 0; i < copyGrid.myCells.length
+				&& i < this.myCells.length; i++) {
+			for (int j = 0; j < copyGrid.myCells[0].length 
+					&& j < this.myCells[0].length; j++) {
+				copyGrid.myCells[i][j] = this.myCells[i][j].clone();
+			}
+		}
+		return copyGrid;
 	}
 }

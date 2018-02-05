@@ -207,7 +207,17 @@ public class Engine {
 	 * @return the Grid object @param name maps to. 
 	 */
 	public Grid getGrid(String name) {
-		return GRIDS.get(name);
+		Grid cloneGrid = null;
+		try {
+			cloneGrid = (Grid) GRIDS.get(name).clone();
+			System.out.println(cloneGrid.getCells()[0]);
+			System.out.println(GRIDS.get(name).getCells()[0]);
+			// NEED TO COPY ARRAYS
+			return cloneGrid;
+		} catch (CloneNotSupportedException e) {
+			System.out.printf("Could not clone Grid object with key %s\n", name);
+		}
+		return cloneGrid;
 	}
 
 	/**

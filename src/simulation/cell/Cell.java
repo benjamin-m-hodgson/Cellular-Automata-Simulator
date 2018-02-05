@@ -2,7 +2,7 @@ package simulation.cell;
 
 import javafx.scene.shape.Shape;
 
-public abstract class Cell {
+public abstract class Cell implements Cloneable{
 	protected int myState;
 	protected int myPreviousState;
 	protected int myXPos;
@@ -40,6 +40,17 @@ public abstract class Cell {
 			drawShape();
 		}
 		return myShape;
+	}
+	
+	/**
+	 * Returns a copy of this object using the Cloneable interface
+	 */
+	public Cell clone() throws CloneNotSupportedException {
+		Cell copyCell = (Cell) super.clone();
+		copyCell.myXPos = this.myXPos;
+		copyCell.myYPos = this.myYPos;
+		copyCell.myState = this.myState;
+		return copyCell;
 	}
 	
 	/**

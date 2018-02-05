@@ -1,12 +1,16 @@
 package simulation.cell;
 
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+
 public class WaTorCell extends Cell {
 	
 	private boolean MOVED;
 	private int ENERGY;
 	private int ENERGY_HOLDER;
 	private int BREEDINGTIME;
-	
+	private int FISH = 0;
+	private int SHARK = 1; 
 	private int VACANT = 2;
 
 	public WaTorCell(int x, int y, int state, int initEnergy) {
@@ -62,13 +66,19 @@ public class WaTorCell extends Cell {
 
 	@Override
 	public void drawShape() {
-		// TODO Auto-generated method stub
-		
+		Rectangle watBlock = new Rectangle();
+		myShape = watBlock;
 	}
 
 	@Override
 	public void setState(int state) {
-		// TODO Auto-generated method stub
-		
+		myPreviousState = myState;
+		myState = state;
+		if (myState == SHARK) {
+			myShape.setFill(Color.DEEPSKYBLUE);
+		}
+		if (myState == FISH) {
+			myShape.setFill(Color.POWDERBLUE);
+		}
 	}	
 }
