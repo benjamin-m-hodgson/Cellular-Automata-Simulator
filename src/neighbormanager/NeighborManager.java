@@ -1,9 +1,10 @@
-package simulation.cell;
+package neighbormanager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import simulation.grid.Grid;
+import simulation.grid.*;
+import simulation.cell.*;
 
 public class NeighborManager {
 	
