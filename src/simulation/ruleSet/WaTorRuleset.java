@@ -72,14 +72,14 @@ public class WaTorRuleset implements Ruleset {
 			for(int c = 0; c < GRID.getYSize(); c++) {
 				WaTorCell cell = (WaTorCell) GRID.getCell(r, c);
 				if(cell.getState() == FISH) {
-					moveFish(cell);
 					cell.incrementBreedingTime();
 					checkBreedingTime(cell);
+					moveFish(cell);
 				}
 				else if(cell.getState() == SHARK) {
-					moveShark(cell);
 					cell.decrementEnergy();
 					checkEnergy(cell);
+					moveShark(cell);
 				}
 			}
 		}
@@ -91,6 +91,7 @@ public class WaTorRuleset implements Ruleset {
 		Random rand = new Random();
 		Cell[] freeNeighbors =  getVacantNeighbors(fish);
 		if(freeNeighbors.length == 0) {
+			fish.setState(fish.getState());
 			return;
 		}
 
@@ -106,6 +107,7 @@ public class WaTorRuleset implements Ruleset {
 		Random rand = new Random();
 		Cell[] freeNeighbors =  getNeighbors(shark);
 		if(freeNeighbors.length == 0) {
+			shark.setState(shark.getState());
 			return;
 		}
 		WaTorCell cell = (WaTorCell) freeNeighbors[rand.nextInt(freeNeighbors.length)];
@@ -125,13 +127,14 @@ public class WaTorRuleset implements Ruleset {
 			shark.setState(VACANT);
 			shark.setMoved(true);
 		}
+		
 	}
 
 	private void checkEnergy(WaTorCell shark) {
 		if(shark.getEnergy() > SHARK_BREEDENERGY) {
 			giveBirth(shark);
 		}
-		else if(shark.getEnergy() == 0) {
+		else if(shark.getEnergy() <= 0) {
 			shark.kill();
 		}
 	}

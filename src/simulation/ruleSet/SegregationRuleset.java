@@ -27,12 +27,14 @@ public class SegregationRuleset implements Ruleset {
 		this.TOLERANCE = tolerance;
 	}
 
-	private void moveCell(Cell cell) {
+	private void moveCell(SegregationCell cell) {
 		SegregationCell newCell = findVacantCell();
+		cell = (SegregationCell) cell;
 		if(newCell == null) return;
 		newCell.setState(cell.getState());
 		newCell.setMove(true);
 		cell.setState(VACANT);
+		cell.setMove(true);
 	}
 
 	private SegregationCell findVacantCell() {
@@ -70,7 +72,8 @@ public class SegregationRuleset implements Ruleset {
 	}
 
 	private double getSatisfaction(Cell c, Cell[] neighbors) {
-		return neighborCount(neighbors, c) / neighbors.length;
+		Double sat = (double) neighborCount(neighbors, c) / neighbors.length;
+		return sat;
 	}
 
 	@Override
@@ -87,10 +90,15 @@ public class SegregationRuleset implements Ruleset {
 	public void processCells() {
 		for(int r = 0; r < GRID.getXSize(); r++) {
 			for(int c = 0; c < GRID.getYSize(); c++) {
-				Cell cell = GRID.getCell(r, c);
-				if(cell.getState() == VACANT) continue;
+				SegregationCell cell = (SegregationCell) GRID.getCell(r, c);
+				if(cell.getState() == VACANT) {
+					cell.setState(cell.getState());
+				}
 				else if(getSatisfaction(cell, getNeighbors(cell)) < TOLERANCE) {
 					moveCell(cell);
+				}
+				else {
+					cell.setState(cell.getState());
 				}
 			}
 		}

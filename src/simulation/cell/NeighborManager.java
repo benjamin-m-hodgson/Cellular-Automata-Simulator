@@ -30,6 +30,7 @@ public class NeighborManager {
 			neighbors.add(g.getCell(x, y + 1));
 		}
 		if(y - 1 >= 0) {
+			System.out.println("HERE");
 			neighbors.add(g.getCell(x, y - 1));
 		}
 		Cell[] retNeighbors = neighbors.toArray(new Cell[neighbors.size()]);
