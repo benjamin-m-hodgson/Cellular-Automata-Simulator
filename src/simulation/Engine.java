@@ -211,6 +211,11 @@ public class Engine {
 		Grid cloneGrid = null;
 		try {
 			cloneGrid = (Grid) GRIDS.get(name).clone();
+<<<<<<< HEAD
+			System.out.println(cloneGrid.getCells()[0][0].getShape());
+			System.out.println(GRIDS.get(name).getCells()[0][0].getShape());
+=======
+>>>>>>> 1f75fdbf34d97e56b300588b7e73ff333fb904d4
 			// NEED TO COPY ARRAYS
 			return cloneGrid;
 		} catch (CloneNotSupportedException e) {

@@ -1,18 +1,19 @@
 package simulation.cell;
 
-import javafx.scene.shape.Shape;
+import javafx.scene.shape.Rectangle;
 
 public abstract class Cell implements Cloneable{
 	protected int myState;
 	protected int myPreviousState;
 	protected int myXPos;
 	protected int myYPos;
-	protected Shape myShape;
+	protected Rectangle myShape;
 	
 	public Cell(int x, int y, int state) {
 		myState = state;
 		myXPos = x;
 		myYPos = y;
+		drawShape();
 	}
 	
 	public int getX() {
@@ -35,7 +36,7 @@ public abstract class Cell implements Cloneable{
 	 * 
 	 * @return myShape: the Shape object that visually represents this Cell
 	 */
-	public Shape getShape() {
+	public Rectangle getShape() {
 		if (myShape == null) {
 			drawShape();
 		}
@@ -50,6 +51,7 @@ public abstract class Cell implements Cloneable{
 		copyCell.myXPos = this.myXPos;
 		copyCell.myYPos = this.myYPos;
 		copyCell.myState = this.myState;
+		copyCell.myShape.setFill(this.myShape.getFill());
 		return copyCell;
 	}
 	

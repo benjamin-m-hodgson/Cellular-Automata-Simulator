@@ -363,7 +363,7 @@ public class SimulationScreen extends Screen {
 			HBox row = new HBox(1);
 			for (int j = 0; j < numCol; j++) {
 				Cell thisCell = simulationCells[i][j];
-				Rectangle cellShape = (Rectangle) thisCell.getShape();
+				Rectangle cellShape = thisCell.getShape();
 				cellShape.setId("defaultCell");
 				// set cell size to match window size	
 				cellShape.setWidth(540.0/numCol);
