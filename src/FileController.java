@@ -9,7 +9,7 @@ import simulation.ruleSet.*;
 /**
  * Parses all files and holds grid/ruleset data in respective objects
  * 
- * @author Katherine Van DYk
+ * @author Katherine Van Dyk
  *
  */
 public class FileController {

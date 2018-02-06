@@ -2,6 +2,12 @@ package simulation.cell;
 
 import javafx.scene.shape.Rectangle;
 
+/**
+ * Cell object to be placed in grid 
+ * 
+ * @author Katherine Van Dyk
+ *
+ */
 public abstract class Cell implements Cloneable{
 	protected int myState;
 	protected int myPreviousState;
@@ -10,6 +16,13 @@ public abstract class Cell implements Cloneable{
 	protected int myYPos;
 	protected Rectangle myShape;
 	
+	/**
+	 * Constructor for cell object
+	 * 
+	 * @param x: x position in grid
+	 * @param y: y position in grid
+	 * @param state: current state
+	 */
 	public Cell(int x, int y, int state) {
 		myState = state;
 		myXPos = x;
@@ -18,22 +31,51 @@ public abstract class Cell implements Cloneable{
 		colorCell(myState);
 	}
 	
+	/**
+	 * Returns x position on grid
+	 * 
+	 * @return int of array position
+	 */
 	public int getX() {
 		return this.myXPos;
 	}
 	
+	/**
+	 * Sets x position on grid
+	 * 
+	 * @param int of array position
+	 */
+	public void setX(int x) {
+		this.myXPos = x;
+	}
+	
+	/**
+	 * Returns y position on grid
+	 * 
+	 * @param int of array position
+	 */
 	public int getY() {
 		return this.myYPos;
 	}
 	
+	/**
+	 * Sets y position on grid
+	 * 
+	 * @param int of array position
+	 */
+	public void setY(int y) {
+		this.myYPos = y;
+	}
+	
+	/**
+	 * Gets state of cell object
+	 * 
+	 * @return int representing current state
+	 */
 	public int getState() {
 		return myState;
 	}
-	
-	public int getPreviousState() {
-		return myPreviousState;
-	}
-	
+
 	/**
 	 * Makes the next state the current state
 	 */
@@ -43,6 +85,7 @@ public abstract class Cell implements Cloneable{
 	}
 	
 	/**
+	 * Returns display object of cell
 	 * 
 	 * @return myShape: the Shape object that visually represents this Cell
 	 */

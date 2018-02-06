@@ -6,14 +6,20 @@ import java.util.Arrays;
 import simulation.grid.*;
 import simulation.cell.*;
 
+/**
+ * Gets neighbors in certain positions/configurations
+ * 
+ * @author Katherine Van Dyk
+ *
+ */
 public class NeighborManager {
 	
 	/**
-	 * Returns all neighbors of cells in bounds
+	 * Returns neighbors in t formation
 	 * 
-	 * @param c
-	 * @param g
-	 * @return
+	 * @param c: cell object being looked at
+	 * @param g: current grid state
+	 * @return Neighbors north, south, east and west (if in bounds)
 	 */
 	public Cell[] NSEWCells(Cell c, Grid g) {
 		int x = c.getX();
@@ -38,11 +44,11 @@ public class NeighborManager {
 	}
 
 	/**
-	 * Returns all neighbors of cells in bounds
+	 * Returns neighbors in x formation
 	 * 
-	 * @param c
-	 * @param g
-	 * @return
+	 * @param c: cell object being looked at
+	 * @param g: current grid state
+	 * @return Neighbors diagonally (if in bounds)
 	 */
 	public Cell[] diagonalCells(Cell c, Grid g) {
 		int x = c.getX();
@@ -68,11 +74,11 @@ public class NeighborManager {
 	
 	
 	/**
-	 * Returns all neighbors of cells based on wrapping
+	 * Returns N, S, E and W neighbors of cells based on wrapping
 	 * 
-	 * @param c
-	 * @param g
-	 * @return
+	 * @param c: cell object being looked at
+	 * @param g: current grid state
+	 * @return Neighbors north, south, east and west (if wrappable)
 	 */
 	private Cell[] wrapNSEWCells(Cell c, Grid g) {
 		int x = c.getX();
@@ -96,11 +102,11 @@ public class NeighborManager {
 	}
 	
 	/**
-	 * Returns all neighbors of cells based on wrapping
+	 * Returns diagonal neighbors of cells based on wrapping
 	 * 
-	 * @param c
-	 * @param g
-	 * @return
+	 * @param c: cell object being looked at
+	 * @param g: current grid state
+	 * @return Diagonal neighbors if wrappable
 	 */
 	private Cell[] wrapDiagonalCells(Cell c, Grid g) {
 		int x = c.getX();

@@ -6,6 +6,12 @@ import java.util.Map;
 import simulation.grid.Grid;
 import simulation.ruleSet.Ruleset;
 
+/**
+ * Abstract class for XML data
+ * 
+ * @author Katherine Van Dyk
+ *
+ */
 public abstract class XMLData {
 
 	public static final String DATA_TYPE = "simulation";
@@ -27,38 +33,70 @@ public abstract class XMLData {
 		myDataValues = null;
 	}
 	
+	/**
+	 * Sets map from returned from parser
+	 * 
+	 * @param dataValues
+	 */
 	public void setMap(Map<String, String> dataValues) {
 		myDataValues = dataValues;
 	}
 	
+	/**
+	 * Returns type attribute of simulation
+	 * 
+	 * @return String representing type
+	 */
 	public String getType() {
 		return myDataValues.get(DATA_FIELDS.get(0)); 
 	}
 
 	/**
+	 * Returns name of simulation
 	 * Source: https://stackoverflow.com/questions/2608665/how-can-i-trim-beginning-and-ending-double-quotes-from-a-string
-	 * @return
+	 * 
+	 * @return String representing unique name of simulation
 	 */
 	public String getName() {
 		return myDataValues.get(DATA_FIELDS.get(1)).replaceAll("^\"|\"$", "");
 	}
 	
+	/**
+	 * 
+	 * @return X size of Grid
+	 */
 	public int getXSize() {
 		return Integer.parseInt(myDataValues.get(DATA_FIELDS.get(2))); 
 	}
 
+	/**
+	 * 
+	 * @return Y size of grid
+	 */
 	public int getYSize() {
 		return Integer.parseInt(myDataValues.get(DATA_FIELDS.get(3))); 
 	}
 	
+	/**
+	 * 
+	 * @return Grid object (used in subclasses)
+	 */
 	public Grid getGrid() {
 		return null;
 	}
 
+	/**
+	 * 
+	 * @return Ruleset object (used in subclasses)
+	 */
 	public Ruleset getRules() {
 		return null;
 	}
 	
+	/**
+	 * 
+	 * @return Gets list of all datafields in XML file
+	 */
 	public List<String> getDataField() {
 		return DATA_FIELDS;
 	}

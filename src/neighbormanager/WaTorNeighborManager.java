@@ -5,6 +5,12 @@ import java.util.Random;
 import simulation.cell.*;
 import simulation.grid.*;
 
+/**
+ * Manages neighbors of current WaTor Grid
+ * 
+ * @author Katherine Van Dyk
+ *
+ */
 public class WaTorNeighborManager extends NeighborManager {
 
 	private int FISH = 0;
@@ -50,7 +56,11 @@ public class WaTorNeighborManager extends NeighborManager {
 		}
 		
 		WaTorCell[] cells =  freeNeighbors.toArray(new WaTorCell[freeNeighbors.size()]);
-		return cells[rand.nextInt(cells.length)];
+		if(cells.length == 0) return null;
+		else if(cells.length == 1) return cells[0];
+		else{
+			return cells[rand.nextInt(cells.length)];
+		}
 	}
 	
 	/**

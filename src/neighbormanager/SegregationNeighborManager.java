@@ -6,10 +6,15 @@ import java.util.Random;
 import simulation.cell.*;
 import simulation.grid.*;
 
+
+/**
+ * Manages neighbors of current segregation grid 
+ * 
+ * @author Katherine Van Dyk
+ *
+ */
 public class SegregationNeighborManager extends NeighborManager {
 
-	private int GROUP1 = 0;
-	private int GROUP2 = 1;
 	private int VACANT = 2; 
 
 	/**
@@ -40,14 +45,19 @@ public class SegregationNeighborManager extends NeighborManager {
 	 */
 	private Cell[] getNeighbors(Cell c, Grid g) {
 		ArrayList<Cell> neighbors = new ArrayList<Cell>();
+		ArrayList<Cell> agents = new ArrayList<Cell>();
 		neighbors.addAll(Arrays.asList(NSEWCells(c , g)));
 		neighbors.addAll(Arrays.asList(diagonalCells(c ,g)));
-
-		return neighbors.toArray(new Cell[neighbors.size()]);
+		for(Cell neighbor: neighbors) {
+			if(neighbor.getState() != VACANT) {
+				agents.add(neighbor);
+			}
+		}
+		return agents.toArray(new Cell[agents.size()]);
 	}
 
 	/**
-	 * Returns number of cells in opposite group
+	 * Returns number of cells in same group
 	 * 
 	 * @param neighbors
 	 * @param c
@@ -56,18 +66,19 @@ public class SegregationNeighborManager extends NeighborManager {
 	private int neighborCount(Cell c, Grid g) {
 		Cell[] neighbors = getNeighbors(c, g);
 		int count = 0;
-		int cellState = c.getState();
-		int oppositeState;
-
-		if(cellState == GROUP1) oppositeState = GROUP2;
-		else oppositeState = GROUP1;
-
 		for(Cell neighbor : neighbors) {
-			if(neighbor.getState() == oppositeState) count++;
+			if(neighbor.getState() == c.getState()) count++;
 		}
 		return count;
 	}
 
+	/**
+	 * Returns satisfaction level of cell object
+	 * 
+	 * @param c: cell object whose satisfaction is being evaluated
+	 * @param g: current grid state
+	 * @return double representing cell satisfaction
+	 */
 	public double getNeighborSatisfaction(Cell c, Grid g) {
 		return (double) neighborCount(c, g) / getNeighbors(c, g).length;
 	}

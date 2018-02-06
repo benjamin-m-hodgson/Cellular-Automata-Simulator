@@ -12,6 +12,8 @@ import simulation.grid.*;
  * 
  *  @param Cell c: cell whose state is being evaluated
  *  @param Cell[] neighbors: neighbors of c
+ *  @author Katherine Van Dyk
+ *  @author Ben Hodgson
  */
 public class FireRuleset implements Ruleset {
 	
@@ -76,6 +78,9 @@ public class FireRuleset implements Ruleset {
 		}
 	}
 	
+	/**
+	 * Updates states for all cells at once
+	 */
 	public void updateStates() {
 		for(int r = 0; r < GRID.getXSize(); r++) {
 			for(int c = 0; c < GRID.getYSize(); c++) {
