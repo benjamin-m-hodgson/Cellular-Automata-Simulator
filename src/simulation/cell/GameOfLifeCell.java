@@ -22,8 +22,12 @@ public class GameOfLifeCell extends Cell {
 	@Override
 	public void setState(int state) {
 		myPreviousState = myState;
-		myState = state;
-		if (myState == LIVE) {
+		myNextState = state;
+	}
+
+	@Override
+	public void colorCell(int state) {
+		if (state == LIVE) {
 			myShape.setFill(Color.LIGHTGREEN);
 		}
 	}

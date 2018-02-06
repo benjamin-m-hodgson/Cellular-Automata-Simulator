@@ -5,8 +5,8 @@ import javafx.scene.shape.Rectangle;
 
 public class FireCell extends Cell {
 	
-	int BURNING = 0;
-	int TREE = 1;
+	private int TREE = 1;
+	private int BURNING = 2;
 	
 	public FireCell(int x, int y, int state) {
 		super(x, y, state);
@@ -23,9 +23,18 @@ public class FireCell extends Cell {
 	@Override
 	public void setState(int state) {
 		myPreviousState = myState;
-		myState = state;
-		if (myState == BURNING) {
-			myShape.setFill(Color.RED);
-		}
+		myNextState = state;
 	}	
+	
+	public void colorCell(int state) {
+		if (state == BURNING) {
+			myShape.setFill(Color.INDIANRED);
+		}
+		else if (state == TREE) {
+			myShape.setFill(Color.LIGHTGREEN);
+		} 
+		else {
+			myShape.setFill(Color.DIMGRAY);
+		}
+	}
 }

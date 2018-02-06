@@ -6,7 +6,7 @@ import simulation.grid.*;
 
 public class FireNeighborManager extends NeighborManager {
 
-	private int BURNING = 0;
+	private int BURNING = 2;
 
 	/**
 	 * Returns number of cell's burning neighbors

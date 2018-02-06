@@ -1,8 +1,8 @@
 package simulation;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.ResourceBundle;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -29,7 +29,9 @@ public class Engine {
 
 	private final String DEFAULT_STYLESHEET = 
 			Engine.class.getClassLoader().getResource("default.css").toExternalForm();
-
+	private final ResourceBundle DEFAULT_RESOURCES = 
+			ResourceBundle.getBundle("simulation.default");
+	
 	private final String PROGRAM_TITLE;   
 
 	private double GENERATIONS_PER_SECOND = 1;
@@ -47,8 +49,8 @@ public class Engine {
 	private HashMap<String, Ruleset> RULES;
 
 	// Give the program a title
-	public Engine(String programTitle) {
-		PROGRAM_TITLE = programTitle;
+	public Engine() {
+		PROGRAM_TITLE = DEFAULT_RESOURCES.getString("programTitleString");
 		GRIDS = null;
 		RULES = null;
 	}
@@ -180,6 +182,14 @@ public class Engine {
 	 */
 	public int getGeneration() {
 		return GENERATION;
+	}
+	
+	/**
+	 * 
+	 * @return DEFAULT_RESOURCES: the resource bundle to determine label Strings
+	 */
+	public ResourceBundle getResourceBundle() {
+		return DEFAULT_RESOURCES;
 	}
 
 	/**

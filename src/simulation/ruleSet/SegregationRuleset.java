@@ -58,6 +58,7 @@ public class SegregationRuleset implements Ruleset {
 		}
 		
 		cleanMove();
+		updateStates();
 	}	
 	
 	/**
@@ -84,6 +85,15 @@ public class SegregationRuleset implements Ruleset {
 			for(int c = 0; c < GRID.getYSize(); c++) {
 				SegregationCell cell = (SegregationCell) GRID.getCell(r,c);
 				cell.setMove(false);
+			}
+		}
+	}
+	
+	public void updateStates() {
+		for(int r = 0; r < GRID.getXSize(); r++) {
+			for(int c = 0; c < GRID.getYSize(); c++) {
+				SegregationCell cell = (SegregationCell) GRID.getCell(r, c);
+				cell.updateState();
 			}
 		}
 	}
