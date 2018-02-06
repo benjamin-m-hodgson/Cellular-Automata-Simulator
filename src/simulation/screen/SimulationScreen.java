@@ -149,7 +149,8 @@ public class SimulationScreen extends Screen {
 	 */
 	private ChoiceBox<Object> simulatorChooser() {
 		ChoiceBox<Object> dropDownMenu = new ChoiceBox<Object>();
-		String defaultChoice = "Select a Simulation";
+		String defaultChoice = PROGRAM_ENGINE.getResourceBundle()
+				.getString("defaultChooserString");
 		dropDownMenu.setValue(defaultChoice);
 		ObservableList<Object> simulationChoices = 
 				FXCollections.observableArrayList(defaultChoice, new Separator());
