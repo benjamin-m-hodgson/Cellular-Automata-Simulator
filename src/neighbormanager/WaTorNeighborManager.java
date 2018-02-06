@@ -50,7 +50,8 @@ public class WaTorNeighborManager extends NeighborManager {
 		ArrayList<WaTorCell> freeNeighbors = new ArrayList<WaTorCell>();		
 		for(Cell neighbor : getNeighbors(c, g)) {
 			WaTorCell wNeighbor = (WaTorCell) neighbor;
-			if(wNeighbor.getState() == VACANT || wNeighbor.getState() == FISH && !wNeighbor.getMove()) {
+			if((wNeighbor.getState() == VACANT || wNeighbor.getState() == FISH)
+					&& !wNeighbor.getMove()) {
 				freeNeighbors.add(wNeighbor);
 			}
 		}
