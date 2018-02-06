@@ -1,14 +1,10 @@
 <?xml version = "1.0" encoding = "UTF-8" ?>
 <simulation simulation = "CA" type = "WaTor" >
 	<name>"WaTor"</name>
-    <sizeX>6</sizeX>
-    <sizeY>6</sizeY>
-	<cell>0 0 0 0 0 1
-		0 0 0 0 1 2
-		2 1 0 0 0 2
-		2 2 2 2 2 0
-		0 0 0 1 0 2
-		0 0 0 0 0 2</cell>
+    <sizeX>2</sizeX>
+    <sizeY>2</sizeY>
+	<cell>2 1
+		0 2</cell>
 	<fishBreedTime>3</fishBreedTime>
 	<fishEnergy>4</fishEnergy>
 	<sharkInitEnergy>20</sharkInitEnergy>
