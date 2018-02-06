@@ -84,6 +84,10 @@ public abstract class Grid implements Cloneable{
 	public int getYSize() {
 		return this.myY;
 	}
+	
+	public void replace(Cell a) {
+		myCells[a.getX()][a.getY()] = a;
+	}
 
 	
 	/**

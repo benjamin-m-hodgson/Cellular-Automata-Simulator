@@ -25,7 +25,7 @@ public class WaTorNeighborManager extends NeighborManager {
 	 */
 	public WaTorCell vacantNeighbor(WaTorCell c, Grid g) {
 		Random rand = new Random();
-		ArrayList<Cell> freeNeighbors = new ArrayList<Cell>();		
+		ArrayList<WaTorCell> freeNeighbors = new ArrayList<WaTorCell>();		
 		for(Cell neighbor : getNeighbors(c, g)) {
 			WaTorCell wNeighbor = (WaTorCell) neighbor;
 			if(wNeighbor.getState() == VACANT && !wNeighbor.getMove()) {
@@ -33,10 +33,12 @@ public class WaTorNeighborManager extends NeighborManager {
 			}
 		}
 		WaTorCell[] cells =  freeNeighbors.toArray(new WaTorCell[freeNeighbors.size()]);
-		if(cells.length==0) return null;
-		return cells[rand.nextInt(cells.length)];
+		if(cells.length == 0) return null;
+		else if(cells.length == 1) return cells[0];
+		else{
+			return cells[rand.nextInt(cells.length)];
+		}
 	}
-
 
 	/**
 	 * Returns a fish or cell neighbor of Cell c
@@ -55,7 +57,7 @@ public class WaTorNeighborManager extends NeighborManager {
 				freeNeighbors.add(wNeighbor);
 			}
 		}
-		
+
 		WaTorCell[] cells =  freeNeighbors.toArray(new WaTorCell[freeNeighbors.size()]);
 		if(cells.length == 0) return null;
 		else if(cells.length == 1) return cells[0];
@@ -63,7 +65,7 @@ public class WaTorNeighborManager extends NeighborManager {
 			return cells[rand.nextInt(cells.length)];
 		}
 	}
-	
+
 	/**
 	 * Returns all neighbors of cell c
 	 * 
@@ -75,7 +77,7 @@ public class WaTorNeighborManager extends NeighborManager {
 		ArrayList<Cell> neighbors = new ArrayList<Cell>();
 		neighbors.addAll(Arrays.asList(NSEWCells(c , g)));
 		neighbors.addAll(Arrays.asList(diagonalCells(c ,g)));
-		
+
 		return neighbors.toArray(new Cell[neighbors.size()]);
 	}
 
