@@ -63,17 +63,23 @@ public class WaTorRuleset implements Ruleset {
 					moveFish(wCell);
 				}
 				else if(wCell.getState() == SHARK) {
+<<<<<<< HEAD
 					wCell.decrementEnergy();
 					if(checkEnergy(wCell) == VACANT) wCell.setState(VACANT);
 					else moveShark(wCell);
+=======
+					checkEnergy(wCell);		
+					moveShark(wCell);
+					wCell.decrementEnergy();
+>>>>>>> 4c85b8da6415959405a553574bf940e1150c2479
 				}
 				else if(!wCell.getMove()) {
 					wCell.setState(wCell.getState());
 				}
 			}
 		}
-		cleanMove();
 		updateStates();
+		cleanMove();
 	}
 
 	/**
@@ -84,7 +90,7 @@ public class WaTorRuleset implements Ruleset {
 	private void moveFish(WaTorCell fish) {
 		WaTorCell freeNeighbor = NEIGHBOR_MANAGER.vacantNeighbor(fish, GRID);
 		if(freeNeighbor == null) {
-			fish.setState(fish.getState());
+			//fish.setState(fish.getState());
 			return;
 		}
 		else {
@@ -100,14 +106,18 @@ public class WaTorRuleset implements Ruleset {
 	private void moveShark(WaTorCell shark) {
 		WaTorCell freeNeighbor = NEIGHBOR_MANAGER.vacantOrFishNeighbor(shark, GRID);
 		if(freeNeighbor == null) {
-			shark.setState(shark.getState());
+			//shark.setState(shark.getState());
 			return;
 		}
 		else if(freeNeighbor.getState() == FISH) {
+			System.out.printf("Fish location: %d %d\n", freeNeighbor.getX(), freeNeighbor.getY());
+			System.out.printf("Shark old energy: %d\n", shark.getEnergy());
 			shark.incrementEnergy();
+			System.out.printf("Shark new energy: %d\n", shark.getEnergy());
 			freeNeighbor.setState(VACANT);
 		}
 		swapCells(shark, freeNeighbor);
+		System.out.printf("Shark new location: %d %d\n", shark.getX(), shark.getY());
 	}
 
 	/**
@@ -148,8 +158,11 @@ public class WaTorRuleset implements Ruleset {
 			baby.setState(VACANT);
 			baby.reset();
 			baby.setState(cell.getState());
+			// addition
+			baby.updateState();
+			//
 			baby.setMove(true);
-			GRID.addCell(baby);
+			//GRID.addCell(baby);
 		}
 	}
 
@@ -199,15 +212,28 @@ public class WaTorRuleset implements Ruleset {
 		a.setBreedingTime(b.getBreedingTime());
 		b.setBreedingTime(aTime);
 		
+		// Switch x and y values
+		int aX = a.getX();
+		int aY = a.getY();
+		a.setX(b.getX());
+		a.setY(b.getY());
+		b.setX(aX);
+		b.setY(aY);
+		
 		// Set to move
 		a.setMove(true);
 		b.setMove(true);
+<<<<<<< HEAD
 		if(a.getState() == SHARK) {
 			System.out.println("Shark coords " + b.getX() + " " + b.getY());
 		}
 	
 		GRID.addCell(a);
 		GRID.addCell(b);
+=======
+		//GRID.addCell(a);
+		//GRID.addCell(b);
+>>>>>>> 4c85b8da6415959405a553574bf940e1150c2479
 	}
 
 }
