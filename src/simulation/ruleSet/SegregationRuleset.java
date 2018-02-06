@@ -69,7 +69,6 @@ public class SegregationRuleset implements Ruleset {
 		SegregationCell newCell = NEIGHBOR_MANAGER.findVacantCell(GRID);
 		if(newCell == null) return;
 		else{
-			System.out.println("NEW CELL STATE " + cell.getState());
 			newCell.setState(cell.getState());
 			newCell.setMove(true);
 			GRID.addCell(newCell.getX(), newCell.getY(), newCell);
