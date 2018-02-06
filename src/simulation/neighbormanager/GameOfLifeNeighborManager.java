@@ -1,4 +1,4 @@
-package neighbormanager;
+package simulation.neighbormanager;
 import simulation.cell.*;
 import simulation.grid.*;
 

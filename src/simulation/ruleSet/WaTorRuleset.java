@@ -1,7 +1,7 @@
 package simulation.ruleSet;
-import neighbormanager.WaTorNeighborManager;
 import simulation.cell.*;
 import simulation.grid.Grid;
+import simulation.neighbormanager.WaTorNeighborManager;
 
 /**
  * RULES:
