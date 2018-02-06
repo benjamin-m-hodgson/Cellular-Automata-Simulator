@@ -45,8 +45,12 @@ public class SegregationCell extends Cell {
 	@Override
 	public void setState(int state) {
 		myPreviousState = myState;
-		myState = state;
-		System.out.println(myState);
+		myNextState = state;
+	}
+
+
+	@Override
+	public void colorCell(int state) {
 		if (myState == GROUP1) {
 			myShape.setFill(Color.THISTLE);
 		}
@@ -57,6 +61,4 @@ public class SegregationCell extends Cell {
 			myShape.setFill(Color.DIMGRAY);
 		}
 	}
-
-
 }

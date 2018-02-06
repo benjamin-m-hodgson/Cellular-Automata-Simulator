@@ -62,6 +62,7 @@ public class WaTorRuleset implements Ruleset {
 				}
 			}
 		cleanMove();
+		updateStates();
 	}
 
 	/**
@@ -156,6 +157,15 @@ public class WaTorRuleset implements Ruleset {
 			for(int c = 0; c < GRID.getYSize(); c++) {
 				WaTorCell cell = (WaTorCell) GRID.getCell(r,c);
 				cell.setMove(false);
+			}
+		}
+	}
+	
+	public void updateStates() {
+		for(int r = 0; r < GRID.getXSize(); r++) {
+			for(int c = 0; c < GRID.getYSize(); c++) {
+				WaTorCell cell = (WaTorCell) GRID.getCell(r, c);
+				cell.updateState();
 			}
 		}
 	}

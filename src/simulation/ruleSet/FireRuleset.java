@@ -15,8 +15,9 @@ import simulation.grid.*;
  */
 public class FireRuleset implements Ruleset {
 	
-	private int BURNING = 0;
+	private int VACANT = 0;
 	private int TREE = 1;
+	private int BURNING = 2;
 	private Grid GRID;
 	private FireNeighborManager NEIGHBOR_MANAGER;
 	double PROBCATCH;
@@ -51,6 +52,7 @@ public class FireRuleset implements Ruleset {
 				cell.setState(newState);
 			}
 		}
+		updateStates();
 	}
 
 	/**
@@ -61,15 +63,25 @@ public class FireRuleset implements Ruleset {
 	 */
 	public int processCell(FireCell c) {
 		Random rand = new Random();
-		if(c.getState() == BURNING) {
+		if(NEIGHBOR_MANAGER.neighborCount(c, GRID) > 0 
+				&& rand.nextDouble() < this.PROBCATCH
+				&& c.getState() != VACANT) {
 			return BURNING;
 		}
-		else if(NEIGHBOR_MANAGER.neighborCount(c, GRID) > 0 && rand.nextDouble() < this.PROBCATCH) {
-			return BURNING;
-		}
-		else {
+		else if (c.getState() == TREE) {
 			return TREE;
+		} 
+		else {
+			return VACANT;
 		}
 	}
-
+	
+	public void updateStates() {
+		for(int r = 0; r < GRID.getXSize(); r++) {
+			for(int c = 0; c < GRID.getYSize(); c++) {
+				FireCell cell = (FireCell) GRID.getCell(r, c);
+				cell.updateState();
+			}
+		}
+	}
 }

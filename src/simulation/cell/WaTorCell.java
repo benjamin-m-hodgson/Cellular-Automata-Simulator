@@ -73,7 +73,11 @@ public class WaTorCell extends Cell {
 	@Override
 	public void setState(int state) {
 		myPreviousState = myState;
-		myState = state;
+		myNextState = state;
+	}
+
+	@Override
+	public void colorCell(int state) {
 		if (myState == SHARK) {
 			myShape.setFill(Color.DEEPSKYBLUE);
 		}

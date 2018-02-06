@@ -5,6 +5,7 @@ import javafx.scene.shape.Rectangle;
 public abstract class Cell implements Cloneable{
 	protected int myState;
 	protected int myPreviousState;
+	protected int myNextState;
 	protected int myXPos;
 	protected int myYPos;
 	protected Rectangle myShape;
@@ -14,6 +15,7 @@ public abstract class Cell implements Cloneable{
 		myXPos = x;
 		myYPos = y;
 		drawShape();
+		colorCell(myState);
 	}
 	
 	public int getX() {
@@ -30,6 +32,14 @@ public abstract class Cell implements Cloneable{
 	
 	public int getPreviousState() {
 		return myPreviousState;
+	}
+	
+	/**
+	 * Makes the next state the current state
+	 */
+	public void updateState() {
+		myState = myNextState;
+		colorCell(myState);
 	}
 	
 	/**
@@ -70,10 +80,18 @@ public abstract class Cell implements Cloneable{
 	public abstract void drawShape();
 	
 	/**
+	 * Changes the color of the cell to reflect state changes for animation
+	 * 
+	 * @param state: the current state of the cell
+	 */
+	public abstract void colorCell(int state);
+	
+	/**
 	 * 
 	 * @return Cell[]: an array of Cells neighboring this Cell object
 	 */
 	public Cell[] getNeighbors() {
 		return null;
 	}
+	
 }

@@ -56,6 +56,8 @@ public class GameOfLifeRuleset implements Ruleset {
 				cell.setState(newState);
 			}
 		}
+		updateStates();
+		
 	}
 	
 	/**
@@ -74,6 +76,15 @@ public class GameOfLifeRuleset implements Ruleset {
 		else {
 			if(liveCount == BIRTH) return LIVE;
 			else return DEAD;
+		}
+	}
+	
+	public void updateStates() {
+		for(int r = 0; r < GRID.getXSize(); r++) {
+			for(int c = 0; c < GRID.getYSize(); c++) {
+				GameOfLifeCell cell = (GameOfLifeCell) GRID.getCell(r, c);
+				cell.updateState();
+			}
 		}
 	}
 
