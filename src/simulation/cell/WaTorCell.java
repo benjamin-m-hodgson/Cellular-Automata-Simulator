@@ -75,6 +75,10 @@ public class WaTorCell extends Cell {
 		BREEDINGTIME = time;
 	}
 	
+	public int getNextState() {
+		return myNextState;
+	}
+	
 	/**
 	 * Gets energy of WaTor cell
 	 * 
@@ -99,7 +103,6 @@ public class WaTorCell extends Cell {
 	public void reset() {
 		this.BREEDINGTIME = 0;
 		this.ENERGY = ENERGY_HOLDER;
-		setState(VACANT);
 	}
 	
 	/**
