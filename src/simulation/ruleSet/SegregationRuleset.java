@@ -29,7 +29,6 @@ public class SegregationRuleset implements Ruleset {
 		this.TOLERANCE = tolerance;
 	}
 	
-
 	/**
 	 * Sets grid to current grid 
 	 * 
@@ -71,10 +70,10 @@ public class SegregationRuleset implements Ruleset {
 		else{
 			newCell.setState(cell.getState());
 			newCell.setMove(true);
-			GRID.addCell(newCell.getX(), newCell.getY(), newCell);
+			GRID.addCell(newCell);
 			cell.setState(VACANT);
 			cell.setMove(true);
-			GRID.addCell(cell.getX(), cell.getY(), cell);
+			GRID.addCell(cell);
 		}
 	}
 
@@ -89,6 +88,9 @@ public class SegregationRuleset implements Ruleset {
 		}
 	}
 	
+	/**
+	 * Updates states for all cell objects at once
+	 */
 	public void updateStates() {
 		for(int r = 0; r < GRID.getXSize(); r++) {
 			for(int c = 0; c < GRID.getYSize(); c++) {

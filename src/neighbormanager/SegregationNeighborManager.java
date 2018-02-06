@@ -6,6 +6,13 @@ import java.util.Random;
 import simulation.cell.*;
 import simulation.grid.*;
 
+
+/**
+ * Manages neighbors of current segregation grid 
+ * 
+ * @author Katherine Van Dyk
+ *
+ */
 public class SegregationNeighborManager extends NeighborManager {
 
 	private int VACANT = 2; 
@@ -46,7 +53,6 @@ public class SegregationNeighborManager extends NeighborManager {
 				agents.add(neighbor);
 			}
 		}
-	
 		return agents.toArray(new Cell[agents.size()]);
 	}
 
@@ -66,6 +72,13 @@ public class SegregationNeighborManager extends NeighborManager {
 		return count;
 	}
 
+	/**
+	 * Returns satisfaction level of cell object
+	 * 
+	 * @param c: cell object whose satisfaction is being evaluated
+	 * @param g: current grid state
+	 * @return double representing cell satisfaction
+	 */
 	public double getNeighborSatisfaction(Cell c, Grid g) {
 		return (double) neighborCount(c, g) / getNeighbors(c, g).length;
 	}

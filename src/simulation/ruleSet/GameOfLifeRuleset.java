@@ -79,6 +79,9 @@ public class GameOfLifeRuleset implements Ruleset {
 		}
 	}
 	
+	/**
+	 * Updates states for all cells at once
+	 */
 	public void updateStates() {
 		for(int r = 0; r < GRID.getXSize(); r++) {
 			for(int c = 0; c < GRID.getYSize(); c++) {

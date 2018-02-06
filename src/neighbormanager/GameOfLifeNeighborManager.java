@@ -2,6 +2,12 @@ package neighbormanager;
 import simulation.cell.*;
 import simulation.grid.*;
 
+/**
+ * Manages neighbors of current Game of Life grid
+ * 
+ * @author Katherine Van Dyk
+ *
+ */
 public class GameOfLifeNeighborManager extends NeighborManager {
 	
 	private static final int LIVE = 0;

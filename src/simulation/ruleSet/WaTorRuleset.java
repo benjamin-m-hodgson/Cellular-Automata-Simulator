@@ -3,8 +3,22 @@ import neighbormanager.WaTorNeighborManager;
 import simulation.cell.*;
 import simulation.grid.Grid;
 
+/**
+ * RULES:
+ * Fish: move randomly to free neighboring cells
+ * Once breed time is up, new fish is born in free neighboring cell
+ * Shark: move randomly to neighboring cells that are free/occupied by shark
+ * If fish, fish is eaten and energy increases, shark loses energy w/ every 
+ * time step, dies if it reaches 0
+ * 
+ * @param fishBreedTime
+ * @param sharkBreedTime
+ * @param sharkInitEnergy
+ * @param fishEnergy
+ * @author Katherine Van Dyk
+ * @author Ben Hodgson
+ */
 public class WaTorRuleset implements Ruleset {
-
 	private int FISH = 0;
 	private int SHARK = 1; 
 	private int VACANT = 2;
@@ -14,17 +28,10 @@ public class WaTorRuleset implements Ruleset {
 	private WaTorNeighborManager NEIGHBOR_MANAGER = new WaTorNeighborManager();
 
 	/**
-	 * RULES:
-	 * Fish: move randomly to free neighboring cells
-	 * Once breed time is up, new fish is born in free neighboring cell
-	 * Shark: move randomly to neighboring cells that are free/occupied by shark
-	 * If fish, fish is eaten and energy increases, shark loses energy w/ every 
-	 * time step, dies if it reaches 0
+	 * Constructor that sets simulation parameters
 	 * 
 	 * @param fishBreedTime
-	 * @param sharkBreedTime
-	 * @param sharkInitEnergy
-	 * @param fishEnergy
+	 * @param sharkBreedEnergy
 	 */
 	public WaTorRuleset(int fishBreedTime, int sharkBreedEnergy) {
 		this.FISH_BREEDTIME = fishBreedTime;
@@ -140,7 +147,7 @@ public class WaTorRuleset implements Ruleset {
 			baby.reset();
 			baby.setState(cell.getState());
 			baby.setMove(true);
-			GRID.addCell(baby.getX(), baby.getY(), baby);
+			GRID.addCell(baby);
 		}
 	}
 
@@ -155,6 +162,9 @@ public class WaTorRuleset implements Ruleset {
 		}
 	}
 	
+	/**
+	 * Updates cell states all at once
+	 */
 	public void updateStates() {
 		for(int r = 0; r < GRID.getXSize(); r++) {
 			for(int c = 0; c < GRID.getYSize(); c++) {
@@ -164,6 +174,11 @@ public class WaTorRuleset implements Ruleset {
 		}
 	}
 
+	/**
+	 * Swaps attributes of any two cells
+	 * @param a
+	 * @param b
+	 */
 	private void swapCells(WaTorCell a, WaTorCell b) {
 		// Switch state
 		int aState = a.getState();		
@@ -183,8 +198,8 @@ public class WaTorRuleset implements Ruleset {
 		// Set to move
 		a.setMove(true);
 		b.setMove(true);
-		GRID.addCell(a.getX(), a.getY(), a);
-		GRID.addCell(b.getX(), b.getY(), b);
+		GRID.addCell(a);
+		GRID.addCell(b);
 	}
 
 }

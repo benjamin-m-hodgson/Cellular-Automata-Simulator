@@ -4,6 +4,12 @@ import java.util.Arrays;
 import simulation.cell.*;
 import simulation.grid.*;
 
+/**
+ * Manages neighbors of current fire grid 
+ * 
+ * @author Katherine Van Dyk
+ *
+ */
 public class FireNeighborManager extends NeighborManager {
 
 	private int BURNING = 2;
@@ -35,7 +41,6 @@ public class FireNeighborManager extends NeighborManager {
 		ArrayList<Cell> neighbors = new ArrayList<Cell>();
 		neighbors.addAll(Arrays.asList(NSEWCells(c , g)));
 		neighbors.addAll(Arrays.asList(diagonalCells(c ,g)));
-
 		return neighbors.toArray(new Cell[neighbors.size()]);
 	}
 	

@@ -1,6 +1,6 @@
 <?xml version = "1.0" encoding = "UTF-8" ?>
 <simulation simulation = "CA" type = "Segregation" >
-	<name>"Segregation Test"</name>
+	<name>"Simple Segregation"</name>
     <sizeX>3</sizeX>
     <sizeY>3</sizeY>
 	<cell>2 1 2 
