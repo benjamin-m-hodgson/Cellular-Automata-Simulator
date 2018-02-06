@@ -48,15 +48,14 @@ public class SegregationRuleset implements Ruleset {
 		for(Cell row[] : GRID.getCells()) {
 			for(Cell cell : row) {
 				SegregationCell sCell = (SegregationCell) cell;
-				if(NEIGHBOR_MANAGER.getNeighborSatisfaction(sCell, GRID) < TOLERANCE) {
+				if(NEIGHBOR_MANAGER.getNeighborSatisfaction(sCell, GRID) < TOLERANCE && sCell.getState() != VACANT) {
 					moveCell(sCell);
 				}
-				else {
+				else if(!sCell.getMove()) {
 					sCell.setState(sCell.getState());
 				}
 			}
 		}
-		
 		cleanMove();
 		updateStates();
 	}	
@@ -70,10 +69,13 @@ public class SegregationRuleset implements Ruleset {
 		SegregationCell newCell = NEIGHBOR_MANAGER.findVacantCell(GRID);
 		if(newCell == null) return;
 		else{
+			System.out.println("NEW CELL STATE " + cell.getState());
 			newCell.setState(cell.getState());
 			newCell.setMove(true);
+			GRID.addCell(newCell.getX(), newCell.getY(), newCell);
 			cell.setState(VACANT);
 			cell.setMove(true);
+			GRID.addCell(cell.getX(), cell.getY(), cell);
 		}
 	}
 
@@ -83,8 +85,7 @@ public class SegregationRuleset implements Ruleset {
 	private void cleanMove() {
 		for(int r = 0; r < GRID.getXSize(); r++) {
 			for(int c = 0; c < GRID.getYSize(); c++) {
-				SegregationCell cell = (SegregationCell) GRID.getCell(r,c);
-				cell.setMove(false);
+				((SegregationCell) GRID.getCell(r,c)).setMove(false);
 			}
 		}
 	}

@@ -47,7 +47,6 @@ public class WaTorRuleset implements Ruleset {
 	 */
 	@Override
 	public void processCells() {
-	
 		for(Cell[] row : (Cell[][]) GRID.getCells()) {
 			for(Cell cell : row) {
 				WaTorCell wCell = (WaTorCell) cell;
@@ -60,6 +59,9 @@ public class WaTorRuleset implements Ruleset {
 					wCell.decrementEnergy();
 					checkEnergy(wCell);		
 					moveShark(wCell);
+				}
+				else if(!wCell.getMove()) {
+					wCell.setState(wCell.getState());
 				}
 			}
 		}
@@ -148,7 +150,7 @@ public class WaTorRuleset implements Ruleset {
 	private void cleanMove() {
 		for(int r = 0; r < GRID.getXSize(); r++) {
 			for(int c = 0; c < GRID.getYSize(); c++) {
-				((WaTorCell) GRID.getCell(r,c)).setMove(false);;
+				((WaTorCell) GRID.getCell(r,c)).setMove(false);
 			}
 		}
 	}
@@ -164,7 +166,7 @@ public class WaTorRuleset implements Ruleset {
 
 	private void swapCells(WaTorCell a, WaTorCell b) {
 		// Switch state
-		int aState = a.getState();
+		int aState = a.getState();		
 		a.setState(b.getState());
 		b.setState(aState);
 	

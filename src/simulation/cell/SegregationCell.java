@@ -9,7 +9,6 @@ public class SegregationCell extends Cell {
 	private int GROUP2 = 1;
 	
 	private boolean MOVED;
-	private boolean SATISFIED;
 
 	public SegregationCell(int x, int y, int state) {
 		super(x, y, state); 		
@@ -24,15 +23,6 @@ public class SegregationCell extends Cell {
 	public boolean getMove() {
 		return MOVED;
 	}
-
-	public void setSatisfaction(boolean b) {
-		SATISFIED = b;
-	}
-
-	public boolean getSatisfaction() {
-		return SATISFIED;
-	}
-
 
 	// assigns a rectangle to represent the FireCell
 	@Override
