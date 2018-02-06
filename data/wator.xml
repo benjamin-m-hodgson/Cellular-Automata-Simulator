@@ -4,7 +4,7 @@
     <sizeX>2</sizeX>
     <sizeY>2</sizeY>
 	<cell>2 1
-		2 2</cell>
+		0 2</cell>
 	<fishBreedTime>3</fishBreedTime>
 	<fishEnergy>4</fishEnergy>
 	<sharkInitEnergy>20</sharkInitEnergy>

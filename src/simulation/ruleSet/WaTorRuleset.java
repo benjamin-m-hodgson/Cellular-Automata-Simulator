@@ -100,7 +100,6 @@ public class WaTorRuleset implements Ruleset {
 	private void moveShark(WaTorCell shark) {
 		WaTorCell freeNeighbor = NEIGHBOR_MANAGER.vacantOrFishNeighbor(shark, GRID);
 		if(freeNeighbor == null) {
-
 			shark.setState(shark.getState());
 			return;
 		}
@@ -203,7 +202,10 @@ public class WaTorRuleset implements Ruleset {
 		// Set to move
 		a.setMove(true);
 		b.setMove(true);
-	//	if(a.getState() == SHARK) System.out.println("Shark coords " + b.getX() + " " + b.getY());
+		if(a.getState() == SHARK) {
+			System.out.println("Shark coords " + b.getX() + " " + b.getY());
+		}
+	
 		GRID.addCell(a);
 		GRID.addCell(b);
 	}
