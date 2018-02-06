@@ -18,7 +18,6 @@ public class WaTorCell extends Cell {
 	private int BREEDINGTIME;
 	private int FISH = 0;
 	private int SHARK = 1; 
-	private int VACANT = 2;
 
 	/**
 	 * Constructor for WaTor cell
@@ -103,6 +102,7 @@ public class WaTorCell extends Cell {
 	public void reset() {
 		this.BREEDINGTIME = 0;
 		this.ENERGY = ENERGY_HOLDER;
+		this.MOVED = true;
 	}
 	
 	/**
