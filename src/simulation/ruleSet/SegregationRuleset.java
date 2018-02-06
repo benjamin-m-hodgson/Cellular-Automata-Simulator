@@ -1,7 +1,7 @@
 package simulation.ruleSet;
-import neighbormanager.SegregationNeighborManager;
 import simulation.cell.*;
 import simulation.grid.Grid;
+import simulation.neighbormanager.SegregationNeighborManager;
 
 /**
  * RULES: 

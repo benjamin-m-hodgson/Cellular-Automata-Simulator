@@ -1,4 +1,4 @@
-package neighbormanager;
+package simulation.neighbormanager;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;

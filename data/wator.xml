@@ -13,5 +13,6 @@
 	<fishEnergy>4</fishEnergy>
 	<sharkInitEnergy>20</sharkInitEnergy>
 	<sharkBreedEnergy>25</sharkBreedEnergy>
+	<author>Katherine Van Dyk</author>
 </simulation>
 

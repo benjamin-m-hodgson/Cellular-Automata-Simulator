@@ -1,7 +1,7 @@
 package simulation.ruleSet;
 import java.util.Random;
 
-import neighbormanager.FireNeighborManager;
+import simulation.neighbormanager.FireNeighborManager;
 import simulation.cell.*;
 import simulation.grid.*;
 
