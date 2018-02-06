@@ -1,5 +1,4 @@
 package simulation.grid;
-
 import simulation.cell.Cell;
 
 public abstract class Grid implements Cloneable{
@@ -16,6 +15,7 @@ public abstract class Grid implements Cloneable{
 	public void addCell(int x, int y, Cell cell) {
 		myCells[x][y] = cell;
 	}
+	
 	
 	public void updateState(int x, int y, int state) {
 		myCells[x][y].setState(state);

@@ -37,9 +37,7 @@ public class WaTorXMLData extends XMLData {
 	@Override
 	public WaTorRuleset getRules() {
 		int fishBreedTime = Integer.parseInt(myDataValues.get(DATA_FIELDS.get(5)));
-		int sharkBreedTime = Integer.parseInt(myDataValues.get(DATA_FIELDS.get(6)));
-		this.SHARKENERGY = Integer.parseInt(myDataValues.get(DATA_FIELDS.get(7)));
-		this.FISHENERGY = Integer.parseInt(myDataValues.get(DATA_FIELDS.get(8)));
+		int sharkBreedTime = Integer.parseInt(myDataValues.get(DATA_FIELDS.get(8)));
 		return new WaTorRuleset(fishBreedTime, sharkBreedTime);
 	}
 	
@@ -53,6 +51,8 @@ public class WaTorXMLData extends XMLData {
 		int state;
 		Grid g = new StandardGrid(this.getXSize(), this.getYSize());
 		String[] ints = myDataValues.get(DATA_FIELDS.get(4)).split("\\W+");
+		this.SHARKENERGY = Integer.parseInt(myDataValues.get(DATA_FIELDS.get(7)));
+		this.FISHENERGY = Integer.parseInt(myDataValues.get(DATA_FIELDS.get(6)));
 		int p=0;
 		for(int r= 0; r < this.getXSize(); r++) {
 			for(int c = 0; c < this.getYSize(); c++) {

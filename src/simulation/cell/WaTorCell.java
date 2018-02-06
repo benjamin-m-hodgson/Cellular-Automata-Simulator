@@ -22,7 +22,7 @@ public class WaTorCell extends Cell {
 	}
 	
 	public void incrementEnergy() {
-		ENERGY++;
+		ENERGY = ENERGY + 2;
 	}
 	
 	public void decrementEnergy() {
@@ -49,10 +49,10 @@ public class WaTorCell extends Cell {
 		ENERGY = e;
 	}
 	
-	public void kill() {
+	public void reset() {
 		this.BREEDINGTIME = 0;
 		this.ENERGY = ENERGY_HOLDER;
-		this.myState = VACANT;
+		setState(VACANT);
 	}
 	
 	public void setMove(boolean b) {

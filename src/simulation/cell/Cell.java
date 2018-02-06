@@ -20,8 +20,16 @@ public abstract class Cell implements Cloneable{
 		return this.myXPos;
 	}
 	
+	public void setX(int x) {
+		this.myXPos = x;
+	}
+	
 	public int getY() {
 		return this.myYPos;
+	}
+	
+	public void setY(int y) {
+		this.myYPos = y;
 	}
 	
 	public int getState() {
