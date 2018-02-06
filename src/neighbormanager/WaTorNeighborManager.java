@@ -34,10 +34,6 @@ public class WaTorNeighborManager extends NeighborManager {
 		}
 		WaTorCell[] cells =  freeNeighbors.toArray(new WaTorCell[freeNeighbors.size()]);
 		if(cells.length==0) return null;
-		for(Cell cell : cells) {
-			System.out.println("Free cell " + cell.getX() + " " + cell.getY());
-			
-		}
 		return cells[rand.nextInt(cells.length)];
 	}
 
