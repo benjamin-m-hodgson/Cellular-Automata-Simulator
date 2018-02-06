@@ -1,12 +1,15 @@
 # cellsociety
 
 # Team 1
+
 ## Ben Hodgson (bmh43)
  * January 25- February 6
  * ~20 hours
+
 ## Katherine Van Dyk (kmv10)
-* January 25- February 6
-* ~20 hours
+ * January 25- February 6
+ * ~20 hours
+
 ##  Michael Acker
 
 # Sources
