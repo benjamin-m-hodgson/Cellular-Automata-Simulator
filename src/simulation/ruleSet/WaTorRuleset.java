@@ -3,12 +3,7 @@ import simulation.cell.*;
 import simulation.neighbormanager.WaTorNeighborManager;
 
 /**
- * RULES:
- * Fish: move randomly to free neighboring cells
- * Once breed time is up, new fish is born in free neighboring cell
- * Shark: move randomly to neighboring cells that are free/occupied by shark
- * If fish, fish is eaten and energy increases, shark loses energy w/ every 
- * time step, dies if it reaches 0
+ * WaTor Predator-Prey Simulation
  * 
  * @param fishBreedTime
  * @param sharkBreedTime
@@ -37,24 +32,29 @@ public class WaTorRuleset extends Ruleset {
 		this.NEIGHBOR_MANAGER = new WaTorNeighborManager();
 	}
 
+	/**
+	 * Returns next state of all cells that need to be processed
+	 * 
+	 * @param: c, cell to be processed
+	 */
 	@Override
 	public int processCell(Cell c) {
 		WaTorCell wCell = (WaTorCell) c;
 		if(wCell.getState() == SHARK) {
 			if(checkEnergy(wCell)) {		
 				wCell.reset();
-				return VACANT;
+				return SHARK;
 			}
-			else{
-				return moveShark(wCell);
-			}
+			else return moveShark(wCell);
 		}
 		else if(wCell.getState() == FISH) {
-			return moveFish(wCell);
+			if(checkBreedingTime(wCell)) {
+				wCell.reset();
+				return FISH;
+			}
+			else return moveFish(wCell);
 		}
-		else {
-			return wCell.getState();
-		}
+		else return wCell.getState();
 	}
 
 	/**
@@ -63,16 +63,15 @@ public class WaTorRuleset extends Ruleset {
 	 * @param fish
 	 */
 	private int moveFish(WaTorCell fish) {
+		fish.incrementBreedingTime();
 		WaTorCell freeNeighbor = NEIGHBOR_MANAGER.vacantNeighbor(fish, GRID);
-		if(freeNeighbor == null) {
-			return FISH;
-		}
-		else {
+		if(freeNeighbor != null) {
 			swapCells(fish, freeNeighbor);
 			freeNeighbor.setState(FISH);
 			freeNeighbor.setMove(true);
 			return VACANT;
 		}
+		return FISH;
 	} 
 
 	/**
@@ -101,7 +100,6 @@ public class WaTorRuleset extends Ruleset {
 	 * @param shark
 	 */
 	private boolean checkEnergy(WaTorCell shark) {
-		System.out.println(shark.getEnergy());
 		int E = shark.getEnergy();
 		if(E > SHARK_BREEDENERGY) {
 			giveBirth(shark);
@@ -114,11 +112,15 @@ public class WaTorRuleset extends Ruleset {
 		return false;
 	}
 
-
-	private void kill(WaTorCell shark) {
-		shark.reset();
-		shark.setState(VACANT);
-		shark.setMove(true);
+	/**
+	 * Kills specific cell
+	 * 
+	 * @param shark
+	 */
+	private void kill(WaTorCell cell) {
+		cell.reset();
+		cell.setState(VACANT);
+		cell.setMove(true);
 	}
 
 	/**
@@ -154,15 +156,12 @@ public class WaTorRuleset extends Ruleset {
 	 * @param b
 	 */
 	private void swapCells(WaTorCell a, WaTorCell b) {
-		// Switch energy
 		int aEnergy = a.getEnergy();
 		a.setEnergy(b.getEnergy());
 		b.setEnergy(aEnergy);
 
-		// Switch breeding time 
 		int aTime = a.getBreedingTime();
 		a.setBreedingTime(b.getBreedingTime());
 		b.setBreedingTime(aTime);
 	}
-
 }
