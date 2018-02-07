@@ -18,7 +18,7 @@ public class GameOfLifeNeighborManager extends NeighborManager {
 	 * @param neighbors: Arraylist of all cell's neighbors 
 	 * @return
 	 */
-	public int neighborCount(GameOfLifeCell c, Grid g) {
+	public int neighborCount(Cell c, Grid g) {
 		Cell[] neighbors = getNeighbors(c, g);
 		int count = 0;
 		for(Cell neighbor : neighbors) {

@@ -21,7 +21,7 @@ public class FireNeighborManager extends NeighborManager {
 	 * @param g: Current grid g
 	 * @return
 	 */
-	public int neighborCount(FireCell c, Grid g) {
+	public int neighborCount(Cell c, Grid g) {
 		for(Cell neighbor : getNeighbors(c, g)) {
 			if(neighbor.getState() == BURNING) {
 				return 1;
