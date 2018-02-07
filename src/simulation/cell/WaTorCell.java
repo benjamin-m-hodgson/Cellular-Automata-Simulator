@@ -12,7 +12,6 @@ import javafx.scene.shape.Rectangle;
  */
 public class WaTorCell extends Cell {
 	
-	private boolean MOVED;
 	private int ENERGY;
 	private int ENERGY_HOLDER;
 	private int BREEDINGTIME;
@@ -29,7 +28,6 @@ public class WaTorCell extends Cell {
 	 */
 	public WaTorCell(int x, int y, int state, int initEnergy) {
 		super(x, y, state);
-		MOVED = false;
 		ENERGY = initEnergy;
 		ENERGY_HOLDER = initEnergy;
 		BREEDINGTIME = 0;
@@ -103,24 +101,6 @@ public class WaTorCell extends Cell {
 		this.BREEDINGTIME = 0;
 		this.ENERGY = ENERGY_HOLDER;
 		this.MOVED = true;
-	}
-	
-	/**
-	 * Sets if WaTor cell has moved in current simulation
-	 * 
-	 * @param b: true if cell has moved
-	 */
-	public void setMove(boolean b) {
-		this.MOVED = b;
-	}
-	
-	/**
-	 * Gets if WaTor cell has moved during current simulation
-	 * 
-	 * @return true if has moved, false otherwise
-	 */
-	public boolean getMove() {
-		return this.MOVED;
 	}
 
 	/**

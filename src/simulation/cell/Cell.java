@@ -15,6 +15,7 @@ public abstract class Cell implements Cloneable{
 	protected int myXPos;
 	protected int myYPos;
 	protected Rectangle myShape;
+	protected Boolean MOVED;
 	
 	/**
 	 * Constructor for cell object
@@ -27,6 +28,7 @@ public abstract class Cell implements Cloneable{
 		myState = state;
 		myXPos = x;
 		myYPos = y;
+		MOVED = false;
 		drawShape();
 		colorCell(myState);
 	}
@@ -135,6 +137,24 @@ public abstract class Cell implements Cloneable{
 	 */
 	public Cell[] getNeighbors() {
 		return null;
+	}
+	
+	/**
+	 * Set that cell has moved so that it is not overwritten in later iterations
+	 * 
+	 * @param b: true if moved, false otherwise
+	 */
+	public void setMove(boolean b) {
+		MOVED = b;
+	}
+
+	/**
+	 * Returns if cell has been moved during iteration
+	 * 
+	 * @return boolean: true if it has been moved, false otherwise
+	 */
+	public boolean getMove() {
+		return MOVED;
 	}
 	
 }

@@ -1,6 +1,5 @@
 package simulation.ruleSet;
 import simulation.cell.*;
-import simulation.grid.Grid;
 import simulation.neighbormanager.GameOfLifeNeighborManager;
 
 /**
@@ -13,11 +12,10 @@ import simulation.neighbormanager.GameOfLifeNeighborManager;
  *  @author Katherine Van Dyk
  *  @author Ben Hodgson
  */
-public class GameOfLifeRuleset implements Ruleset {
+public class GameOfLifeRuleset extends Ruleset {
 	private int MAXLIFE;
 	private int MINLIFE;
 	private int BIRTH;
-	private Grid GRID;
 	private GameOfLifeNeighborManager NEIGHBOR_MANAGER; 
 
 	private static final int LIVE = 0;
@@ -37,28 +35,6 @@ public class GameOfLifeRuleset implements Ruleset {
 		this.BIRTH = birth;
 	}
 	
-	/**
-	 * Sets current simulation's grid
-	 */
-	@Override
-	public void setGrid(Grid g) {
-		GRID = g;	
-	}	
-	
-	/**
-	 * Returns new cell states for entire grid
-	 */
-	@Override
-	public void processCells() {
-		for(Cell[] row  : GRID.getCells()) {
-			for(Cell cell: row) {
-				int newState = processCell((GameOfLifeCell) cell);
-				cell.setState(newState);
-			}
-		}
-		updateStates();
-		
-	}
 	
 	/**
 	 * Returns next state of input cell
@@ -67,7 +43,8 @@ public class GameOfLifeRuleset implements Ruleset {
 	 * @param neighbors: Neighbors of cell c
 	 * @return
 	 */
-	public int processCell(GameOfLifeCell c) {
+	@Override
+	public int processCell(Cell c) {
 		int liveCount = NEIGHBOR_MANAGER.neighborCount(c, GRID);
 		if(c.getState() == LIVE) {
 			if(liveCount > this.MINLIFE || liveCount < this.MAXLIFE) return LIVE;
@@ -76,18 +53,6 @@ public class GameOfLifeRuleset implements Ruleset {
 		else {
 			if(liveCount == BIRTH) return LIVE;
 			else return DEAD;
-		}
-	}
-	
-	/**
-	 * Updates states for all cells at once
-	 */
-	public void updateStates() {
-		for(int r = 0; r < GRID.getXSize(); r++) {
-			for(int c = 0; c < GRID.getYSize(); c++) {
-				GameOfLifeCell cell = (GameOfLifeCell) GRID.getCell(r, c);
-				cell.updateState();
-			}
 		}
 	}
 

@@ -1,0 +1,14 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<simulation simulation = "CA" type = "WaTor" >
+	<name>"Simple WaTor"</name>
+    <sizeX>2</sizeX>
+    <sizeY>2</sizeY>
+	<cell>2 1 
+		0 0</cell>
+	<fishBreedTime>3</fishBreedTime>
+	<fishEnergy>4</fishEnergy>
+	<sharkInitEnergy>20</sharkInitEnergy>
+	<sharkBreedEnergy>25</sharkBreedEnergy>
+	<author>Katherine Van Dyk</author>
+</simulation>
+
