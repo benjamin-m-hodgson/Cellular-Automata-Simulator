@@ -1,10 +1,8 @@
 package simulation;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.ReadOnlyDoubleProperty;
@@ -33,7 +31,7 @@ public class Engine {
 			Engine.class.getClassLoader().getResource("default.css").toExternalForm();
 	private final ResourceBundle DEFAULT_RESOURCES = 
 			ResourceBundle.getBundle("simulation.default");
-	
+
 	private final String PROGRAM_TITLE;   
 
 	private double GENERATIONS_PER_SECOND = 1;
@@ -186,7 +184,7 @@ public class Engine {
 	public int getGeneration() {
 		return GENERATION;
 	}
-	
+
 	public String resourceString(String key) {
 		return DEFAULT_RESOURCES.getString(key);
 	}
@@ -209,27 +207,27 @@ public class Engine {
 
 		RULES = rules;
 	}
-	
+
 	public Grid currentGrid() {
 		return getGrid(SIMULATION_TYPE);
 	}
-	
+
 	public Ruleset currentRules() {
 		return RULES.get(SIMULATION_TYPE);
 	}
-	
+
 	public String currentShapeType() {
 		return SHAPE_TYPE;
 	}
-	
+
 	public ReadOnlyDoubleProperty sceneWidth() {
 		return PROGRAM_STAGE.widthProperty();
 	}
-	
+
 	public ReadOnlyDoubleProperty sceneHeight() {
 		return PROGRAM_STAGE.heightProperty();
 	}
-	
+
 	private void initializeSimulation(String type) {
 		// reset instance variables
 		SIMULATION_TYPE = type;
@@ -257,7 +255,7 @@ public class Engine {
 			cloneGrid = (Grid) GRIDS.get(name);
 			return cloneGrid;
 		} catch ( NullPointerException e) {
-			System.out.printf("Could not get Grid object with key %s\n", name);
+			System.out.printf("Could not get Grid object with key %s%n", name);
 		}
 		return cloneGrid;
 	}

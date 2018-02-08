@@ -1,8 +1,9 @@
-package simulation.neighbormanager;
+package simulation.ruleSet.neighborManager;
 import java.util.ArrayList;
 import java.util.Arrays;
 import simulation.cell.*;
 import simulation.grid.*;
+import simulation.neighborhoods.*;
 
 /**
  * Manages neighbors of current fire grid 
@@ -11,8 +12,11 @@ import simulation.grid.*;
  *
  */
 public class FireNeighborManager extends NeighborManager {
-
-	private int BURNING = 2;
+	private Neighborhood NEIGHBORHOOD;
+	
+	public FireNeighborManager(String CellType) {
+		if(CellType.equals("Square")) NEIGHBORHOOD = new SquareNeighborhood();
+ 	}
 
 	/**
 	 * Returns number of cell's burning neighbors
@@ -21,9 +25,9 @@ public class FireNeighborManager extends NeighborManager {
 	 * @param g: Current grid g
 	 * @return
 	 */
-	public int neighborCount(Cell c, Grid g) {
+	public int neighborCount(Cell c, Grid g, int param) {
 		for(Cell neighbor : getNeighbors(c, g)) {
-			if(neighbor.getState() == BURNING) {
+			if(neighbor.getState() == param) {
 				return 1;
 			}
 		}
@@ -37,10 +41,11 @@ public class FireNeighborManager extends NeighborManager {
 	 * @param g
 	 * @return
 	 */
-	private Cell[] getNeighbors(Cell c, Grid g) {
+	@Override
+	protected Cell[] getNeighbors(Cell c, Grid g) {
 		ArrayList<Cell> neighbors = new ArrayList<>();
-		neighbors.addAll(Arrays.asList(NSEWCells(c , g)));
-		neighbors.addAll(Arrays.asList(diagonalCells(c ,g)));
+		neighbors.addAll(Arrays.asList(NEIGHBORHOOD.NSEWCells(c , g)));
+		neighbors.addAll(Arrays.asList(NEIGHBORHOOD.diagonalCells(c ,g)));
 		return neighbors.toArray(new Cell[neighbors.size()]);
 	}
 	
