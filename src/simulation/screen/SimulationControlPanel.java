@@ -28,6 +28,12 @@ import simulation.Engine;
  */
 public class SimulationControlPanel {
 	
+	private final int GROUP_SPACING = 50;
+	private final int LABEL_SPACING = 5;
+	private final int BUTTON_SPACING = 20;
+	private final double SPEED_MIN = 0.25;
+	private final double SPEED_MAX = 2;
+	
 	private VBox CONTROL_PANEL;
 	private Engine PROGRAM_ENGINE;
 	
@@ -74,7 +80,8 @@ public class SimulationControlPanel {
 		VBox simulationInfo = makeInfo();
 		VBox simulationMenu = makeMenu();
 		VBox simulationSettings = makeSettings();
-		VBox sidePanel = new VBox(50, simulationInfo, simulationMenu, simulationSettings);
+		VBox sidePanel = new VBox(GROUP_SPACING, simulationInfo, 
+				simulationMenu, simulationSettings);
 		sidePanel.setId("simulateSidePanel");
 		sidePanel.prefHeightProperty().bind(Bindings.divide(PROGRAM_ENGINE.sceneHeight(), 1.0));
 		return sidePanel;
@@ -93,7 +100,7 @@ public class SimulationControlPanel {
 		Label currentGeneration = makeInfoLabel(PROGRAM_ENGINE.
 				resourceString("currentGenerationString"));
 		GENERATION = makeInfoLabel(Integer.toString(PROGRAM_ENGINE.getGeneration()));
-		VBox simulationInfo = new VBox(5, currentSimulation, simulationName,
+		VBox simulationInfo = new VBox(LABEL_SPACING, currentSimulation, simulationName,
 				currentGeneration, GENERATION);
 		return simulationInfo;
 	}
@@ -122,7 +129,8 @@ public class SimulationControlPanel {
 				resourceString("changeSimulationString")); 
 		ChoiceBox<Object> simulationChoices = simulatorChooser();
 		SIMULATE = makeSimulateButton(PROGRAM_ENGINE.resourceString("simulateString"));
-		VBox simulationMenu = new VBox(5, simulationPrompt, simulationChoices, SIMULATE);
+		VBox simulationMenu = new VBox(LABEL_SPACING, simulationPrompt, 
+				simulationChoices, SIMULATE);
 		return simulationMenu;
 	}
 	
@@ -190,9 +198,9 @@ public class SimulationControlPanel {
 			Button stepButton = makeStepButton();
 			Slider speedSlider = makeSlider();
 			SPEED = makeSliderLabel();
-			HBox topButtonRow = new HBox(20, PLAY, PAUSE);
-			HBox bottomButtonRow = new HBox(20, resetButton, stepButton);
-			VBox simulationSettings = new VBox(20, topButtonRow, bottomButtonRow, 
+			HBox topButtonRow = new HBox(BUTTON_SPACING, PLAY, PAUSE);
+			HBox bottomButtonRow = new HBox(BUTTON_SPACING, resetButton, stepButton);
+			VBox simulationSettings = new VBox(BUTTON_SPACING, topButtonRow, bottomButtonRow, 
 					speedSlider, SPEED);
 			simulationSettings.setId("simulationSettings");
 			return simulationSettings;
@@ -289,7 +297,7 @@ public class SimulationControlPanel {
 		 * @return speedSlider: a Slider to change the generation speed
 		 */
 		private Slider makeSlider() {
-			Slider speedSlider = new Slider(0.25, 2, 1);
+			Slider speedSlider = new Slider(SPEED_MIN, SPEED_MAX, 1);
 			speedSlider.setId("simulateSpeedSlider");
 			speedSlider.valueProperty().addListener(new ChangeListener<Number>() {
 			@Override
