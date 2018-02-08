@@ -1,32 +1,13 @@
 package simulation.screen;
 
-import java.text.DecimalFormat;
-
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.beans.binding.Bindings;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.Separator;
-import javafx.scene.control.Slider;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.Shape;
 import javafx.util.Duration;
 import simulation.CurrentSimulation;
 import simulation.Engine;
-import simulation.cell.Cell;
-import simulation.grid.Grid;
 
 /**
  * 
@@ -44,26 +25,23 @@ public class SimulationScreen extends Screen {
 	private final Engine PROGRAM_ENGINE;
 	private final CurrentSimulation SIMULATION;
 	
-	private Label GENERATION;
-	private Label SPEED;
-	private String TYPE;
-	private boolean VALID;
-	private Button SIMULATE;
-	private Button PLAY;
-	private Button PAUSE;
+	private SimulationControlPanel CONTROL_PANEL;
+	private SimulationCellPanel CELL_PANEL;
 	
 	// need to save the Engine to call functions on button clicks
 	public SimulationScreen(Engine programEngine, CurrentSimulation simulation) {
 		PROGRAM_ENGINE = programEngine;
 		SIMULATION = simulation;
+		CONTROL_PANEL = new SimulationControlPanel(PROGRAM_ENGINE);
+		CELL_PANEL = new SimulationCellPanel(PROGRAM_ENGINE, SIMULATION);
 	}
 	
 	@Override
 	public void makeRoot() {
-		VBox sidePanel = sidePanel();
-		HBox cellPanel = cellPanel();
+		VBox controlPanel = CONTROL_PANEL.construct();
+		HBox cellPanel = CELL_PANEL.construct();
 		BorderPane newRoot = new BorderPane();
-		newRoot.setRight(sidePanel);
+		newRoot.setRight(controlPanel);
 		newRoot.setCenter(cellPanel);
      	newRoot.setId("simulateScreenRoot");
 		ROOT = newRoot;
@@ -77,321 +55,12 @@ public class SimulationScreen extends Screen {
 		
 	}
 	
-/*****************************************************************************************/
-/* Methods related to generating the side panel */
-/*****************************************************************************************/
 	/**
-	 * Method to create and return the side panel that contains information about the 
-	 * current simulation and gives the user some control buttons to manipulate
-	 * the simulation animation. 
-	 * 
-	 * @return sidePanel: the panel on the side with information and animation controls
-	 */
-	private VBox sidePanel() {
-		VBox simulationInfo = makeInfo();
-		VBox simulationMenu = makeMenu();
-		VBox simulationSettings = makeSettings();
-		VBox sidePanel = new VBox(50, simulationInfo, simulationMenu, simulationSettings);
-		sidePanel.setId("simulateSidePanel");
-		sidePanel.prefHeightProperty().bind(Bindings.divide(PROGRAM_ENGINE.sceneHeight(), 1.0));
-		return sidePanel;
-	}
-	
-	/**
-	 * Creates the section of the side panel that contains information about the current
-	 * simulation. 
-	 * 
-	 * @return simulationInfo: a VBox containing the simulation information to be displayed
-	 */
-	private VBox makeInfo() {
-		Label currentSimulation = makeLabel(PROGRAM_ENGINE.
-				resourceString("currentSimulationString"));
-		Label simulationName = makeLabel(PROGRAM_ENGINE.getSimulationType());
-		Label currentGeneration = makeLabel(PROGRAM_ENGINE.
-				resourceString("currentGenerationString"));
-		GENERATION = makeLabel(Integer.toString(PROGRAM_ENGINE.getGeneration()));
-		VBox simulationInfo = new VBox(5, currentSimulation, simulationName,
-				currentGeneration, GENERATION);
-		return simulationInfo;
-	}
-	
-	// create an info Label to be placed in the side panel in the simulation screen
-	@Override
-	public Label makeLabel(String text) {
-		Label infoLabel = new Label(text);
-		infoLabel.setId("simulationInfoLabel");
-		return infoLabel;
-	}
-
-	/**
-	 * Creates the component of the side panel that allows for simulation change. The 
-	 * drop down choice box and the simulate button are identical to the ones in the 
-	 * StartScreen class.
-	 * 
-	 * 
-	 * @return simulationMenu: a VBox containing controls to change the animation
-	 */
-	private VBox makeMenu() {
-		Label simulationPrompt = makeLabel(PROGRAM_ENGINE.
-				resourceString("changeSimulationString")); 
-		ChoiceBox<Object> simulationChoices = simulatorChooser();
-		SIMULATE = makeButton(PROGRAM_ENGINE.resourceString("simulateString"));
-		VBox simulationMenu = new VBox(5, simulationPrompt, simulationChoices, SIMULATE);
-		return simulationMenu;
-	}
-	
-	/**
-	 * Creates a drop down menu that changes the value of the instance 
-	 * variable @param TYPE upon selection. When a valid type is selected 
-	 * from the choices, the boolean @param VALID is flagged true. 
-	 * 
-	 * @return dropDownMenu: a drop down menu that lets the user choose a 
-	 * simulation to simulate
-	 */
-	private ChoiceBox<Object> simulatorChooser() {
-		ChoiceBox<Object> dropDownMenu = new ChoiceBox<>();
-		String defaultChoice = PROGRAM_ENGINE.resourceString("defaultChooserString");
-		dropDownMenu.setValue(defaultChoice);
-		ObservableList<Object> simulationChoices = 
-				FXCollections.observableArrayList(defaultChoice, new Separator());
-		simulationChoices.addAll(PROGRAM_ENGINE.getSimulations());
-		dropDownMenu.setItems(simulationChoices);
-		dropDownMenu.setValue(PROGRAM_ENGINE.getSimulationType());
-		dropDownMenu.setId("simulatorChooser");
-		dropDownMenu.getSelectionModel().selectedIndexProperty()
-        .addListener(new ChangeListener<Number>() {
-		@Override
-		public void changed(ObservableValue<? extends Number> arg0, 
-				Number arg1, Number arg2) {
-			TYPE = (String) simulationChoices.get((Integer) arg2);
-			VALID = !(TYPE.equals(defaultChoice) ||
-					TYPE.equals(PROGRAM_ENGINE.getSimulationType()));	
-		}
-		});
-		return dropDownMenu;
-	}
-		
-	// make a simulate button
-	@Override
-	public Button makeButton(String text) {
-		Button simulateButton = new Button(text);
-		simulateButton.setId("simulateButton");
-		// handle click event
-		simulateButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent arg0) {
-				PROGRAM_ENGINE.startSimulation(TYPE);	
-			}
-		});
-		simulateButton.setDisable(true);
-		return simulateButton;
-	}
-	
-	/**
-	 * Creates the section of the side panel with the play, pause, reset, step, and speed
-	 * animation controls. 
-	 * 
-	 * @return simulationSettings: the bottom section of the side panel with animation 
-	 * controls
-	 */
-	private VBox makeSettings() {
-		PLAY = makePlayButton();
-		PAUSE = makePauseButton();
-		Button resetButton = makeResetButton();
-		Button stepButton = makeStepButton();
-		Slider speedSlider = makeSlider();
-		SPEED = makeSliderLabel();
-		HBox topButtonRow = new HBox(20, PLAY, PAUSE);
-		HBox bottomButtonRow = new HBox(20, resetButton, stepButton);
-		VBox simulationSettings = new VBox(20, topButtonRow, bottomButtonRow, 
-				speedSlider, SPEED);
-		simulationSettings.setId("simulationSettings");
-		return simulationSettings;
-	}
-	
-	/**
-	 * Creates a play button to be displayed in the side panel to begin playing a paused
-	 * animation. 
-	 * 
-	 * @return playButton: the button to restart or play a paused simulation
-	 */
-	private Button makePlayButton() {
-		Button playButton = new Button();
-		playButton.setId("playButton");
-		playButton.setDisable(true);
-		// handle click event
-		playButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent arg0) {
-				PAUSE.setDisable(false);
-				PLAY.setDisable(true);
-				PROGRAM_ENGINE.playAnimation();
-			}
-		});
-		return playButton;
-	}
-	
-	/**
-	 * Creates a pause button to be displayed in the side panel to pause playing an
-	 * animation. 
-	 * 
-	 * @return pauseButton: the button to pause a running simulation
-	 */
-	private Button makePauseButton() {
-		Button pauseButton = new Button();
-		pauseButton.setId("pauseButton");
-		pauseButton.setDisable(false);
-		// handle click event
-		pauseButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent arg0) {
-				PAUSE.setDisable(true);
-				PLAY.setDisable(false);
-				PROGRAM_ENGINE.pauseAnimation();
-			}
-		});
-		return pauseButton;
-	}
-	
-	/**
-	 * Creates a reset button to be displayed in the side panel to reset a playing 
-	 * animation from the beginning with initial parameters and properties.  
-	 * 
-	 * @return resetButton: the button to reset a running simulation from its initial state
-	 */
-	private Button makeResetButton() {
-		Button resetButton = new Button();
-		resetButton.setId("resetButton");
-		// handle click event
-		resetButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent arg0) {
-				PROGRAM_ENGINE.startSimulation(PROGRAM_ENGINE.getSimulationType());
-				SIMULATION.makeNewXML();
-			}
-		});
-		return resetButton;
-	}
-	
-	/**
-	 * Creates a step button to be displayed in the side panel to step forward one frame 
-	 * in the animation.
-	 * 
-	 * @return stepButton: the button to step one frame through an animation.
-	 */
-	private Button makeStepButton() {
-		Button stepButton = new Button();
-		stepButton.setId("stepButton");
-		// handle click event
-		stepButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent arg0) {
-				PROGRAM_ENGINE.singleStep();
-				PAUSE.setDisable(true);
-				PLAY.setDisable(false);
-			}
-		});
-		return stepButton;
-	}
-	
-	/**
-	 * Slider that adjusts the number of generations animated per second in the 
-	 * simulation.
-	 * 
-	 * @return speedSlider: a Slider to change the generation speed
-	 */
-	private Slider makeSlider() {
-		Slider speedSlider = new Slider(0.25, 2, 1);
-		speedSlider.setId("simulateSpeedSlider");
-		speedSlider.valueProperty().addListener(new ChangeListener<Number>() {
-		@Override
-		public void changed(ObservableValue<? extends Number> arg0, 
-				Number arg1, Number arg2) {
-			PROGRAM_ENGINE.setGenerationSpeed((double) arg2);
-			DecimalFormat twoPlaces = new DecimalFormat("#.00");
-			String speedArgs = twoPlaces.format(arg2);
-			String speedText = "Animation Speed: " + speedArgs;
-			SPEED.setText(speedText);
-		}
-		});
-		return speedSlider;
-	}
-	
-	/**
-	 * Creates a Label object that displays the current speed of the animation with
-	 * respect to the number of generations processed per second.
-	 * 
-	 * @return sliderLabel: a Label indicating the current selected generation speed
-	 */
-	private Label makeSliderLabel() {
-		Label sliderLabel = new Label(PROGRAM_ENGINE.
-				resourceString("animationSpeedString") + " 1.00");
-		sliderLabel.setId("simulateSpeedLabel");
-		return sliderLabel;
-	}
-	
-/*****************************************************************************************/
-/* Methods related to generating the cell panel */
-/*****************************************************************************************/
-
-	/**
-	 * 
-	 * @return cellPanel: the Panel that contains the cell objects
-	 */
-	private HBox cellPanel() {
-		HBox cellPanel = new HBox();
-		cellPanel.setId("simulateCellPanel");
-		cellPanel.prefHeightProperty().bind(Bindings.divide(PROGRAM_ENGINE.sceneHeight(), 1.0));
-		addCells(cellPanel);
-		return cellPanel;
-	}
-	
-	/**
-	 * A panel of that contains the Cell objects
-	 * 
-	 * @param cellPanel: the Panel that contains the cell Objects
-	 */
-	private void addCells(HBox cellPanel) {
-		Grid typeGrid = null;
-		try {
-			typeGrid = PROGRAM_ENGINE.getGrid(PROGRAM_ENGINE.getSimulationType());
-		}
-		catch (NullPointerException e) {
-			System.out.printf("Null argument received from getGrid() in "
-					+ "SimulationScreen class\n");
-		}
-		Cell[][] simulationCells = typeGrid.getCells();
-		//System.out.println(simulationCells);
-		VBox cols = new VBox(1);
-		for (int i = 0; i < simulationCells.length; i++) {
-			HBox row = new HBox(1);
-			for (int j = 0; j < simulationCells[i].length; j++) {
-				Shape cellShape = SIMULATION.drawShape(i, j);
-				row.getChildren().add(cellShape);
-			}
-			cols.getChildren().add(row);
-		}
-		// add a region to align the cell grid in the top left of the cellPanel
-		cellPanel.getChildren().add(cols);
-		Region fillerRegion = new Region();
-		HBox.setHgrow(fillerRegion, Priority.ALWAYS);
-		cellPanel.getChildren().add(fillerRegion);
-	}
-	
-	/**
-	 * Change properties of shapes to animate them. In this instance,
-	 * primarily updates @param GENERATION to reflect the current generation
-	 * in the simulation and checks to see if another simulation was selected.
+	 * Change properties of displayed items to reflect animation properties
 	 * 
 	 * @param elapsedTime: time since last animation update
 	 */
     private void step (double elapsedTime) {
-    	GENERATION.setText(Integer.toString(PROGRAM_ENGINE.getGeneration()));
-    	if (VALID && SIMULATE.isDisabled()) {
-    		SIMULATE.setDisable(false);
-    	}
-    	else if (!VALID && !SIMULATE.isDisabled()) {
-    		SIMULATE.setDisable(true);
-    	}
+    	CONTROL_PANEL.update();
     }
 }
