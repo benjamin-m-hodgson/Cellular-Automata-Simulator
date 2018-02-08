@@ -95,6 +95,7 @@ public class XMLWriter {
 		
 	/**
 	 * Converts document to XML file
+	 * SOURCE: https://www.mkyong.com/java/how-to-create-xml-file-in-java-dom/
 	 * 
 	 * @param doc
 	 * @throws TransformerConfigurationException
