@@ -1,5 +1,8 @@
 package simulation;
 
+import javax.xml.transform.TransformerConfigurationException;
+
+import configuration.XMLWriter;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import simulation.cell.*;
@@ -109,6 +112,16 @@ public class CurrentSimulation{
 					&& j < SIMULATION_SHAPES[i].length; j++) {
 				SIMULATION_SHAPES[i][j].setFill(currentCells[i][j].colorCell());
 			}
+		}
+	}
+	
+	public void makeNewXML() {
+		XMLWriter writer = new XMLWriter();
+		try {
+			writer.createDoc("Fire", "hello", PROGRAM_ENGINE.currentGrid(), PROGRAM_ENGINE.currentRules());
+		} catch (TransformerConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 

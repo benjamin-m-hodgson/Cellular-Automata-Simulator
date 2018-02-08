@@ -267,6 +267,7 @@ public class SimulationScreen extends Screen {
 			@Override
 			public void handle(MouseEvent arg0) {
 				PROGRAM_ENGINE.startSimulation(PROGRAM_ENGINE.getSimulationType());
+				SIMULATION.makeNewXML();
 			}
 		});
 		return resetButton;
