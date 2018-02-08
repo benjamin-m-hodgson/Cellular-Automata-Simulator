@@ -66,7 +66,6 @@ public class StartScreen extends Screen {
 	}
 	
 	// assign the node Id and use css document to format
-	@Override
 	public Label makeLabel(String text) {
 		Label textLabel = new Label(text);
 		textLabel.setId("startLabel");
@@ -75,7 +74,6 @@ public class StartScreen extends Screen {
 	}
 
 	// make a simulate button
-	@Override
 	public Button makeButton(String text) {
 		Button simulateButton = new Button(text);
 		simulateButton.setId("simulateButton");

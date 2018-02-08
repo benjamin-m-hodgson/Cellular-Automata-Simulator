@@ -100,7 +100,7 @@ public class CurrentSimulation{
 		}
 	}
 	
-	private void updateDisplay(){
+	private void updateDisplay() {
 		Grid currentGrid = PROGRAM_ENGINE.currentGrid();
 		Cell[][] currentCells = currentGrid.getCells();
 		for (int i = 0; i < currentCells.length 
