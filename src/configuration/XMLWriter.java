@@ -28,8 +28,9 @@ public class XMLWriter {
 	private final DocumentBuilder DOCUMENT_BUILDER;
 	private String FILEPATH = "data/"; 
 	private String EXTENSION = ".xml";
+	private static String SIMULATION = "simulation";
 	protected static final List<String> DATA_FIELDS = Arrays.asList(new String[] {
-			"simulation",
+			SIMULATION,
 			"type",
 			"name",
 			"sizeX",
