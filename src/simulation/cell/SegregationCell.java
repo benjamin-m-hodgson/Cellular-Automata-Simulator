@@ -13,7 +13,6 @@ public class SegregationCell extends Cell {
 	
 	private int GROUP1 = 0;
 	private int GROUP2 = 1;
-	private boolean MOVED;
 
 	/**
 	 * Constructor for segregation cell
@@ -24,26 +23,9 @@ public class SegregationCell extends Cell {
 	 */
 	public SegregationCell(int x, int y, int state) {
 		super(x, y, state); 		
-		MOVED = false;
 	}
 
-	/**
-	 * Set that cell has moved so that it is not overwritten in later iterations
-	 * 
-	 * @param b: true if moved, false otherwise
-	 */
-	public void setMove(boolean b) {
-		MOVED = b;
-	}
 
-	/**
-	 * Returns if cell has been moved during iteration
-	 * 
-	 * @return boolean: true if it has been moved, false otherwise
-	 */
-	public boolean getMove() {
-		return MOVED;
-	}
 
 	/**
 	 * Assigns rectangle to represent segregation cell

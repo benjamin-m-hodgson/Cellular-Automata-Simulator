@@ -1,7 +1,6 @@
 package simulation.ruleSet;
 import java.util.Random;
 import simulation.cell.*;
-import simulation.grid.*;
 import simulation.neighbormanager.FireNeighborManager;
 
 /**
@@ -14,12 +13,11 @@ import simulation.neighbormanager.FireNeighborManager;
  *  @author Katherine Van Dyk
  *  @author Ben Hodgson
  */
-public class FireRuleset implements Ruleset {
+public class FireRuleset extends Ruleset {
 	
 	private int VACANT = 0;
 	private int TREE = 1;
 	private int BURNING = 2;
-	private Grid GRID;
 	private FireNeighborManager NEIGHBOR_MANAGER;
 	double PROBCATCH;
 	
@@ -32,29 +30,6 @@ public class FireRuleset implements Ruleset {
 		this.PROBCATCH = probCatch;
 		this.NEIGHBOR_MANAGER = new FireNeighborManager();
 	}
-	
-	/**
-	 * Sets current simulation grid 
-	 */
-	@Override
-	public void setGrid(Grid g) {
-		GRID = g;
-	}
-	
-	/**
-	 * Processes all cells in current simulation
-	 */
-	@Override
-	public void processCells() {
-		for(int r = 0; r < GRID.getXSize(); r++) {
-			for(int c = 0; c < GRID.getYSize(); c++) {
-				Cell cell = GRID.getCell(r, c);
-				int newState = processCell((FireCell) cell);
-				cell.setState(newState);
-			}
-		}
-		updateStates();
-	}
 
 	/**
 	 * Processes single cell in grid
@@ -62,7 +37,8 @@ public class FireRuleset implements Ruleset {
 	 * @param c: cell to be processed
 	 * @return int: new state
 	 */
-	public int processCell(FireCell c) {
+	@Override
+	public int processCell(Cell c) {
 		Random rand = new Random();
 		if(NEIGHBOR_MANAGER.neighborCount(c, GRID) > 0 
 				&& rand.nextDouble() < this.PROBCATCH
@@ -77,15 +53,4 @@ public class FireRuleset implements Ruleset {
 		}
 	}
 	
-	/**
-	 * Updates states for all cells at once
-	 */
-	public void updateStates() {
-		for(int r = 0; r < GRID.getXSize(); r++) {
-			for(int c = 0; c < GRID.getYSize(); c++) {
-				FireCell cell = (FireCell) GRID.getCell(r, c);
-				cell.updateState();
-			}
-		}
-	}
 }

@@ -1,6 +1,5 @@
 package simulation.ruleSet;
 import simulation.cell.*;
-import simulation.grid.Grid;
 import simulation.neighbormanager.WaTorNeighborManager;
 
 /**
@@ -18,11 +17,10 @@ import simulation.neighbormanager.WaTorNeighborManager;
  * @author Katherine Van Dyk
  * @author Ben Hodgson
  */
-public class WaTorRuleset implements Ruleset {
+public class WaTorRuleset extends Ruleset {
 	private int FISH = 0;
 	private int SHARK = 1; 
 	private int VACANT = 2;
-	private Grid GRID;
 	private int FISH_BREEDTIME;
 	private int SHARK_BREEDENERGY;
 	private WaTorNeighborManager NEIGHBOR_MANAGER = new WaTorNeighborManager();
@@ -39,46 +37,24 @@ public class WaTorRuleset implements Ruleset {
 		this.NEIGHBOR_MANAGER = new WaTorNeighborManager();
 	}
 
-	/**
-	 * Sets grid to current grid 
-	 * 
-	 * @param g: Current simulation grid
-	 */
 	@Override
-	public void setGrid(Grid g) {
-		GRID = g;
-	}
-
-	/**
-	 * Processes all cells in current grid
-	 */
-	@Override
-	public void processCells() {
-		for(int r = 0; r < GRID.getXSize(); r++) {
-			for(int c = 0; c < GRID.getYSize(); c++) {
-			//	System.out.println("ROW " + cell.getX() + "COL " + cell.getY());
-				WaTorCell wCell = (WaTorCell) GRID.getCell(r, c);
-				if(wCell.getState() == SHARK) {
-					if(checkEnergy(wCell) == VACANT) {		
-						wCell.reset();
-						wCell.setState(VACANT);
-					}
-					else{
-						moveShark(wCell);
-					}
-				}
-				else if(wCell.getState() == FISH) {
-					if(checkBreedingTime(wCell)) continue;
-					else moveFish(wCell);
-				}
-
-				else if(!wCell.getMove()) {
-					wCell.setState(wCell.getState());
-				}
+	public int processCell(Cell c) {
+		WaTorCell wCell = (WaTorCell) c;
+		if(wCell.getState() == SHARK) {
+			if(checkEnergy(wCell)) {		
+				wCell.reset();
+				return VACANT;
+			}
+			else{
+				return moveShark(wCell);
 			}
 		}
-		updateStates();
-		cleanMove();
+		else if(wCell.getState() == FISH) {
+			return moveFish(wCell);
+		}
+		else {
+			return wCell.getState();
+		}
 	}
 
 	/**
@@ -86,13 +62,16 @@ public class WaTorRuleset implements Ruleset {
 	 * 
 	 * @param fish
 	 */
-	private void moveFish(WaTorCell fish) {
+	private int moveFish(WaTorCell fish) {
 		WaTorCell freeNeighbor = NEIGHBOR_MANAGER.vacantNeighbor(fish, GRID);
 		if(freeNeighbor == null) {
-			return;
+			return FISH;
 		}
 		else {
 			swapCells(fish, freeNeighbor);
+			freeNeighbor.setState(FISH);
+			freeNeighbor.setMove(true);
+			return VACANT;
 		}
 	} 
 
@@ -101,17 +80,19 @@ public class WaTorRuleset implements Ruleset {
 	 * 
 	 * @param shark
 	 */
-	private void moveShark(WaTorCell shark) {
+	private int moveShark(WaTorCell shark) {
+		shark.decrementEnergy();
 		WaTorCell freeNeighbor = NEIGHBOR_MANAGER.vacantOrFishNeighbor(shark, GRID);
 		if(freeNeighbor == null) {
-			return;
+			return SHARK;
 		}
 		else if(freeNeighbor.getState() == FISH) {
 			shark.incrementEnergy();
-			freeNeighbor.setState(VACANT);
 		}
-		shark.decrementEnergy();
 		swapCells(shark, freeNeighbor);
+		freeNeighbor.setState(SHARK);
+		freeNeighbor.setMove(true);
+		return VACANT;
 	}
 
 	/**
@@ -119,15 +100,25 @@ public class WaTorRuleset implements Ruleset {
 	 * 
 	 * @param shark
 	 */
-	private int checkEnergy(WaTorCell shark) {
+	private boolean checkEnergy(WaTorCell shark) {
+		System.out.println(shark.getEnergy());
 		int E = shark.getEnergy();
 		if(E > SHARK_BREEDENERGY) {
 			giveBirth(shark);
+			return true;
 		}
 		else if(E <= 0) {
-			return VACANT;
+			kill(shark);
+			return true;
 		}
-		return SHARK;
+		return false;
+	}
+
+
+	private void kill(WaTorCell shark) {
+		shark.reset();
+		shark.setState(VACANT);
+		shark.setMove(true);
 	}
 
 	/**
@@ -153,31 +144,7 @@ public class WaTorRuleset implements Ruleset {
 		if(baby != null) {
 			baby.reset();
 			baby.setState(cell.getState());
-			baby.updateState();
 			baby.setMove(true);
-		}
-	}
-
-	/**
-	 * Changes all setMoves() to false (so that cells don't overwrite each other)
-	 */
-	private void cleanMove() {
-		for(int r = 0; r < GRID.getXSize(); r++) {
-			for(int c = 0; c < GRID.getYSize(); c++) {
-				((WaTorCell) GRID.getCell(r,c)).setMove(false);
-			}
-		}
-	}
-	
-	/**
-	 * Updates cell states all at once
-	 */
-	public void updateStates() {
-		for(int r = 0; r < GRID.getXSize(); r++) {
-			for(int c = 0; c < GRID.getYSize(); c++) {
-				WaTorCell cell = (WaTorCell) GRID.getCell(r, c);
-				cell.updateState();
-			}
 		}
 	}
 
@@ -187,32 +154,15 @@ public class WaTorRuleset implements Ruleset {
 	 * @param b
 	 */
 	private void swapCells(WaTorCell a, WaTorCell b) {
-		// Switch state
-		int aState = a.getState();		
-		a.setState(b.getState());
-		b.setState(aState);
-	
 		// Switch energy
 		int aEnergy = a.getEnergy();
 		a.setEnergy(b.getEnergy());
 		b.setEnergy(aEnergy);
-		
+
 		// Switch breeding time 
 		int aTime = a.getBreedingTime();
 		a.setBreedingTime(b.getBreedingTime());
 		b.setBreedingTime(aTime);
-		
-		// Switch x and y values
-		int aX = a.getX();
-		int aY = a.getY();
-		a.setX(b.getX());
-		a.setY(b.getY());
-		b.setX(aX);
-		b.setY(aY);
-		
-		// Set to moveShark new location
-		a.setMove(true);
-		b.setMove(true);
 	}
 
 }

@@ -1,6 +1,5 @@
 package simulation.ruleSet;
 import simulation.cell.*;
-import simulation.grid.Grid;
 import simulation.neighbormanager.SegregationNeighborManager;
 
 /**
@@ -13,11 +12,10 @@ import simulation.neighbormanager.SegregationNeighborManager;
  *  @author Katherine Van Dyk
  *  @author Ben Hodgson
  */
-public class SegregationRuleset implements Ruleset {
+public class SegregationRuleset extends Ruleset {
 
 	private int VACANT = 2;
 	private double TOLERANCE;
-	private Grid GRID;
 	private SegregationNeighborManager NEIGHBOR_MANAGER = new SegregationNeighborManager();
 
 	/**
@@ -28,77 +26,36 @@ public class SegregationRuleset implements Ruleset {
 	public SegregationRuleset(double tolerance) {
 		this.TOLERANCE = tolerance;
 	}
-	
-	/**
-	 * Sets grid to current grid 
-	 * 
-	 * @param g: Current simulation grid
-	 */
-	@Override
-	public void setGrid(Grid g) {
-		GRID = g;
-	}
 
 	/**
 	 * Updates all states in current grid
 	 */
 	@Override
-	public void processCells() {
-		for(Cell row[] : GRID.getCells()) {
-			for(Cell cell : row) {
-				SegregationCell sCell = (SegregationCell) cell;
-				if(NEIGHBOR_MANAGER.getNeighborSatisfaction(sCell, GRID) < TOLERANCE && sCell.getState() != VACANT) {
-					moveCell(sCell);
-				}
-				else if(!sCell.getMove()) {
-					sCell.setState(sCell.getState());
-				}
-			}
+	public int processCell(Cell cell) {
+		SegregationCell sCell = (SegregationCell) cell;
+		if(NEIGHBOR_MANAGER.getNeighborSatisfaction(sCell, GRID) < TOLERANCE && sCell.getState() != VACANT) {
+			return moveCell(sCell);
 		}
-		cleanMove();
-		updateStates();
-	}	
+		else {
+			return  sCell.getState();
+		}
+	}
 	
 	/**
 	 * Moves cell to vacant spot
 	 * 
 	 * @param cell
 	 */
-	private void moveCell(SegregationCell cell) {
+	private int moveCell(SegregationCell cell) {
 		SegregationCell newCell = NEIGHBOR_MANAGER.findVacantCell(GRID);
-		if(newCell == null) return;
+		if(newCell == null) {
+			return cell.getState();
+		}
 		else{
 			newCell.setState(cell.getState());
 			newCell.setMove(true);
-			GRID.addCell(newCell);
-			cell.setState(VACANT);
-			cell.setMove(true);
-			GRID.addCell(cell);
+			return VACANT;
 		}
 	}
-
-	/**
-	 * Changes all setMoves() to false (so that cells don't overwrite each other)
-	 */
-	private void cleanMove() {
-		for(int r = 0; r < GRID.getXSize(); r++) {
-			for(int c = 0; c < GRID.getYSize(); c++) {
-				((SegregationCell) GRID.getCell(r,c)).setMove(false);
-			}
-		}
-	}
-	
-	/**
-	 * Updates states for all cell objects at once
-	 */
-	public void updateStates() {
-		for(int r = 0; r < GRID.getXSize(); r++) {
-			for(int c = 0; c < GRID.getYSize(); c++) {
-				SegregationCell cell = (SegregationCell) GRID.getCell(r, c);
-				cell.updateState();
-			}
-		}
-	}
-
 }
 
