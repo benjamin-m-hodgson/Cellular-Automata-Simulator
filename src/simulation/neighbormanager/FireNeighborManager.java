@@ -38,7 +38,7 @@ public class FireNeighborManager extends NeighborManager {
 	 * @return
 	 */
 	private Cell[] getNeighbors(Cell c, Grid g) {
-		ArrayList<Cell> neighbors = new ArrayList<Cell>();
+		ArrayList<Cell> neighbors = new ArrayList<>();
 		neighbors.addAll(Arrays.asList(NSEWCells(c , g)));
 		neighbors.addAll(Arrays.asList(diagonalCells(c ,g)));
 		return neighbors.toArray(new Cell[neighbors.size()]);

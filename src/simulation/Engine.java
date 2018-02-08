@@ -146,7 +146,7 @@ public class Engine {
 	 * @return the Simulation titles to be displayed to the user
 	 */
 	public ObservableList<String> getSimulations() {
-		List<String> typeList = new ArrayList<String>();
+		List<String> typeList = new ArrayList<>();
 		for (String type : GRIDS.keySet()) {
 			if (RULES.containsKey(type)) {
 				typeList.add(type);
@@ -195,14 +195,14 @@ public class Engine {
 	/**
 	 * Sets grids
 	 */
-	public void setGrids(HashMap<String, Grid> grids) {
+	public void setGrids(Map<String, Grid> grids) {
 		GRIDS = grids;
 	}
 
 	/**
 	 * Sets rules
 	 */
-	public void setRules(HashMap<String, Ruleset> rules) {
+	public void setRules(Map<String, Ruleset> rules) {
 		for (String key : rules.keySet()) {
 			Grid g = getGrid(key);
 			rules.get(key).setGrid(g);

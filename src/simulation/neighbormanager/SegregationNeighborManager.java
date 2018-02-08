@@ -24,7 +24,7 @@ public class SegregationNeighborManager extends NeighborManager {
 	 * @return
 	 */
 	public SegregationCell findVacantCell(Grid g) {
-		ArrayList<SegregationCell> vacant = new ArrayList<SegregationCell>();
+		ArrayList<SegregationCell> vacant = new ArrayList<>();
 		Random rand = new Random();
 		for(Cell[] row : g.getCells()) {
 			for(Cell cell : row) {
@@ -44,8 +44,8 @@ public class SegregationNeighborManager extends NeighborManager {
 	 * @return
 	 */
 	private Cell[] getNeighbors(Cell c, Grid g) {
-		ArrayList<Cell> neighbors = new ArrayList<Cell>();
-		ArrayList<Cell> agents = new ArrayList<Cell>();
+		ArrayList<Cell> neighbors = new ArrayList<>();
+		ArrayList<Cell> agents = new ArrayList<>();
 		neighbors.addAll(Arrays.asList(NSEWCells(c , g)));
 		neighbors.addAll(Arrays.asList(diagonalCells(c ,g)));
 		for(Cell neighbor: neighbors) {

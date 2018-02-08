@@ -7,7 +7,7 @@ import simulation.grid.*;
 import simulation.ruleSet.*;
 
 public class GameOfLifeXMLData extends XMLData {
-	public static final List<String> DATA_FIELDS = Arrays.asList(new String[] {
+	protected static final List<String> DATA_FIELDS = Arrays.asList(new String[] {
 			"type",
 			"name",
 			"sizeX",
