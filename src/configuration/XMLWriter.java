@@ -121,7 +121,7 @@ public class XMLWriter {
 	private String cellStates(Grid g) {
 		String result = "";
 		for(int r = 0; r < g.getXSize(); r++) {
-			String element = new String();
+			String element = "";
 			for(int c = 0; c < g.getYSize(); c++) {
 				element = element + Integer.toString(g.getCell(r, c).getState()) + " ";
 			}

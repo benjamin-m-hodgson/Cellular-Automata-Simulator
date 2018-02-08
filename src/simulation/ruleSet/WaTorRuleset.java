@@ -1,6 +1,6 @@
 package simulation.ruleSet;
 import simulation.cell.*;
-import simulation.neighbormanager.WaTorNeighborManager;
+import simulation.ruleSet.neighborManager.*;
 
 /**
  * WaTor Predator-Prey Simulation
@@ -18,7 +18,7 @@ public class WaTorRuleset extends Ruleset {
 	private int VACANT = 2;
 	private int FISH_BREEDTIME;
 	private int SHARK_BREEDENERGY;
-	private WaTorNeighborManager NEIGHBOR_MANAGER = new WaTorNeighborManager();
+	private simulation.ruleSet.neighborManager.WaTorNeighborManager NEIGHBOR_MANAGER;
 
 	/**
 	 * Constructor that sets simulation parameters
@@ -29,7 +29,7 @@ public class WaTorRuleset extends Ruleset {
 	public WaTorRuleset(int fishBreedTime, int sharkBreedEnergy) {
 		this.FISH_BREEDTIME = fishBreedTime;
 		this.SHARK_BREEDENERGY = sharkBreedEnergy;
-		this.NEIGHBOR_MANAGER = new WaTorNeighborManager();
+		this.NEIGHBOR_MANAGER = new WaTorNeighborManager("Square");
 	}
 
 	/**
@@ -64,7 +64,7 @@ public class WaTorRuleset extends Ruleset {
 	 */
 	private int moveFish(WaTorCell fish) {
 		fish.incrementBreedingTime();
-		WaTorCell freeNeighbor = NEIGHBOR_MANAGER.vacantNeighbor(fish, GRID);
+		WaTorCell freeNeighbor = (WaTorCell) NEIGHBOR_MANAGER.getNeighbor(fish, GRID, VACANT);
 		if(freeNeighbor != null) {
 			swapCells(fish, freeNeighbor);
 			freeNeighbor.setState(FISH);
@@ -81,7 +81,7 @@ public class WaTorRuleset extends Ruleset {
 	 */
 	private int moveShark(WaTorCell shark) {
 		shark.decrementEnergy();
-		WaTorCell freeNeighbor = NEIGHBOR_MANAGER.vacantOrFishNeighbor(shark, GRID);
+		WaTorCell freeNeighbor = (WaTorCell) NEIGHBOR_MANAGER.vacantOrFishNeighbor(shark, GRID);
 		if(freeNeighbor == null) {
 			return SHARK;
 		}
@@ -142,7 +142,7 @@ public class WaTorRuleset extends Ruleset {
 	 * @param cell: Fish cell giving birth
 	 */
 	private void giveBirth(WaTorCell cell) {
-		WaTorCell baby = NEIGHBOR_MANAGER.vacantNeighbor(cell, GRID);
+		WaTorCell baby = (WaTorCell) NEIGHBOR_MANAGER.getNeighbor(cell, GRID, VACANT);
 		if(baby != null) {
 			baby.reset();
 			baby.setState(cell.getState());

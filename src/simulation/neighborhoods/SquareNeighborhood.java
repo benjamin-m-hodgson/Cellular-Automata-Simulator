@@ -1,8 +1,7 @@
-package simulation.neighbormanager;
+package simulation.neighborhoods;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-
 import simulation.grid.*;
 import simulation.cell.*;
 
@@ -12,7 +11,7 @@ import simulation.cell.*;
  * @author Katherine Van Dyk
  *
  */
-public class NeighborManager {
+public class SquareNeighborhood extends Neighborhood {
 	
 	/**
 	 * Returns neighbors in t formation
@@ -80,7 +79,7 @@ public class NeighborManager {
 	 * @param g: current grid state
 	 * @return Neighbors north, south, east and west (if wrappable)
 	 */
-	private Cell[] wrapNSEWCells(Cell c, Grid g) {
+	protected Cell[] wrapNSEWCells(Cell c, Grid g) {
 		int x = c.getX();
 		int y = c.getY();
 		ArrayList<Cell> neighbors = new ArrayList<>(); 
@@ -108,7 +107,7 @@ public class NeighborManager {
 	 * @param g: current grid state
 	 * @return Diagonal neighbors if wrappable
 	 */
-	private Cell[] wrapDiagonalCells(Cell c, Grid g) {
+	protected Cell[] wrapDiagonalCells(Cell c, Grid g) {
 		int x = c.getX();
 		int y = c.getY();
 		ArrayList<Cell> neighbors = new ArrayList<>(); 

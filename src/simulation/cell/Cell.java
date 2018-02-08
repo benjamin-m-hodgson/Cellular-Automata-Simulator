@@ -83,17 +83,6 @@ public abstract class Cell implements Cloneable{
 	}
 	
 	/**
-	 * Returns a copy of this object using the Cloneable interface
-	 */
-	public Cell clone() throws CloneNotSupportedException {
-		Cell copyCell = (Cell) super.clone();
-		copyCell.myXPos = this.myXPos;
-		copyCell.myYPos = this.myYPos;
-		copyCell.myState = this.myState;
-		return copyCell;
-	}
-	
-	/**
 	 * Takes @param state and updates the state of the Cell along with any
 	 * related properties
 	 * 
@@ -107,14 +96,6 @@ public abstract class Cell implements Cloneable{
 	 * @param state: the current state of the cell
 	 */
 	public abstract Color colorCell();
-	
-	/**
-	 * 
-	 * @return Cell[]: an array of Cells neighboring this Cell object
-	 */
-	public Cell[] getNeighbors() {
-		return null;
-	}
 	
 	/**
 	 * Set that cell has moved so that it is not overwritten in later iterations
