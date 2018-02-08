@@ -53,7 +53,7 @@ public class CurrentSimulation{
 		String currentShape = PROGRAM_ENGINE.currentShapeType();
 		for (int i = 0; i < SIMULATION_SHAPES.length; i++) {
 			for (int j = 0; j < SIMULATION_SHAPES[i].length; j ++) {
-				if (currentShape.equals("Rectangle")) {
+				if (currentShape.equalsIgnoreCase("Rectangle")) {
 					Rectangle cellShape = new Rectangle();
 					cellShape.setId("defaultCell");
 					/*cellShape.heightProperty().bind(
@@ -65,6 +65,9 @@ public class CurrentSimulation{
 					cellShape.setHeight(550/SIMULATION_SHAPES.length);
 					cellShape.setWidth(550/SIMULATION_SHAPES.length);
 					SIMULATION_SHAPES[i][j] = cellShape;
+				}
+				else if (currentShape.equalsIgnoreCase("Triangle")) {
+					
 				}
 			}
 		}
