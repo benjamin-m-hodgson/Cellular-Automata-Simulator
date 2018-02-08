@@ -59,7 +59,7 @@ public class XMLWriter {
 
 		// Set root element
 		Document doc = DOCUMENT_BUILDER.newDocument();
-		Element rootElement = doc.createElement("simulation");
+		Element rootElement = doc.createElement(SIMULATION);
 		doc.appendChild(rootElement);
 
 		Attr attr = doc.createAttribute(DATA_FIELDS.get(0));
