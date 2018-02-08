@@ -47,11 +47,9 @@ public class StartScreen extends Screen {
 	// make the root for the start screen to display on application start up
 	@Override
 	public void makeRoot() {
-		Label programTitle = makeLabel(PROGRAM_ENGINE.getResourceBundle()
-				.getString("programTitleString"));
+		Label programTitle = makeLabel(PROGRAM_ENGINE.resourceString("programTitleString"));
 		ChoiceBox<Object> simulationChoices = simulatorChooser();
-		SIMULATE = makeButton(PROGRAM_ENGINE.getResourceBundle()
-				.getString("simulateString"));
+		SIMULATE = makeButton(PROGRAM_ENGINE.resourceString("simulateString"));
 		HBox alignBoxes = new HBox(30, simulationChoices, SIMULATE);
 		VBox alignTitle = new VBox(30, programTitle, alignBoxes);
      	GridPane newRoot = new GridPane();
@@ -102,8 +100,7 @@ public class StartScreen extends Screen {
 	 */
 	private ChoiceBox<Object> simulatorChooser() {
 		ChoiceBox<Object> dropDownMenu = new ChoiceBox<Object>();
-		String defaultChoice = PROGRAM_ENGINE.getResourceBundle()
-				.getString("defaultChooserString");
+		String defaultChoice = PROGRAM_ENGINE.resourceString("defaultChooserString");
 		dropDownMenu.setValue(defaultChoice);
 		ObservableList<Object> simulationChoices = 
 				FXCollections.observableArrayList(defaultChoice, new Separator());

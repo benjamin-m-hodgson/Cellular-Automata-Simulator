@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Parent;
@@ -44,15 +45,17 @@ public class Engine {
 	private Stage PROGRAM_STAGE;
 	private Scene PROGRAM_SCENE;
 	private String SIMULATION_TYPE;
+	private String SHAPE_TYPE = "Rectangle";
 	private int GENERATION;
 	private boolean SIMULATING;
+	private CurrentSimulation SIMULATION;
 
 	private Map<String, Grid> GRIDS;
 	private Map<String, Ruleset> RULES;
 
 	// Give the program a title
 	public Engine() {
-		PROGRAM_TITLE = DEFAULT_RESOURCES.getString("programTitleString");
+		PROGRAM_TITLE = resourceString("programTitleString");
 		GRIDS = null;
 		RULES = null;
 	}
@@ -88,12 +91,8 @@ public class Engine {
 			stopSimulation();
 		}
 		// reset instance variables
-		SIMULATION_TYPE = type;
-		SIMULATING = true;
-		GENERATION = 0;
-		initializeMaps();
-		PROGRAM_STAGE.setTitle(SIMULATION_TYPE);
-		Parent root = new SimulationScreen(this).getRoot();
+		initializeSimulation(type);
+		Parent root = new SimulationScreen(this, SIMULATION).getRoot();
 		PROGRAM_SCENE.setRoot(root);
 		playAnimation();
 	}
@@ -158,14 +157,6 @@ public class Engine {
 	}
 
 	/**
-	 * 
-	 * @return PROGRAM_STAGE: the stage used by the application
-	 */
-	public Stage getProgramStage() {
-		return PROGRAM_STAGE;
-	}
-
-	/**
 	 * Initializes the values in the maps GRIDS and RULES
 	 */
 	public void initializeMaps() {
@@ -197,12 +188,8 @@ public class Engine {
 		return GENERATION;
 	}
 	
-	/**
-	 * 
-	 * @return DEFAULT_RESOURCES: the resource bundle to determine label Strings
-	 */
-	public ResourceBundle getResourceBundle() {
-		return DEFAULT_RESOURCES;
+	public String resourceString(String key) {
+		return DEFAULT_RESOURCES.getString(key);
 	}
 
 	/**
@@ -225,11 +212,38 @@ public class Engine {
 	}
 	
 	public Grid currentGrid() {
-		return GRIDS.get(SIMULATION_TYPE);
+		return getGrid(SIMULATION_TYPE);
 	}
 	
-	public Grid currentGrid() {
-		return GRIDS.get(SIMULATION_TYPE);
+	public Ruleset currentRules() {
+		return RULES.get(SIMULATION_TYPE);
+	}
+	
+	public String currentShapeType() {
+		return SHAPE_TYPE;
+	}
+	
+	public ReadOnlyDoubleProperty sceneWidth() {
+		return PROGRAM_STAGE.widthProperty();
+	}
+	
+	public ReadOnlyDoubleProperty sceneHeight() {
+		return PROGRAM_STAGE.heightProperty();
+	}
+	
+	private void initializeSimulation(String type) {
+		// reset instance variables
+		SIMULATION_TYPE = type;
+		SIMULATING = true;
+		GENERATION = 0;
+		initializeMaps();
+		PROGRAM_STAGE.setTitle(SIMULATION_TYPE);
+		if (SIMULATION != null) {
+			SIMULATION.reset();
+		}
+		else {
+			SIMULATION = new CurrentSimulation(this);
+		}
 	}
 
 
@@ -284,7 +298,7 @@ public class Engine {
 	 */
 	private void step (double elapsedTime) {   	
 		if (SIMULATING) {
-			RULES.get(SIMULATION_TYPE).processCells();
+			SIMULATION.update();
 			GENERATION++;
 		}
 	}
