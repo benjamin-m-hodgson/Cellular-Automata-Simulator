@@ -1,6 +1,6 @@
 package simulation.ruleSet;
 import simulation.cell.*;
-import simulation.neighbormanager.SegregationNeighborManager;
+import simulation.ruleSet.neighborManager.*;
 
 /**
  * Segregation simulation ruleset
@@ -14,7 +14,7 @@ public class SegregationRuleset extends Ruleset {
 
 	private int VACANT = 2;
 	private double TOLERANCE;
-	private SegregationNeighborManager NEIGHBOR_MANAGER = new SegregationNeighborManager();
+	private SegregationNeighborManager NEIGHBOR_MANAGER;
 
 	/**
 	 * Constructor that sets simulation parameters
@@ -23,6 +23,7 @@ public class SegregationRuleset extends Ruleset {
 	 */
 	public SegregationRuleset(double tolerance) {
 		this.TOLERANCE = tolerance;
+		this.NEIGHBOR_MANAGER = new SegregationNeighborManager("Square");
 	}
 
 	/**

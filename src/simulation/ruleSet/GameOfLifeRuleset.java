@@ -1,6 +1,6 @@
 package simulation.ruleSet;
 import simulation.cell.*;
-import simulation.neighbormanager.GameOfLifeNeighborManager;
+import simulation.ruleSet.neighborManager.*;
 
 /**
  * Game of Life simulation ruleset
@@ -27,7 +27,7 @@ public class GameOfLifeRuleset extends Ruleset {
 	 * @param birth: exact number of live neighbors needed to give birth
 	 */
 	public GameOfLifeRuleset(int minLife, int maxLife, int birth) {
-		this.NEIGHBOR_MANAGER = new GameOfLifeNeighborManager();
+		this.NEIGHBOR_MANAGER = new GameOfLifeNeighborManager("Square");
 		this.MINLIFE = minLife;
 		this.MAXLIFE = maxLife;
 		this.BIRTH = birth;
@@ -43,7 +43,7 @@ public class GameOfLifeRuleset extends Ruleset {
 	 */
 	@Override
 	public int processCell(Cell c) {
-		int liveCount = NEIGHBOR_MANAGER.neighborCount(c, GRID);
+		int liveCount = NEIGHBOR_MANAGER.neighborCount(c, GRID, LIVE);
 		if(c.getState() == LIVE) {
 			if(liveCount > this.MINLIFE || liveCount < this.MAXLIFE) {
 				return LIVE;

@@ -1,10 +1,12 @@
-package simulation.neighbormanager;
+package simulation.ruleSet.neighborManager;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
 import simulation.cell.*;
 import simulation.grid.*;
+import simulation.neighborhoods.Neighborhood;
+import simulation.neighborhoods.SquareNeighborhood;
 
 
 /**
@@ -16,7 +18,13 @@ import simulation.grid.*;
 public class SegregationNeighborManager extends NeighborManager {
 
 	private int VACANT = 2; 
+	private Neighborhood NEIGHBORHOOD;
 
+	public SegregationNeighborManager(String CellType) {
+		if(CellType.equals("Square")) NEIGHBORHOOD = new SquareNeighborhood();
+ 	}
+	
+	
 	/**
 	 * Returns a random vacant cell
 	 * 
@@ -49,11 +57,12 @@ public class SegregationNeighborManager extends NeighborManager {
 	 * @param g
 	 * @return
 	 */
-	private Cell[] getNeighbors(Cell c, Grid g) {
+	@Override
+	protected Cell[] getNeighbors(Cell c, Grid g) {
 		ArrayList<Cell> neighbors = new ArrayList<>();
 		ArrayList<Cell> agents = new ArrayList<>();
-		neighbors.addAll(Arrays.asList(NSEWCells(c , g)));
-		neighbors.addAll(Arrays.asList(diagonalCells(c ,g)));
+		neighbors.addAll(Arrays.asList(NEIGHBORHOOD.NSEWCells(c , g)));
+		neighbors.addAll(Arrays.asList(NEIGHBORHOOD.diagonalCells(c ,g)));
 		for(Cell neighbor: neighbors) {
 			if(neighbor.getState() != VACANT) {
 				agents.add(neighbor);

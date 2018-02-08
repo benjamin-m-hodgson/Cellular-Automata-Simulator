@@ -83,17 +83,6 @@ public abstract class Cell implements Cloneable{
 	}
 	
 	/**
-	 * Returns a copy of this object using the Cloneable interface
-	 */
-	public Cell clone() throws CloneNotSupportedException {
-		Cell copyCell = (Cell) super.clone();
-		copyCell.myXPos = this.myXPos;
-		copyCell.myYPos = this.myYPos;
-		copyCell.myState = this.myState;
-		return copyCell;
-	}
-	
-	/**
 	 * Takes @param state and updates the state of the Cell along with any
 	 * related properties
 	 * 
