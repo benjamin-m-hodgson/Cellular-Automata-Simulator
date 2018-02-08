@@ -1,6 +1,5 @@
 package simulation.cell;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
 
 /**
@@ -26,16 +25,6 @@ public class GameOfLifeCell extends Cell {
 	}
 
 	/**
-	 * Assigns rectangle to represent Game of Life Cell
-	 */
-	@Override
-	public void drawShape() {
-		Rectangle GOLBlock = new Rectangle();
-		myShape = GOLBlock;
-		
-	}
-
-	/**
 	 * Sets current state of Game of Life cell
 	 */
 	@Override
@@ -48,9 +37,10 @@ public class GameOfLifeCell extends Cell {
 	 * Assigns color of Game of Life cell based on current state
 	 */
 	@Override
-	public void colorCell(int state) {
-		if (state == LIVE) {
-			myShape.setFill(Color.LIGHTGREEN);
+	public Color colorCell() {
+		if (myState == LIVE) {
+			return Color.LIGHTGREEN;
 		}
+		return Color.DIMGRAY;
 	}
 }

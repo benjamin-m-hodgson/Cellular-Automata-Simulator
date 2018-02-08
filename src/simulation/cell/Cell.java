@@ -1,6 +1,6 @@
 package simulation.cell;
 
-import javafx.scene.shape.Rectangle;
+import javafx.scene.paint.Color;
 
 /**
  * Cell object to be placed in grid 
@@ -14,7 +14,6 @@ public abstract class Cell implements Cloneable{
 	protected int myNextState;
 	protected int myXPos;
 	protected int myYPos;
-	protected Rectangle myShape;
 	protected Boolean MOVED;
 	
 	/**
@@ -29,8 +28,6 @@ public abstract class Cell implements Cloneable{
 		myXPos = x;
 		myYPos = y;
 		MOVED = false;
-		drawShape();
-		colorCell(myState);
 	}
 	
 	/**
@@ -83,19 +80,6 @@ public abstract class Cell implements Cloneable{
 	 */
 	public void updateState() {
 		myState = myNextState;
-		colorCell(myState);
-	}
-	
-	/**
-	 * Returns display object of cell
-	 * 
-	 * @return myShape: the Shape object that visually represents this Cell
-	 */
-	public Rectangle getShape() {
-		if (myShape == null) {
-			drawShape();
-		}
-		return myShape;
 	}
 	
 	/**
@@ -106,7 +90,6 @@ public abstract class Cell implements Cloneable{
 		copyCell.myXPos = this.myXPos;
 		copyCell.myYPos = this.myYPos;
 		copyCell.myState = this.myState;
-		copyCell.myShape.setFill(this.myShape.getFill());
 		return copyCell;
 	}
 	
@@ -119,17 +102,11 @@ public abstract class Cell implements Cloneable{
 	public abstract void setState(int state);
 	
 	/**
-	 * Method to assign the instance variable myShape to a Shape object
-	 * to visually represent the Cell
-	 */
-	public abstract void drawShape();
-	
-	/**
 	 * Changes the color of the cell to reflect state changes for animation
 	 * 
 	 * @param state: the current state of the cell
 	 */
-	public abstract void colorCell(int state);
+	public abstract Color colorCell();
 	
 	/**
 	 * 

@@ -1,7 +1,6 @@
 package simulation.cell;
 
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
 /**
  * Cell object for WaTor simulation
@@ -102,16 +101,7 @@ public class WaTorCell extends Cell {
 		this.ENERGY = ENERGY_HOLDER;
 		this.MOVED = true;
 	}
-
-	/**
-	 * Creates rectangle representing WaTor cell
-	 */
-	@Override
-	public void drawShape() {
-		Rectangle watBlock = new Rectangle();
-		myShape = watBlock;
-	}
-
+	
 	/**
 	 * Sets current state of WaTor cell
 	 */
@@ -125,15 +115,15 @@ public class WaTorCell extends Cell {
 	 * Colors cell based on current state
 	 */
 	@Override
-	public void colorCell(int state) {
+	public Color colorCell() {
 		if (myState == SHARK) {
-			myShape.setFill(Color.DEEPSKYBLUE);
+			return Color.DEEPSKYBLUE;
 		}
 		else if (myState == FISH) {
-			myShape.setFill(Color.POWDERBLUE);
+			return Color.POWDERBLUE;
 		}
 		else {
-			myShape.setFill(Color.DIMGRAY);
+			return Color.DIMGRAY;
 		}
 	}	
 }

@@ -21,8 +21,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 import javafx.util.Duration;
+import simulation.CurrentSimulation;
 import simulation.Engine;
 import simulation.cell.Cell;
 import simulation.grid.Grid;
@@ -41,6 +42,7 @@ public class SimulationScreen extends Screen {
 	private final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
     private final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
 	private final Engine PROGRAM_ENGINE;
+	private final CurrentSimulation SIMULATION;
 	
 	private Label GENERATION;
 	private Label SPEED;
@@ -51,8 +53,9 @@ public class SimulationScreen extends Screen {
 	private Button PAUSE;
 	
 	// need to save the Engine to call functions on button clicks
-	public SimulationScreen(Engine programEngine) {
+	public SimulationScreen(Engine programEngine, CurrentSimulation simulation) {
 		PROGRAM_ENGINE = programEngine;
+		SIMULATION = simulation;
 	}
 	
 	@Override
@@ -90,8 +93,7 @@ public class SimulationScreen extends Screen {
 		VBox simulationSettings = makeSettings();
 		VBox sidePanel = new VBox(50, simulationInfo, simulationMenu, simulationSettings);
 		sidePanel.setId("simulateSidePanel");
-		sidePanel.prefHeightProperty().bind(Bindings.divide(PROGRAM_ENGINE.getProgramStage()
-				.heightProperty(), 1.0));
+		sidePanel.prefHeightProperty().bind(Bindings.divide(PROGRAM_ENGINE.sceneHeight(), 1.0));
 		return sidePanel;
 	}
 	
@@ -102,11 +104,11 @@ public class SimulationScreen extends Screen {
 	 * @return simulationInfo: a VBox containing the simulation information to be displayed
 	 */
 	private VBox makeInfo() {
-		Label currentSimulation = makeLabel(PROGRAM_ENGINE.getResourceBundle()
-				.getString("currentSimulationString"));
+		Label currentSimulation = makeLabel(PROGRAM_ENGINE.
+				resourceString("currentSimulationString"));
 		Label simulationName = makeLabel(PROGRAM_ENGINE.getSimulationType());
-		Label currentGeneration = makeLabel(PROGRAM_ENGINE.getResourceBundle()
-				.getString("currentGenerationString"));
+		Label currentGeneration = makeLabel(PROGRAM_ENGINE.
+				resourceString("currentGenerationString"));
 		GENERATION = makeLabel(Integer.toString(PROGRAM_ENGINE.getGeneration()));
 		VBox simulationInfo = new VBox(5, currentSimulation, simulationName,
 				currentGeneration, GENERATION);
@@ -130,11 +132,10 @@ public class SimulationScreen extends Screen {
 	 * @return simulationMenu: a VBox containing controls to change the animation
 	 */
 	private VBox makeMenu() {
-		Label simulationPrompt = makeLabel(PROGRAM_ENGINE.getResourceBundle()
-				.getString("changeSimulationString")); 
+		Label simulationPrompt = makeLabel(PROGRAM_ENGINE.
+				resourceString("changeSimulationString")); 
 		ChoiceBox<Object> simulationChoices = simulatorChooser();
-		SIMULATE = makeButton(PROGRAM_ENGINE.getResourceBundle()
-				.getString("simulateString"));
+		SIMULATE = makeButton(PROGRAM_ENGINE.resourceString("simulateString"));
 		VBox simulationMenu = new VBox(5, simulationPrompt, simulationChoices, SIMULATE);
 		return simulationMenu;
 	}
@@ -149,8 +150,7 @@ public class SimulationScreen extends Screen {
 	 */
 	private ChoiceBox<Object> simulatorChooser() {
 		ChoiceBox<Object> dropDownMenu = new ChoiceBox<Object>();
-		String defaultChoice = PROGRAM_ENGINE.getResourceBundle()
-				.getString("defaultChooserString");
+		String defaultChoice = PROGRAM_ENGINE.resourceString("defaultChooserString");
 		dropDownMenu.setValue(defaultChoice);
 		ObservableList<Object> simulationChoices = 
 				FXCollections.observableArrayList(defaultChoice, new Separator());
@@ -323,8 +323,8 @@ public class SimulationScreen extends Screen {
 	 * @return sliderLabel: a Label indicating the current selected generation speed
 	 */
 	private Label makeSliderLabel() {
-		Label sliderLabel = new Label(PROGRAM_ENGINE.getResourceBundle()
-				.getString("animationSpeedString") + " 1.00");
+		Label sliderLabel = new Label(PROGRAM_ENGINE.
+				resourceString("animationSpeedString") + " 1.00");
 		sliderLabel.setId("simulateSpeedLabel");
 		return sliderLabel;
 	}
@@ -340,8 +340,7 @@ public class SimulationScreen extends Screen {
 	private HBox cellPanel() {
 		HBox cellPanel = new HBox();
 		cellPanel.setId("simulateCellPanel");
-		cellPanel.prefHeightProperty().bind(Bindings.divide(PROGRAM_ENGINE.getProgramStage()
-				.heightProperty(), 1.0));
+		cellPanel.prefHeightProperty().bind(Bindings.divide(PROGRAM_ENGINE.sceneHeight(), 1.0));
 		addCells(cellPanel);
 		return cellPanel;
 	}
@@ -362,18 +361,11 @@ public class SimulationScreen extends Screen {
 		}
 		Cell[][] simulationCells = typeGrid.getCells();
 		//System.out.println(simulationCells);
-		double numRow = simulationCells.length;
-		double numCol = simulationCells[0].length;
 		VBox cols = new VBox(1);
-		for (int i = 0; i < numRow; i++) {
+		for (int i = 0; i < simulationCells.length; i++) {
 			HBox row = new HBox(1);
-			for (int j = 0; j < numCol; j++) {
-				Cell thisCell = simulationCells[i][j];
-				Rectangle cellShape = thisCell.getShape();
-				cellShape.setId("defaultCell");
-				// set cell size to match window size	
-				cellShape.setWidth(540.0/numCol);
-				cellShape.setHeight(540.0/numRow);
+			for (int j = 0; j < simulationCells[i].length; j++) {
+				Shape cellShape = SIMULATION.drawShape(i, j);
 				row.getChildren().add(cellShape);
 			}
 			cols.getChildren().add(row);
