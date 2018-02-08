@@ -120,15 +120,16 @@ public class XMLWriter {
 	 * @return
 	 */
 	private String cellStates(Grid g) {
-		String result = "";
+		StringBuilder result = new StringBuilder();
 		for(int r = 0; r < g.getXSize(); r++) {
-			String element = new String();
+			StringBuilder element = new StringBuilder();
 			for(int c = 0; c < g.getYSize(); c++) {
-				element = element + Integer.toString(g.getCell(r, c).getState()) + " ";
+				element.append(element.toString() 
+						+ Integer.toString(g.getCell(r, c).getState()) + " ");
 			}
-			result += element + "\n";
+			result.append(element.toString() + "%n");
 		}
-		return result;
+		return result.toString();
 	}
 
 	/**

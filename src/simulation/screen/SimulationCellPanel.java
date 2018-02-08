@@ -54,14 +54,7 @@ public class SimulationCellPanel {
 	 * @param cellPanel: the Panel that contains the cell Objects
 	 */
 	private void addCells(HBox cellPanel) {
-		Grid typeGrid = null;
-		try {
-			typeGrid = PROGRAM_ENGINE.getGrid(PROGRAM_ENGINE.getSimulationType());
-		}
-		catch (NullPointerException e) {
-			System.out.printf("Null argument received from getGrid() in "
-					+ "SimulationScreen class\n");
-		}
+		Grid typeGrid = PROGRAM_ENGINE.getGrid(PROGRAM_ENGINE.getSimulationType());
 		Cell[][] simulationCells = typeGrid.getCells();
 		//System.out.println(simulationCells);
 		VBox cols = new VBox(1);
