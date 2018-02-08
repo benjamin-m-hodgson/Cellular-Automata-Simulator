@@ -27,7 +27,6 @@ public class XMLParser {
 	public static final String WATOR = "WaTor";
 	public static final String SEGREGATION = "Segregation";
 	public static final String GAMEOFLIFE = "Game of Life";
-	
 	private String TYPE_ATTRIBUTE = "simulation";
 	private final DocumentBuilder DOCUMENT_BUILDER;
 	private XMLData data;
@@ -81,6 +80,11 @@ public class XMLParser {
 		return data.getName();
 	}
 	
+	/**
+	 * Chooses type of simulation (may make simulation manager)
+	 * 
+	 * @param dataFile
+	 */
 	public void setType(File dataFile) {
 		try {
 			String simType = getAttribute(getRootElement(dataFile), "type");

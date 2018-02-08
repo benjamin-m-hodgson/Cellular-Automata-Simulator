@@ -3,9 +3,7 @@ import simulation.cell.*;
 import simulation.neighbormanager.SegregationNeighborManager;
 
 /**
- * RULES: 
- * Satisfied Cell: % neighbors satisfied < tolerance -> Dissatisfied
- * Dissatisfied Cell: moves to random vacant spot
+ * Segregation simulation ruleset
  * 
  *  @param Cell c: cell whose state is being evaluated
  *  @param Cell[] neighbors: neighbors of c
@@ -21,7 +19,7 @@ public class SegregationRuleset extends Ruleset {
 	/**
 	 * Constructor that sets simulation parameters
 	 * 
-	 * @param tolerance
+	 * @param tolerance: tolerance of neighbors of opposite group
 	 */
 	public SegregationRuleset(double tolerance) {
 		this.TOLERANCE = tolerance;
@@ -29,6 +27,8 @@ public class SegregationRuleset extends Ruleset {
 
 	/**
 	 * Updates all states in current grid
+	 * 
+	 * @param cell : Cell to be processed
 	 */
 	@Override
 	public int processCell(Cell cell) {

@@ -3,9 +3,7 @@ import simulation.cell.*;
 import simulation.neighbormanager.GameOfLifeNeighborManager;
 
 /**
- * RULES: 
- * Live Cell: < MINLIFE or > MAXLIFE neighbors -> cell dies
- * Dead Cell: Exactly BIRTH neighbors -> cell comes back to life
+ * Game of Life simulation ruleset
  * 
  *  @param Cell c: cell whose state is being evaluated
  *  @param Cell[] neighbors: neighbors of c

@@ -223,6 +223,14 @@ public class Engine {
 
 		RULES = rules;
 	}
+	
+	public Grid currentGrid() {
+		return GRIDS.get(SIMULATION_TYPE);
+	}
+	
+	public Grid currentGrid() {
+		return GRIDS.get(SIMULATION_TYPE);
+	}
 
 
 	/**
@@ -233,10 +241,10 @@ public class Engine {
 	public Grid getGrid(String name) {
 		Grid cloneGrid = null;
 		try {
-			cloneGrid = (Grid) GRIDS.get(name).clone();
+			cloneGrid = (Grid) GRIDS.get(name);
 			return cloneGrid;
-		} catch (CloneNotSupportedException e) {
-			System.out.printf("Could not clone Grid object with key %s\n", name);
+		} catch ( NullPointerException e) {
+			System.out.printf("Could not get Grid object with key %s\n", name);
 		}
 		return cloneGrid;
 	}
