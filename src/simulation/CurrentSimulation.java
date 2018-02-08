@@ -96,8 +96,10 @@ public class CurrentSimulation {
 		for (int i = 0; i < cellsToProcess.length; i++) {
 			for (int j = 0; j < cellsToProcess[i].length; j++) {
 				Cell cell = cellsToProcess[i][j];
-				if(cell.getMove()) continue;
-				else{
+				if(cell.getMove()) {
+					continue;
+				}
+				else {
 					int newState = r.processCell(cell);
 					cell.setState(newState);
 				}

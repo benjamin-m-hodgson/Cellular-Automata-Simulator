@@ -109,14 +109,6 @@ public abstract class Cell implements Cloneable{
 	public abstract Color colorCell();
 	
 	/**
-	 * 
-	 * @return Cell[]: an array of Cells neighboring this Cell object
-	 */
-	public Cell[] getNeighbors() {
-		return null;
-	}
-	
-	/**
 	 * Set that cell has moved so that it is not overwritten in later iterations
 	 * 
 	 * @param b: true if moved, false otherwise

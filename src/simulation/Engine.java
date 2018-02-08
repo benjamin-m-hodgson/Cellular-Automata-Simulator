@@ -3,6 +3,7 @@ package simulation;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.ResourceBundle;
 
 import javafx.animation.KeyFrame;
@@ -163,9 +164,9 @@ public class Engine {
 		filecontrol.parseFiles();
 		Map<String, Grid> grids = filecontrol.getGrid();
 		Map<String, Ruleset> rules = filecontrol.getRules();
-		for (String key : rules.keySet()) {
-			Grid g = grids.get(key);
-			rules.get(key).setGrid(g);
+		for (Entry<String, Ruleset> entry : rules.entrySet()) {
+			Grid g = grids.get(entry.getKey());
+			rules.get(entry.getKey()).setGrid(g);
 		}
 		RULES = rules;
 		GRIDS = grids;
@@ -189,25 +190,6 @@ public class Engine {
 	
 	public String resourceString(String key) {
 		return DEFAULT_RESOURCES.getString(key);
-	}
-
-	/**
-	 * Sets grids
-	 */
-	public void setGrids(Map<String, Grid> grids) {
-		GRIDS = grids;
-	}
-
-	/**
-	 * Sets rules
-	 */
-	public void setRules(Map<String, Ruleset> rules) {
-		for (String key : rules.keySet()) {
-			Grid g = getGrid(key);
-			rules.get(key).setGrid(g);
-		}
-
-		RULES = rules;
 	}
 	
 	public Grid currentGrid() {
@@ -257,7 +239,7 @@ public class Engine {
 			cloneGrid = (Grid) GRIDS.get(name);
 			return cloneGrid;
 		} catch ( NullPointerException e) {
-			System.out.printf("Could not get Grid object with key %s\n", name);
+			System.out.printf("Could not get Grid object with key %s%n", name);
 		}
 		return cloneGrid;
 	}

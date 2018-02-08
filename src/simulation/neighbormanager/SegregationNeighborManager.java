@@ -29,11 +29,17 @@ public class SegregationNeighborManager extends NeighborManager {
 		for(Cell[] row : g.getCells()) {
 			for(Cell cell : row) {
 				SegregationCell sCell = (SegregationCell) cell;
-				if(!sCell.getMove() && sCell.getState() == VACANT) vacant.add(sCell);
+				if(!sCell.getMove() && sCell.getState() == VACANT) {
+					vacant.add(sCell);
+				}
 			}
 		}
-		if(vacant.size() > 0) return vacant.get(rand.nextInt(vacant.size()));
-		else return null;
+		if(!vacant.isEmpty()) {
+			return vacant.get(rand.nextInt(vacant.size()));
+		}
+		else {
+			return null;
+		}
 	}
 
 	/**
@@ -67,7 +73,9 @@ public class SegregationNeighborManager extends NeighborManager {
 		Cell[] neighbors = getNeighbors(c, g);
 		int count = 0;
 		for(Cell neighbor : neighbors) {
-			if(neighbor.getState() == c.getState()) count++;
+			if(neighbor.getState() == c.getState()) {
+				count++;
+			}
 		}
 		return count;
 	}

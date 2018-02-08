@@ -1,4 +1,5 @@
 package configuration.datatemplates;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -98,7 +99,8 @@ public abstract class XMLData {
 	 * @return Gets list of all datafields in XML file
 	 */
 	public List<String> getDataField() {
-		return DATA_FIELDS;
+		List<String> retFields = new ArrayList<String>(DATA_FIELDS);
+		return retFields;
 	}
 
 }

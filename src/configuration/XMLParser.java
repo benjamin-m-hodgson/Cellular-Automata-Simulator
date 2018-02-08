@@ -88,10 +88,18 @@ public class XMLParser {
 	public void setType(File dataFile) {
 		try {
 			String simType = getAttribute(getRootElement(dataFile), "type");
-			if(simType.equals(FIRE))	this.data = new FireXMLData();
-			else if(simType.equals(WATOR)) this.data = new WaTorXMLData();
-			else if(simType.equals(GAMEOFLIFE)) this.data = new GameOfLifeXMLData();
-			else if(simType.equals(SEGREGATION)) this.data = new SegregationXMLData();
+			if(simType.equals(FIRE))	{
+				this.data = new FireXMLData();
+			}
+			else if(simType.equals(WATOR)) {
+				this.data = new WaTorXMLData();
+			}
+			else if(simType.equals(GAMEOFLIFE)) {
+				this.data = new GameOfLifeXMLData();
+			}
+			else if(simType.equals(SEGREGATION)) {
+				this.data = new SegregationXMLData();
+			}
 			data.setMap(getMap(dataFile));
 		}
 		catch (Exception e) {
