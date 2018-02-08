@@ -28,8 +28,9 @@ public class XMLWriter {
 	private final DocumentBuilder DOCUMENT_BUILDER;
 	private String FILEPATH = "data/"; 
 	private String EXTENSION = ".xml";
+	private static String SIMULATION = "simulation";
 	protected static final List<String> DATA_FIELDS = Arrays.asList(new String[] {
-			"simulation",
+			SIMULATION,
 			"type",
 			"name",
 			"sizeX",
@@ -119,15 +120,16 @@ public class XMLWriter {
 	 * @return
 	 */
 	private String cellStates(Grid g) {
-		String result = "";
+		StringBuilder result = new StringBuilder();
 		for(int r = 0; r < g.getXSize(); r++) {
-			String element = "";
+			StringBuilder element = new StringBuilder();
 			for(int c = 0; c < g.getYSize(); c++) {
-				element = element + Integer.toString(g.getCell(r, c).getState()) + " ";
+				element.append(element.toString() 
+						+ Integer.toString(g.getCell(r, c).getState()) + " ");
 			}
-			result += element + "\n";
+			result.append(element.toString() + "%n");
 		}
-		return result;
+		return result.toString();
 	}
 
 	/**

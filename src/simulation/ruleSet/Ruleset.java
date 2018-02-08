@@ -32,8 +32,10 @@ public abstract class Ruleset {
 	public void processCells() {
 		for(Cell[] row  : GRID.getCells()) {
 			for(Cell cell: row) {
-				if(cell.getMove()) continue;
-				else{
+				if(cell.getMove()) { 
+					continue;
+				}
+				else {
 					int newState = processCell(cell);
 					cell.setState(newState);
 				}

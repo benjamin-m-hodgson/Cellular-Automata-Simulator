@@ -32,7 +32,7 @@ public class StartScreen extends Screen {
 	
 	private final int FRAMES_PER_SECOND = 60;
 	private final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
-    private final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
+     private final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
 	private final Engine PROGRAM_ENGINE;
 	
 	private String TYPE;
@@ -106,7 +106,7 @@ public class StartScreen extends Screen {
 		dropDownMenu.setItems(simulationChoices);
 		dropDownMenu.setId("simulatorChooser");
 		dropDownMenu.getSelectionModel().selectedIndexProperty()
-        .addListener(new ChangeListener<Number>() {
+                   .addListener(new ChangeListener<Number>() {
 		@Override
 		public void changed(ObservableValue<? extends Number> arg0, 
 				Number arg1, Number arg2) {

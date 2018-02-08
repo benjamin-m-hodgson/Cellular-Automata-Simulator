@@ -45,16 +45,22 @@ public class WaTorRuleset extends Ruleset {
 				wCell.reset();
 				return VACANT;
 			}
-			else return moveShark(wCell);
+			else {
+				return moveShark(wCell);
+			}
 		}
 		else if(wCell.getState() == FISH) {
 			if(checkBreedingTime(wCell)) {
 				wCell.reset();
 				return FISH;
 			}
-			else return moveFish(wCell);
+			else { 
+				return moveFish(wCell);
+			}
 		}
-		else return wCell.getState();
+		else {
+			return wCell.getState();
+		}
 	}
 
 	/**
