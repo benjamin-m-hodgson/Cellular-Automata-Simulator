@@ -25,7 +25,7 @@ public class WaTorNeighborManager extends NeighborManager {
 	 */
 	public WaTorCell vacantNeighbor(WaTorCell c, Grid g) {
 		Random rand = new Random();
-		ArrayList<WaTorCell> freeNeighbors = new ArrayList<WaTorCell>();		
+		ArrayList<WaTorCell> freeNeighbors = new ArrayList<>();		
 		for(Cell neighbor : getNeighbors(c, g)) {
 			WaTorCell wNeighbor = (WaTorCell) neighbor;
 			if(wNeighbor.getState() == VACANT && !wNeighbor.getMove()) {
@@ -49,7 +49,7 @@ public class WaTorNeighborManager extends NeighborManager {
 	 */
 	public WaTorCell vacantOrFishNeighbor(WaTorCell c, Grid g) {
 		Random rand = new Random();
-		ArrayList<WaTorCell> freeNeighbors = new ArrayList<WaTorCell>();		
+		ArrayList<WaTorCell> freeNeighbors = new ArrayList<>();		
 		for(Cell neighbor : getNeighbors(c, g)) {
 			WaTorCell wNeighbor = (WaTorCell) neighbor;
 			if((wNeighbor.getState() == VACANT || wNeighbor.getState() == FISH)
@@ -74,7 +74,7 @@ public class WaTorNeighborManager extends NeighborManager {
 	 * @return
 	 */
 	private Cell[] getNeighbors(WaTorCell c, Grid g) {
-		ArrayList<Cell> neighbors = new ArrayList<Cell>();
+		ArrayList<Cell> neighbors = new ArrayList<>();
 		neighbors.addAll(Arrays.asList(NSEWCells(c , g)));
 		neighbors.addAll(Arrays.asList(diagonalCells(c ,g)));
 
