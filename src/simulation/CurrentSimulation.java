@@ -11,7 +11,7 @@ import simulation.ruleSet.Ruleset;
  * Uses inversion of control through dependency on Engine class methods.
  * 
  */
-public class CurrentSimulation{
+public class CurrentSimulation {
 
 	private Engine PROGRAM_ENGINE;
 	private Shape[][] SIMULATION_SHAPES;
