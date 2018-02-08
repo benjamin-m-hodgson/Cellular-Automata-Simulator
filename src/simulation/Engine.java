@@ -195,14 +195,14 @@ public class Engine {
 	/**
 	 * Sets grids
 	 */
-	public void setGrids(HashMap<String, Grid> grids) {
+	public void setGrids(Map<String, Grid> grids) {
 		GRIDS = grids;
 	}
 
 	/**
 	 * Sets rules
 	 */
-	public void setRules(HashMap<String, Ruleset> rules) {
+	public void setRules(Map<String, Ruleset> rules) {
 		for (String key : rules.keySet()) {
 			Grid g = getGrid(key);
 			rules.get(key).setGrid(g);
