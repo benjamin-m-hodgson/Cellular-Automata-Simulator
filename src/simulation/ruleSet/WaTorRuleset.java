@@ -43,7 +43,7 @@ public class WaTorRuleset extends Ruleset {
 		if(wCell.getState() == SHARK) {
 			if(checkEnergy(wCell)) {		
 				wCell.reset();
-				return SHARK;
+				return VACANT;
 			}
 			else return moveShark(wCell);
 		}

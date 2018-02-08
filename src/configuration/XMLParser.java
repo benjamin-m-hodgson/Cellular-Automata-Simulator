@@ -80,6 +80,11 @@ public class XMLParser {
 		return data.getName();
 	}
 	
+	/**
+	 * Chooses type of simulation (may make simulation manager)
+	 * 
+	 * @param dataFile
+	 */
 	public void setType(File dataFile) {
 		try {
 			String simType = getAttribute(getRootElement(dataFile), "type");
