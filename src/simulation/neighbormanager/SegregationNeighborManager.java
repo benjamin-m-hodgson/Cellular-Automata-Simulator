@@ -45,7 +45,7 @@ public class SegregationNeighborManager extends NeighborManager {
 	 */
 	private Cell[] getNeighbors(Cell c, Grid g) {
 		ArrayList<Cell> neighbors = new ArrayList<>();
-		ArrayList<Cell> agents = new ArrayList<Cell>();
+		ArrayList<Cell> agents = new ArrayList<>();
 		neighbors.addAll(Arrays.asList(NSEWCells(c , g)));
 		neighbors.addAll(Arrays.asList(diagonalCells(c ,g)));
 		for(Cell neighbor: neighbors) {
