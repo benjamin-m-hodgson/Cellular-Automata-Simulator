@@ -149,7 +149,7 @@ public class SimulationScreen extends Screen {
 	 * simulation to simulate
 	 */
 	private ChoiceBox<Object> simulatorChooser() {
-		ChoiceBox<Object> dropDownMenu = new ChoiceBox<Object>();
+		ChoiceBox<Object> dropDownMenu = new ChoiceBox<>();
 		String defaultChoice = PROGRAM_ENGINE.resourceString("defaultChooserString");
 		dropDownMenu.setValue(defaultChoice);
 		ObservableList<Object> simulationChoices = 

@@ -24,7 +24,7 @@ public class NeighborManager {
 	public Cell[] NSEWCells(Cell c, Grid g) {
 		int x = c.getX();
 		int y = c.getY();
-		ArrayList<Cell> neighbors = new ArrayList<Cell>();
+		ArrayList<Cell> neighbors = new ArrayList<>();
 		neighbors.addAll(Arrays.asList(wrapNSEWCells(c ,g)));
 		
 		if(x + 1 < g.getXSize()) {
@@ -53,7 +53,7 @@ public class NeighborManager {
 	public Cell[] diagonalCells(Cell c, Grid g) {
 		int x = c.getX();
 		int y = c.getY();
-		ArrayList<Cell> neighbors = new ArrayList<Cell>();
+		ArrayList<Cell> neighbors = new ArrayList<>();
 		neighbors.addAll(Arrays.asList(wrapDiagonalCells(c ,g)));
 		
 		if(x < g.getXSize() - 1 && y < g.getYSize() - 1) {
@@ -83,7 +83,7 @@ public class NeighborManager {
 	private Cell[] wrapNSEWCells(Cell c, Grid g) {
 		int x = c.getX();
 		int y = c.getY();
-		ArrayList<Cell> neighbors = new ArrayList<Cell>(); 
+		ArrayList<Cell> neighbors = new ArrayList<>(); 
 
 		if(x == 0) {
 			neighbors.add(g.getCell(g.getXSize() - 1, y));
@@ -111,7 +111,7 @@ public class NeighborManager {
 	private Cell[] wrapDiagonalCells(Cell c, Grid g) {
 		int x = c.getX();
 		int y = c.getY();
-		ArrayList<Cell> neighbors = new ArrayList<Cell>(); 
+		ArrayList<Cell> neighbors = new ArrayList<>(); 
 
 		if(x == 0 && y < g.getYSize() - 1) {
 			neighbors.add(g.getCell(g.getXSize() -1, y + 1));

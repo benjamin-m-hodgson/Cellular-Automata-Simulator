@@ -26,8 +26,8 @@ public class FileController {
 	 * Constructor
 	 */
 	public FileController() {
-		grids = new HashMap<String, Grid>();
-		rules = new HashMap<String, Ruleset>();
+		grids = new HashMap<>();
+		rules = new HashMap<>();
 	}
 	
 	
