@@ -43,6 +43,17 @@ public class CurrentSimulation {
 		return SIMULATION_SHAPES[x][y];
 	}
 	
+	
+	public void makeNewXML() {
+		XMLWriter writer = new XMLWriter();
+		try {
+			writer.createDoc("Fire", "hello", PROGRAM_ENGINE.currentGrid(), PROGRAM_ENGINE.currentRules());
+		} catch (TransformerConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	private void initializeShapes() {
 		Grid currentGrid = PROGRAM_ENGINE.currentGrid();
 		Cell[][] currentCells = currentGrid.getCells();
@@ -117,15 +128,4 @@ public class CurrentSimulation {
 			}
 		}
 	}
-	
-	public void makeNewXML() {
-		XMLWriter writer = new XMLWriter();
-		try {
-			writer.createDoc("Fire", "hello", PROGRAM_ENGINE.currentGrid(), PROGRAM_ENGINE.currentRules());
-		} catch (TransformerConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
 }
