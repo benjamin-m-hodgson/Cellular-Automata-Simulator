@@ -1,6 +1,9 @@
+package simulation;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.HashMap;
+import java.util.Map;
+
 import configuration.XMLParser;
 import simulation.grid.Grid;
 import simulation.ruleSet.*;
@@ -16,8 +19,8 @@ public class FileController {
 
 	private String FILEPATH = "./data"; 
 	private String EXTENSION = ".xml";
-	private HashMap<String, Grid> grids;  
-	private HashMap<String, Ruleset> rules; 
+	private Map<String, Grid> grids;  
+	private Map<String, Ruleset> rules; 
 	
 	/**
 	 * Constructor
@@ -59,14 +62,14 @@ public class FileController {
     /**
      * Return grids to game driver
      */
-    public HashMap<String, Grid> getGrid() {
+    public Map<String, Grid> getGrid() {
     		return grids;
     }
     
     /**
      * Return rules to game driver
      */
-    public HashMap<String, Ruleset> getRules() {
+    public Map<String, Ruleset> getRules() {
     		return rules;
     }
     

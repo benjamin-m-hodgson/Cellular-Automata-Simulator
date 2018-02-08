@@ -2,6 +2,8 @@ package simulation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import javafx.animation.KeyFrame;
@@ -45,8 +47,8 @@ public class Engine {
 	private int GENERATION;
 	private boolean SIMULATING;
 
-	private HashMap<String, Grid> GRIDS;
-	private HashMap<String, Ruleset> RULES;
+	private Map<String, Grid> GRIDS;
+	private Map<String, Ruleset> RULES;
 
 	// Give the program a title
 	public Engine() {
@@ -62,6 +64,8 @@ public class Engine {
 	 */
 	public void startProgram(Stage primaryStage, int width, int height) {
 		PROGRAM_STAGE = primaryStage;
+		// initialize maps with values from XML files
+		initializeMaps();
 		PROGRAM_STAGE.setTitle(PROGRAM_TITLE);
 		// attach "program loop" to time line to play it
 		KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
@@ -83,9 +87,11 @@ public class Engine {
 		if (SIMULATING) {
 			stopSimulation();
 		}
+		// reset instance variables
 		SIMULATION_TYPE = type;
 		SIMULATING = true;
 		GENERATION = 0;
+		initializeMaps();
 		PROGRAM_STAGE.setTitle(SIMULATION_TYPE);
 		Parent root = new SimulationScreen(this).getRoot();
 		PROGRAM_SCENE.setRoot(root);
@@ -141,7 +147,7 @@ public class Engine {
 	 * @return the Simulation titles to be displayed to the user
 	 */
 	public ObservableList<String> getSimulations() {
-		ArrayList<String> typeList = new ArrayList<String>();
+		List<String> typeList = new ArrayList<String>();
 		for (String type : GRIDS.keySet()) {
 			if (RULES.containsKey(type)) {
 				typeList.add(type);
@@ -159,7 +165,14 @@ public class Engine {
 		return PROGRAM_STAGE;
 	}
 
-	public void initialize(HashMap<String, Grid> grids, HashMap<String, Ruleset> rules) {
+	/**
+	 * Initializes the values in the maps GRIDS and RULES
+	 */
+	public void initializeMaps() {
+		FileController filecontrol = new FileController();
+		filecontrol.parseFiles();
+		Map<String, Grid> grids = filecontrol.getGrid();
+		Map<String, Ruleset> rules = filecontrol.getRules();
 		for (String key : rules.keySet()) {
 			Grid g = grids.get(key);
 			rules.get(key).setGrid(g);
