@@ -27,6 +27,7 @@
 #simulatorChooser {
 	-fx-alignment: center;
     -fx-background-color: #ffffff;
+    -fx-pref-width: 200px;
     -fx-padding: 0;
 }
 #simulatorChooser .list-cell {
