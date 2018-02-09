@@ -30,6 +30,10 @@ public class FireRuleset extends Ruleset {
 		this.PROBCATCH = probCatch;
 		this.NEIGHBOR_MANAGER = new FireNeighborManager("Square");
 	}
+	
+	public double getProbCatch() {
+		return PROBCATCH;
+	}
 
 	/**
 	 * Processes single cell in grid

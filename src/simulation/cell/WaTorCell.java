@@ -126,4 +126,8 @@ public class WaTorCell extends Cell {
 			return Color.DIMGRAY;
 		}
 	}	
+	
+	public int getInitEnergy() {
+		return ENERGY_HOLDER;
+	}
 }
