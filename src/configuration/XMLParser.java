@@ -3,11 +3,9 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-
 import configuration.datatemplates.*;
 import simulation.grid.Grid;
 import simulation.ruleSet.*;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -22,21 +20,18 @@ import java.util.Map;
  * @author Katherine Van Dyk
  */
 public class XMLParser {
-	public static final String ERROR_MESSAGE = "XML file does not represent %s";
-	public static final String FIRE = "Fire";
-	public static final String WATOR = "WaTor";
-	public static final String SEGREGATION = "Segregation";
-	public static final String GAMEOFLIFE = "Game of Life";
+	protected static final String ERROR_MESSAGE = "XML file does not represent %s";
 	private String TYPE_ATTRIBUTE = "simulation";
 	private final DocumentBuilder DOCUMENT_BUILDER;
+	private final XMLDataFactory XMLDATA_FACTORY;
 	private XMLData data;
 
-	
 	/**
 	 * Create a parser for XML files of given type.
 	 */
 	public XMLParser () {
 		DOCUMENT_BUILDER = getDocumentBuilder();
+		XMLDATA_FACTORY = new XMLDataFactory();
 	}
 	
 	/**
@@ -88,25 +83,13 @@ public class XMLParser {
 	public void setType(File dataFile) {
 		try {
 			String simType = getAttribute(getRootElement(dataFile), "type");
-			if(simType.equals(FIRE))	{
-				this.data = new FireXMLData();
-			}
-			else if(simType.equals(WATOR)) {
-				this.data = new WaTorXMLData();
-			}
-			else if(simType.equals(GAMEOFLIFE)) {
-				this.data = new GameOfLifeXMLData();
-			}
-			else if(simType.equals(SEGREGATION)) {
-				this.data = new SegregationXMLData();
-			}
+			this.data = XMLDATA_FACTORY.chooseDataTemplate(simType);
 			data.setMap(getMap(dataFile));
 		}
 		catch (Exception e) {
 			throw new XMLException(e);
 		}
 	}
-
 
 	/**
 	 * Returns root element of XML File
@@ -149,7 +132,6 @@ public class XMLParser {
 		return e.getAttribute(attributeName);
 	}
 
-	
 	/**
 	 * Get text within element
 	 * 
