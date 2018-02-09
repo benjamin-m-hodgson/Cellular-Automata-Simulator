@@ -61,5 +61,17 @@ public class GameOfLifeRuleset extends Ruleset {
 			}
 		}
 	}
+	
+	public int getMinLife() {
+		return MINLIFE;
+	}
+	
+	public int getMaxLife() {
+		return MAXLIFE;
+	}
+	
+	public int getBirth() {
+		return BIRTH;
+	}
 
 }

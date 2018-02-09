@@ -5,7 +5,6 @@ import org.w3c.dom.Element;
 import simulation.grid.Grid;
 import simulation.ruleSet.Ruleset;
 import java.io.File;
-import java.util.Arrays;
 import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -49,7 +48,6 @@ public class XMLWriter {
 	 * @param r
 	 * @throws TransformerConfigurationException 
 	 */
-	//public void createDoc(String simType, String simName, Grid g, Ruleset r) throws TransformerConfigurationException {
 	public void createDoc(String simType, String simName, Grid GRID, Ruleset RULES) throws TransformerConfigurationException {
 		DATA_FIELDS = XMLDATA_FACTORY.getDataFields(simType);
 		
@@ -57,6 +55,7 @@ public class XMLWriter {
 		DOCUMENT.appendChild(rootElement);
 		
 		addStandardElements(simType, rootElement, GRID);
+		addParameterElements(simType, rootElement, RULES);
 		convertXML(DOCUMENT, simName);
 	}
 	
@@ -68,14 +67,15 @@ public class XMLWriter {
 		addElement(DATA_FIELDS.get(5), cellStates(GRID), rootElement);
 	}
 	
-	/*
-	private void addRulesetElements(Element rootElement, Ruleset RULES) {
-		for(int i = 5; i < DATA_FIELDS.size(); i++) {
-			addElement(DATA_FIELDS.get(i),Integer.toString(GRID.getXSize()), rootElement);
+	private void addParameterElements(String simType, Element rootElement, Ruleset r) {
+		List<String> params = XMLDATA_FACTORY.rulesetParam(simType, r, rootElement);
+		int count = 0;
+		for(int i = 6; i < DATA_FIELDS.size(); i++) {
+			addElement(DATA_FIELDS.get(5), params.get(count), rootElement);
+			count++;
 		}
-		addElement(DATA_FIELDS.get(3),Integer.toString(GRID.getXSize()), rootElement);
 	}
-	*/
+
 		
 	/**
 	 * Add child element to parent
@@ -84,7 +84,7 @@ public class XMLWriter {
 	 * @param value
 	 * @param parent
 	 */
-	private void addElement(String tag, String value, Element parent) {
+	protected void addElement(String tag, String value, Element parent) {
 		Element e = DOCUMENT.createElement(tag);
 		parent.appendChild(DOCUMENT.createTextNode(value));
 		parent.appendChild(e);

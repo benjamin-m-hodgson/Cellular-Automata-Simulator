@@ -18,6 +18,8 @@ public class WaTorRuleset extends Ruleset {
 	private int VACANT = 2;
 	private int FISH_BREEDTIME;
 	private int SHARK_BREEDENERGY;
+	private int FISH_INITENERGY;
+	private int SHARK_INITENERGY;
 	private simulation.ruleSet.neighborManager.WaTorNeighborManager NEIGHBOR_MANAGER;
 
 	/**
@@ -26,9 +28,11 @@ public class WaTorRuleset extends Ruleset {
 	 * @param fishBreedTime
 	 * @param sharkBreedEnergy
 	 */
-	public WaTorRuleset(int fishBreedTime, int sharkBreedEnergy) {
+	public WaTorRuleset(int fishBreedTime, int sharkBreedEnergy, int fishInitEnergy, int sharkInitEnergy) {
 		this.FISH_BREEDTIME = fishBreedTime;
 		this.SHARK_BREEDENERGY = sharkBreedEnergy;
+		this.FISH_INITENERGY = fishInitEnergy;
+		this.SHARK_INITENERGY = sharkInitEnergy;
 		this.NEIGHBOR_MANAGER = new WaTorNeighborManager("Square");
 	}
 
@@ -170,4 +174,23 @@ public class WaTorRuleset extends Ruleset {
 		a.setBreedingTime(b.getBreedingTime());
 		b.setBreedingTime(aTime);
 	}
+	
+	public int getFishBreedTime() {
+		return FISH_BREEDTIME;
+	}
+	
+	public int getSharkBreedEnergy() {
+		return SHARK_BREEDENERGY;
+	}
+	
+	public int getFishInitEnergy() {
+		return FISH_INITENERGY;
+	}
+	
+	public int getSharkInitEnergy() {
+		return SHARK_INITENERGY;
+	}
+
+
 }
+

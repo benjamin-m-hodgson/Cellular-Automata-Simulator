@@ -44,8 +44,10 @@ public class WaTorXMLData extends XMLData {
 	@Override
 	public WaTorRuleset getRules() {
 		int fishBreedTime = Integer.parseInt(myDataValues.get(DATA_FIELDS.get(5)));
+		int fishInitEnergy = Integer.parseInt(myDataValues.get(DATA_FIELDS.get(6)));
+		int sharkInitEnergy = Integer.parseInt(myDataValues.get(DATA_FIELDS.get(7)));
 		int sharkBreedTime = Integer.parseInt(myDataValues.get(DATA_FIELDS.get(8)));
-		return new WaTorRuleset(fishBreedTime, sharkBreedTime);
+		return new WaTorRuleset(fishBreedTime, sharkBreedTime, fishInitEnergy, sharkInitEnergy);
 	}
 	
 	/**
