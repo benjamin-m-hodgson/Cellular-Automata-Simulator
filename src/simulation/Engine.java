@@ -1,9 +1,11 @@
 package simulation;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.ResourceBundle;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.ReadOnlyDoubleProperty;
@@ -32,7 +34,7 @@ public class Engine {
 			Engine.class.getClassLoader().getResource("default.css").toExternalForm();
 	private final ResourceBundle DEFAULT_RESOURCES = 
 			ResourceBundle.getBundle("simulation.default");
-
+	
 	private final String PROGRAM_TITLE;   
 
 	private double GENERATIONS_PER_SECOND = 1;
@@ -144,7 +146,7 @@ public class Engine {
 	 * @return the Simulation titles to be displayed to the user
 	 */
 	public ObservableList<String> getSimulations() {
-		List<String> typeList = new ArrayList<>();
+		List<String> typeList = new ArrayList<String>();
 		for (String type : GRIDS.keySet()) {
 			if (RULES.containsKey(type)) {
 				typeList.add(type);
@@ -162,9 +164,9 @@ public class Engine {
 		filecontrol.parseFiles();
 		Map<String, Grid> grids = filecontrol.getGrid();
 		Map<String, Ruleset> rules = filecontrol.getRules();
-		for (Entry<String, Ruleset> entry : rules.entrySet()) {
-			Grid g = grids.get(entry.getKey());
-			rules.get(entry.getKey()).setGrid(g);
+		for (String key : rules.keySet()) {
+			Grid g = grids.get(key);
+			rules.get(key).setGrid(g);
 		}
 		RULES = rules;
 		GRIDS = grids;
@@ -185,31 +187,50 @@ public class Engine {
 	public int getGeneration() {
 		return GENERATION;
 	}
-
+	
 	public String resourceString(String key) {
 		return DEFAULT_RESOURCES.getString(key);
 	}
 
+	/**
+	 * Sets grids
+	 */
+	public void setGrids(HashMap<String, Grid> grids) {
+		GRIDS = grids;
+	}
+
+	/**
+	 * Sets rules
+	 */
+	public void setRules(HashMap<String, Ruleset> rules) {
+		for (String key : rules.keySet()) {
+			Grid g = getGrid(key);
+			rules.get(key).setGrid(g);
+		}
+
+		RULES = rules;
+	}
+	
 	public Grid currentGrid() {
 		return getGrid(SIMULATION_TYPE);
 	}
-
+	
 	public Ruleset currentRules() {
 		return RULES.get(SIMULATION_TYPE);
 	}
-
+	
 	public String currentShapeType() {
 		return SHAPE_TYPE;
 	}
-
+	
 	public ReadOnlyDoubleProperty sceneWidth() {
 		return PROGRAM_STAGE.widthProperty();
 	}
-
+	
 	public ReadOnlyDoubleProperty sceneHeight() {
 		return PROGRAM_STAGE.heightProperty();
 	}
-
+	
 	private void initializeSimulation(String type) {
 		// reset instance variables
 		SIMULATION_TYPE = type;
@@ -237,7 +258,7 @@ public class Engine {
 			cloneGrid = (Grid) GRIDS.get(name);
 			return cloneGrid;
 		} catch ( NullPointerException e) {
-			System.out.printf("Could not get Grid object with key %s%n", name);
+			System.out.printf("Could not get Grid object with key %s\n", name);
 		}
 		return cloneGrid;
 	}

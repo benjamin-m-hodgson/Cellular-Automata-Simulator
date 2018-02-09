@@ -3,8 +3,11 @@ package simulation;
 import javax.xml.transform.TransformerConfigurationException;
 
 import configuration.XMLWriter;
+import javafx.beans.binding.Bindings;
+import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import javafx.scene.transform.Rotate;
 import simulation.cell.*;
 import simulation.grid.*;
 import simulation.ruleSet.Ruleset;
@@ -68,20 +71,12 @@ public class CurrentSimulation {
 		for (int i = 0; i < SIMULATION_SHAPES.length; i++) {
 			for (int j = 0; j < SIMULATION_SHAPES[i].length; j ++) {
 				if (currentShape.equalsIgnoreCase("Rectangle")) {
-					Rectangle cellShape = new Rectangle();
-					cellShape.setId("defaultCell");
-					/*cellShape.heightProperty().bind(
-							Bindings.divide(PROGRAM_ENGINE.sceneHeight(), 
-									10.0/SIMULATION_SHAPES.length));
-					cellShape.widthProperty().bind(
-							Bindings.divide(PROGRAM_ENGINE.sceneWidth(), 
-									10.0/SIMULATION_SHAPES.length));*/
-					cellShape.setHeight(550/SIMULATION_SHAPES.length);
-					cellShape.setWidth(550/SIMULATION_SHAPES.length);
+					Rectangle cellShape = drawRectangle();
 					SIMULATION_SHAPES[i][j] = cellShape;
 				}
 				else if (currentShape.equalsIgnoreCase("Triangle")) {
-					
+					Polygon triangleCell = drawTriangle(j);
+					SIMULATION_SHAPES[i][j] = triangleCell;
 				}
 			}
 		}
@@ -130,4 +125,33 @@ public class CurrentSimulation {
 			}
 		}
 	}
+	
+	private Rectangle drawRectangle() {
+	    Rectangle cellShape = new Rectangle();
+         cellShape.setId("defaultCell");
+         cellShape.heightProperty().bind(
+                   Bindings.divide(PROGRAM_ENGINE.sceneHeight(), 
+                             1.2*SIMULATION_SHAPES.length));
+         cellShape.widthProperty().bind(
+                   Bindings.divide(PROGRAM_ENGINE.sceneWidth(), 
+                             1.5*SIMULATION_SHAPES.length));
+         return cellShape;
+	}
+	
+	private Polygon drawTriangle(int col) {
+         Polygon cellShape = new Polygon();
+         cellShape.getPoints().addAll(new Double[] {
+                 15.0, 0.0,
+                 0.0, 15.0,
+                 30.0, 15.0,
+         });
+         if (col % 2 != 0) {
+             cellShape.setTranslateX(cellShape.getLayoutX());
+             cellShape.setTranslateY(cellShape.getLayoutY());
+             cellShape.getTransforms().add(new Rotate(180, 0, 0));
+         }
+         cellShape.setId("defaultCell");
+         
+         return cellShape;
+     }
 }

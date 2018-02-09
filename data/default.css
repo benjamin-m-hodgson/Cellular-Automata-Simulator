@@ -25,42 +25,83 @@
 /* The drop down choice box the user uses to pick a simulation to simulate*/
 /******************************************************************************************/
 #simulatorChooser {
-	-fx-pref-width: 200px;
-	-fx-pref-height: 20px;
+	-fx-alignment: center;
+    -fx-background-color: #ffffff;
+    -fx-padding: 0;
+}
+#simulatorChooser .list-cell {
+    -fx-background: #ffffff;
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #696969;
+    -fx-text-alignment: center;
+    -fx-pref-width: 150px;
+	-fx-pref-height: 30px;
 	-fx-background-radius: 0;
-	-fx-background-color: #ffffff;
     -fx-border-width: 0px;
-    -fx-border-color: #d3d3d3;
-    -fx-mark-color: #696969;
+    -fx-border-color: #ffffff;
+    -fx-text-fill: #696969;
     -fx-font: 14px Excelsior;
 }
-#simulatorChooser .label {
-	-fx-text-fill: #696969;
+#simulatorChooser .list-view {
+    -fx-background-color: #ffffff, #ffffff;
+}    
+#simulatorChooser .list-view .list-cell {
 	-fx-alignment: center;
+    -fx-background-color: #ffffff;
 }
-#simulatorChooser .arrow {
-	-fx-background-color: #696969;
+#simulatorChooser .arrow-button {
+	-fx-background-color: transparent;
 }
-#simulatorChooser .context-menu {
-	-fx-pref-width: 200px;
+#simulatorChooser .list-view .list-cell:filled:selected, 
+#simulatorChooser .list-view .list-cell:filled:selected:hover {
+    -fx-background: #696969;
+    -fx-background-color: #696969;
+    -fx-text-fill: #ffffff;
 }
-#simulatorChooser .menu-item > .label {
-	-fx-text-fill: #696969;
+#simulatorChooser .list-view .list-cell:filled:hover {
+    -fx-background-color: #ffffff;
+    -fx-text-fill: -fx-text-inner-color;
 }
 #simulatorChooser:hover {
-	-fx-background-color: #696969;
-} 
-#simulatorChooser:hover .label {
+    -fx-color: #696969;
+    -fx-text-fill: #ffffff;
+}
+#simulatorChooser:hover .list-cell {
+	-fx-background: #696969;
+    -fx-background-color: #696969;
 	-fx-text-fill: #ffffff;
 }
 #simulatorChooser:hover .arrow {
 	-fx-background-color: #ffffff;
 }
-#simulatorChooser .menu-item:focused {
+#simulatorChooser .text-field:focused {
+	-fx-prompt-text-fill: #ffffff;
+}
+#simulatorChooser:showing {
+    -fx-color: #ffffff;
+    -fx-text-fill: #696969
+}
+#simulatorChooser:showing .list-cell {
+	-fx-background: #ffffff;
+    -fx-background-color: transparent;
+    -fx-text-fill: #696969;
+    -fx-text-alignment: center;
+    -fx-pref-width: 150px;
+	-fx-pref-height: 30px;
+	-fx-background-radius: 0;
+    -fx-border-width: 0px;
+    -fx-border-color: #d3d3d3;
+    -fx-text-fill: #696969;
+    -fx-font: 14px Excelsior;
+}
+#simulatorChooser:showing .arrow {
 	-fx-background-color: #696969;
 }
-#simulatorChooser .menu-item:focused > .label {
-	-fx-text-fill: #ffffff;
+#simulatorChooser:focused {
+    -fx-background-color: #696969, -fx-outer-border, -fx-inner-border, -fx-body-color;
+}
+#simulatorChooser:disabled {
+    -fx-opacity: .4;
 }
 /******************************************************************************************/
 /* The Simulate button to begin a simulation */
@@ -308,6 +349,12 @@
 	-fx-border-insets: 1;
 	-fx-border-radius: 1;
 	-fx-border-color: #696969;
+	-fx-focus-color: transparent;
+	-fx-faint-focus-color: transparent;
+	-fx-background-color: #d3d3d3;
+}
+#simulateCellPanel > .viewport{
+	-fx-background-color: transparent;
 }
 /******************************************************************************************/
 /* The default Cell object */

@@ -1,11 +1,9 @@
 package simulation.screen;
 
 import javafx.beans.binding.Bindings;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
-import javafx.scene.shape.Shape;
+import javafx.scene.Node;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.GridPane;
 import simulation.CurrentSimulation;
 import simulation.Engine;
 import simulation.cell.Cell;
@@ -24,24 +22,27 @@ public class SimulationCellPanel {
     private final Engine PROGRAM_ENGINE;
     private final CurrentSimulation SIMULATION;
 
-    private HBox CELL_PANEL;
+    private GridPane CELL_PANEL;
 
     public SimulationCellPanel(Engine programEngine, CurrentSimulation simulation) {
         PROGRAM_ENGINE = programEngine;
         SIMULATION = simulation;
         CELL_PANEL = cellPanel();
+        CELL_PANEL.setId("simulatCellPanel");
     }
 
-    public HBox construct() {
-        return CELL_PANEL;
+    public ScrollPane construct() {
+        ScrollPane retPane = new ScrollPane(CELL_PANEL);
+        retPane.setId("simulateCellPanel");
+        return retPane;
     }
 
     /**
      * 
      * @return cellPanel: the Panel that contains the cell objects
      */
-    private HBox cellPanel() {
-        HBox cellPanel = new HBox();
+    private GridPane cellPanel() {
+        GridPane cellPanel = new GridPane();
         cellPanel.setId("simulateCellPanel");
         cellPanel.prefHeightProperty().bind(Bindings.divide(PROGRAM_ENGINE.sceneHeight(), 1.0));
         addCells(cellPanel);
@@ -53,23 +54,14 @@ public class SimulationCellPanel {
      * 
      * @param cellPanel: the Panel that contains the cell Objects
      */
-    private void addCells(HBox cellPanel) {
+    private void addCells(GridPane cellPanel) {
         Grid typeGrid = PROGRAM_ENGINE.getGrid(PROGRAM_ENGINE.getSimulationType());
         Cell[][] simulationCells = typeGrid.getCells();
-        //System.out.println(simulationCells);
-        VBox cols = new VBox(1);
         for (int i = 0; i < simulationCells.length; i++) {
-            HBox row = new HBox(1);
             for (int j = 0; j < simulationCells[i].length; j++) {
-                Shape cellShape = SIMULATION.drawShape(i, j);
-                row.getChildren().add(cellShape);
+                Node cellShape = SIMULATION.drawShape(i, j);
+                cellPanel.add(cellShape, j, i);
             }
-            cols.getChildren().add(row);
         }
-        // add a region to align the cell grid in the top left of the cellPanel
-        cellPanel.getChildren().add(cols);
-        Region fillerRegion = new Region();
-        HBox.setHgrow(fillerRegion, Priority.ALWAYS);
-        cellPanel.getChildren().add(fillerRegion);
     }
 }
