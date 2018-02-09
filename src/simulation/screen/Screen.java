@@ -1,6 +1,7 @@
 package simulation.screen;
 
 import javafx.scene.Parent;
+import simulation.Engine;
 /**
  * 
  * @author Benjamin Hodgson
@@ -15,6 +16,11 @@ import javafx.scene.Parent;
 public abstract class Screen {
 	
 	protected Parent ROOT;
+	protected Engine PROGRAM_ENGINE;
+	
+	public Screen(Engine programEngine) {
+	    PROGRAM_ENGINE = programEngine;
+	}
 	
 	/**
 	 * If property ROOT is null, calls makeRoot() to generate the root. 
