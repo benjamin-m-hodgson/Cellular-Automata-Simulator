@@ -2,6 +2,7 @@ package simulation.screen;
 
 import javafx.beans.binding.Bindings;
 import javafx.scene.Node;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
 import simulation.CurrentSimulation;
 import simulation.Engine;
@@ -27,10 +28,13 @@ public class SimulationCellPanel {
         PROGRAM_ENGINE = programEngine;
         SIMULATION = simulation;
         CELL_PANEL = cellPanel();
+        CELL_PANEL.setId("simulatCellPanel");
     }
 
-    public GridPane construct() {
-        return CELL_PANEL;
+    public ScrollPane construct() {
+        ScrollPane retPane = new ScrollPane(CELL_PANEL);
+        retPane.setId("simulateCellPanel");
+        return retPane;
     }
 
     /**

@@ -2,8 +2,8 @@ package simulation.screen;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import simulation.CurrentSimulation;
@@ -38,7 +38,7 @@ public class SimulationScreen extends Screen {
      @Override
      public void makeRoot() {
           VBox controlPanel = CONTROL_PANEL.construct();
-          GridPane cellPanel = CELL_PANEL.construct();
+          ScrollPane cellPanel = CELL_PANEL.construct();
           BorderPane newRoot = new BorderPane();
           newRoot.setRight(controlPanel);
           newRoot.setCenter(cellPanel);

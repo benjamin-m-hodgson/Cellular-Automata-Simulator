@@ -146,6 +146,8 @@ public class CurrentSimulation {
                  30.0, 15.0,
          });
          if (col % 2 != 0) {
+             cellShape.setTranslateX(cellShape.getLayoutX());
+             cellShape.setTranslateY(cellShape.getLayoutY());
              cellShape.getTransforms().add(new Rotate(180, 0, 0));
          }
          cellShape.setId("defaultCell");

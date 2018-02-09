@@ -9,9 +9,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.Separator;
 import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -127,7 +126,7 @@ public class SimulationControlPanel {
      private VBox makeMenu() {
           Label simulationPrompt = makeInfoLabel(PROGRAM_ENGINE.
                     resourceString("changeSimulationString")); 
-          ChoiceBox<Object> simulationChoices = simulatorChooser();
+          ComboBox<Object> simulationChoices = simulatorChooser();
           SIMULATE = makeSimulateButton(PROGRAM_ENGINE.resourceString("simulateString"));
           VBox simulationMenu = new VBox(LABEL_SPACING, simulationPrompt, 
                     simulationChoices, SIMULATE);
@@ -142,12 +141,13 @@ public class SimulationControlPanel {
       * @return dropDownMenu: a drop down menu that lets the user choose a 
       * simulation to simulate
       */
-     private ChoiceBox<Object> simulatorChooser() {
-          ChoiceBox<Object> dropDownMenu = new ChoiceBox<Object>();
+     private ComboBox<Object> simulatorChooser() {
+          ComboBox<Object> dropDownMenu = new ComboBox<Object>();
+          dropDownMenu.setVisibleRowCount(5);
           String defaultChoice = PROGRAM_ENGINE.resourceString("defaultChooserString");
           dropDownMenu.setValue(defaultChoice);
           ObservableList<Object> simulationChoices = 
-                    FXCollections.observableArrayList(defaultChoice, new Separator());
+                    FXCollections.observableArrayList(defaultChoice);
           simulationChoices.addAll(PROGRAM_ENGINE.getSimulations());
           dropDownMenu.setItems(simulationChoices);
           dropDownMenu.setValue(PROGRAM_ENGINE.getSimulationType());
