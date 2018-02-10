@@ -81,7 +81,14 @@ public class XMLDataFactory {
 		else return null;
 	}
 
-	
+	/**
+	 * Chooses cell state randomly
+	 * 
+	 * @param simType
+	 * @param xSize
+	 * @param ySize
+	 * @return
+	 */
 	protected int[][] randomStates(String simType, int xSize, int ySize) {
 		Random rand = new Random();
 		int[][] states = new int[xSize][ySize];

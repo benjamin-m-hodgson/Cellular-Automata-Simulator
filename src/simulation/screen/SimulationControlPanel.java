@@ -44,6 +44,8 @@ public class SimulationControlPanel {
      private Button PLAY;
      private Button PAUSE;
      
+     
+     
      public SimulationControlPanel(Engine programEngine) {
           PROGRAM_ENGINE = programEngine;
           CONTROL_PANEL = sidePanel();
