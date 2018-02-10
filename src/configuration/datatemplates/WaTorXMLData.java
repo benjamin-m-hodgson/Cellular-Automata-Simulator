@@ -16,15 +16,11 @@ import simulation.ruleSet.*;
  */
 public class WaTorXMLData extends XMLData {
 	
+	private String WATOR = "WaTor";
 	private int FISH = 0;
 	private int SHARK = 1; 
 	private int NOENERGY = 0;
-	protected static final List<String> DATA_FIELDS = Arrays.asList(new String[] {
-			"type",
-			"name",
-			"sizeX",
-			"sizeY",
-			"cell",
+	protected static final List<String> PARAM_DATA_FIELDS = Arrays.asList(new String[] {
 			"fishBreedTime",
 			"fishEnergy",
 			"sharkInitEnergy",
@@ -43,19 +39,29 @@ public class WaTorXMLData extends XMLData {
 	 */
 	@Override
 	public WaTorRuleset getRules() {
-		int fishBreedTime = Integer.parseInt(myDataValues.get(DATA_FIELDS.get(5)));
-		int fishInitEnergy = Integer.parseInt(myDataValues.get(DATA_FIELDS.get(6)));
-		int sharkInitEnergy = Integer.parseInt(myDataValues.get(DATA_FIELDS.get(7)));
-		int sharkBreedTime = Integer.parseInt(myDataValues.get(DATA_FIELDS.get(8)));
+		int fishBreedTime = Integer.parseInt(myDataValues.get(PARAM_DATA_FIELDS.get(0)));
+		int fishInitEnergy = Integer.parseInt(myDataValues.get(PARAM_DATA_FIELDS.get(1)));
+		int sharkInitEnergy = Integer.parseInt(myDataValues.get(PARAM_DATA_FIELDS.get(2)));
+		int sharkBreedTime = Integer.parseInt(myDataValues.get(PARAM_DATA_FIELDS.get(3)));
 		return new WaTorRuleset(fishBreedTime, sharkBreedTime, fishInitEnergy, sharkInitEnergy);
 	}
 	
 	/**
-	 * Gets data fields for WaTor simulation
+	 * Returns data fields
 	 */
 	@Override
-	public List<String> getDataField() {
-		return DATA_FIELDS;
+	public List<String> getParameterFields() {
+		return PARAM_DATA_FIELDS;
+	}
+	
+	/**
+	 * Returns Fire XML data fields 
+	 */
+	@Override
+	public List<String> getDataFields() {
+		List<String> result = getStandardFields();
+		result.addAll(PARAM_DATA_FIELDS);
+		return result;
 	}
 	
 	/**
@@ -64,8 +70,9 @@ public class WaTorXMLData extends XMLData {
 	@Override
 	public Grid getGrid(int[][] states) {
 		Grid g = new StandardGrid(this.getXSize(), this.getYSize());
-		int sharkEnergy = Integer.parseInt(myDataValues.get(DATA_FIELDS.get(7)));
-		int fishEnergy = Integer.parseInt(myDataValues.get(DATA_FIELDS.get(6)));
+		g.setType(WATOR);
+		int sharkEnergy = Integer.parseInt(myDataValues.get(PARAM_DATA_FIELDS.get(2)));
+		int fishEnergy = Integer.parseInt(myDataValues.get(PARAM_DATA_FIELDS.get(1)));
 		for(int r= 0; r < this.getXSize(); r++) {
 			for(int c = 0; c < this.getYSize(); c++) {
 				if(states[r][c] == FISH) {
