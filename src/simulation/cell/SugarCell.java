@@ -1,5 +1,6 @@
 package simulation.cell;
 
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class SugarCell extends Cell {
@@ -29,8 +30,14 @@ public class SugarCell extends Cell {
 	}
 
 	@Override
-	public void colorCell(int state) {
+	public Color colorCell() {
 		// TODO Sugar color should have gradient proportional to mySugar, Agent color should be different
+		if (myState == AGENT) {
+			return Color.RED;
+		} else if (myState == PATCH) {
+			double gradient = (double) mySugar / (double) myMaxSugar;
+			return Color.web("#FFA500", gradient);
+		} else return Color.BLACK;
 
 	}
 	
@@ -77,5 +84,5 @@ public class SugarCell extends Cell {
 	public void setMetabolism(int metabolism) {
 		myAgentMetabolism = metabolism;
 	}
-
+	
 }
