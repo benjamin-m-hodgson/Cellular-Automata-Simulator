@@ -10,8 +10,6 @@ import simulation.neighborhoods.Neighborhood;
  *
  */
 public class GameOfLifeNeighborManager extends NeighborManager {
-	
-	private Neighborhood NEIGHBORHOOD;
 
 	public GameOfLifeNeighborManager(Neighborhood n, boolean finite) {
 		super(n, finite);

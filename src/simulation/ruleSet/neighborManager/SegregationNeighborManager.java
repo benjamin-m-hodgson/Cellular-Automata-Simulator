@@ -16,12 +16,10 @@ import simulation.neighborhoods.Neighborhood;
 public class SegregationNeighborManager extends NeighborManager {
 
 	private int VACANT = 2; 
-	private Neighborhood NEIGHBORHOOD;
 
 	public SegregationNeighborManager(Neighborhood n, boolean finite) {
 		super(n, finite);
  	}
-	
 	
 	/**
 	 * Returns a random vacant cell

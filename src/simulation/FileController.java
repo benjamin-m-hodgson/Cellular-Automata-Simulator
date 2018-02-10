@@ -60,7 +60,7 @@ public class FileController {
     /**
      * Return grids to game driver
      */
-    public Map<String, Grid> getGrid() {
+    public Map<String, Grid> getGrids() {
     		return grids;
     }
     
