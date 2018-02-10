@@ -30,21 +30,20 @@ import simulation.screen.StartScreen;
  */
 public class Engine {
 
+    //Program related instance variables
     private final String DEFAULT_STYLESHEET = 
             Engine.class.getClassLoader().getResource("default.css").toExternalForm();
     private final ResourceBundle DEFAULT_RESOURCES = 
             ResourceBundle.getBundle("simulation.default");
-
     private final String PROGRAM_TITLE;   
-
     private double GENERATIONS_PER_SECOND = 1;
     private double MILLISECOND_DELAY = 1000 / GENERATIONS_PER_SECOND;
     private double SECOND_DELAY = 1.0 / GENERATIONS_PER_SECOND;
-
     private Timeline PROGRAM_TIMELINE;
     private Stage PROGRAM_STAGE;
     private Scene PROGRAM_SCENE;
 
+    //Simulation related instance variables
     private String SIMULATION_TYPE;
     private String SHAPE_TYPE = "triangle";
     private double SHAPE_HEIGHT = -1;
