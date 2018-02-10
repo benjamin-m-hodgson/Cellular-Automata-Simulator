@@ -2,7 +2,6 @@ package simulation.ruleSet.neighborManager;
 import simulation.cell.*;
 import simulation.grid.*;
 import simulation.neighborhoods.Neighborhood;
-import simulation.neighborhoods.SquareNeighborhood;
 
 /**
  * Manages neighbors of current Game of Life grid
@@ -14,8 +13,8 @@ public class GameOfLifeNeighborManager extends NeighborManager {
 	
 	private Neighborhood NEIGHBORHOOD;
 
-	public GameOfLifeNeighborManager(String CellType) {
-		if(CellType.equals("Square")) NEIGHBORHOOD = new SquareNeighborhood();
+	public GameOfLifeNeighborManager(Neighborhood n, boolean finite) {
+		super(n, finite);
  	}
 	
 	
@@ -28,7 +27,12 @@ public class GameOfLifeNeighborManager extends NeighborManager {
 	 */
 	@Override
 	protected Cell[] getNeighbors(Cell c, Grid g){
-		return NEIGHBORHOOD.NSEWCells(c ,g);
+		if(FINITE) {
+			return NEIGHBORHOOD.FiniteCardinal(c ,g);
+		}
+		else {
+			return NEIGHBORHOOD.TorodialCardinal(c, g);
+		}
 	}
 	
 }

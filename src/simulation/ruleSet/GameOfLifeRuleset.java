@@ -1,5 +1,7 @@
 package simulation.ruleSet;
 import simulation.cell.*;
+import simulation.neighborhoods.Neighborhood;
+import simulation.neighborhoods.SquareNeighborhood;
 import simulation.ruleSet.neighborManager.*;
 
 /**
@@ -19,6 +21,7 @@ public class GameOfLifeRuleset extends Ruleset {
 	private static final int LIVE = 0;
 	private static final int DEAD = 1;
 
+
 	/**
 	 * Constructor that sets simulation parameters
 	 * 
@@ -27,11 +30,18 @@ public class GameOfLifeRuleset extends Ruleset {
 	 * @param birth: exact number of live neighbors needed to give birth
 	 */
 	public GameOfLifeRuleset(int minLife, int maxLife, int birth) {
-		this.NEIGHBOR_MANAGER = new GameOfLifeNeighborManager("Square");
+		this.NEIGHBOR_MANAGER = new GameOfLifeNeighborManager(new SquareNeighborhood(), false);
 		this.MINLIFE = minLife;
 		this.MAXLIFE = maxLife;
 		this.BIRTH = birth;
 	}
+	
+	@Override
+	public void setNeighborManager(Neighborhood n, boolean finite) {
+		this.NEIGHBOR_MANAGER = new GameOfLifeNeighborManager(n, finite);
+		
+	}
+
 	
 	
 	/**

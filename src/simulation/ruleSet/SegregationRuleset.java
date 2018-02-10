@@ -1,5 +1,7 @@
 package simulation.ruleSet;
 import simulation.cell.*;
+import simulation.neighborhoods.Neighborhood;
+import simulation.neighborhoods.SquareNeighborhood;
 import simulation.ruleSet.neighborManager.*;
 
 /**
@@ -14,6 +16,7 @@ public class SegregationRuleset extends Ruleset {
 
 	private int VACANT = 2;
 	private double TOLERANCE;
+	
 	private SegregationNeighborManager NEIGHBOR_MANAGER;
 
 	/**
@@ -23,7 +26,14 @@ public class SegregationRuleset extends Ruleset {
 	 */
 	public SegregationRuleset(double tolerance) {
 		this.TOLERANCE = tolerance;
-		this.NEIGHBOR_MANAGER = new SegregationNeighborManager("Square");
+		this.NEIGHBOR_MANAGER = new SegregationNeighborManager(new SquareNeighborhood(), false);
+	}
+	
+	
+	@Override
+	public void setNeighborManager(Neighborhood n, boolean finite) {
+		this.NEIGHBOR_MANAGER = new SegregationNeighborManager(n, finite);
+		
 	}
 
 	/**
@@ -62,5 +72,6 @@ public class SegregationRuleset extends Ruleset {
 	public double getTolerance() {
 		return TOLERANCE;
 	}
+
 }
 

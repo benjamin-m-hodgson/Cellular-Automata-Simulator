@@ -1,6 +1,8 @@
 package simulation.ruleSet;
 import java.util.Random;
 import simulation.cell.*;
+import simulation.neighborhoods.Neighborhood;
+import simulation.neighborhoods.SquareNeighborhood;
 import simulation.ruleSet.neighborManager.*;
 
 /**
@@ -28,15 +30,16 @@ public class FireRuleset extends Ruleset {
 	 */
 	public FireRuleset(double probCatch) {
 		this.PROBCATCH = probCatch;
-		this.NEIGHBOR_MANAGER = new FireNeighborManager("Square"); // default neighbor manager
+		this.NEIGHBOR_MANAGER = new FireNeighborManager(new SquareNeighborhood(), false); // default neighbor manager
 	}
 	
 	public double getProbCatch() {
 		return PROBCATCH;
 	}
 	
-	public void setNeighborManager(String type) {
-		this.NEIGHBOR_MANAGER = new FireNeighborManager(type); // default neighbor manager
+	@Override
+	public void setNeighborManager(Neighborhood n, boolean finite) {
+		this.NEIGHBOR_MANAGER = new FireNeighborManager(n, finite);
 	}
 
 	/**
@@ -60,5 +63,6 @@ public class FireRuleset extends Ruleset {
 			return VACANT;
 		}
 	}
+
 	
 }
