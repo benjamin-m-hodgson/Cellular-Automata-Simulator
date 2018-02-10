@@ -20,7 +20,7 @@ import simulation.ruleSet.Ruleset;
  */
 public class CurrentSimulation {
 
-    private final double DEFAULT_SPACING = 1.0;
+    private final double DEFAULT_SPACING = 0.5;
     private final double DEFAULT_INDICATOR = -1;
 
     private Engine PROGRAM_ENGINE;
@@ -78,7 +78,6 @@ public class CurrentSimulation {
                     RectangleHandler shapeHandler = new RectangleHandler(PROGRAM_ENGINE,
                             DEFAULT_INDICATOR, DEFAULT_INDICATOR, DEFAULT_SPACING);
                     Rectangle cellShape = shapeHandler.generateRectangle(i, j);
-                    System.out.println(cellShape);
                     cellShape.setId("defaultCell");
                     SIMULATION_SHAPES[i][j] = cellShape;
                 }

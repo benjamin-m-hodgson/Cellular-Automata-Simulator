@@ -23,7 +23,6 @@ public class RectangleHandler extends ShapeHandler {
         CELL_SHAPE.widthProperty().bind(getWidth());
         double xPos = ROW*getHeight().doubleValue() + (ROW+1)*getSpacing();
         double yPos = COLUMN*getWidth().doubleValue() + (COLUMN+1)*getSpacing();
-        System.out.printf("Rectangle width %f, x pos: %f%n", CELL_SHAPE.getWidth(), xPos);
         CELL_SHAPE.setX(xPos);
         CELL_SHAPE.setY(yPos);
         return CELL_SHAPE;
