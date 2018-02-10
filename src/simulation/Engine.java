@@ -2,10 +2,13 @@ package simulation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Parent;
@@ -42,15 +45,17 @@ public class Engine {
 	private Stage PROGRAM_STAGE;
 	private Scene PROGRAM_SCENE;
 	private String SIMULATION_TYPE;
+	private String SHAPE_TYPE = "Rectangle";
 	private int GENERATION;
 	private boolean SIMULATING;
+	private CurrentSimulation SIMULATION;
 
-	private HashMap<String, Grid> GRIDS;
-	private HashMap<String, Ruleset> RULES;
+	private Map<String, Grid> GRIDS;
+	private Map<String, Ruleset> RULES;
 
 	// Give the program a title
 	public Engine() {
-		PROGRAM_TITLE = DEFAULT_RESOURCES.getString("programTitleString");
+		PROGRAM_TITLE = resourceString("programTitleString");
 		GRIDS = null;
 		RULES = null;
 	}
@@ -62,6 +67,8 @@ public class Engine {
 	 */
 	public void startProgram(Stage primaryStage, int width, int height) {
 		PROGRAM_STAGE = primaryStage;
+		// initialize maps with values from XML files
+		initializeMaps();
 		PROGRAM_STAGE.setTitle(PROGRAM_TITLE);
 		// attach "program loop" to time line to play it
 		KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
@@ -83,11 +90,9 @@ public class Engine {
 		if (SIMULATING) {
 			stopSimulation();
 		}
-		SIMULATION_TYPE = type;
-		SIMULATING = true;
-		GENERATION = 0;
-		PROGRAM_STAGE.setTitle(SIMULATION_TYPE);
-		Parent root = new SimulationScreen(this).getRoot();
+		// reset instance variables
+		initializeSimulation(type);
+		Parent root = new SimulationScreen(this, SIMULATION).getRoot();
 		PROGRAM_SCENE.setRoot(root);
 		playAnimation();
 	}
@@ -141,7 +146,7 @@ public class Engine {
 	 * @return the Simulation titles to be displayed to the user
 	 */
 	public ObservableList<String> getSimulations() {
-		ArrayList<String> typeList = new ArrayList<String>();
+		List<String> typeList = new ArrayList<String>();
 		for (String type : GRIDS.keySet()) {
 			if (RULES.containsKey(type)) {
 				typeList.add(type);
@@ -152,14 +157,13 @@ public class Engine {
 	}
 
 	/**
-	 * 
-	 * @return PROGRAM_STAGE: the stage used by the application
+	 * Initializes the values in the maps GRIDS and RULES
 	 */
-	public Stage getProgramStage() {
-		return PROGRAM_STAGE;
-	}
-
-	public void initialize(HashMap<String, Grid> grids, HashMap<String, Ruleset> rules) {
+	public void initializeMaps() {
+		FileController filecontrol = new FileController();
+		filecontrol.parseFiles();
+		Map<String, Grid> grids = filecontrol.getGrid();
+		Map<String, Ruleset> rules = filecontrol.getRules();
 		for (String key : rules.keySet()) {
 			Grid g = grids.get(key);
 			rules.get(key).setGrid(g);
@@ -184,12 +188,8 @@ public class Engine {
 		return GENERATION;
 	}
 	
-	/**
-	 * 
-	 * @return DEFAULT_RESOURCES: the resource bundle to determine label Strings
-	 */
-	public ResourceBundle getResourceBundle() {
-		return DEFAULT_RESOURCES;
+	public String resourceString(String key) {
+		return DEFAULT_RESOURCES.getString(key);
 	}
 
 	/**
@@ -210,6 +210,41 @@ public class Engine {
 
 		RULES = rules;
 	}
+	
+	public Grid currentGrid() {
+		return getGrid(SIMULATION_TYPE);
+	}
+	
+	public Ruleset currentRules() {
+		return RULES.get(SIMULATION_TYPE);
+	}
+	
+	public String currentShapeType() {
+		return SHAPE_TYPE;
+	}
+	
+	public ReadOnlyDoubleProperty sceneWidth() {
+		return PROGRAM_STAGE.widthProperty();
+	}
+	
+	public ReadOnlyDoubleProperty sceneHeight() {
+		return PROGRAM_STAGE.heightProperty();
+	}
+	
+	private void initializeSimulation(String type) {
+		// reset instance variables
+		SIMULATION_TYPE = type;
+		SIMULATING = true;
+		GENERATION = 0;
+		initializeMaps();
+		PROGRAM_STAGE.setTitle(SIMULATION_TYPE);
+		if (SIMULATION != null) {
+			SIMULATION.reset();
+		}
+		else {
+			SIMULATION = new CurrentSimulation(this);
+		}
+	}
 
 
 	/**
@@ -220,10 +255,10 @@ public class Engine {
 	public Grid getGrid(String name) {
 		Grid cloneGrid = null;
 		try {
-			cloneGrid = (Grid) GRIDS.get(name).clone();
+			cloneGrid = (Grid) GRIDS.get(name);
 			return cloneGrid;
-		} catch (CloneNotSupportedException e) {
-			System.out.printf("Could not clone Grid object with key %s\n", name);
+		} catch ( NullPointerException e) {
+			System.out.printf("Could not get Grid object with key %s\n", name);
 		}
 		return cloneGrid;
 	}
@@ -263,7 +298,7 @@ public class Engine {
 	 */
 	private void step (double elapsedTime) {   	
 		if (SIMULATING) {
-			RULES.get(SIMULATION_TYPE).processCells();
+			SIMULATION.update();
 			GENERATION++;
 		}
 	}

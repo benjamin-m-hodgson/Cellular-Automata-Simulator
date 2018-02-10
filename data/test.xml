@@ -1,5 +1,5 @@
 <?xml version = "1.0" encoding = "UTF-8" ?>
-<simulation simulation = "CA" type = "Game of Life">
+<simulation simulation = "CA" type = "Game of Life" format = "locations">
 	<name>"Game of Life"</name>
     <sizeX>5</sizeX>
     <sizeY>5</sizeY>

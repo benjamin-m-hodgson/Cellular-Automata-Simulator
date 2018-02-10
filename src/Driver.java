@@ -23,10 +23,6 @@ public class Driver extends Application {
 	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-
-		FileController filecontrol = new FileController();
-		filecontrol.parseFiles();
-		programEngine.initialize(filecontrol.getGrid(), filecontrol.getRules());
 		programEngine.startProgram(primaryStage, DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		primaryStage.show();		
 	}

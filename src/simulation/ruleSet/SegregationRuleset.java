@@ -1,11 +1,9 @@
 package simulation.ruleSet;
 import simulation.cell.*;
-import simulation.neighbormanager.SegregationNeighborManager;
+import simulation.ruleSet.neighborManager.*;
 
 /**
- * RULES: 
- * Satisfied Cell: % neighbors satisfied < tolerance -> Dissatisfied
- * Dissatisfied Cell: moves to random vacant spot
+ * Segregation simulation ruleset
  * 
  *  @param Cell c: cell whose state is being evaluated
  *  @param Cell[] neighbors: neighbors of c
@@ -16,19 +14,22 @@ public class SegregationRuleset extends Ruleset {
 
 	private int VACANT = 2;
 	private double TOLERANCE;
-	private SegregationNeighborManager NEIGHBOR_MANAGER = new SegregationNeighborManager();
+	private SegregationNeighborManager NEIGHBOR_MANAGER;
 
 	/**
 	 * Constructor that sets simulation parameters
 	 * 
-	 * @param tolerance
+	 * @param tolerance: tolerance of neighbors of opposite group
 	 */
 	public SegregationRuleset(double tolerance) {
 		this.TOLERANCE = tolerance;
+		this.NEIGHBOR_MANAGER = new SegregationNeighborManager("Square");
 	}
 
 	/**
 	 * Updates all states in current grid
+	 * 
+	 * @param cell : Cell to be processed
 	 */
 	@Override
 	public int processCell(Cell cell) {
@@ -56,6 +57,10 @@ public class SegregationRuleset extends Ruleset {
 			newCell.setMove(true);
 			return VACANT;
 		}
+	}
+	
+	public double getTolerance() {
+		return TOLERANCE;
 	}
 }
 

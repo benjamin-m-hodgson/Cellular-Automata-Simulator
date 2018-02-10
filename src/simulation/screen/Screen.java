@@ -1,9 +1,7 @@
 package simulation.screen;
 
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-
+import simulation.Engine;
 /**
  * 
  * @author Benjamin Hodgson
@@ -18,6 +16,11 @@ import javafx.scene.control.Label;
 public abstract class Screen {
 	
 	protected Parent ROOT;
+	protected Engine PROGRAM_ENGINE;
+	
+	public Screen(Engine programEngine) {
+	    PROGRAM_ENGINE = programEngine;
+	}
 	
 	/**
 	 * If property ROOT is null, calls makeRoot() to generate the root. 
@@ -36,21 +39,5 @@ public abstract class Screen {
 	 * Method to construct the Parent object ROOT 
 	 */
 	public abstract void makeRoot();
-	
-	/**
-	 * Creates a Label object bearing the desired text.
-	 * 
-	 * @param text: A String containing the text to be displayed on the Label
-	 * @return Label object to be put in the Scene root
-	 */
-	public abstract Label makeLabel(String text);
-	
-	/**
-	 * Creates a Button object bearing the desired text.
-	 * 
-	 * @param text: A String containing the text to be displayed on the Button
-	 * @return Button object to be put in the Scene root
-	 */
-	public abstract Button makeButton(String text);
 	
 }

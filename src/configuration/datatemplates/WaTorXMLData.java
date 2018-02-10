@@ -18,10 +18,8 @@ public class WaTorXMLData extends XMLData {
 	
 	private int FISH = 0;
 	private int SHARK = 1; 
-	private int FISHENERGY;
-	private int SHARKENERGY;
 	private int NOENERGY = 0;
-	public static final List<String> DATA_FIELDS = Arrays.asList(new String[] {
+	protected static final List<String> DATA_FIELDS = Arrays.asList(new String[] {
 			"type",
 			"name",
 			"sizeX",
@@ -46,8 +44,10 @@ public class WaTorXMLData extends XMLData {
 	@Override
 	public WaTorRuleset getRules() {
 		int fishBreedTime = Integer.parseInt(myDataValues.get(DATA_FIELDS.get(5)));
+		int fishInitEnergy = Integer.parseInt(myDataValues.get(DATA_FIELDS.get(6)));
+		int sharkInitEnergy = Integer.parseInt(myDataValues.get(DATA_FIELDS.get(7)));
 		int sharkBreedTime = Integer.parseInt(myDataValues.get(DATA_FIELDS.get(8)));
-		return new WaTorRuleset(fishBreedTime, sharkBreedTime);
+		return new WaTorRuleset(fishBreedTime, sharkBreedTime, fishInitEnergy, sharkInitEnergy);
 	}
 	
 	/**
@@ -62,26 +62,21 @@ public class WaTorXMLData extends XMLData {
 	 * Creates grid object from XML parser data
 	 */
 	@Override
-	public Grid getGrid() {
-		int state;
+	public Grid getGrid(int[][] states) {
 		Grid g = new StandardGrid(this.getXSize(), this.getYSize());
-		String[] ints = myDataValues.get(DATA_FIELDS.get(4)).split("\\W+");
-		this.SHARKENERGY = Integer.parseInt(myDataValues.get(DATA_FIELDS.get(7)));
-		this.FISHENERGY = Integer.parseInt(myDataValues.get(DATA_FIELDS.get(6)));
-		int p=0;
+		int sharkEnergy = Integer.parseInt(myDataValues.get(DATA_FIELDS.get(7)));
+		int fishEnergy = Integer.parseInt(myDataValues.get(DATA_FIELDS.get(6)));
 		for(int r= 0; r < this.getXSize(); r++) {
 			for(int c = 0; c < this.getYSize(); c++) {
-				state = Integer.parseInt(ints[p]);
-				if(state == FISH) {
-					g.addCell(new WaTorCell(r, c, state, FISHENERGY));
+				if(states[r][c] == FISH) {
+					g.addCell(new WaTorCell(r, c, states[r][c], fishEnergy));
 				}
-				else if(state == SHARK) {
-					g.addCell(new WaTorCell(r, c, state, SHARKENERGY));
+				else if(states[r][c] == SHARK) {
+					g.addCell(new WaTorCell(r, c, states[r][c], sharkEnergy));
 				}
 				else {
-					g.addCell( new WaTorCell(r, c, state, NOENERGY));
+					g.addCell( new WaTorCell(r, c, states[r][c], NOENERGY));
 				}
-				p++;
 			}
 		}
 		return g;

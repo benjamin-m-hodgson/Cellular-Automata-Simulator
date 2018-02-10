@@ -1,7 +1,7 @@
 package simulation.ruleSet;
 import java.util.Random;
 import simulation.cell.*;
-import simulation.neighbormanager.FireNeighborManager;
+import simulation.ruleSet.neighborManager.*;
 
 /**
  * RULES: 
@@ -28,7 +28,11 @@ public class FireRuleset extends Ruleset {
 	 */
 	public FireRuleset(double probCatch) {
 		this.PROBCATCH = probCatch;
-		this.NEIGHBOR_MANAGER = new FireNeighborManager();
+		this.NEIGHBOR_MANAGER = new FireNeighborManager("Square");
+	}
+	
+	public double getProbCatch() {
+		return PROBCATCH;
 	}
 
 	/**
@@ -40,7 +44,7 @@ public class FireRuleset extends Ruleset {
 	@Override
 	public int processCell(Cell c) {
 		Random rand = new Random();
-		if(NEIGHBOR_MANAGER.neighborCount(c, GRID) > 0 
+		if(NEIGHBOR_MANAGER.neighborCount(c, GRID, BURNING) > 0 
 				&& rand.nextDouble() < this.PROBCATCH
 				&& c.getState() != VACANT) {
 			return BURNING;

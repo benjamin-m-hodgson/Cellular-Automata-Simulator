@@ -1,4 +1,5 @@
 package configuration.datatemplates;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +33,7 @@ public abstract class XMLData {
 	public XMLData () {
 		myDataValues = null;
 	}
-	
+
 	/**
 	 * Sets map from returned from parser
 	 * 
@@ -41,7 +42,25 @@ public abstract class XMLData {
 	public void setMap(Map<String, String> dataValues) {
 		myDataValues = dataValues;
 	}
-	
+
+	/**
+	 * Sets map from returned from parser
+	 * 
+	 * @param dataValues
+	 */
+	public int[][] getStates() {			
+		String[] rows = myDataValues.get(DATA_FIELDS.get(4)).split("\\W+");
+		int i = 0;
+		int[][] ints = new int[getXSize()][getYSize()];
+		for(int r= 0; r < ints.length; r++) {
+			for(int c = 0; c < this.getYSize(); c++) {
+				ints[r][c] = Integer.parseInt(rows[i]);
+				i++;
+			}
+		}
+		return ints;
+	}
+
 	/**
 	 * Returns type attribute of simulation
 	 * 
@@ -60,7 +79,7 @@ public abstract class XMLData {
 	public String getName() {
 		return myDataValues.get(DATA_FIELDS.get(1)).replaceAll("^\"|\"$", "");
 	}
-	
+
 	/**
 	 * 
 	 * @return X size of Grid
@@ -76,12 +95,12 @@ public abstract class XMLData {
 	public int getYSize() {
 		return Integer.parseInt(myDataValues.get(DATA_FIELDS.get(3))); 
 	}
-	
+
 	/**
 	 * 
 	 * @return Grid object (used in subclasses)
 	 */
-	public Grid getGrid() {
+	public Grid getGrid(int[][] states) {
 		return null;
 	}
 
@@ -92,13 +111,14 @@ public abstract class XMLData {
 	public Ruleset getRules() {
 		return null;
 	}
-	
+
 	/**
 	 * 
 	 * @return Gets list of all datafields in XML file
 	 */
 	public List<String> getDataField() {
-		return DATA_FIELDS;
+		List<String> retFields = new ArrayList<String>(DATA_FIELDS);
+		return retFields;
 	}
 
 }

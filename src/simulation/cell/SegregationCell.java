@@ -1,7 +1,6 @@
 package simulation.cell;
 
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
 /**
  * Cell object for segregation simulation
@@ -24,18 +23,6 @@ public class SegregationCell extends Cell {
 	public SegregationCell(int x, int y, int state) {
 		super(x, y, state); 		
 	}
-
-
-
-	/**
-	 * Assigns rectangle to represent segregation cell
-	 */
-	@Override
-	public void drawShape() {
-		Rectangle GOLBlock = new Rectangle();
-		myShape = GOLBlock;
-
-	}
 	
 	/**
 	 * Sets state of segregation cell
@@ -54,15 +41,15 @@ public class SegregationCell extends Cell {
 	 * @param state: current state
 	 */
 	@Override
-	public void colorCell(int state) {
+	public Color colorCell() {
 		if (myState == GROUP1) {
-			myShape.setFill(Color.THISTLE);
+			return Color.THISTLE;
 		}
 		else if(myState == GROUP2) {
-			myShape.setFill(Color.AZURE);
+			return Color.AZURE;
 		}
 		else {
-			myShape.setFill(Color.DIMGRAY);
+			return Color.DIMGRAY;
 		}
 	}
 }

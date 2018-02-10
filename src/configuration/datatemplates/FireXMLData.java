@@ -13,7 +13,7 @@ import simulation.ruleSet.*;
  *
  */
 public class FireXMLData extends XMLData {
-	public static final List<String> DATA_FIELDS = Arrays.asList(new String[] {
+	protected static final List<String> DATA_FIELDS = Arrays.asList(new String[] {
 			"type",
 			"name",
 			"sizeX",
@@ -30,14 +30,6 @@ public class FireXMLData extends XMLData {
 	}
 	
 	/**
-	 * Gets rule parameters from XML parser
-	 */
-	@Override
-	public FireRuleset getRules() {
-		return new FireRuleset(Double.parseDouble(myDataValues.get(DATA_FIELDS.get(5))));
-	}
-	
-	/**
 	 * Returns Fire XML data fields 
 	 */
 	@Override
@@ -46,16 +38,21 @@ public class FireXMLData extends XMLData {
 	}
 	
 	/**
+	 * Gets rule parameters from XML parser
+	 */
+	@Override
+	public FireRuleset getRules() {
+		return new FireRuleset(Double.parseDouble(myDataValues.get(DATA_FIELDS.get(5))));
+	}
+	
+	/**
 	 * Gets grid object from XML parser
 	 */
-	public Grid getGrid() {
+	public Grid getGrid(int[][] states) {
 		Grid g = new StandardGrid(this.getXSize(), this.getYSize());
-		String[] ints = myDataValues.get(DATA_FIELDS.get(4)).split("\\W+");
-		int p=0;
 		for(int r= 0; r < this.getXSize(); r++) {
 			for(int c = 0; c < this.getYSize(); c++) {
-				g.addCell(new FireCell(r, c, Integer.parseInt(ints[p])));
-				p++;
+				g.addCell(new FireCell(r, c, states[r][c]));
 			}
 		}
 		return g;
