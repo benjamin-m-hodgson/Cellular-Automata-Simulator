@@ -16,6 +16,7 @@ import simulation.ruleSet.*;
  */
 public class WaTorXMLData extends XMLData {
 	
+	private String WATOR = "WaTor";
 	private int FISH = 0;
 	private int SHARK = 1; 
 	private int NOENERGY = 0;
@@ -64,6 +65,7 @@ public class WaTorXMLData extends XMLData {
 	@Override
 	public Grid getGrid(int[][] states) {
 		Grid g = new StandardGrid(this.getXSize(), this.getYSize());
+		g.setType(WATOR);
 		int sharkEnergy = Integer.parseInt(myDataValues.get(DATA_FIELDS.get(7)));
 		int fishEnergy = Integer.parseInt(myDataValues.get(DATA_FIELDS.get(6)));
 		for(int r= 0; r < this.getXSize(); r++) {

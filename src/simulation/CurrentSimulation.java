@@ -1,8 +1,5 @@
 package simulation;
 
-import javax.xml.transform.TransformerConfigurationException;
-
-import configuration.XMLWriter;
 import javafx.beans.binding.Bindings;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
@@ -44,17 +41,6 @@ public class CurrentSimulation {
 	
 	public Shape drawShape(int x, int y) {
 		return SIMULATION_SHAPES[x][y];
-	}
-	
-	
-	public void makeNewXML() {
-		XMLWriter writer = new XMLWriter();
-		try {
-			writer.createDoc("Fire", "hello", PROGRAM_ENGINE.currentGrid(), PROGRAM_ENGINE.currentRules());
-		} catch (TransformerConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 	
 	private void initializeShapes() {

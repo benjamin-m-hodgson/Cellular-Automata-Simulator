@@ -312,6 +312,38 @@
     -fx-opacity: 0.3;
 }
 /******************************************************************************************/
+/* The Save button to pause a running simulation */
+/******************************************************************************************/
+#saveButton {
+	-fx-background-image: url("/saveIcon.png");
+	-fx-background-size: 25px 25px;
+	-fx-background-position: center;
+	-fx-background-repeat: no-repeat;
+	-fx-opacity: 0.6;
+	-fx-pref-width: 25px;
+	-fx-pref-height: 25px;
+	-fx-focus-color: transparent;
+	-fx-faint-focus-color: transparent;
+	-fx-border-style: solid outside;
+	-fx-border-width: 2;
+	-fx-border-insets: 1;
+	-fx-border-radius: 1;
+	-fx-border-color: #696969;
+}
+#saveButton:hover {
+    
+}
+#saveButton:pressed {
+	-fx-border-style: solid outside;
+	-fx-border-width: 2;
+	-fx-border-insets: 1;
+	-fx-border-radius: 1;
+	-fx-border-color: #696969;
+}
+#saveButton:disabled {
+    -fx-opacity: 0.3;
+}
+/******************************************************************************************/
 /* The slider that changes the speed of the animation */
 /******************************************************************************************/
 #simulateSpeedSlider {

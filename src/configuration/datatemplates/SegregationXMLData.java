@@ -14,6 +14,7 @@ import simulation.ruleSet.*;
  *
  */
 public class SegregationXMLData extends XMLData {
+	private String SEGREGATION = "Segregation";
 	protected static final List<String> DATA_FIELDS = Arrays.asList(new String[] {
 			"type",
 			"name",
@@ -53,6 +54,7 @@ public class SegregationXMLData extends XMLData {
 	@Override
 	public Grid getGrid(int[][] states) {
 		Grid g = new StandardGrid(this.getXSize(), this.getYSize());
+		g.setType(SEGREGATION);
 		for(int r= 0; r < this.getXSize(); r++) {
 			for(int c = 0; c < this.getYSize(); c++) {
 				g.addCell(new SegregationCell(r, c, states[r][c]));

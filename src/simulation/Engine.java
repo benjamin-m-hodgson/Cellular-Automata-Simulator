@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import javax.xml.transform.TransformerConfigurationException;
+
+import configuration.XMLWriter;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.ReadOnlyDoubleProperty;
@@ -44,6 +47,7 @@ public class Engine {
 	private Timeline PROGRAM_TIMELINE;
 	private Stage PROGRAM_STAGE;
 	private Scene PROGRAM_SCENE;
+	private String SIMULATION_NAME;
 	private String SIMULATION_TYPE;
 	private String SHAPE_TYPE = "Rectangle";
 	private int GENERATION;
@@ -174,7 +178,15 @@ public class Engine {
 
 	/**
 	 * 
-	 * @return SIMULATION_TYPE: the current simulation being animated 
+	 * @return SIMULATION_NAME: the current simulation being animated 
+	 */
+	public String getSimulationName() {
+		return SIMULATION_NAME;
+	}
+	
+	/**
+	 * 
+	 * @return SIMULATION_TYOE: the type of the current simulation being animated 
 	 */
 	public String getSimulationType() {
 		return SIMULATION_TYPE;
@@ -212,11 +224,11 @@ public class Engine {
 	}
 	
 	public Grid currentGrid() {
-		return getGrid(SIMULATION_TYPE);
+		return getGrid(SIMULATION_NAME);
 	}
 	
 	public Ruleset currentRules() {
-		return RULES.get(SIMULATION_TYPE);
+		return RULES.get(SIMULATION_NAME);
 	}
 	
 	public String currentShapeType() {
@@ -233,11 +245,11 @@ public class Engine {
 	
 	private void initializeSimulation(String type) {
 		// reset instance variables
-		SIMULATION_TYPE = type;
+		SIMULATION_NAME = type;
 		SIMULATING = true;
 		GENERATION = 0;
 		initializeMaps();
-		PROGRAM_STAGE.setTitle(SIMULATION_TYPE);
+		PROGRAM_STAGE.setTitle(SIMULATION_NAME);
 		if (SIMULATION != null) {
 			SIMULATION.reset();
 		}
@@ -296,6 +308,19 @@ public class Engine {
 	 */
 	public int getStateCount(int state) {
 		return SIMULATION.stateCount(currentGrid(), state);
+	}
+	
+	/**
+	 * Gets state count
+	 */
+	public void writeGridtoXML(String name) {
+		XMLWriter writer = new XMLWriter();
+		try {
+			writer.createDoc(currentGrid().getType(), name, currentGrid(), currentRules());
+		} catch (TransformerConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**

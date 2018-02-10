@@ -119,7 +119,7 @@ public class AnimationControls {
         resetButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent arg0) {
-                PROGRAM_ENGINE.startSimulation(PROGRAM_ENGINE.getSimulationType());
+                PROGRAM_ENGINE.startSimulation(PROGRAM_ENGINE.getSimulationName());
             }
         });
         return resetButton;
