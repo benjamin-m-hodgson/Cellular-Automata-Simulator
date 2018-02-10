@@ -26,7 +26,7 @@ public class XMLParser {
 	private final String LOCATIONS = "locations";
 	private final DocumentBuilder DOCUMENT_BUILDER;
 	private final XMLDataFactory XMLDATA_FACTORY;
-	private String TYPE;
+	private String simulationType;
 	private String parserType;
 	private XMLData data;
 
@@ -36,7 +36,7 @@ public class XMLParser {
 	public XMLParser () {
 		DOCUMENT_BUILDER = getDocumentBuilder();
 		XMLDATA_FACTORY = new XMLDataFactory();
-		TYPE = null;
+		simulationType = null;
 	}
 	
 	/**
@@ -51,7 +51,7 @@ public class XMLParser {
 		}
 		parserType = root.getAttribute(FORMAT_ATTRIBUTE);
 		Map<String, String> results = new HashMap<>();
-		for (String field : data.getDataField()) {
+		for (String field : data.getDataFields()) {
 			results.put(field, getTextValue(root, field));
 		}
 		return results;
@@ -69,7 +69,7 @@ public class XMLParser {
 			states = data.getStates();
 		}
 		else {
-			states = XMLDATA_FACTORY.randomStates(TYPE, data.getXSize(), data.getYSize());
+			states = XMLDATA_FACTORY.randomStates(simulationType, data.getXSize(), data.getYSize());
 		}
 		return data.getGrid(states);
 	}
@@ -89,15 +89,14 @@ public class XMLParser {
 	}
 	
 	/**
-	 * Chooses type of simulation (may make simulation manager)
+	 * Chooses simulationType of simulation (may make simulation manager)
 	 * 
 	 * @param dataFile
 	 */
 	public void setType(File dataFile) {
 		try {
-			String simType = getAttribute(getRootElement(dataFile), "type");
-			this.TYPE = simType;
-			this.data = XMLDATA_FACTORY.chooseDataTemplate(simType);
+			this.simulationType = getAttribute(getRootElement(dataFile), "type");
+			this.data = XMLDATA_FACTORY.chooseDataTemplate(simulationType);
 			data.setMap(getMap(dataFile));
 		}
 		catch (Exception e) {
@@ -105,6 +104,10 @@ public class XMLParser {
 		}
 	}
 	
+	
+	public String getType() {
+		return simulationType;
+	}
 
 	/**
 	 * Returns root element of XML File

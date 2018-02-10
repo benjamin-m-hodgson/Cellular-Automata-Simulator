@@ -6,6 +6,7 @@ import simulation.FileController;
 import simulation.grid.Grid;
 import simulation.ruleSet.Ruleset;
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -28,8 +29,17 @@ public class XMLWriter extends FileController {
 	private final DocumentBuilder DOCUMENT_BUILDER;
 	private static String SIMULATION = "simulation";
 	private final XMLDataFactory XMLDATA_FACTORY;
-	private List<String> DATA_FIELDS;
+	private List<String> PARAM_DATA_FIELDS;
 	private Document DOCUMENT;
+	protected static final List<String> STD_DATA_FIELDS = Arrays.asList(new String[] {
+			"simulation",
+			"type", 
+			"format",
+			"name",
+			"sizeX",
+			"sizeY",
+			"cell",
+	});
 
 	/**
 	 * Create a parser for XML files of given type.
@@ -48,14 +58,11 @@ public class XMLWriter extends FileController {
 	 * @throws TransformerConfigurationException 
 	 */
 	public void createDoc(String simType, String simName, Grid GRID, Ruleset RULES) throws TransformerConfigurationException {
-		DATA_FIELDS = XMLDATA_FACTORY.getDataFields(simType);
+		PARAM_DATA_FIELDS = XMLDATA_FACTORY.getDataFields(simType);
 		Element rootElement = DOCUMENT.createElement(SIMULATION);
 		DOCUMENT.appendChild(rootElement);
-		
-		addStandardElements(simType, rootElement, GRID);
-		addCellStates(rootElement, GRID);
+		addStandardElements(simType, simName, rootElement, GRID);
 		addParameterElements(simType, rootElement, RULES);
-		
 		convertXML(DOCUMENT, simName);
 	}
 	
@@ -66,26 +73,14 @@ public class XMLWriter extends FileController {
 	 * @param rootElement
 	 * @param GRID
 	 */
-	private void addStandardElements(String simType, Element rootElement, Grid GRID) {
-		addAttribute(DATA_FIELDS.get(0),"CA", rootElement);
-		addAttribute(DATA_FIELDS.get(1), simType, rootElement);
-		addElement(DATA_FIELDS.get(2),Integer.toString(GRID.getXSize()), rootElement);
-		addElement(DATA_FIELDS.get(3),Integer.toString(GRID.getYSize()), rootElement);
-		addElement(DATA_FIELDS.get(4), cellStates(GRID), rootElement);
-	}
-	
-	/**
-	 * Adds cell states to XML file
-	 * 
-	 * @param rootElement
-	 * @param GRID
-	 */
-	private void addCellStates(Element rootElement, Grid GRID) {
-		Element cell = DOCUMENT.createElement(DATA_FIELDS.get(4));
-		addAttribute("type", "locations", cell);
-		rootElement.appendChild(DOCUMENT.createTextNode(cellStates(GRID)));
-		rootElement.appendChild(cell);
-		addElement(DATA_FIELDS.get(4), cellStates(GRID), rootElement);
+	private void addStandardElements(String simType, String simName, Element rootElement, Grid GRID) {
+		addAttribute(STD_DATA_FIELDS.get(0),"CA", rootElement);
+		addAttribute(STD_DATA_FIELDS.get(1), simType, rootElement);
+		addAttribute(STD_DATA_FIELDS.get(2), "locations", rootElement);
+		addElement(STD_DATA_FIELDS.get(3), simName, rootElement);
+		addElement(STD_DATA_FIELDS.get(4),Integer.toString(GRID.getXSize()), rootElement);
+		addElement(STD_DATA_FIELDS.get(5),Integer.toString(GRID.getYSize()), rootElement);
+		addElement(STD_DATA_FIELDS.get(6), cellStates(GRID), rootElement);
 	}
 	
 	/**
@@ -97,10 +92,8 @@ public class XMLWriter extends FileController {
 	 */
 	private void addParameterElements(String simType, Element rootElement, Ruleset r) {
 		List<String> params = XMLDATA_FACTORY.rulesetParam(simType, r, rootElement);
-		int count = 0;
-		for(int i = 5; i < DATA_FIELDS.size(); i++) {
-			addElement(DATA_FIELDS.get(i), params.get(count), rootElement);
-			count++;
+		for(int i = 0; i < PARAM_DATA_FIELDS.size(); i++) {
+			addElement(PARAM_DATA_FIELDS.get(i), params.get(i), rootElement);
 		}
 	}
 		
@@ -113,7 +106,7 @@ public class XMLWriter extends FileController {
 	 */
 	protected void addElement(String tag, String value, Element parent) {
 		Element e = DOCUMENT.createElement(tag);
-		parent.appendChild(DOCUMENT.createTextNode(value));
+		e.appendChild(DOCUMENT.createTextNode(value));
 		parent.appendChild(e);
 	}
 	
@@ -157,13 +150,15 @@ public class XMLWriter extends FileController {
 	 */
 	private String cellStates(Grid g) {
 		StringBuilder result = new StringBuilder();
+		StringBuilder row = new StringBuilder();
 		for(int r = 0; r < g.getXSize(); r++) {
-			StringBuilder element = new StringBuilder();
+			System.out.println("ROW:" + row);
+			row.setLength(0);
 			for(int c = 0; c < g.getYSize(); c++) {
-				element.append(element.toString() 
-						+ Integer.toString(g.getCell(r, c).getState()) + " ");
+				row.append(Integer.toString(g.getCell(r, c).getState()) + " ");
 			}
-			result.append(element.toString() + "%n");
+			result.append(row.toString() + "\n");
+			System.out.println(result);
 		}
 		return result.toString();
 	}
