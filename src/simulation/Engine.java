@@ -14,6 +14,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import simulation.grid.Grid;
 import simulation.ruleSet.Ruleset;
@@ -44,8 +45,13 @@ public class Engine {
 	private Timeline PROGRAM_TIMELINE;
 	private Stage PROGRAM_STAGE;
 	private Scene PROGRAM_SCENE;
+	
 	private String SIMULATION_TYPE;
 	private String SHAPE_TYPE = "Rectangle";
+	private double SHAPE_HEIGHT = -1;
+	private double SHAPE_WIDTH = -1;
+	private double SHAPE_SPACE = 1;
+	
 	private int GENERATION;
 	private boolean SIMULATING;
 	private CurrentSimulation SIMULATION;
@@ -67,6 +73,8 @@ public class Engine {
 	 */
 	public void startProgram(Stage primaryStage, int width, int height) {
 		PROGRAM_STAGE = primaryStage;
+		PROGRAM_STAGE.setResizable(false);
+		PROGRAM_STAGE.initStyle(StageStyle.UTILITY);
 		// initialize maps with values from XML files
 		initializeMaps();
 		PROGRAM_STAGE.setTitle(PROGRAM_TITLE);
@@ -92,7 +100,8 @@ public class Engine {
 		}
 		// reset instance variables
 		initializeSimulation(type);
-		Parent root = new SimulationScreen(this, SIMULATION).getRoot();
+		SimulationScreen simulationDisplay = new SimulationScreen(this, SIMULATION);
+		Parent root = simulationDisplay.getRoot();
 		PROGRAM_SCENE.setRoot(root);
 		playAnimation();
 	}
@@ -223,12 +232,24 @@ public class Engine {
 		return SHAPE_TYPE;
 	}
 	
+	public double currentShapeHeight() {
+	    return SHAPE_HEIGHT;
+	}
+	
+	public double currentShapeWidth() {
+	    return SHAPE_WIDTH;
+	}
+	
+	public double currentShapeSpace() {
+	    return SHAPE_SPACE;
+	}
+	
 	public ReadOnlyDoubleProperty sceneWidth() {
-		return PROGRAM_STAGE.widthProperty();
+		return PROGRAM_SCENE.widthProperty();
 	}
 	
 	public ReadOnlyDoubleProperty sceneHeight() {
-		return PROGRAM_STAGE.heightProperty();
+		return PROGRAM_SCENE.heightProperty();
 	}
 	
 	private void initializeSimulation(String type) {

@@ -134,10 +134,10 @@
 	-fx-background-color: #d3d3d3;
 	-fx-hgap: 30;
 	-fx-vgap: 30;
-	-fx-padding: 10 10 10 10;
+	-fx-padding: 5 5 5 5;
 	-fx-border-style: solid inside;
-	-fx-border-width: 2;
-	-fx-border-insets: 2;
+	-fx-border-width: 0;
+	-fx-border-insets: 1;
 	-fx-border-radius: 1;
 	-fx-border-color: #696969;
 }
@@ -347,7 +347,7 @@
 	-fx-padding: 1 1 1 1;
 	-fx-border-style: solid inside;
 	-fx-border-width: 0;
-	-fx-border-insets: 1;
+	-fx-border-insets: 0.5;
 	-fx-border-radius: 1;
 	-fx-border-color: #696969;
 	-fx-focus-color: transparent;

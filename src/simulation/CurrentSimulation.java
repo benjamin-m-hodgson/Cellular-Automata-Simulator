@@ -3,16 +3,17 @@ package simulation;
 import javax.xml.transform.TransformerConfigurationException;
 
 import configuration.XMLWriter;
-import javafx.beans.binding.Bindings;
-import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
-import javafx.scene.transform.Rotate;
 import simulation.cell.*;
 import simulation.grid.*;
 import simulation.ruleSet.Ruleset;
 
 /**
+ * 
+ * @author Benjamin Hodgson
+ * @date 2/8/18
+ * 
  * Updates the current grid/ruleset parameters, based on what the engine passes to it.
  * Uses inversion of control through dependency on Engine class methods.
  * 
@@ -44,13 +45,13 @@ public class CurrentSimulation {
 	
 	public Shape drawShape(int x, int y) {
 		return SIMULATION_SHAPES[x][y];
-	}
-	
+	}	
 	
 	public void makeNewXML() {
 		XMLWriter writer = new XMLWriter();
 		try {
-			writer.createDoc("Fire", "hello", PROGRAM_ENGINE.currentGrid(), PROGRAM_ENGINE.currentRules());
+			writer.createDoc("Fire", "hello", 
+			        PROGRAM_ENGINE.currentGrid(), PROGRAM_ENGINE.currentRules());
 		} catch (TransformerConfigurationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -71,13 +72,15 @@ public class CurrentSimulation {
 		for (int i = 0; i < SIMULATION_SHAPES.length; i++) {
 			for (int j = 0; j < SIMULATION_SHAPES[i].length; j ++) {
 				if (currentShape.equalsIgnoreCase("Rectangle")) {
-					Rectangle cellShape = drawRectangle();
+				     RectangleHandler shapeHandler = new RectangleHandler(PROGRAM_ENGINE);
+					Rectangle cellShape = shapeHandler.generateRectangle(i, j);
+					cellShape.setId("defaultCell");
 					SIMULATION_SHAPES[i][j] = cellShape;
 				}
-				else if (currentShape.equalsIgnoreCase("Triangle")) {
-					Polygon triangleCell = drawTriangle(j);
+				/*else if (currentShape.equalsIgnoreCase("Triangle")) {
+					Polygon triangleCell = generateTriangle(i, j);
 					SIMULATION_SHAPES[i][j] = triangleCell;
-				}
+				}*/
 			}
 		}
 	}
@@ -121,37 +124,9 @@ public class CurrentSimulation {
 				&& i < SIMULATION_SHAPES.length; i++) {
 			for (int j = 0; j < currentCells[i].length 
 					&& j < SIMULATION_SHAPES[i].length; j++) {
-				SIMULATION_SHAPES[i][j].setFill(currentCells[i][j].colorCell());
+			     Shape cell = SIMULATION_SHAPES[i][j];
+				cell.setFill(currentCells[i][j].colorCell());
 			}
 		}
 	}
-	
-	private Rectangle drawRectangle() {
-	    Rectangle cellShape = new Rectangle();
-         cellShape.setId("defaultCell");
-         cellShape.heightProperty().bind(
-                   Bindings.divide(PROGRAM_ENGINE.sceneHeight(), 
-                             1.2*SIMULATION_SHAPES.length));
-         cellShape.widthProperty().bind(
-                   Bindings.divide(PROGRAM_ENGINE.sceneWidth(), 
-                             1.5*SIMULATION_SHAPES.length));
-         return cellShape;
-	}
-	
-	private Polygon drawTriangle(int col) {
-         Polygon cellShape = new Polygon();
-         cellShape.getPoints().addAll(new Double[] {
-                 15.0, 0.0,
-                 0.0, 15.0,
-                 30.0, 15.0,
-         });
-         if (col % 2 != 0) {
-             cellShape.setTranslateX(cellShape.getLayoutX());
-             cellShape.setTranslateY(cellShape.getLayoutY());
-             cellShape.getTransforms().add(new Rotate(180, 0, 0));
-         }
-         cellShape.setId("defaultCell");
-         
-         return cellShape;
-     }
 }
