@@ -1,6 +1,8 @@
 package configuration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+
 import org.w3c.dom.Element;
 import simulation.ruleSet.Ruleset;
 import configuration.datatemplates.FireXMLData;
@@ -79,5 +81,25 @@ public class XMLDataFactory {
 		else return null;
 	}
 
+	
+	protected int[][] randomStates(String simType, int xSize, int ySize) {
+		Random rand = new Random();
+		int[][] states = new int[xSize][ySize];
+		if(simType.equals(FIRE) || simType.equals(WATOR) || simType.equals(SEGREGATION)) {
+			for (int r = 0; r < xSize; r++) {
+				for(int c = 0; c < ySize; c++) {
+					states[r][c] = rand.nextInt(3);
+				}
+			}
+		}
+		else {
+			for (int r = 0; r < xSize; r++) {
+				for(int c = 0; c < ySize; c++) {
+					states[r][c] = rand.nextInt(2);
+				}
+			}
+		}
+		return states;
+	}
 	
 }
