@@ -12,6 +12,7 @@ public abstract class Grid implements Cloneable{
 	protected Cell[][] myCells;
 	protected int myX;
 	protected int myY;
+	private String TYPE;
 	
 	/**
 	 * Constructor for grid object
@@ -83,6 +84,14 @@ public abstract class Grid implements Cloneable{
 	 */
 	public int getYSize() {
 		return this.myY;
+	}
+	
+	public void setType(String s) {
+		this.TYPE = s;
+	}
+	
+	public String getType() {
+		return this.TYPE;
 	}
 	
 }

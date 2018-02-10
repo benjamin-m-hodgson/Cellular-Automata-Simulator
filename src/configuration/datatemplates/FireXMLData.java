@@ -13,6 +13,7 @@ import simulation.ruleSet.*;
  *
  */
 public class FireXMLData extends XMLData {
+	private String FIRE = "Fire";
 	protected static final List<String> DATA_FIELDS = Arrays.asList(new String[] {
 			"type",
 			"name",
@@ -50,6 +51,7 @@ public class FireXMLData extends XMLData {
 	 */
 	public Grid getGrid(int[][] states) {
 		Grid g = new StandardGrid(this.getXSize(), this.getYSize());
+		g.setType(FIRE);
 		for(int r= 0; r < this.getXSize(); r++) {
 			for(int c = 0; c < this.getYSize(); c++) {
 				g.addCell(new FireCell(r, c, states[r][c]));

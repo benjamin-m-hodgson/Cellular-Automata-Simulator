@@ -51,11 +51,8 @@ public class XMLWriter extends FileController {
 		DATA_FIELDS = XMLDATA_FACTORY.getDataFields(simType);
 		Element rootElement = DOCUMENT.createElement(SIMULATION);
 		DOCUMENT.appendChild(rootElement);
-		
-		addStandardElements(simType, rootElement, GRID);
-		addCellStates(rootElement, GRID);
+		addStandardElements(simType, simName, rootElement, GRID);
 		addParameterElements(simType, rootElement, RULES);
-		
 		convertXML(DOCUMENT, simName);
 	}
 	
@@ -66,25 +63,13 @@ public class XMLWriter extends FileController {
 	 * @param rootElement
 	 * @param GRID
 	 */
-	private void addStandardElements(String simType, Element rootElement, Grid GRID) {
-		addAttribute(DATA_FIELDS.get(0),"CA", rootElement);
-		addAttribute(DATA_FIELDS.get(1), simType, rootElement);
+	private void addStandardElements(String simType, String simName, Element rootElement, Grid GRID) {
+		addAttribute("simulation","CA", rootElement);
+		addAttribute(DATA_FIELDS.get(0), simType, rootElement);
+		addAttribute("format", "locations", rootElement);
+		addElement(DATA_FIELDS.get(1), simName, rootElement);
 		addElement(DATA_FIELDS.get(2),Integer.toString(GRID.getXSize()), rootElement);
 		addElement(DATA_FIELDS.get(3),Integer.toString(GRID.getYSize()), rootElement);
-		addElement(DATA_FIELDS.get(4), cellStates(GRID), rootElement);
-	}
-	
-	/**
-	 * Adds cell states to XML file
-	 * 
-	 * @param rootElement
-	 * @param GRID
-	 */
-	private void addCellStates(Element rootElement, Grid GRID) {
-		Element cell = DOCUMENT.createElement(DATA_FIELDS.get(4));
-		addAttribute("type", "locations", cell);
-		rootElement.appendChild(DOCUMENT.createTextNode(cellStates(GRID)));
-		rootElement.appendChild(cell);
 		addElement(DATA_FIELDS.get(4), cellStates(GRID), rootElement);
 	}
 	
@@ -113,7 +98,7 @@ public class XMLWriter extends FileController {
 	 */
 	protected void addElement(String tag, String value, Element parent) {
 		Element e = DOCUMENT.createElement(tag);
-		parent.appendChild(DOCUMENT.createTextNode(value));
+		e.appendChild(DOCUMENT.createTextNode(value));
 		parent.appendChild(e);
 	}
 	
@@ -157,13 +142,15 @@ public class XMLWriter extends FileController {
 	 */
 	private String cellStates(Grid g) {
 		StringBuilder result = new StringBuilder();
+		StringBuilder row = new StringBuilder();
 		for(int r = 0; r < g.getXSize(); r++) {
-			StringBuilder element = new StringBuilder();
+			System.out.println("ROW:" + row);
+			row.setLength(0);
 			for(int c = 0; c < g.getYSize(); c++) {
-				element.append(element.toString() 
-						+ Integer.toString(g.getCell(r, c).getState()) + " ");
+				row.append(Integer.toString(g.getCell(r, c).getState()) + " ");
 			}
-			result.append(element.toString() + "%n");
+			result.append(row.toString() + "\n");
+			System.out.println(result);
 		}
 		return result.toString();
 	}

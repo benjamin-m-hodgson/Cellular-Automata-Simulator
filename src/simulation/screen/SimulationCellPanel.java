@@ -52,6 +52,7 @@ public class SimulationCellPanel {
      * 
      * @param cellPanel: the Panel that contains the cell Objects
      */
+
     private void addCells(Pane cellPanel) {
         Grid typeGrid = PROGRAM_ENGINE.getGrid(PROGRAM_ENGINE.getSimulationType());
         Cell[][] simulationCells = typeGrid.getCells();

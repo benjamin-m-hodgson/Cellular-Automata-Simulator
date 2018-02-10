@@ -13,6 +13,7 @@ import simulation.ruleSet.*;
  *
  */
 public class GameOfLifeXMLData extends XMLData {
+	private String GAMEOFLIFE = "Game of Life";
 	protected static final List<String> DATA_FIELDS = Arrays.asList(new String[] {
 			"type",
 			"name",
@@ -55,6 +56,7 @@ public class GameOfLifeXMLData extends XMLData {
 	 */
 	public Grid getGrid(int[][] states) {
 		Grid g = new StandardGrid(this.getXSize(), this.getYSize());
+		g.setType(GAMEOFLIFE);
 		for(int r= 0; r < this.getXSize(); r++) {
 			for(int c = 0; c < this.getYSize(); c++) {
 				g.addCell(new GameOfLifeCell(r, c, states[r][c]));
