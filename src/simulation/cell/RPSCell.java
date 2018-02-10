@@ -20,12 +20,6 @@ public class RPSCell extends Cell {
 		myPreviousState = myState;
 		myNextState = state;
 	}
-	
-
-	@Override
-	public void drawShape() {
-
-	}
 
 	@Override
 	public void colorCell(int state) {

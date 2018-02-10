@@ -29,12 +29,6 @@ public class SugarCell extends Cell {
 	}
 
 	@Override
-	public void drawShape() {
-		Rectangle sugarBlock = new Rectangle();
-		myShape = sugarBlock;
-	}
-
-	@Override
 	public void colorCell(int state) {
 		// TODO Sugar color should have gradient proportional to mySugar, Agent color should be different
 
