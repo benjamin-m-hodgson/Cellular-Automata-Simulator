@@ -4,8 +4,7 @@ import java.util.Random;
 
 import simulation.cell.Cell;
 import simulation.cell.RPSCell;
-import simulation.neighbormanager.FireNeighborManager;
-import simulation.neighbormanager.RPSNeighborManager;
+import simulation.ruleSet.neighborManager.RPSNeighborManager;
 
 public class RPSRuleset extends Ruleset {
 	

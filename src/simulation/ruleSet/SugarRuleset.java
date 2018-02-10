@@ -4,8 +4,7 @@ import java.util.ArrayList;
 
 import simulation.cell.Cell;
 import simulation.cell.SugarCell;
-import simulation.neighbormanager.FireNeighborManager;
-import simulation.neighbormanager.SugarNeighborManager;
+import simulation.ruleSet.neighborManager.SugarNeighborManager;
 
 public class SugarRuleset extends Ruleset{
 	

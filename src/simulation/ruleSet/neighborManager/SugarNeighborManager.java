@@ -1,4 +1,4 @@
-package simulation.neighbormanager;
+package simulation.ruleSet.neighborManager;
 
 import java.util.ArrayList;
 import simulation.cell.Cell;
@@ -26,6 +26,12 @@ public class SugarNeighborManager extends NeighborManager {
 		}
 		Cell[] neighbors = neighborsList.toArray(new Cell[neighborsList.size()]);
 		return neighbors;
+	}
+
+	@Override
+	protected Cell[] getNeighbors(Cell c, Grid g) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
