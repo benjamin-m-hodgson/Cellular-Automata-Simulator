@@ -8,6 +8,7 @@ import javafx.scene.shape.Shape;
 import simulation.cell.*;
 import simulation.grid.*;
 import simulation.ruleSet.Ruleset;
+import simulation.shapes.RectangleHandler;
 
 /**
  * 

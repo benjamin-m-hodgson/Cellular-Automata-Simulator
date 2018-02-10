@@ -1,8 +1,9 @@
-package simulation;
+package simulation.shapes;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
 import javafx.scene.shape.Rectangle;
+import simulation.Engine;
 import simulation.grid.Grid;
 
 public class RectangleHandler extends ShapeHandler {

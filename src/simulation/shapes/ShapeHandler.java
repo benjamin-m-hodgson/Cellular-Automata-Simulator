@@ -1,7 +1,8 @@
-package simulation;
+package simulation.shapes;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
+import simulation.Engine;
 import simulation.grid.Grid;
 
 /**
