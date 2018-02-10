@@ -21,8 +21,8 @@ public class RectangleHandler extends ShapeHandler {
         CELL_SHAPE = new Rectangle();
         CELL_SHAPE.heightProperty().bind(getHeight());
         CELL_SHAPE.widthProperty().bind(getWidth());
-        double xPos = col*getHeight().doubleValue() + (col+1)*getSpacing();
-        double yPos = row*getWidth().doubleValue() + (row+1)*getSpacing();
+        double xPos = col*getWidth().doubleValue() + (col+1)*getSpacing();
+        double yPos = row*getHeight().doubleValue() + (row+1)*getSpacing();
         CELL_SHAPE.setX(xPos);
         CELL_SHAPE.setY(yPos);
         return CELL_SHAPE;
