@@ -19,7 +19,7 @@ import simulation.ruleSet.Ruleset;
  * 
  */
 public class CurrentSimulation {
-    
+
     private final double DEFAULT_SPACING = 1.0;
     private final double DEFAULT_INDICATOR = -1;
 
@@ -133,5 +133,24 @@ public class CurrentSimulation {
                 cell.setFill(currentCells[i][j].colorCell());
             }
         }
+    }
+
+    /**
+     * Gets cell count of particular state for graph datapoints 
+     * 
+     * @param g
+     * @param state
+     * @return
+     */
+    public int stateCount(Grid g, int state) {
+        int count = 0;
+        for(Cell[] row : g.getCells()) {
+            for(Cell cell : row) {
+                if(cell.getState() == state) {
+                    count++;
+                }
+            }
+        }
+        return count;
     }
 }

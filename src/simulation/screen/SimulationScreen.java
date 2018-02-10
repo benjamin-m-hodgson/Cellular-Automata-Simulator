@@ -4,6 +4,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import simulation.CurrentSimulation;
@@ -26,7 +27,7 @@ public class SimulationScreen extends Screen {
 
     private SimulationControlPanel CONTROL_PANEL;
     private SimulationCellPanel CELL_PANEL;
-    private ScrollPane CELL_PANE;
+    private SimulationGraphPanel GRAPH_PANEL;
 
     // need to save the Engine to call functions on button clicks
     public SimulationScreen(Engine programEngine, CurrentSimulation simulation) {
@@ -34,15 +35,15 @@ public class SimulationScreen extends Screen {
         SIMULATION = simulation;
         CONTROL_PANEL = new SimulationControlPanel(PROGRAM_ENGINE);
         CELL_PANEL = new SimulationCellPanel(PROGRAM_ENGINE, SIMULATION);
+        GRAPH_PANEL = new SimulationGraphPanel(PROGRAM_ENGINE);
     }
 
     @Override
     public void makeRoot() {
         VBox controlPanel = CONTROL_PANEL.construct();
-        CELL_PANE = CELL_PANEL.construct();
         BorderPane newRoot = new BorderPane();
+        newRoot.setCenter(this.getCenterPane());
         newRoot.setRight(controlPanel);
-        newRoot.setCenter(CELL_PANE);
         newRoot.setId("simulateScreenRoot");
         ROOT = newRoot;
         // attach "animation loop" to time line to play it
@@ -53,12 +54,22 @@ public class SimulationScreen extends Screen {
         animation.getKeyFrames().add(frame);
         animation.play();     
     }
-    
+
+
     /**
-     * @return CELL_PANEL: the pane that houses all of the cells in the scene
+     * Creates stacked cell grid and graph
+     * 
+     * @return
      */
-    public ScrollPane cellPanel() {
-        return CELL_PANE;
+    private BorderPane getCenterPane() {
+        BorderPane CellGraph = new BorderPane();
+        ScrollPane cellPanel = CELL_PANEL.construct();
+        cellPanel.setId("simulateCellPanel");
+        HBox graph = GRAPH_PANEL.construct();
+        graph.setId("simulateGraph");
+        CellGraph.setCenter(cellPanel);
+        CellGraph.setBottom(graph);
+        return CellGraph;
     }
 
     /**
@@ -68,5 +79,6 @@ public class SimulationScreen extends Screen {
      */
     private void step (double elapsedTime) {
         CONTROL_PANEL.update();
+        GRAPH_PANEL.update();
     }
 }

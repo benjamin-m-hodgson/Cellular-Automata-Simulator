@@ -344,10 +344,9 @@
 /******************************************************************************************/
 #simulateCellPanel {
 	-fx-alignment: center;
-	-fx-padding: 1 1 1 1;
+	-fx-padding: 10 1 1 85;
 	-fx-border-style: solid inside;
 	-fx-border-width: 0;
-	-fx-border-insets: 0.5;
 	-fx-border-radius: 1;
 	-fx-border-color: #696969;
 	-fx-focus-color: transparent;
@@ -356,6 +355,12 @@
 }
 #simulateCellPanel > .viewport{
 	-fx-background-color: transparent;
+}
+/******************************************************************************************/
+/* The default Cell object */
+/******************************************************************************************/
+#simulateGraph {
+	-fx-padding: 20 1 1 20
 }
 /******************************************************************************************/
 /* The default Cell object */

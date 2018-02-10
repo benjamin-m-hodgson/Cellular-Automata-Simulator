@@ -14,8 +14,8 @@ import simulation.grid.Grid;
 public abstract class ShapeHandler {
     
     private final double DEFAULT_INDICATOR = -1;
-    private final double HEIGHT_SCALING = 70;
-    private final double WIDTH_SCALING = 270;
+    private final double HEIGHT_SCALING = 200;
+    private final double WIDTH_SCALING = 400;
 
 
     private DoubleBinding DEFAULT_HEIGHT;
