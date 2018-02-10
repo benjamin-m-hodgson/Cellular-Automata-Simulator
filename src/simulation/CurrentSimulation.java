@@ -113,7 +113,7 @@ public class CurrentSimulation {
 			}
 		}
 	}
-	
+
 	private void updateDisplay() {
 		Grid currentGrid = PROGRAM_ENGINE.currentGrid();
 		Cell[][] currentCells = currentGrid.getCells();
@@ -154,4 +154,25 @@ public class CurrentSimulation {
          
          return cellShape;
      }
+	
+	
+	
+	/**
+	 * Gets cell count of particular state for graph datapoints 
+	 * 
+	 * @param g
+	 * @param state
+	 * @return
+	 */
+	public int stateCount(Grid g, int state) {
+		int count = 0;
+		for(Cell[] row : g.getCells()) {
+			for(Cell cell : row) {
+				if(cell.getState() == state) {
+					count++;
+				}
+			}
+		}
+		return count;
+	}
 }

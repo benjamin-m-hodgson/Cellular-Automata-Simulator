@@ -290,6 +290,13 @@ public class Engine {
 		PROGRAM_TIMELINE.stop();
 		PROGRAM_TIMELINE.getKeyFrames().setAll(frame);
 	}
+	
+	/**
+	 * Gets state count
+	 */
+	public int getStateCount(int state) {
+		return SIMULATION.stateCount(currentGrid(), state);
+	}
 
 	/**
 	 * Change properties of shapes to animate them 
