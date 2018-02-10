@@ -3,12 +3,14 @@ package simulation;
 import javax.xml.transform.TransformerConfigurationException;
 
 import configuration.XMLWriter;
+import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import simulation.cell.*;
 import simulation.grid.*;
 import simulation.ruleSet.Ruleset;
 import simulation.shapes.RectangleHandler;
+import simulation.shapes.TriangleHandler;
 
 /**
  * 
@@ -82,10 +84,12 @@ public class CurrentSimulation {
                     cellShape.setId("defaultCell");
                     SIMULATION_SHAPES[i][j] = cellShape;
                 }
-                /*else if (currentShape.equalsIgnoreCase("Triangle")) {
-					Polygon triangleCell = generateTriangle(i, j);
-					SIMULATION_SHAPES[i][j] = triangleCell;
-				}*/
+                else if (currentShape.equalsIgnoreCase("Triangle")) {
+                    TriangleHandler shapeHandler = new TriangleHandler(PROGRAM_ENGINE,
+                            DEFAULT_INDICATOR, DEFAULT_INDICATOR, DEFAULT_SPACING);
+                    Polygon triangleShape = shapeHandler.generateTriangle(i, j);
+                    SIMULATION_SHAPES[i][j] = triangleShape;
+                }
             }
         }
     }

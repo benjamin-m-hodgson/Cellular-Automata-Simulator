@@ -1,9 +1,7 @@
 package simulation.shapes;
 
-import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
 import simulation.Engine;
-import simulation.grid.Grid;
 
 /**
  * 
@@ -15,13 +13,10 @@ import simulation.grid.Grid;
 public abstract class ShapeHandler {
     
     private final double DEFAULT_INDICATOR = -1;
-    private final double HEIGHT_SCALING = 200;
-    private final double WIDTH_SCALING = 400;
-
-
+    protected Engine PROGRAM_ENGINE;
+    
     private DoubleBinding DEFAULT_HEIGHT;
     private DoubleBinding DEFAULT_WIDTH;
-    private Engine PROGRAM_ENGINE;
     private double SPACING;
     private DoubleBinding HEIGHT;
     private DoubleBinding WIDTH;
@@ -32,8 +27,7 @@ public abstract class ShapeHandler {
      * 
      * @param gameEngine: application engine
      */
-    public ShapeHandler(Engine programEngine, double height, 
-            double width, double spacing) {
+    public ShapeHandler(Engine programEngine, double height, double width, double spacing) {
         PROGRAM_ENGINE = programEngine;
         SPACING = spacing;
         // calculate and assign correct cell values
@@ -57,41 +51,26 @@ public abstract class ShapeHandler {
         return DEFAULT_WIDTH;
     }
     
-    public abstract DoubleBinding calculateHeight();
-    
-    public abstract DoubleBinding calculateWidth();
-    
-      /**
+    /**
      * Calculates the default value for a cell shape's height from the screen size
      * 
      * @return int: default cell height
      */
-    private DoubleBinding calculateDefaultHeight() {
-        Grid currentGrid = PROGRAM_ENGINE.currentGrid();
-        double numCells = currentGrid.getYSize();
-        DoubleBinding paneHeight = Bindings.subtract(PROGRAM_ENGINE.sceneHeight(), HEIGHT_SCALING);
-        DoubleBinding height = Bindings.divide(paneHeight, numCells);
-        DoubleBinding retHeight = Bindings.subtract(height, SPACING);
-        return retHeight;
-    }
-
+    public abstract DoubleBinding calculateDefaultHeight();
+    
     /**
      * Calculates the default value for a cell shape's width from the screen size
      * 
      * @return int: default cell width
      */
-    private DoubleBinding calculateDefaultWidth() {
-        Grid currentGrid = PROGRAM_ENGINE.currentGrid();
-        double numCells = currentGrid.getXSize();
-        DoubleBinding paneWidth = Bindings.subtract(PROGRAM_ENGINE.sceneWidth(), WIDTH_SCALING);
-        DoubleBinding width = Bindings.divide(paneWidth, numCells);
-        DoubleBinding retWidth = Bindings.subtract(width, SPACING);
-        return retWidth;
-    }
-
-
+    public abstract DoubleBinding calculateDefaultWidth();
+    
+    public abstract DoubleBinding calculateHeight();
+    
+    public abstract DoubleBinding calculateWidth();
+    
     public double getSpacing() {
-        return SPACING;
+        return getSPACING();
     }
 
     public DoubleBinding getHeight() {
@@ -100,6 +79,10 @@ public abstract class ShapeHandler {
 
     public DoubleBinding getWidth() {
         return WIDTH;
+    }
+
+    public double getSPACING() {
+        return SPACING;
     }
     
     /*

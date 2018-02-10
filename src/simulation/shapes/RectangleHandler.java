@@ -8,7 +8,9 @@ import simulation.grid.Grid;
 
 public class RectangleHandler extends ShapeHandler {
     
-    private Engine PROGRAM_ENGINE;
+    private final double HEIGHT_SCALING = 200;
+    private final double WIDTH_SCALING = 400;
+   
     private Rectangle CELL_SHAPE;
     private int ROW;
     private int COLUMN;
@@ -16,6 +18,7 @@ public class RectangleHandler extends ShapeHandler {
     public RectangleHandler(Engine programEngine, double height, double width, double spacing) {
         super(programEngine, height, width, spacing);
     }
+    
     public Rectangle generateRectangle(int row, int col) {
         CELL_SHAPE = new Rectangle();
         ROW = row;
@@ -51,5 +54,25 @@ public class RectangleHandler extends ShapeHandler {
         DoubleBinding width = Bindings.divide(PROGRAM_ENGINE.sceneWidth(), 
                 numCells*scaleFactor);
         return width;
+    }
+    
+    @Override
+    public DoubleBinding calculateDefaultHeight() {
+        Grid currentGrid = PROGRAM_ENGINE.currentGrid();
+        double numCells = currentGrid.getYSize();
+        DoubleBinding paneHeight = Bindings.subtract(PROGRAM_ENGINE.sceneHeight(), HEIGHT_SCALING);
+        DoubleBinding height = Bindings.divide(paneHeight, numCells);
+        DoubleBinding retHeight = Bindings.subtract(height, getSPACING());
+        return retHeight;
+    }
+    
+    @Override
+    public DoubleBinding calculateDefaultWidth() {
+        Grid currentGrid = PROGRAM_ENGINE.currentGrid();
+        double numCells = currentGrid.getXSize();
+        DoubleBinding paneWidth = Bindings.subtract(PROGRAM_ENGINE.sceneWidth(), WIDTH_SCALING);
+        DoubleBinding width = Bindings.divide(paneWidth, numCells);
+        DoubleBinding retWidth = Bindings.subtract(width, getSPACING());
+        return retWidth;
     }
 }
