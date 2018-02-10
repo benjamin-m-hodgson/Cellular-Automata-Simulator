@@ -12,8 +12,6 @@ public class RectangleHandler extends ShapeHandler {
     private final double WIDTH_SCALING = 400;
    
     private Rectangle CELL_SHAPE;
-    private int ROW;
-    private int COLUMN;
 
     public RectangleHandler(Engine programEngine, double height, double width, double spacing) {
         super(programEngine, height, width, spacing);
@@ -21,12 +19,10 @@ public class RectangleHandler extends ShapeHandler {
     
     public Rectangle generateRectangle(int row, int col) {
         CELL_SHAPE = new Rectangle();
-        ROW = row;
-        COLUMN = col;
         CELL_SHAPE.heightProperty().bind(getHeight());
         CELL_SHAPE.widthProperty().bind(getWidth());
-        double xPos = ROW*getHeight().doubleValue() + (ROW+1)*getSpacing();
-        double yPos = COLUMN*getWidth().doubleValue() + (COLUMN+1)*getSpacing();
+        double xPos = col*getHeight().doubleValue() + (col+1)*getSpacing();
+        double yPos = row*getWidth().doubleValue() + (row+1)*getSpacing();
         CELL_SHAPE.setX(xPos);
         CELL_SHAPE.setY(yPos);
         return CELL_SHAPE;

@@ -46,7 +46,7 @@ public class Engine {
     private Scene PROGRAM_SCENE;
 
     private String SIMULATION_TYPE;
-    private String SHAPE_TYPE = "Rectangle";
+    private String SHAPE_TYPE = "triangle";
     private double SHAPE_HEIGHT = -1;
     private double SHAPE_WIDTH = -1;
     private double SHAPE_SPACE = 1;
