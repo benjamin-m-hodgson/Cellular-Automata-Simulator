@@ -72,6 +72,9 @@
     -fx-background-color: #696969;
 	-fx-text-fill: #ffffff;
 }
+#simulatorChooser:hover .arrow-button {
+	-fx-background-color: #696969;
+}
 #simulatorChooser:hover .arrow {
 	-fx-background-color: #ffffff;
 }
@@ -97,6 +100,9 @@
 }
 #simulatorChooser:showing .arrow {
 	-fx-background-color: #696969;
+}
+#simulatorChooser:showing .arrow-button {
+	-fx-background-color: -fx-body-color;
 }
 #simulatorChooser:focused {
     -fx-background-color: #696969, -fx-outer-border, -fx-inner-border, -fx-body-color;

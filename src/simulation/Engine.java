@@ -1,7 +1,6 @@
 package simulation;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -50,7 +49,7 @@ public class Engine {
 	private Scene PROGRAM_SCENE;
 
 	private String SIMULATION_NAME;
-	private String SHAPE_TYPE = "Rectangle";
+	private String SHAPE_TYPE = "rectangle";
 	private double SHAPE_HEIGHT = -1;
 	private double SHAPE_WIDTH = -1;
 	private double SHAPE_SPACE = 1;
@@ -214,14 +213,14 @@ public class Engine {
 	/**
 	 * Sets grids
 	 */
-	public void setGrids(HashMap<String, Grid> grids) {
+	public void setGrids(Map<String, Grid> grids) {
 		GRIDS = grids;
 	}
 
 	/**
 	 * Sets rules
 	 */
-	public void setRules(HashMap<String, Ruleset> rules) {
+	public void setRules(Map<String, Ruleset> rules) {
 		for (String key : rules.keySet()) {
 			Grid g = getGrid(key);
 			rules.get(key).setGrid(g);
