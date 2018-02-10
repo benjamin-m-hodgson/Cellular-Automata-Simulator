@@ -12,28 +12,9 @@ public class RectangleHandler extends ShapeHandler {
     private int ROW;
     private int COLUMN;
 
-    public RectangleHandler(Engine programEngine, double height, double width, int spacing) {
+    public RectangleHandler(Engine programEngine, double height, double width, double spacing) {
         super(programEngine, height, width, spacing);
     }
-    
-    /**
-     * Class constructor, ensures object knows its engine
-     * 
-     * @param gameEngine: application engine
-     */
-    public RectangleHandler(Engine programEngine, int spacing) {
-        this(programEngine, defaultIndicator(), defaultIndicator(), spacing);
-    }
-
-    /**
-     * Class constructor, ensures object knows its engine
-     * 
-     * @param gameEngine: application engine
-     */
-    public RectangleHandler(Engine programEngine) {
-        this(programEngine, defaultIndicator(), defaultIndicator(), defaultSpacing());
-    }
-
     public Rectangle generateRectangle(int row, int col) {
         CELL_SHAPE = new Rectangle();
         ROW = row;
@@ -43,7 +24,8 @@ public class RectangleHandler extends ShapeHandler {
         double xPos = ROW*getHeight().doubleValue() + (ROW+1)*getSpacing();
         double yPos = COLUMN*getWidth().doubleValue() + (COLUMN+1)*getSpacing();
         System.out.printf("Rectangle width %f, x pos: %f%n", CELL_SHAPE.getWidth(), xPos);
-        CELL_SHAPE.relocate(xPos, yPos);
+        CELL_SHAPE.setX(xPos);
+        CELL_SHAPE.setY(yPos);
         return CELL_SHAPE;
     }
 
@@ -55,7 +37,7 @@ public class RectangleHandler extends ShapeHandler {
         double defaultHeight = getDefaultHeight().doubleValue();
         double scaleFactor = defaultHeight / PROGRAM_ENGINE.currentShapeHeight();
         DoubleBinding height = Bindings.divide(PROGRAM_ENGINE.sceneHeight(), 
-                scaleFactor*getHeightScaling()*numCells);
+                numCells*scaleFactor);
         return height;
     }
 
@@ -67,7 +49,7 @@ public class RectangleHandler extends ShapeHandler {
         double defaultWidth = getDefaultWidth().doubleValue();
         double scaleFactor = defaultWidth / PROGRAM_ENGINE.currentShapeWidth();
         DoubleBinding width = Bindings.divide(PROGRAM_ENGINE.sceneWidth(), 
-                scaleFactor*getWidthScaling()*numCells);
+                numCells*scaleFactor);
         return width;
     }
 }

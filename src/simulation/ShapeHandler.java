@@ -12,16 +12,16 @@ import simulation.grid.Grid;
  * Class to determine a Shape's position in the Scene
  */
 public abstract class ShapeHandler {
-
-    private final static int DEFAULT_SPACING = 1;
-    private final static int DEFAULT_INDICATOR = -1;
-    private final static double HEIGHT_SCALING = 70;
-    private final static double WIDTH_SCALING = 270;
     
+    private final double DEFAULT_INDICATOR = -1;
+    private final double HEIGHT_SCALING = 70;
+    private final double WIDTH_SCALING = 270;
+
+
     private DoubleBinding DEFAULT_HEIGHT;
     private DoubleBinding DEFAULT_WIDTH;
     private Engine PROGRAM_ENGINE;
-    private int SPACING;
+    private double SPACING;
     private DoubleBinding HEIGHT;
     private DoubleBinding WIDTH;
 
@@ -32,12 +32,13 @@ public abstract class ShapeHandler {
      * @param gameEngine: application engine
      */
     public ShapeHandler(Engine programEngine, double height, 
-            double width, int spacing) {
+            double width, double spacing) {
         PROGRAM_ENGINE = programEngine;
+        SPACING = spacing;
+        // calculate and assign correct cell values
         DEFAULT_HEIGHT = calculateDefaultHeight();
         DEFAULT_WIDTH = calculateDefaultWidth();
-        SPACING = spacing;
-        if (height == defaultIndicator() || width == defaultIndicator()) {
+        if (height == DEFAULT_INDICATOR || width == DEFAULT_INDICATOR) {
             HEIGHT = DEFAULT_HEIGHT;
             WIDTH = DEFAULT_WIDTH;
         }
@@ -45,14 +46,6 @@ public abstract class ShapeHandler {
             HEIGHT = calculateHeight();
             WIDTH = calculateWidth();
         }
-    }
-
-    public static int defaultSpacing() {
-        return DEFAULT_SPACING;
-    }
-    
-    public static int defaultIndicator() {
-        return DEFAULT_INDICATOR;
     }
     
     public DoubleBinding getDefaultHeight() {
@@ -63,19 +56,11 @@ public abstract class ShapeHandler {
         return DEFAULT_WIDTH;
     }
     
-    public static double getHeightScaling() {
-        return HEIGHT_SCALING;
-    }
-
-    public static double getWidthScaling() {
-        return WIDTH_SCALING;
-    }
-    
     public abstract DoubleBinding calculateHeight();
     
     public abstract DoubleBinding calculateWidth();
-
-    /**
+    
+      /**
      * Calculates the default value for a cell shape's height from the screen size
      * 
      * @return int: default cell height
@@ -85,7 +70,8 @@ public abstract class ShapeHandler {
         double numCells = currentGrid.getYSize();
         DoubleBinding paneHeight = Bindings.subtract(PROGRAM_ENGINE.sceneHeight(), HEIGHT_SCALING);
         DoubleBinding height = Bindings.divide(paneHeight, numCells);
-        return height;
+        DoubleBinding retHeight = Bindings.subtract(height, SPACING);
+        return retHeight;
     }
 
     /**
@@ -98,15 +84,12 @@ public abstract class ShapeHandler {
         double numCells = currentGrid.getXSize();
         DoubleBinding paneWidth = Bindings.subtract(PROGRAM_ENGINE.sceneWidth(), WIDTH_SCALING);
         DoubleBinding width = Bindings.divide(paneWidth, numCells);
-        //System.out.println(rawWidth);
-        System.out.println(numCells*SPACING);
-        System.out.println(paneWidth);
-        System.out.println(numCells);
-        System.out.println(width);
-        return width;
+        DoubleBinding retWidth = Bindings.subtract(width, SPACING);
+        return retWidth;
     }
 
-    public int getSpacing() {
+
+    public double getSpacing() {
         return SPACING;
     }
 
