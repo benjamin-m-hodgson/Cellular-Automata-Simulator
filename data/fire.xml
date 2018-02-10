@@ -1,5 +1,5 @@
 <?xml version = "1.0" encoding = "UTF-8" ?>
-<simulation simulation = "CA" type = "Fire" >
+<simulation simulation = "CA" type = "Fire" format = "locations">
 	<name>"Blinking Fire"</name>
     <sizeX>16</sizeX>
     <sizeY>16</sizeY>

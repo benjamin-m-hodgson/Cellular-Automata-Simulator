@@ -62,26 +62,21 @@ public class WaTorXMLData extends XMLData {
 	 * Creates grid object from XML parser data
 	 */
 	@Override
-	public Grid getGrid() {
-		int state;
+	public Grid getGrid(int[][] states) {
 		Grid g = new StandardGrid(this.getXSize(), this.getYSize());
-		String[] ints = myDataValues.get(DATA_FIELDS.get(4)).split("\\W+");
 		int sharkEnergy = Integer.parseInt(myDataValues.get(DATA_FIELDS.get(7)));
 		int fishEnergy = Integer.parseInt(myDataValues.get(DATA_FIELDS.get(6)));
-		int p=0;
 		for(int r= 0; r < this.getXSize(); r++) {
 			for(int c = 0; c < this.getYSize(); c++) {
-				state = Integer.parseInt(ints[p]);
-				if(state == FISH) {
-					g.addCell(new WaTorCell(r, c, state, fishEnergy));
+				if(states[r][c] == FISH) {
+					g.addCell(new WaTorCell(r, c, states[r][c], fishEnergy));
 				}
-				else if(state == SHARK) {
-					g.addCell(new WaTorCell(r, c, state, sharkEnergy));
+				else if(states[r][c] == SHARK) {
+					g.addCell(new WaTorCell(r, c, states[r][c], sharkEnergy));
 				}
 				else {
-					g.addCell( new WaTorCell(r, c, state, NOENERGY));
+					g.addCell( new WaTorCell(r, c, states[r][c], NOENERGY));
 				}
-				p++;
 			}
 		}
 		return g;

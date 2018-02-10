@@ -3,11 +3,9 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.util.HashMap;
 import java.util.Map;
-
 import configuration.XMLParser;
 import simulation.grid.Grid;
 import simulation.ruleSet.*;
-
 
 /**
  * Parses all files and holds grid/ruleset data in respective objects
@@ -17,8 +15,8 @@ import simulation.ruleSet.*;
  */
 public class FileController {
 
-	private String FILEPATH = "./data"; 
-	private String EXTENSION = ".xml";
+	protected String FILEPATH = "./data"; 
+	protected String EXTENSION = ".xml";
 	private Map<String, Grid> grids;  
 	private Map<String, Ruleset> rules; 
 	
@@ -29,7 +27,6 @@ public class FileController {
 		grids = new HashMap<>();
 		rules = new HashMap<>();
 	}
-	
 	
     /**
      * Parse each XML File in directory
@@ -43,7 +40,6 @@ public class FileController {
         		rules.put(p.getName(), p.getRules());
     		}    		
     }
-   
 	
     /**
      * Get all files in directory
@@ -72,8 +68,7 @@ public class FileController {
     public Map<String, Ruleset> getRules() {
     		return rules;
     }
-    
-    
+   
 }
 
 
