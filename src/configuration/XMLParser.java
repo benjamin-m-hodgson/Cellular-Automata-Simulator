@@ -51,7 +51,7 @@ public class XMLParser {
 		}
 		parserType = root.getAttribute(FORMAT_ATTRIBUTE);
 		Map<String, String> results = new HashMap<>();
-		for (String field : data.getDataField()) {
+		for (String field : data.getDataFields()) {
 			results.put(field, getTextValue(root, field));
 		}
 		return results;

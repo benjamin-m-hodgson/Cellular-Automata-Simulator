@@ -14,12 +14,7 @@ import simulation.ruleSet.*;
  */
 public class GameOfLifeXMLData extends XMLData {
 	private String GAMEOFLIFE = "Game of Life";
-	protected static final List<String> DATA_FIELDS = Arrays.asList(new String[] {
-			"type",
-			"name",
-			"sizeX",
-			"sizeY",
-			"cell",
+	protected static final List<String> PARAM_DATA_FIELDS = Arrays.asList(new String[] {
 			"minLife",
 			"maxLife",
 			"birth"
@@ -36,8 +31,18 @@ public class GameOfLifeXMLData extends XMLData {
 	 * Returns data fields
 	 */
 	@Override
-	public List<String> getDataField() {
-		return DATA_FIELDS;
+	public List<String> getParameterFields() {
+		return PARAM_DATA_FIELDS;
+	}
+	
+	/**
+	 * Returns Fire XML data fields 
+	 */
+	@Override
+	public List<String> getDataFields() {
+		List<String> result = getStandardFields();
+		result.addAll(PARAM_DATA_FIELDS);
+		return result;
 	}
 	
 	/**
@@ -45,9 +50,9 @@ public class GameOfLifeXMLData extends XMLData {
 	 */
 	@Override
 	public GameOfLifeRuleset getRules() {
-		int minLife = Integer.parseInt(myDataValues.get(DATA_FIELDS.get(5)));
-		int maxLife = Integer.parseInt(myDataValues.get(DATA_FIELDS.get(6)));
-		int birth = Integer.parseInt(myDataValues.get(DATA_FIELDS.get(7)));
+		int minLife = Integer.parseInt(myDataValues.get(PARAM_DATA_FIELDS.get(0)));
+		int maxLife = Integer.parseInt(myDataValues.get(PARAM_DATA_FIELDS.get(1)));
+		int birth = Integer.parseInt(myDataValues.get(PARAM_DATA_FIELDS.get(2)));
 		return new GameOfLifeRuleset(minLife, maxLife, birth);
 	}
 

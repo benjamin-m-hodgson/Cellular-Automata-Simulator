@@ -15,12 +15,7 @@ import simulation.ruleSet.*;
  */
 public class SegregationXMLData extends XMLData {
 	private String SEGREGATION = "Segregation";
-	protected static final List<String> DATA_FIELDS = Arrays.asList(new String[] {
-			"type",
-			"name",
-			"sizeX",
-			"sizeY",
-			"cell",
+	protected static final List<String> PARAM_DATA_FIELDS = Arrays.asList(new String[] {
 			"tolerance"
 	});
 
@@ -32,11 +27,21 @@ public class SegregationXMLData extends XMLData {
 	}
 	
 	/**
-	 * Gets data fields for segregation data
+	 * Returns data fields
 	 */
 	@Override
-	public List<String> getDataField() {
-		return DATA_FIELDS;
+	public List<String> getParameterFields() {
+		return PARAM_DATA_FIELDS;
+	}
+	
+	/**
+	 * Returns Fire XML data fields 
+	 */
+	@Override
+	public List<String> getDataFields() {
+		List<String> result = getStandardFields();
+		result.addAll(PARAM_DATA_FIELDS);
+		return result;
 	}
 	
 	/**
@@ -45,7 +50,7 @@ public class SegregationXMLData extends XMLData {
 	@Override
 	public SegregationRuleset getRules() {
 		//System.out.println(myDataValues.get(DATA_FIELDS.get(4)));
-		return new SegregationRuleset(Double.parseDouble(myDataValues.get(DATA_FIELDS.get(5))));
+		return new SegregationRuleset(Double.parseDouble(myDataValues.get(PARAM_DATA_FIELDS.get(0))));
 	}
 	
 	/**

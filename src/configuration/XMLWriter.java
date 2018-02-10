@@ -6,6 +6,7 @@ import simulation.FileController;
 import simulation.grid.Grid;
 import simulation.ruleSet.Ruleset;
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -28,8 +29,17 @@ public class XMLWriter extends FileController {
 	private final DocumentBuilder DOCUMENT_BUILDER;
 	private static String SIMULATION = "simulation";
 	private final XMLDataFactory XMLDATA_FACTORY;
-	private List<String> DATA_FIELDS;
+	private List<String> PARAM_DATA_FIELDS;
 	private Document DOCUMENT;
+	protected static final List<String> STD_DATA_FIELDS = Arrays.asList(new String[] {
+			"simulation",
+			"type", 
+			"format",
+			"name",
+			"sizeX",
+			"sizeY",
+			"cell",
+	});
 
 	/**
 	 * Create a parser for XML files of given type.
@@ -48,7 +58,7 @@ public class XMLWriter extends FileController {
 	 * @throws TransformerConfigurationException 
 	 */
 	public void createDoc(String simType, String simName, Grid GRID, Ruleset RULES) throws TransformerConfigurationException {
-		DATA_FIELDS = XMLDATA_FACTORY.getDataFields(simType);
+		PARAM_DATA_FIELDS = XMLDATA_FACTORY.getDataFields(simType);
 		Element rootElement = DOCUMENT.createElement(SIMULATION);
 		DOCUMENT.appendChild(rootElement);
 		addStandardElements(simType, simName, rootElement, GRID);
@@ -64,13 +74,13 @@ public class XMLWriter extends FileController {
 	 * @param GRID
 	 */
 	private void addStandardElements(String simType, String simName, Element rootElement, Grid GRID) {
-		addAttribute("simulation","CA", rootElement);
-		addAttribute(DATA_FIELDS.get(0), simType, rootElement);
-		addAttribute("format", "locations", rootElement);
-		addElement(DATA_FIELDS.get(1), simName, rootElement);
-		addElement(DATA_FIELDS.get(2),Integer.toString(GRID.getXSize()), rootElement);
-		addElement(DATA_FIELDS.get(3),Integer.toString(GRID.getYSize()), rootElement);
-		addElement(DATA_FIELDS.get(4), cellStates(GRID), rootElement);
+		addAttribute(STD_DATA_FIELDS.get(0),"CA", rootElement);
+		addAttribute(STD_DATA_FIELDS.get(1), simType, rootElement);
+		addAttribute(STD_DATA_FIELDS.get(2), "locations", rootElement);
+		addElement(STD_DATA_FIELDS.get(3), simName, rootElement);
+		addElement(STD_DATA_FIELDS.get(4),Integer.toString(GRID.getXSize()), rootElement);
+		addElement(STD_DATA_FIELDS.get(5),Integer.toString(GRID.getYSize()), rootElement);
+		addElement(STD_DATA_FIELDS.get(6), cellStates(GRID), rootElement);
 	}
 	
 	/**
@@ -82,10 +92,8 @@ public class XMLWriter extends FileController {
 	 */
 	private void addParameterElements(String simType, Element rootElement, Ruleset r) {
 		List<String> params = XMLDATA_FACTORY.rulesetParam(simType, r, rootElement);
-		int count = 0;
-		for(int i = 5; i < DATA_FIELDS.size(); i++) {
-			addElement(DATA_FIELDS.get(i), params.get(count), rootElement);
-			count++;
+		for(int i = 0; i < PARAM_DATA_FIELDS.size(); i++) {
+			addElement(PARAM_DATA_FIELDS.get(i), params.get(i), rootElement);
 		}
 	}
 		
