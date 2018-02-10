@@ -1,5 +1,5 @@
 <?xml version = "1.0" encoding = "UTF-8" ?>
-<simulation simulation = "CA" type = "WaTor" >
+<simulation simulation = "CA" type = "WaTor" format = "locations">
 	<name>"Simple WaTor"</name>
     <sizeX>2</sizeX>
     <sizeY>2</sizeY>

@@ -58,5 +58,9 @@ public class SegregationRuleset extends Ruleset {
 			return VACANT;
 		}
 	}
+	
+	public double getTolerance() {
+		return TOLERANCE;
+	}
 }
 

@@ -1,5 +1,5 @@
 <?xml version = "1.0" encoding = "UTF-8" ?>
-<simulation simulation = "CA" type = "Segregation" >
+<simulation simulation = "CA" type = "Segregation" format = "locations">
 	<name>"Simple Segregation"</name>
     <sizeX>3</sizeX>
     <sizeY>3</sizeY>
