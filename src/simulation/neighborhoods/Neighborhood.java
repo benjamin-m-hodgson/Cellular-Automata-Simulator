@@ -9,40 +9,43 @@ import simulation.cell.*;
  *
  */
 public abstract class Neighborhood {
-	
+
 	/**
-	 * Returns neighbors in t formation
+	 * Returns neighbors in cardinal directions, assuming wrapping
 	 * 
 	 * @param c: cell object being looked at
 	 * @param g: current grid state
 	 * @return Neighbors north, south, east and west (if in bounds)
 	 */
-	public abstract Cell[] NSEWCells(Cell c, Grid g);
+	public abstract Cell[] TorodialCardinal(Cell c, Grid g);
 
 	/**
-	 * Returns neighbors in x formation
+	 * Returns neighbors in diagonal directions, assuming wrapping
 	 * 
 	 * @param c: cell object being looked at
 	 * @param g: current grid state
-	 * @return Neighbors diagonally (if in bounds)
+	 * @return Neighbors north, south, east and west (if in bounds)
 	 */
-	public abstract Cell[] diagonalCells(Cell c, Grid g) ;
-	
+	public abstract Cell[] TorodialDiagonal(Cell c, Grid g);
+
 	/**
-	 * Returns N, S, E and W neighbors of cells based on wrapping
+	 * Returns neighbors in cardinal directions, assuming no wrapping
 	 * 
 	 * @param c: cell object being looked at
 	 * @param g: current grid state
-	 * @return Neighbors north, south, east and west (if wrappable)
+	 * @return Neighbors north, south, east and west (if in bounds)
 	 */
-	protected abstract Cell[] wrapNSEWCells(Cell c, Grid g);
-	
+	public abstract Cell[] FiniteCardinal(Cell c, Grid g);
+
 	/**
-	 * Returns diagonal neighbors of cells based on wrapping
+	 * Returns neighbors in diagonal directions, assuming no wrapping
 	 * 
 	 * @param c: cell object being looked at
 	 * @param g: current grid state
-	 * @return Diagonal neighbors if wrappable
+	 * @return Neighbors north, south, east and west (if in bounds)
 	 */
-	protected abstract Cell[] wrapDiagonalCells(Cell c, Grid g); 
+	public abstract Cell[] FiniteDiagonal(Cell c, Grid g);
 }
+
+
+

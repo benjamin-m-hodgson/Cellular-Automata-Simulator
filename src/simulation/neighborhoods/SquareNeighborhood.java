@@ -20,11 +20,10 @@ public class SquareNeighborhood extends Neighborhood {
 	 * @param g: current grid state
 	 * @return Neighbors north, south, east and west (if in bounds)
 	 */
-	public Cell[] NSEWCells(Cell c, Grid g) {
+	public Cell[] FiniteCardinal(Cell c, Grid g) {
 		int x = c.getX();
 		int y = c.getY();
 		ArrayList<Cell> neighbors = new ArrayList<>();
-		neighbors.addAll(Arrays.asList(wrapNSEWCells(c ,g)));
 		
 		if(x + 1 < g.getXSize()) {
 			neighbors.add(g.getCell(x + 1, y));
@@ -49,11 +48,10 @@ public class SquareNeighborhood extends Neighborhood {
 	 * @param g: current grid state
 	 * @return Neighbors diagonally (if in bounds)
 	 */
-	public Cell[] diagonalCells(Cell c, Grid g) {
+	public Cell[] FiniteDiagonal(Cell c, Grid g) {
 		int x = c.getX();
 		int y = c.getY();
 		ArrayList<Cell> neighbors = new ArrayList<>();
-		neighbors.addAll(Arrays.asList(wrapDiagonalCells(c ,g)));
 		
 		if(x < g.getXSize() - 1 && y < g.getYSize() - 1) {
 			neighbors.add(g.getCell(x + 1, y + 1));
@@ -79,10 +77,11 @@ public class SquareNeighborhood extends Neighborhood {
 	 * @param g: current grid state
 	 * @return Neighbors north, south, east and west (if wrappable)
 	 */
-	protected Cell[] wrapNSEWCells(Cell c, Grid g) {
+	public Cell[] TorodialCardinal(Cell c, Grid g) {
 		int x = c.getX();
 		int y = c.getY();
-		ArrayList<Cell> neighbors = new ArrayList<>(); 
+		ArrayList<Cell> neighbors = new ArrayList<>();
+		neighbors.addAll(Arrays.asList(FiniteCardinal(c ,g)));
 
 		if(x == 0) {
 			neighbors.add(g.getCell(g.getXSize() - 1, y));
@@ -107,10 +106,11 @@ public class SquareNeighborhood extends Neighborhood {
 	 * @param g: current grid state
 	 * @return Diagonal neighbors if wrappable
 	 */
-	protected Cell[] wrapDiagonalCells(Cell c, Grid g) {
+	public Cell[] TorodialDiagonal(Cell c, Grid g) {
 		int x = c.getX();
 		int y = c.getY();
 		ArrayList<Cell> neighbors = new ArrayList<>(); 
+		neighbors.addAll(Arrays.asList(FiniteDiagonal(c ,g)));
 
 		if(x == 0 && y < g.getYSize() - 1) {
 			neighbors.add(g.getCell(g.getXSize() -1, y + 1));

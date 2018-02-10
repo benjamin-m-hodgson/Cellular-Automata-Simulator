@@ -1,7 +1,4 @@
 package simulation;
-
-import javafx.beans.binding.Bindings;
-import javafx.scene.shape.Polygon;
 import javax.xml.transform.TransformerConfigurationException;
 
 import configuration.XMLWriter;

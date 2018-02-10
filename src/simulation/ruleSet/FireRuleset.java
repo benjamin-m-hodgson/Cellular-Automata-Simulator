@@ -28,11 +28,15 @@ public class FireRuleset extends Ruleset {
 	 */
 	public FireRuleset(double probCatch) {
 		this.PROBCATCH = probCatch;
-		this.NEIGHBOR_MANAGER = new FireNeighborManager("Square");
+		this.NEIGHBOR_MANAGER = new FireNeighborManager("Square"); // default neighbor manager
 	}
 	
 	public double getProbCatch() {
 		return PROBCATCH;
+	}
+	
+	public void setNeighborManager(String type) {
+		this.NEIGHBOR_MANAGER = new FireNeighborManager(type); // default neighbor manager
 	}
 
 	/**
