@@ -4,8 +4,6 @@
 #startScreenRoot {
 	-fx-alignment: center;
 	-fx-background-color: #d3d3d3;
-	-fx-hgap: 30;
-	-fx-vgap: 30;
 }
 /******************************************************************************************/
 /* The application title to be displayed in the start up screen */
@@ -405,5 +403,35 @@
 /******************************************************************************************/
 #defaultCell {
 	-fx-fill: #696969;
+}
+/******************************************************************************************/
+/* The New Simulation button to begin the process of styling a new simulation */
+/******************************************************************************************/
+#newSimulationButton {
+	-fx-alignment: center;
+	-fx-pref-width: 200px;
+	-fx-pref-height: 20px;
+	-fx-background-radius: 0;
+	-fx-background-color: #ffffff;
+    -fx-border-width: 0px;
+    -fx-border-color: #d3d3d3;
+    -fx-text-fill: #696969;
+    -fx-font: 14px Excelsior;
+}
+#newSimulationButton:disabled, #newSimulationButton:disabled > * {
+	-fx-opacity: 0.7;
+}
+#newSimulationButton:hover {
+	-fx-background-color: #696969;
+} 
+#newSimulationButton:hover {
+	-fx-text-fill: #ffffff;
+}
+/******************************************************************************************/
+/* The root of the simulation customization screen */
+/******************************************************************************************/
+#simulationSettingsRoot {
+	-fx-alignment: center;
+	-fx-background-color: #d3d3d3;
 }
 }
