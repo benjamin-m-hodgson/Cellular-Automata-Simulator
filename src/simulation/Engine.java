@@ -17,6 +17,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import simulation.grid.Grid;
 import simulation.ruleSet.Ruleset;
@@ -37,7 +38,7 @@ public class Engine {
 			Engine.class.getClassLoader().getResource("default.css").toExternalForm();
 	private final ResourceBundle DEFAULT_RESOURCES = 
 			ResourceBundle.getBundle("simulation.default");
-	
+
 	private final String PROGRAM_TITLE;   
 
 	private double GENERATIONS_PER_SECOND = 1;
@@ -47,9 +48,13 @@ public class Engine {
 	private Timeline PROGRAM_TIMELINE;
 	private Stage PROGRAM_STAGE;
 	private Scene PROGRAM_SCENE;
+
 	private String SIMULATION_NAME;
-	private String SIMULATION_TYPE;
 	private String SHAPE_TYPE = "Rectangle";
+	private double SHAPE_HEIGHT = -1;
+	private double SHAPE_WIDTH = -1;
+	private double SHAPE_SPACE = 1;
+
 	private int GENERATION;
 	private boolean SIMULATING;
 	private CurrentSimulation SIMULATION;
@@ -71,6 +76,8 @@ public class Engine {
 	 */
 	public void startProgram(Stage primaryStage, int width, int height) {
 		PROGRAM_STAGE = primaryStage;
+		PROGRAM_STAGE.setResizable(false);
+		PROGRAM_STAGE.initStyle(StageStyle.UTILITY);
 		// initialize maps with values from XML files
 		initializeMaps();
 		PROGRAM_STAGE.setTitle(PROGRAM_TITLE);
@@ -183,13 +190,13 @@ public class Engine {
 	public String getSimulationName() {
 		return SIMULATION_NAME;
 	}
-	
+
 	/**
 	 * 
 	 * @return SIMULATION_TYOE: the type of the current simulation being animated 
 	 */
 	public String getSimulationType() {
-		return SIMULATION_TYPE;
+		return SIMULATION_NAME;
 	}
 
 	/**
@@ -199,7 +206,7 @@ public class Engine {
 	public int getGeneration() {
 		return GENERATION;
 	}
-	
+
 	public String resourceString(String key) {
 		return DEFAULT_RESOURCES.getString(key);
 	}
@@ -222,27 +229,27 @@ public class Engine {
 
 		RULES = rules;
 	}
-	
+
 	public Grid currentGrid() {
 		return getGrid(SIMULATION_NAME);
 	}
-	
+
 	public Ruleset currentRules() {
 		return RULES.get(SIMULATION_NAME);
 	}
-	
+
 	public String currentShapeType() {
 		return SHAPE_TYPE;
 	}
-	
+
 	public ReadOnlyDoubleProperty sceneWidth() {
 		return PROGRAM_STAGE.widthProperty();
 	}
-	
+
 	public ReadOnlyDoubleProperty sceneHeight() {
 		return PROGRAM_STAGE.heightProperty();
 	}
-	
+
 	private void initializeSimulation(String type) {
 		// reset instance variables
 		SIMULATION_NAME = type;
@@ -302,14 +309,14 @@ public class Engine {
 		PROGRAM_TIMELINE.stop();
 		PROGRAM_TIMELINE.getKeyFrames().setAll(frame);
 	}
-	
+
 	/**
 	 * Gets state count
 	 */
 	public int getStateCount(int state) {
 		return SIMULATION.stateCount(currentGrid(), state);
 	}
-	
+
 	/**
 	 * Gets state count
 	 */
@@ -322,6 +329,20 @@ public class Engine {
 			e.printStackTrace();
 		}
 	}
+
+	public double currentShapeHeight() {
+		return SHAPE_HEIGHT;
+	}
+
+	public double currentShapeWidth() {
+		return SHAPE_WIDTH;
+	}
+
+	public double currentShapeSpace() {
+		return SHAPE_SPACE;
+	}
+
+
 
 	/**
 	 * Change properties of shapes to animate them 
