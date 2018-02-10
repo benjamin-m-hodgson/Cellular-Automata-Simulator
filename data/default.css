@@ -27,6 +27,7 @@
 #simulatorChooser {
 	-fx-alignment: center;
     -fx-background-color: #ffffff;
+    -fx-pref-width: 200px;
     -fx-padding: 0;
 }
 #simulatorChooser .list-cell {
@@ -71,6 +72,9 @@
     -fx-background-color: #696969;
 	-fx-text-fill: #ffffff;
 }
+#simulatorChooser:hover .arrow-button {
+	-fx-background-color: #696969;
+}
 #simulatorChooser:hover .arrow {
 	-fx-background-color: #ffffff;
 }
@@ -96,6 +100,9 @@
 }
 #simulatorChooser:showing .arrow {
 	-fx-background-color: #696969;
+}
+#simulatorChooser:showing .arrow-button {
+	-fx-background-color: -fx-body-color;
 }
 #simulatorChooser:focused {
     -fx-background-color: #696969, -fx-outer-border, -fx-inner-border, -fx-body-color;
@@ -133,10 +140,10 @@
 	-fx-background-color: #d3d3d3;
 	-fx-hgap: 30;
 	-fx-vgap: 30;
-	-fx-padding: 10 10 10 10;
+	-fx-padding: 5 5 5 5;
 	-fx-border-style: solid inside;
-	-fx-border-width: 2;
-	-fx-border-insets: 2;
+	-fx-border-width: 0;
+	-fx-border-insets: 1;
 	-fx-border-radius: 1;
 	-fx-border-color: #696969;
 }
@@ -312,6 +319,38 @@
     -fx-opacity: 0.3;
 }
 /******************************************************************************************/
+/* The Save button to pause a running simulation */
+/******************************************************************************************/
+#saveButton {
+	-fx-background-image: url("/saveIcon.png");
+	-fx-background-size: 25px 25px;
+	-fx-background-position: center;
+	-fx-background-repeat: no-repeat;
+	-fx-opacity: 0.6;
+	-fx-pref-width: 25px;
+	-fx-pref-height: 25px;
+	-fx-focus-color: transparent;
+	-fx-faint-focus-color: transparent;
+	-fx-border-style: solid outside;
+	-fx-border-width: 2;
+	-fx-border-insets: 1;
+	-fx-border-radius: 1;
+	-fx-border-color: #696969;
+}
+#saveButton:hover {
+    
+}
+#saveButton:pressed {
+	-fx-border-style: solid outside;
+	-fx-border-width: 2;
+	-fx-border-insets: 1;
+	-fx-border-radius: 1;
+	-fx-border-color: #696969;
+}
+#saveButton:disabled {
+    -fx-opacity: 0.3;
+}
+/******************************************************************************************/
 /* The slider that changes the speed of the animation */
 /******************************************************************************************/
 #simulateSpeedSlider {
@@ -343,10 +382,9 @@
 /******************************************************************************************/
 #simulateCellPanel {
 	-fx-alignment: center;
-	-fx-padding: 1 1 1 1;
+	-fx-padding: 10 1 1 85;
 	-fx-border-style: solid inside;
 	-fx-border-width: 0;
-	-fx-border-insets: 1;
 	-fx-border-radius: 1;
 	-fx-border-color: #696969;
 	-fx-focus-color: transparent;
@@ -355,6 +393,12 @@
 }
 #simulateCellPanel > .viewport{
 	-fx-background-color: transparent;
+}
+/******************************************************************************************/
+/* The default Cell object */
+/******************************************************************************************/
+#simulateGraph {
+	-fx-padding: 20 1 1 20
 }
 /******************************************************************************************/
 /* The default Cell object */

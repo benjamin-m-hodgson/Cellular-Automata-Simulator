@@ -17,8 +17,7 @@ public abstract class XMLData {
 
 	public static final String DATA_TYPE = "simulation";
 	protected Map<String, String> myDataValues;
-	private static final List<String> DATA_FIELDS = Arrays.asList(new String[] {
-			"type",
+	private static final List<String> STD_DATA_FIELDS = Arrays.asList(new String[] {
 			"name",
 			"sizeX",
 			"sizeY",
@@ -49,7 +48,7 @@ public abstract class XMLData {
 	 * @param dataValues
 	 */
 	public int[][] getStates() {			
-		String[] rows = myDataValues.get(DATA_FIELDS.get(4)).split("\\W+");
+		String[] rows = myDataValues.get(STD_DATA_FIELDS.get(3)).split("\\W+");
 		int i = 0;
 		int[][] ints = new int[getXSize()][getYSize()];
 		for(int r= 0; r < ints.length; r++) {
@@ -62,22 +61,13 @@ public abstract class XMLData {
 	}
 
 	/**
-	 * Returns type attribute of simulation
-	 * 
-	 * @return String representing type
-	 */
-	public String getType() {
-		return myDataValues.get(DATA_FIELDS.get(0)); 
-	}
-
-	/**
 	 * Returns name of simulation
 	 * Source: https://stackoverflow.com/questions/2608665/how-can-i-trim-beginning-and-ending-double-quotes-from-a-string
 	 * 
 	 * @return String representing unique name of simulation
 	 */
 	public String getName() {
-		return myDataValues.get(DATA_FIELDS.get(1)).replaceAll("^\"|\"$", "");
+		return myDataValues.get(STD_DATA_FIELDS.get(0)).replaceAll("^\"|\"$", "");
 	}
 
 	/**
@@ -85,7 +75,7 @@ public abstract class XMLData {
 	 * @return X size of Grid
 	 */
 	public int getXSize() {
-		return Integer.parseInt(myDataValues.get(DATA_FIELDS.get(2))); 
+		return Integer.parseInt(myDataValues.get(STD_DATA_FIELDS.get(1))); 
 	}
 
 	/**
@@ -93,7 +83,7 @@ public abstract class XMLData {
 	 * @return Y size of grid
 	 */
 	public int getYSize() {
-		return Integer.parseInt(myDataValues.get(DATA_FIELDS.get(3))); 
+		return Integer.parseInt(myDataValues.get(STD_DATA_FIELDS.get(2))); 
 	}
 
 	/**
@@ -116,9 +106,22 @@ public abstract class XMLData {
 	 * 
 	 * @return Gets list of all datafields in XML file
 	 */
-	public List<String> getDataField() {
-		List<String> retFields = new ArrayList<String>(DATA_FIELDS);
+	public List<String> getStandardFields() {
+		List<String> retFields = new ArrayList<String>(STD_DATA_FIELDS);
 		return retFields;
 	}
+	
+	/**
+	 * 
+	 * @return Gets list of all datafields in XML file
+	 */
+	public abstract List<String> getDataFields();
+	
+	/**
+	 * Get the parameters specific to each simulation
+	 * 
+	 * @return
+	 */
+	public abstract List<String> getParameterFields();
 
 }

@@ -15,10 +15,11 @@ import simulation.ruleSet.*;
  */
 public class FileController {
 
-	protected String FILEPATH = "./data"; 
+	protected String FILEPATH = "./data/"; 
 	protected String EXTENSION = ".xml";
 	private Map<String, Grid> grids;  
 	private Map<String, Ruleset> rules; 
+	private XMLParser parser;
 	
 	/**
 	 * Constructor
@@ -26,6 +27,7 @@ public class FileController {
 	public FileController() {
 		grids = new HashMap<>();
 		rules = new HashMap<>();
+		parser = new XMLParser();
 	}
 	
     /**
@@ -33,11 +35,11 @@ public class FileController {
      */
     public void parseFiles() {
     		File[] files = getFiles();
-		XMLParser p = new XMLParser();
+
     		for(File file : files) {
-    			p.setType(file);
-        		grids.put(p.getName(), p.getGrid());	
-        		rules.put(p.getName(), p.getRules());
+    			parser.setType(file);
+        		grids.put(parser.getName(), parser.getGrid());	
+        		rules.put(parser.getName(), parser.getRules());
     		}    		
     }
 	
@@ -68,6 +70,7 @@ public class FileController {
     public Map<String, Ruleset> getRules() {
     		return rules;
     }
+
    
 }
 

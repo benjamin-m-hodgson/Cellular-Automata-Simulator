@@ -1,11 +1,13 @@
 package simulation;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import javax.xml.transform.TransformerConfigurationException;
+
+import configuration.XMLWriter;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.ReadOnlyDoubleProperty;
@@ -14,6 +16,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import simulation.grid.Grid;
 import simulation.ruleSet.Ruleset;
@@ -34,7 +37,7 @@ public class Engine {
 			Engine.class.getClassLoader().getResource("default.css").toExternalForm();
 	private final ResourceBundle DEFAULT_RESOURCES = 
 			ResourceBundle.getBundle("simulation.default");
-	
+
 	private final String PROGRAM_TITLE;   
 
 	private double GENERATIONS_PER_SECOND = 1;
@@ -44,8 +47,13 @@ public class Engine {
 	private Timeline PROGRAM_TIMELINE;
 	private Stage PROGRAM_STAGE;
 	private Scene PROGRAM_SCENE;
-	private String SIMULATION_TYPE;
-	private String SHAPE_TYPE = "Rectangle";
+
+	private String SIMULATION_NAME;
+	private String SHAPE_TYPE = "rectangle";
+	private double SHAPE_HEIGHT = -1;
+	private double SHAPE_WIDTH = -1;
+	private double SHAPE_SPACE = 1;
+
 	private int GENERATION;
 	private boolean SIMULATING;
 	private CurrentSimulation SIMULATION;
@@ -67,6 +75,8 @@ public class Engine {
 	 */
 	public void startProgram(Stage primaryStage, int width, int height) {
 		PROGRAM_STAGE = primaryStage;
+		PROGRAM_STAGE.setResizable(false);
+		PROGRAM_STAGE.initStyle(StageStyle.UTILITY);
 		// initialize maps with values from XML files
 		initializeMaps();
 		PROGRAM_STAGE.setTitle(PROGRAM_TITLE);
@@ -174,10 +184,18 @@ public class Engine {
 
 	/**
 	 * 
-	 * @return SIMULATION_TYPE: the current simulation being animated 
+	 * @return SIMULATION_NAME: the current simulation being animated 
+	 */
+	public String getSimulationName() {
+		return SIMULATION_NAME;
+	}
+
+	/**
+	 * 
+	 * @return SIMULATION_TYOE: the type of the current simulation being animated 
 	 */
 	public String getSimulationType() {
-		return SIMULATION_TYPE;
+		return SIMULATION_NAME;
 	}
 
 	/**
@@ -187,7 +205,7 @@ public class Engine {
 	public int getGeneration() {
 		return GENERATION;
 	}
-	
+
 	public String resourceString(String key) {
 		return DEFAULT_RESOURCES.getString(key);
 	}
@@ -195,14 +213,14 @@ public class Engine {
 	/**
 	 * Sets grids
 	 */
-	public void setGrids(HashMap<String, Grid> grids) {
+	public void setGrids(Map<String, Grid> grids) {
 		GRIDS = grids;
 	}
 
 	/**
 	 * Sets rules
 	 */
-	public void setRules(HashMap<String, Ruleset> rules) {
+	public void setRules(Map<String, Ruleset> rules) {
 		for (String key : rules.keySet()) {
 			Grid g = getGrid(key);
 			rules.get(key).setGrid(g);
@@ -210,34 +228,34 @@ public class Engine {
 
 		RULES = rules;
 	}
-	
+
 	public Grid currentGrid() {
-		return getGrid(SIMULATION_TYPE);
+		return getGrid(SIMULATION_NAME);
 	}
-	
+
 	public Ruleset currentRules() {
-		return RULES.get(SIMULATION_TYPE);
+		return RULES.get(SIMULATION_NAME);
 	}
-	
+
 	public String currentShapeType() {
 		return SHAPE_TYPE;
 	}
-	
+
 	public ReadOnlyDoubleProperty sceneWidth() {
 		return PROGRAM_STAGE.widthProperty();
 	}
-	
+
 	public ReadOnlyDoubleProperty sceneHeight() {
 		return PROGRAM_STAGE.heightProperty();
 	}
-	
+
 	private void initializeSimulation(String type) {
 		// reset instance variables
-		SIMULATION_TYPE = type;
+		SIMULATION_NAME = type;
 		SIMULATING = true;
 		GENERATION = 0;
 		initializeMaps();
-		PROGRAM_STAGE.setTitle(SIMULATION_TYPE);
+		PROGRAM_STAGE.setTitle(SIMULATION_NAME);
 		if (SIMULATION != null) {
 			SIMULATION.reset();
 		}
@@ -290,6 +308,40 @@ public class Engine {
 		PROGRAM_TIMELINE.stop();
 		PROGRAM_TIMELINE.getKeyFrames().setAll(frame);
 	}
+
+	/**
+	 * Gets state count
+	 */
+	public int getStateCount(int state) {
+		return SIMULATION.stateCount(currentGrid(), state);
+	}
+
+	/**
+	 * Gets state count
+	 */
+	public void writeGridtoXML(String name) {
+		XMLWriter writer = new XMLWriter();
+		try {
+			writer.createDoc(currentGrid().getType(), name, currentGrid(), currentRules());
+		} catch (TransformerConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public double currentShapeHeight() {
+		return SHAPE_HEIGHT;
+	}
+
+	public double currentShapeWidth() {
+		return SHAPE_WIDTH;
+	}
+
+	public double currentShapeSpace() {
+		return SHAPE_SPACE;
+	}
+
+
 
 	/**
 	 * Change properties of shapes to animate them 
