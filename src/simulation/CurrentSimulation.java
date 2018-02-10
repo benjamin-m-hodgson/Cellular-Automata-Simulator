@@ -5,11 +5,14 @@ import javafx.scene.shape.Polygon;
 import javax.xml.transform.TransformerConfigurationException;
 
 import configuration.XMLWriter;
+import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import simulation.cell.*;
 import simulation.grid.*;
 import simulation.ruleSet.Ruleset;
+import simulation.shapes.RectangleHandler;
+import simulation.shapes.TriangleHandler;
 
 /**
  * 
