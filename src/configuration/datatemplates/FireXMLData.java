@@ -14,12 +14,7 @@ import simulation.ruleSet.*;
  */
 public class FireXMLData extends XMLData {
 	private String FIRE = "Fire";
-	protected static final List<String> DATA_FIELDS = Arrays.asList(new String[] {
-			"type",
-			"name",
-			"sizeX",
-			"sizeY",
-			"cell",
+	protected static final List<String> PARAM_DATA_FIELDS = Arrays.asList(new String[] {
 			"probCatch"
 	});
 
@@ -34,8 +29,10 @@ public class FireXMLData extends XMLData {
 	 * Returns Fire XML data fields 
 	 */
 	@Override
-	public List<String> getDataField() {
-		return DATA_FIELDS;
+	public List<String> getDataFields() {
+		List<String> result = getStandardFields();
+		result.addAll(PARAM_DATA_FIELDS);
+		return result;
 	}
 	
 	/**
@@ -43,7 +40,7 @@ public class FireXMLData extends XMLData {
 	 */
 	@Override
 	public FireRuleset getRules() {
-		return new FireRuleset(Double.parseDouble(myDataValues.get(DATA_FIELDS.get(5))));
+		return new FireRuleset(Double.parseDouble(myDataValues.get(PARAM_DATA_FIELDS.get(0))));
 	}
 	
 	/**
@@ -58,6 +55,11 @@ public class FireXMLData extends XMLData {
 			}
 		}
 		return g;
+	}
+
+	@Override
+	public List<String> getParameterFields() {
+		return PARAM_DATA_FIELDS;
 	}
 	
 }

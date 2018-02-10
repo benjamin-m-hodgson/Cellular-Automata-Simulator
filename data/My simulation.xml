@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><simulation format="locations" simulation="CA" type="WaTor"><name>My simulation</name><sizeX>2</sizeX><sizeY>2</sizeY><cell>2 0 
+2 0 
+</cell><fishBreedTime>3</fishBreedTime><fishEnergy>4</fishEnergy><sharkInitEnergy>20</sharkInitEnergy><sharkBreedEnergy>25</sharkBreedEnergy></simulation>

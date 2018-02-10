@@ -26,7 +26,7 @@ public class XMLDataFactory {
 	 */
 	public List<String> getDataFields(String simType) {
 		XMLData dataTemplate = chooseDataTemplate(simType);
-		return dataTemplate.getDataField();
+		return dataTemplate.getDataFields();
 	}
 	
 	/**
