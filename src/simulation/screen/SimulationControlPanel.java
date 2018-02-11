@@ -147,7 +147,7 @@ public class SimulationControlPanel {
 	private ComboBox<Object> simulatorChooser() {
 		ComboBox<Object> dropDownMenu = new ComboBox<Object>();
 		dropDownMenu.setVisibleRowCount(5);
-		String defaultChoice = PROGRAM_ENGINE.resourceString("defaultChooserString");
+		String defaultChoice = PROGRAM_ENGINE.resourceString("chooserPromptString");
 		dropDownMenu.setValue(defaultChoice);
 		ObservableList<Object> simulationChoices = 
 				FXCollections.observableArrayList(defaultChoice);
