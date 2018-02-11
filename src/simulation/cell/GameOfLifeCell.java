@@ -14,10 +14,10 @@ public class GameOfLifeCell extends Cell {
     private final int LIVE = 0;
 
     /**
-     * Constructor for Game of Life Cell
+     * Constructor for Game of Life cell
      * 
-     * @param x
-     * @param y
+     * @param x: x-location of cell
+     * @param y: y-location of cell
      * @param state
      */
     public GameOfLifeCell(int x, int y, int state) {

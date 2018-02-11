@@ -6,6 +6,8 @@ import simulation.neighborhoods.SquareNeighborhood;
 import simulation.ruleSet.neighborManager.*;
 
 /**
+ * Calculates updated cell states based on Fire Ruleset simulation.
+ * 
  * RULES: 
  * Tree Cell: If tree surrounding it burns, and rand # < probCatch -> burn
  * Burning Cell: Always burning
@@ -24,27 +26,34 @@ public class FireRuleset extends Ruleset {
     double PROBCATCH;
 
     /**
-     * Sets initial parameters for current simulation
-     * 
-     * @param probCatch
+     * Sets neighbor manager based on edge type @param finite and neighborhood based on shape type @param n
+     */
+    @Override
+    public void setNeighborManager(Neighborhood n, boolean finite) {
+	this.NEIGHBOR_MANAGER = new FireNeighborManager(n, finite);
+    }
+
+    /**
+     * Constructor that sets @param probCatch for current Fire simulation
      */
     public FireRuleset(double probCatch) {
 	this.PROBCATCH = probCatch;
 	this.NEIGHBOR_MANAGER = new FireNeighborManager(new SquareNeighborhood(), false); // default neighbor manager
     }
 
+    /**
+     * @return double representing the probability that a tree catches on fire (PROBCATCH parameter)
+     */
     public double getProbCatch() {
 	return PROBCATCH;
     }
-    
+
+    /**
+     * Sets PROBCATCH parameter to @param d
+     */
     public void setProbCatch(Double d) {
 	PROBCATCH = d;
 	System.out.println(PROBCATCH);
-    }
-
-    @Override
-    public void setNeighborManager(Neighborhood n, boolean finite) {
-	this.NEIGHBOR_MANAGER = new FireNeighborManager(n, finite);
     }
 
     /**
@@ -68,6 +77,4 @@ public class FireRuleset extends Ruleset {
 	    return VACANT;
 	}
     }
-
-
 }

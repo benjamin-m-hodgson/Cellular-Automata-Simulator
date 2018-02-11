@@ -1,6 +1,5 @@
 package simulation.screen;
 
-import factoryClasses.StyleFactory;
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -16,6 +15,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import simulation.Engine;
+import simulation.factoryClasses.StyleFactory;
 
 /**
  * 

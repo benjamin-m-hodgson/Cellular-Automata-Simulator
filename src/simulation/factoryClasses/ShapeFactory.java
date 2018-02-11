@@ -1,4 +1,4 @@
-package factoryClasses;
+package simulation.factoryClasses;
 
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
@@ -20,9 +20,11 @@ public class ShapeFactory {
     private final String TRIANGLE = "Triangle";
     private final double DEFAULT_SPACING = 0.5;
     private final double DEFAULT_INDICATOR = -1;
-
     private String SHAPE_TYPE;
-    
+
+    /**
+     * Constructor for shape factory that sets shape type equal @param shape
+     */
     public ShapeFactory(String shape) {
 	this.SHAPE_TYPE = shape;
     }
@@ -35,20 +37,19 @@ public class ShapeFactory {
      * @param currentShape: Shape object to display on screen
      */
     public Shape chooseShape(int r, int c, Engine PROGRAM_ENGINE) {
-	if (SHAPE_TYPE.equalsIgnoreCase(RECTANGLE)) {
-	    RectangleHandler shapeHandler = new RectangleHandler(PROGRAM_ENGINE,
-		    DEFAULT_INDICATOR, DEFAULT_INDICATOR, DEFAULT_SPACING);
-	    Rectangle cellShape = shapeHandler.generateRectangle(r, c);
-	    cellShape.setId("defaultCell");
-	    return cellShape;
-	}
-	else if (SHAPE_TYPE.equalsIgnoreCase(TRIANGLE)) {
+	if (SHAPE_TYPE.equalsIgnoreCase(TRIANGLE)) {
 	    TriangleHandler shapeHandler = new TriangleHandler(PROGRAM_ENGINE,
 		    DEFAULT_INDICATOR, DEFAULT_INDICATOR, DEFAULT_SPACING);
 	    Polygon cellShape = shapeHandler.generateTriangle(r, c);
 	    cellShape.setId("defaultCell");
 	    return cellShape;
-
+	}
+	else if(SHAPE_TYPE.equalsIgnoreCase(RECTANGLE)) {
+	    RectangleHandler shapeHandler = new RectangleHandler(PROGRAM_ENGINE,
+		    DEFAULT_INDICATOR, DEFAULT_INDICATOR, DEFAULT_SPACING);
+	    Rectangle cellShape = shapeHandler.generateRectangle(r, c);
+	    cellShape.setId("defaultCell");
+	    return cellShape;
 	}
 	return null;
     }

@@ -3,7 +3,7 @@ package simulation.cell;
 import javafx.scene.paint.Color;
 
 /**
- * Fire Cell object
+ * Cell object specific to fire simulation
  * 
  * @author Katherine Van Dyk
  * @author Ben Hodgson
@@ -15,10 +15,10 @@ public class FireCell extends Cell {
     private final int BURNING = 2;
 
     /**
-     * Constructor for fire cell
+     * Constructor for FIRE cell
      * 
-     * @param x
-     * @param y
+     * @param x: x-location of cell
+     * @param y: y-location of cell
      * @param state
      */
     public FireCell(int x, int y, int state) {
