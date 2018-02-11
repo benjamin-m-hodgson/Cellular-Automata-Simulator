@@ -43,6 +43,8 @@ public class SimulationSettings extends Screen {
     private boolean EDGE_VALID;
     private String SHAPE;
     private boolean SHAPE_VALID;
+    private String COLOR;
+    private boolean COLOR_VALID;
     private TextField CELL_SIZE;
     private TextField SPACE_SIZE;
     private Button SIMULATE;
@@ -80,10 +82,11 @@ public class SimulationSettings extends Screen {
 	ComboBox<Object> simulationChoices = simulatorChooser();
 	ComboBox<Object> shapeChoices = shapeChooser();
 	ComboBox<Object> edgeChoices = edgeChooser();
+	ComboBox<Object> colorChoices = colorChooser();
 	VBox cellSizing = cellSizeOptions();
 	SIMULATE = makeButton(PROGRAM_ENGINE.resourceString("simulateString"));
 	VBox simulationStyles = new VBox(VERTICAL_SPACING, simulationChoices,
-		edgeChoices, shapeChoices, cellSizing, SIMULATE);
+		edgeChoices, shapeChoices, colorChoices, cellSizing, SIMULATE);
 	return simulationStyles;
     }
 
@@ -256,8 +259,8 @@ public class SimulationSettings extends Screen {
 	    }
 	});
 	return numberTextField;
-
     }
+ 
 
     /**
      * Creates a drop down menu that changes the value of the instance 
@@ -290,7 +293,40 @@ public class SimulationSettings extends Screen {
 	});
 	return dropDownMenu;
     }
-
+    
+    /**
+     * Creates a drop down menu that changes the value of the instance 
+     * variable @param COLOR upon selection. 
+     * 
+     * @return dropDownMenu: a drop down menu that lets the user choose the
+     * color pallette to use for the simulation
+     */
+    private ComboBox<Object> colorChooser() {
+	String defaultPrompt = PROGRAM_ENGINE.resourceString("colorPromptString");
+	ComboBox<Object> dropDownMenu = makeComboBox(defaultPrompt);
+	ObservableList<Object> simulationChoices = 
+		FXCollections.observableArrayList(defaultPrompt);
+	simulationChoices.add(DEFAULT_INDICATOR);
+	//simulationChoices.addAll(PROGRAM_ENGINE.getColors());
+	dropDownMenu.setItems(simulationChoices);
+	dropDownMenu.setId("simulatorChooser");
+	dropDownMenu.getSelectionModel().selectedIndexProperty()
+	.addListener(new ChangeListener<Number>() {
+	    @Override
+	    public void changed(ObservableValue<? extends Number> arg0, 
+		    Number arg1, Number arg2) {
+		String selected = (String) simulationChoices.get((Integer) arg2);
+		if (!selected.equals(defaultPrompt)) {
+		    COLOR = selected;
+		    COLOR_VALID = true;
+		} else {
+		    COLOR_VALID = false;
+		}
+	    }
+	});
+	return dropDownMenu;
+    }
+    
     private void processInputs() {
 	SIMULATE.setDisable(!(EDGE_VALID && SHAPE_VALID && SIMULATION_VALID));
     }
