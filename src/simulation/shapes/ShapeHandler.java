@@ -1,6 +1,5 @@
 package simulation.shapes;
 
-import factoryClasses.ShapeFactory;
 import javafx.beans.binding.DoubleBinding;
 import simulation.Engine;
 
@@ -11,7 +10,7 @@ import simulation.Engine;
  * 
  * Class to determine a Shape's position in the Scene
  */
-public abstract class ShapeHandler extends ShapeFactory {
+public abstract class ShapeHandler {
     
     private final double DEFAULT_INDICATOR = -1;
     protected Engine PROGRAM_ENGINE;
@@ -21,6 +20,8 @@ public abstract class ShapeHandler extends ShapeFactory {
     private double SPACING;
     private DoubleBinding HEIGHT;
     private DoubleBinding WIDTH;
+    protected double SHAPE_HEIGHT = -1;
+    protected double SHAPE_WIDTH = -1;
 
     /**
      * Class constructor, ensures object knows its engine and sets a cells
@@ -71,7 +72,7 @@ public abstract class ShapeHandler extends ShapeFactory {
     public abstract DoubleBinding calculateWidth();
     
     public double getSpacing() {
-        return getSPACING();
+        return SPACING;
     }
 
     public DoubleBinding getHeight() {
@@ -80,9 +81,5 @@ public abstract class ShapeHandler extends ShapeFactory {
 
     public DoubleBinding getWidth() {
         return WIDTH;
-    }
-
-    public double getSPACING() {
-        return SPACING;
     }
 }

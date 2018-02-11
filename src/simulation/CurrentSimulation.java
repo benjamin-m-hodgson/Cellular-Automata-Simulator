@@ -4,6 +4,7 @@ import factoryClasses.ShapeFactory;
 import javafx.scene.shape.Shape;
 import simulation.cell.*;
 import simulation.grid.*;
+import simulation.neighborhoods.*;
 import simulation.ruleSet.Ruleset;
 
 /**
@@ -19,13 +20,17 @@ public class CurrentSimulation {
 
     protected Engine PROGRAM_ENGINE;
     protected Shape[][] SIMULATION_SHAPES;
-
+    protected String SHAPE_TYPE;
+    protected boolean EDGE_TYPE;
+ 
     /**
      * Holds shape array to be displayed
      * 
      * @param currentEngine
      */
-    public CurrentSimulation(Engine currentEngine) {
+    public CurrentSimulation(Engine currentEngine, String shape, boolean edge) {
+	SHAPE_TYPE = shape;
+	EDGE_TYPE = edge;
 	PROGRAM_ENGINE = currentEngine;
 	initializeShapes();
 	populateShapes();
@@ -77,7 +82,7 @@ public class CurrentSimulation {
      * Populates shapes on grid
      */
     private void populateShapes() {
-	ShapeFactory shapeFactory = new ShapeFactory();
+	ShapeFactory shapeFactory = new ShapeFactory(SHAPE_TYPE);
 	for (int i = 0; i < SIMULATION_SHAPES.length; i++) {
 	    for (int j = 0; j < SIMULATION_SHAPES[i].length; j ++) {
 		SIMULATION_SHAPES[i][j] = 
@@ -112,5 +117,22 @@ public class CurrentSimulation {
 		cell.setFill(currentCells[i][j].colorCell());
 	    }
 	}
+    }
+    
+    public void setNeighborhood(String shape, boolean finite) {
+	SHAPE_TYPE = shape;
+	Neighborhood n;
+	// MAKE TRIANGLE
+	if(shape.equals("triangle")) n = new SquareNeighborhood();
+	else n = new SquareNeighborhood();
+	PROGRAM_ENGINE.currentRules().setNeighborManager(n, finite);
+    }
+    
+    public String getShape() {
+	return SHAPE_TYPE;
+    }
+    
+    public boolean getEdge() {
+	return EDGE_TYPE;
     }
 }

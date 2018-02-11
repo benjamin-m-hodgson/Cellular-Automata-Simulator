@@ -46,7 +46,7 @@ public class TriangleHandler extends ShapeHandler {
         double numCells = currentGrid.getYSize();
         DoubleBinding paneHeight = Bindings.subtract(PROGRAM_ENGINE.sceneHeight(), HEIGHT_SCALING);
         DoubleBinding height = Bindings.divide(paneHeight, numCells);
-        DoubleBinding retHeight = Bindings.subtract(height, getSPACING());
+        DoubleBinding retHeight = Bindings.subtract(height, getSpacing());
         return retHeight;
     }
 
@@ -56,7 +56,7 @@ public class TriangleHandler extends ShapeHandler {
         double numCells = currentGrid.getXSize();
         DoubleBinding paneWidth = Bindings.subtract(PROGRAM_ENGINE.sceneWidth(), WIDTH_SCALING);
         DoubleBinding width = Bindings.divide(paneWidth, numCells);
-        DoubleBinding retWidth = Bindings.subtract(width, getSPACING());
+        DoubleBinding retWidth = Bindings.subtract(width, getSpacing());
         DoubleBinding scaleWidth = Bindings.multiply(retWidth, TRIANGLE_SCALING);
         return scaleWidth;
     }

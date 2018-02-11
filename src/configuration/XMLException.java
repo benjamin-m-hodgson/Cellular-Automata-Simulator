@@ -1,12 +1,10 @@
-package configuration.XMLParsing;
+package configuration;
 
 /**
  * This class represents what might go wrong when using XML files.
  * 
- * @author Robert C. Duvall
  */
 public class XMLException extends RuntimeException {
-    // for serialization
     private static final long serialVersionUID = 1L;
 
 

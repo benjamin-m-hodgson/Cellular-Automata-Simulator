@@ -83,5 +83,18 @@ public class GameOfLifeRuleset extends Ruleset {
 	public int getBirth() {
 		return BIRTH;
 	}
+	
+	public void setMinLife(int n) {
+		MINLIFE = n;
+	}
+	
+	public void setBirth(int n) {
+		BIRTH = n;
+	}
+	
+	public void setMaxLife(int n) {
+		MAXLIFE = n;
+	}
+	
 
 }

@@ -20,10 +20,12 @@ public class ShapeFactory {
     private final String TRIANGLE = "Triangle";
     private final double DEFAULT_SPACING = 0.5;
     private final double DEFAULT_INDICATOR = -1;
-    protected double SHAPE_HEIGHT = -1;
-    protected double SHAPE_WIDTH = -1;
-    private double SHAPE_SPACE = 1;
-    private String SHAPE_TYPE = "triangle";
+
+    private String SHAPE_TYPE;
+    
+    public ShapeFactory(String shape) {
+	this.SHAPE_TYPE = shape;
+    }
 
     /**
      * Chooses shape type to display on grid
@@ -49,40 +51,5 @@ public class ShapeFactory {
 
 	}
 	return null;
-    }
-    
-    /**
-     * Returns current height of shape 
-     */
-    public double currentShapeHeight() {
-	return SHAPE_HEIGHT;
-    }
-
-    /**
-     * Returns current width of shape 
-     */
-    public double currentShapeWidth() {
-	return SHAPE_WIDTH;
-    }
-
-    /**
-     * Returns current shape space
-     */
-    public double currentShapeSpace() {
-	return SHAPE_SPACE;
-    }
-    
-    /**
-     * Returns current shape type
-     */
-    public String currentShapeType() {
-	return SHAPE_TYPE;
-    }
-    
-    /**
-     * Sets shape type
-     */
-    public void setShapeType(String s) {
-	this.SHAPE_TYPE = s;
     }
 }
