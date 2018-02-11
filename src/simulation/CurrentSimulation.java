@@ -17,7 +17,6 @@ import simulation.ruleSet.Ruleset;
  * 
  */
 public class CurrentSimulation {
-
     protected Engine PROGRAM_ENGINE;
     protected Shape[][] SIMULATION_SHAPES;
     protected String SHAPE_TYPE;
