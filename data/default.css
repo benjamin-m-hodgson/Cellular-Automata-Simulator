@@ -190,7 +190,7 @@
 /* The Play button to start a paused simulation */
 /******************************************************************************************/
 #playButton {
-	-fx-background-image: url("/playIcon.png");
+	-fx-background-image: url("/images/playIcon.png");
 	-fx-background-size: 50px 50px;
 	-fx-background-position: center;
 	-fx-background-repeat: no-repeat;
@@ -222,7 +222,7 @@
 /* The Pause button to pause a running simulation */
 /******************************************************************************************/
 #pauseButton {
-	-fx-background-image: url("/pauseIcon.png");
+	-fx-background-image: url("/images/pauseIcon.png");
 	-fx-background-size: 50px 50px;
 	-fx-background-position: center;
 	-fx-background-repeat: no-repeat;
@@ -254,7 +254,7 @@
 /* The Reset button to reset a running simulation from the beginning */
 /******************************************************************************************/
 #resetButton {
-	-fx-background-image: url("/resetIcon.png");
+	-fx-background-image: url("/images/resetIcon.png");
 	-fx-background-size: 50px 50px;
 	-fx-background-position: center;
 	-fx-background-repeat: no-repeat;
@@ -286,7 +286,7 @@
 /* The Step button to step through a simulation frame by frame */
 /******************************************************************************************/
 #stepButton {
-	-fx-background-image: url("/stepIcon.png");
+	-fx-background-image: url("/images/stepIcon.png");
 	-fx-background-size: 50px 50px;
 	-fx-background-position: center;
 	-fx-background-repeat: no-repeat;
@@ -318,7 +318,7 @@
 /* The Save button to pause a running simulation */
 /******************************************************************************************/
 #saveButton {
-	-fx-background-image: url("/saveIcon.png");
+	-fx-background-image: url("/images/saveIcon.png");
 	-fx-background-size: 25px 25px;
 	-fx-background-position: center;
 	-fx-background-repeat: no-repeat;

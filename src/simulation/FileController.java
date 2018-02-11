@@ -14,9 +14,8 @@ import simulation.ruleSet.*;
  * @author Katherine Van Dyk
  *
  */
-public class FileController {
-
-    protected String FILEPATH = "./data/"; 
+public class FileController{
+    protected String FILEPATH = "./data/xmlFiles/"; 
     protected String EXTENSION = ".xml";
     private Map<String, Grid> grids;  
     private Map<String, Ruleset> rules; 
@@ -39,7 +38,7 @@ public class FileController {
 	for(File file : files) {
 	    parser.setType(file);
 	    grids.put(parser.getName(), parser.getGrid());	
-	    rules.put(parser.getName(), parser.getRules());
+	    rules.put(parser.getName(), parser.getRuleset());
 	}    		
     }
 
@@ -71,5 +70,3 @@ public class FileController {
 	return rules;
     }
 }
-
-
