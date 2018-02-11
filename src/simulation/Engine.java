@@ -320,6 +320,9 @@ public class Engine {
 	return PROGRAM_STAGE.widthProperty();
     }
 
+    public CurrentSimulation getCurrentSimulation() {
+	return SIMULATION;
+    }
     /**
      * Returns scene height
      */

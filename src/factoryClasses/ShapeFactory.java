@@ -20,10 +20,10 @@ public class ShapeFactory {
     private final String TRIANGLE = "Triangle";
     private final double DEFAULT_SPACING = 0.5;
     private final double DEFAULT_INDICATOR = -1;
-    private double SHAPE_HEIGHT = -1;
-    private double SHAPE_WIDTH = -1;
+    protected double SHAPE_HEIGHT = -1;
+    protected double SHAPE_WIDTH = -1;
     private double SHAPE_SPACE = 1;
-    private String SHAPE_TYPE = "rectangle";
+    private String SHAPE_TYPE = "triangle";
 
     /**
      * Chooses shape type to display on grid

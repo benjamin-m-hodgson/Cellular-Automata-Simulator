@@ -34,7 +34,7 @@ public class RectangleHandler extends ShapeHandler {
         Grid currentGrid = PROGRAM_ENGINE.currentGrid();
         double numCells = currentGrid.getYSize();
         double defaultHeight = getDefaultHeight().doubleValue();
-        double scaleFactor = defaultHeight / PROGRAM_ENGINE.currentShapeHeight();
+        double scaleFactor = defaultHeight / SHAPE_HEIGHT;
         DoubleBinding height = Bindings.divide(PROGRAM_ENGINE.sceneHeight(), 
                 numCells*scaleFactor);
         return height;
@@ -46,7 +46,7 @@ public class RectangleHandler extends ShapeHandler {
         Grid currentGrid = PROGRAM_ENGINE.currentGrid();
         double numCells = currentGrid.getXSize();
         double defaultWidth = getDefaultWidth().doubleValue();
-        double scaleFactor = defaultWidth / PROGRAM_ENGINE.currentShapeWidth();
+        double scaleFactor = defaultWidth / SHAPE_WIDTH;
         DoubleBinding width = Bindings.divide(PROGRAM_ENGINE.sceneWidth(), 
                 numCells*scaleFactor);
         return width;

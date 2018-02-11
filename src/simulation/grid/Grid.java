@@ -124,5 +124,4 @@ public abstract class Grid implements Cloneable{
 	}
 	return count;
     }
-
 }
