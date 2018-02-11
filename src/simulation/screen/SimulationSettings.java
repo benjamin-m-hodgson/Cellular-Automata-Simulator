@@ -30,7 +30,6 @@ public class SimulationSettings extends Screen {
     private final double FRAMES_PER_SECOND = 1;
     private final long MILLISECOND_DELAY = Math.round(1000 / FRAMES_PER_SECOND);
     private final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
-    private final double INVALID_INDICATOR = -1.0;
     private final double CELL_MAX_SIZE = 50;
     private final double CELL_MIN_SIZE = 0.1;
     private final double SPACE_MAX_SIZE = 5;
@@ -282,6 +281,10 @@ public class SimulationSettings extends Screen {
 	});
 	return dropDownMenu;
     }
+    
+    private void processInputs() {
+	//SIMULATE.setDisable(!(EDGE_VALID && SHAPE_VALID && SIMULATION_VALID));
+    }
 
     /**
      * Change properties of shapes to animate them. In this instance,
@@ -291,13 +294,7 @@ public class SimulationSettings extends Screen {
      * @param elapsedTime: time since last animation update
      */
     private void step (double elapsedTime) {
-	// reset text fields if they're empty or invalid input
-	if (!SIMULATION.equals(DEFAULT_INDICATOR) && SIMULATE.isDisabled()) {
-	    SIMULATE.setDisable(false);
-	}
-	else if (SIMULATION.equals(DEFAULT_INDICATOR) && !SIMULATE.isDisabled()) {
-	    SIMULATE.setDisable(true);
-	}
+	processInputs();
     }
 
 }
