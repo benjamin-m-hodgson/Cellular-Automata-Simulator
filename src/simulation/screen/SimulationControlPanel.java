@@ -305,7 +305,7 @@ public class SimulationControlPanel {
      */
     private HBox simulationWriter() {
 	TextField textField = new TextField();
-	textField.setText("My simulation");
+	textField.setText("Enter Filename");
 	Button saveButton = new Button();
 	saveButton.setId("saveButton");
 	// handle click event

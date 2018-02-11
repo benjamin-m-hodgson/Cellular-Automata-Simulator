@@ -366,5 +366,4 @@ public class SimulationSettings extends Screen {
 	ObservableList<String> retList = FXCollections.observableArrayList(options);
 	return retList;
     }
-
 }

@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 import javax.xml.transform.TransformerConfigurationException;
 
 import configuration.XMLWriting.XMLWriter;
+import factoryClasses.StyleFactory;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.ReadOnlyDoubleProperty;
@@ -339,11 +340,19 @@ public class Engine {
     public CurrentSimulation getCurrentSimulation() {
 	return SIMULATION;
     }
+    
     /**
      * Returns scene height
      */
     public ReadOnlyDoubleProperty sceneHeight() {
 	return PROGRAM_STAGE.heightProperty();
+    }
+    
+    /**
+     * Returns list of parameters specific to simulation
+     */
+    public List<String> getParameters() {
+	return new StyleFactory().getParameters(currentGrid().getType());
     }
 
     /**
