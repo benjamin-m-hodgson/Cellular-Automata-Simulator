@@ -435,7 +435,7 @@
 /******************************************************************************************/
 /* The text field where the user can enter custom cell sizes */
 /******************************************************************************************/
-#cellSizeField {
+#simulationTextField {
 	-fx-alignment: center;
     -fx-text-fill: #696969;
     -fx-font: 14px Excelsior;
@@ -450,7 +450,7 @@
     -fx-background-radius: 0;
     -fx-display-caret: false;
 }
-#cellSizeField:focused {
+#simulationTextField:focused {
 	-fx-border-style: solid inside;
 	-fx-border-width: 1;
 	-fx-border-radius: 1;
@@ -483,7 +483,7 @@
 /******************************************************************************************/
 /* The panel of the simulation customization screen that allows for custom cell sizing */
 /******************************************************************************************/
-#sizeOptionLabels {
+#optionLabels {
 	-fx-alignment: center;
 	-fx-pref-width: 140px;
 	-fx-min-width: 140px;
