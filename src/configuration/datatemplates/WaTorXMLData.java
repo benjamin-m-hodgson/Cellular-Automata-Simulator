@@ -16,10 +16,10 @@ import simulation.ruleSet.*;
  */
 public class WaTorXMLData extends XMLData {
 	
-	private String WATOR = "WaTor";
-	private int FISH = 0;
-	private int SHARK = 1; 
-	private int NOENERGY = 0;
+	private final String WATOR = "WaTor";
+	private final int FISH = 0;
+	private final int SHARK = 1; 
+	private final int NOENERGY = 0;
 	protected static final List<String> PARAM_DATA_FIELDS = Arrays.asList(new String[] {
 			"fishBreedTime",
 			"fishEnergy",
@@ -38,7 +38,7 @@ public class WaTorXMLData extends XMLData {
 	 * Gets Ruleset object from XML parser
 	 */
 	@Override
-	public WaTorRuleset getRules() {
+	public Ruleset getRules() {
 		int fishBreedTime = Integer.parseInt(myDataValues.get(PARAM_DATA_FIELDS.get(0)));
 		int fishInitEnergy = Integer.parseInt(myDataValues.get(PARAM_DATA_FIELDS.get(1)));
 		int sharkInitEnergy = Integer.parseInt(myDataValues.get(PARAM_DATA_FIELDS.get(2)));

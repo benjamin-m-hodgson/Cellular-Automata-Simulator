@@ -1,25 +1,14 @@
-package simulation;
+package factoryClasses;
 import java.util.List;
 
 import configuration.datatemplates.*;
+import simulation.Engine;
 
 public class StyleFactory extends Engine {
     private static final String FIRE = "Fire";
     private static final String WATOR = "WaTor";
     private static final String SEGREGATION = "Segregation";
     private static final String GAMEOFLIFE = "Game of Life";
-
-    public double currentShapeHeight() {
-	return SHAPE_HEIGHT;
-    }
-
-    public double currentShapeWidth() {
-	return SHAPE_WIDTH;
-    }
-
-    public double currentShapeSpace() {
-	return SHAPE_SPACE;
-    }
 
     public List<String> getParameters(String simType){
 	if(simType.equals(FIRE)) {

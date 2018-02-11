@@ -13,7 +13,7 @@ import simulation.ruleSet.*;
  *
  */
 public class FireXMLData extends XMLData {
-	private String FIRE = "Fire";
+	private final String FIRE = "Fire";
 	protected static final List<String> PARAM_DATA_FIELDS = Arrays.asList(new String[] {
 			"probCatch"
 	});
@@ -36,7 +36,7 @@ public class FireXMLData extends XMLData {
 	}
 	
 	/**
-	 * Gets rule parameters from XML parser
+	 * Returns rule parameters from XML parser
 	 */
 	@Override
 	public FireRuleset getRules() {

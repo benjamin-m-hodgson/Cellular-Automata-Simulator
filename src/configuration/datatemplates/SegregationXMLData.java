@@ -14,7 +14,7 @@ import simulation.ruleSet.*;
  *
  */
 public class SegregationXMLData extends XMLData {
-	private String SEGREGATION = "Segregation";
+	private final String SEGREGATION = "Segregation";
 	protected static final List<String> PARAM_DATA_FIELDS = Arrays.asList(new String[] {
 			"tolerance"
 	});
