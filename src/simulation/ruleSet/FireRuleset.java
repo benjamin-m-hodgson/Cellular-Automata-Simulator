@@ -36,6 +36,11 @@ public class FireRuleset extends Ruleset {
     public double getProbCatch() {
 	return PROBCATCH;
     }
+    
+    public void setProbCatch(Double d) {
+	PROBCATCH = d;
+	System.out.println(PROBCATCH);
+    }
 
     @Override
     public void setNeighborManager(Neighborhood n, boolean finite) {

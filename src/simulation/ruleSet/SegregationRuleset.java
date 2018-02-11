@@ -72,6 +72,10 @@ public class SegregationRuleset extends Ruleset {
     public double getTolerance() {
 	return TOLERANCE;
     }
+    
+    public void setTolerance(double n) {
+	TOLERANCE = n;
+    }
 
 }
 

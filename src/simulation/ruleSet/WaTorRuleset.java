@@ -188,13 +188,30 @@ public class WaTorRuleset extends Ruleset {
     public int getSharkBreedEnergy() {
 	return SHARK_BREEDENERGY;
     }
+    
+    public int getSharkInitEnergy() {
+	return SHARK_INITENERGY;
+    }
 
     public int getFishInitEnergy() {
 	return FISH_INITENERGY;
     }
-
-    public int getSharkInitEnergy() {
-	return SHARK_INITENERGY;
+    
+    public void setFishBreedTime(int n) {
+	FISH_BREEDTIME = n;
     }
+
+    public void setSharkBreedEnergy(int n) {
+	SHARK_BREEDENERGY = n;
+    }
+
+    public void setFishInitEnergy(int n) {
+	FISH_INITENERGY = n;
+    }
+
+    public void setSharkInitEnergy(int n) {
+	SHARK_INITENERGY = n;
+    }
+   
 }
 
