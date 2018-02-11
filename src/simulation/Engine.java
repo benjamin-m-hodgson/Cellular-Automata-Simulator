@@ -21,6 +21,7 @@ import javafx.util.Duration;
 import simulation.grid.Grid;
 import simulation.ruleSet.Ruleset;
 import simulation.screen.SimulationScreen;
+import simulation.screen.SimulationSettings;
 import simulation.screen.StartScreen;
 
 /**
@@ -37,6 +38,7 @@ public class Engine {
 	    Engine.class.getClassLoader().getResource("default.css").toExternalForm();
     private final ResourceBundle DEFAULT_RESOURCES = 
 	    ResourceBundle.getBundle("simulation.default");
+
     private final String PROGRAM_TITLE;   
     private double GENERATIONS_PER_SECOND = 1;
     private double MILLISECOND_DELAY = 1000 / GENERATIONS_PER_SECOND;
@@ -72,20 +74,28 @@ public class Engine {
 	PROGRAM_STAGE.setResizable(false);
 	PROGRAM_STAGE.initStyle(StageStyle.UTILITY);
 	PROGRAM_STAGE.setTitle(PROGRAM_TITLE);
-
+	// initialize maps with values from XML files
+	initializeMaps();
+	// attach "program loop" to time line to play it
 	KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
 		e -> step(SECOND_DELAY));
 	PROGRAM_TIMELINE = new Timeline();
 	PROGRAM_TIMELINE.setCycleCount(Timeline.INDEFINITE);
 	PROGRAM_TIMELINE.getKeyFrames().add(frame);
-
-	playAnimation();	
 	initializeMaps();
+	playAnimation();	
 	generateStartScene(width, height);
     }
 
     /**
-     * Starts simulation of type t and launches simulation screen
+     * Presents a screen to the user that allows them to style the simulation
+     */
+    public void styleSimulation() {
+	Parent root = new SimulationSettings(this).getRoot();
+	PROGRAM_SCENE.setRoot(root);
+    }
+
+    /**
      * 
      * @param type: The type of simulation to start
      */
@@ -107,6 +117,7 @@ public class Engine {
      */
     public void setGenerationSpeed(double speed) {
 	GENERATIONS_PER_SECOND = speed;
+	// update instance variables
 	MILLISECOND_DELAY = 1000 / GENERATIONS_PER_SECOND;
 	SECOND_DELAY = 1.0 / GENERATIONS_PER_SECOND;
 	KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
@@ -319,7 +330,7 @@ public class Engine {
     /**
      * Change properties of shapes to animate them 
      */
-    private void step (double elapsedTime) {   	
+    private void step (double elapsedTime) {     
 	if (SIMULATING) {
 	    SIMULATION.update();
 	    GENERATION++;
