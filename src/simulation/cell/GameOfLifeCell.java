@@ -11,36 +11,27 @@ import javafx.scene.paint.Color;
  */
 public class GameOfLifeCell extends Cell {
 
-	private static final int LIVE = 0;
-	
-	/**
-	 * Constructor for Game of Life Cell
-	 * 
-	 * @param x
-	 * @param y
-	 * @param state
-	 */
-	public GameOfLifeCell(int x, int y, int state) {
-		super(x, y, state);
-	}
+    private final int LIVE = 0;
 
-	/**
-	 * Sets current state of Game of Life cell
-	 */
-	@Override
-	public void setState(int state) {
-		myPreviousState = myState;
-		myNextState = state;
-	}
+    /**
+     * Constructor for Game of Life Cell
+     * 
+     * @param x
+     * @param y
+     * @param state
+     */
+    public GameOfLifeCell(int x, int y, int state) {
+	super(x, y, state);
+    }
 
-	/**
-	 * Assigns color of Game of Life cell based on current state
-	 */
-	@Override
-	public Color colorCell() {
-		if (myState == LIVE) {
-			return Color.LIGHTGREEN;
-		}
-		return Color.DIMGRAY;
+    /**
+     * Assigns color of Game of Life cell based on current state
+     */
+    @Override
+    public Color colorCell() {
+	if (myState == LIVE) {
+	    return Color.LIGHTGREEN;
 	}
+	return Color.DIMGRAY;
+    }
 }

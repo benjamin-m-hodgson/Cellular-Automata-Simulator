@@ -1,16 +1,10 @@
 package simulation;
 
-import javax.xml.transform.TransformerConfigurationException;
-
-import configuration.XMLWriting.XMLWriter;
-import javafx.scene.shape.Polygon;
-import javafx.scene.shape.Rectangle;
+import factoryClasses.ShapeFactory;
 import javafx.scene.shape.Shape;
 import simulation.cell.*;
 import simulation.grid.*;
 import simulation.ruleSet.Ruleset;
-import simulation.shapes.RectangleHandler;
-import simulation.shapes.TriangleHandler;
 
 /**
  * 
@@ -23,140 +17,100 @@ import simulation.shapes.TriangleHandler;
  */
 public class CurrentSimulation {
 
-    private final double DEFAULT_SPACING = 0.5;
-    private final double DEFAULT_INDICATOR = -1;
+    protected Engine PROGRAM_ENGINE;
+    protected Shape[][] SIMULATION_SHAPES;
 
-    private Engine PROGRAM_ENGINE;
-    private Shape[][] SIMULATION_SHAPES;
-
-    // holds only the shape array, is passed the grid/ruleset or naw
+    /**
+     * Holds shape array to be displayed
+     * 
+     * @param currentEngine
+     */
     public CurrentSimulation(Engine currentEngine) {
-        PROGRAM_ENGINE = currentEngine;
-        initializeShapes();
-        populateShapes();
-    }
-
-    public void update() {
-        Grid grid = PROGRAM_ENGINE.currentGrid();
-        Ruleset r = PROGRAM_ENGINE.currentRules();
-        processCells(grid, r);
-        updateStates(grid);
-        updateDisplay();
-    }
-
-    public void reset() {
-        initializeShapes();
-        populateShapes();
-    }
-
-    public Shape drawShape(int x, int y) {
-        return SIMULATION_SHAPES[x][y];
-    }
-
-    private void initializeShapes() {
-        Grid currentGrid = PROGRAM_ENGINE.currentGrid();
-        Cell[][] currentCells = currentGrid.getCells();
-        SIMULATION_SHAPES = new Shape[currentCells.length][];
-        for (int i = 0; i < currentCells.length; i++) {
-            SIMULATION_SHAPES[i] = new Shape[currentCells[i].length];
-        }
-    }
-
-
-    private void populateShapes() {
-        String currentShape = PROGRAM_ENGINE.currentShapeType();
-        for (int i = 0; i < SIMULATION_SHAPES.length; i++) {
-            for (int j = 0; j < SIMULATION_SHAPES[i].length; j ++) {
-                if (currentShape.equalsIgnoreCase("Rectangle")) {
-                    RectangleHandler shapeHandler = new RectangleHandler(PROGRAM_ENGINE,
-                            DEFAULT_INDICATOR, DEFAULT_INDICATOR, DEFAULT_SPACING);
-                    Rectangle cellShape = shapeHandler.generateRectangle(i, j);
-                    cellShape.setId("defaultCell");
-                    SIMULATION_SHAPES[i][j] = cellShape;
-                }
-                else if (currentShape.equalsIgnoreCase("Triangle")) {
-                    TriangleHandler shapeHandler = new TriangleHandler(PROGRAM_ENGINE,
-                            DEFAULT_INDICATOR, DEFAULT_INDICATOR, DEFAULT_SPACING);
-                    Polygon cellShape = shapeHandler.generateTriangle(i, j);
-                    cellShape.setId("defaultCell");
-                    SIMULATION_SHAPES[i][j] = cellShape;
-                }
-            }
-        }
-    }
-
-    public void makeNewXML() {
-        XMLWriter writer = new XMLWriter();
-        try {
-            writer.createDoc("Fire", "hello", 
-                    PROGRAM_ENGINE.currentGrid(), PROGRAM_ENGINE.currentRules());
-        } catch (TransformerConfigurationException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+	PROGRAM_ENGINE = currentEngine;
+	initializeShapes();
+	populateShapes();
     }
 
     /**
-     * **How do we get grid to it
+     * Processes cell objects and updates cell displays based on new states
+     */
+    public void update() {
+	Grid grid = PROGRAM_ENGINE.currentGrid();
+	Ruleset r = PROGRAM_ENGINE.currentRules();
+	processCells(grid, r);
+	grid.updateStates();
+	updateDisplay();
+    }
+
+    /**
+     * Resets shapes to initial states
+     */
+    public void reset() {
+	initializeShapes();
+	populateShapes();
+    }
+
+    /**
+     * Returns shape display at coordinate (x,y)
+     * 
+     * @param x: x position of shape in shape array
+     * @param y: y position of shape in shape array
+     * @return: Shape object to be displayed
+     */
+    public Shape drawShape(int x, int y) {
+	return SIMULATION_SHAPES[x][y];
+    }
+
+    /**
+     * Initializes shape array based on grid size and cell initial states
+     */
+    private void initializeShapes() {
+	Grid currentGrid = PROGRAM_ENGINE.currentGrid();
+	Cell[][] currentCells = currentGrid.getCells();
+	SIMULATION_SHAPES = new Shape[currentCells.length][];
+	for (int i = 0; i < currentCells.length; i++) {
+	    SIMULATION_SHAPES[i] = new Shape[currentCells[i].length];
+	}
+    }
+
+    /**
+     * Populates shapes on grid
+     */
+    private void populateShapes() {
+	ShapeFactory shapeFactory = new ShapeFactory();
+	for (int i = 0; i < SIMULATION_SHAPES.length; i++) {
+	    for (int j = 0; j < SIMULATION_SHAPES[i].length; j ++) {
+		SIMULATION_SHAPES[i][j] = 
+			shapeFactory.chooseShape(i, j, PROGRAM_ENGINE);
+	    }
+	}
+    }
+
+    /**
      * Returns new cell states for entire grid
      */
     private void processCells(Grid g, Ruleset r) {
-        Cell[][] cellsToProcess = g.getCells();
-        for (int i = 0; i < cellsToProcess.length; i++) {
-            for (int j = 0; j < cellsToProcess[i].length; j++) {
-                Cell cell = cellsToProcess[i][j];
-                if(cell.getMove()) {
-                    continue;
-                }
-                else {
-                    int newState = r.processCell(cell);
-                    cell.setState(newState);
-                }
-            }
-        }
+	for(Cell[] row : g.getCells()) {
+	    for(Cell cell : row) {
+		if(!cell.getMove()) {
+		    int newState = r.processCell(cell);
+		    cell.setState(newState);
+		}
+	    }
+	}
     }
 
     /**
-     * Updates states for all cells at once
+     * Updates shape objects based on cell states
      */
-    private void updateStates(Grid g) {
-        for(Cell[] row : g.getCells()) {
-            for(Cell cell : row) {
-                cell.updateState();
-                cell.setMove(false);
-            }
-        }
-    }
-
     private void updateDisplay() {
-        Grid currentGrid = PROGRAM_ENGINE.currentGrid();
-        Cell[][] currentCells = currentGrid.getCells();
-        for (int i = 0; i < currentCells.length 
-                && i < SIMULATION_SHAPES.length; i++) {
-            for (int j = 0; j < currentCells[i].length 
-                    && j < SIMULATION_SHAPES[i].length; j++) {
-                Shape cell = SIMULATION_SHAPES[i][j];
-                cell.setFill(currentCells[i][j].colorCell());
-            }
-        }
-    }
-
-    /**
-     * Gets cell count of particular state for graph datapoints 
-     * 
-     * @param g
-     * @param state
-     * @return
-     */
-    public int stateCount(Grid g, int state) {
-        int count = 0;
-        for(Cell[] row : g.getCells()) {
-            for(Cell cell : row) {
-                if(cell.getState() == state) {
-                    count++;
-                }
-            }
-        }
-        return count;
+	Grid currentGrid = PROGRAM_ENGINE.currentGrid();
+	Cell[][] currentCells = currentGrid.getCells();
+	for (int i = 0; i < SIMULATION_SHAPES.length; i++) {
+	    for (int j = 0; j < SIMULATION_SHAPES[i].length; j++) {
+		Shape cell = SIMULATION_SHAPES[i][j];
+		cell.setFill(currentCells[i][j].colorCell());
+	    }
+	}
     }
 }

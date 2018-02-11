@@ -25,6 +25,7 @@ import simulation.screen.SimulationSettings;
 import simulation.screen.StartScreen;
 
 /**
+ * Holds instance of current animation
  * 
  * @author Benjamin Hodgson
  * @author Katherine Van Dyk
@@ -33,32 +34,22 @@ import simulation.screen.StartScreen;
  *
  */
 public class Engine {
-
     private final String DEFAULT_STYLESHEET = 
 	    Engine.class.getClassLoader().getResource("default.css").toExternalForm();
     private final ResourceBundle DEFAULT_RESOURCES = 
 	    ResourceBundle.getBundle("simulation.default");
 
     private final String PROGRAM_TITLE;   
-
     private double GENERATIONS_PER_SECOND = 1;
     private double MILLISECOND_DELAY = 1000 / GENERATIONS_PER_SECOND;
     private double SECOND_DELAY = 1.0 / GENERATIONS_PER_SECOND;
-
     private Timeline PROGRAM_TIMELINE;
     private Stage PROGRAM_STAGE;
     private Scene PROGRAM_SCENE;
-
     private String SIMULATION_NAME;
-    private String SHAPE_TYPE = "Rectangle";
-    private double SHAPE_HEIGHT = -1;
-    private double SHAPE_WIDTH = -1;
-    private double SHAPE_SPACE = 1;
-
     private int GENERATION;
     private boolean SIMULATING;
     private CurrentSimulation SIMULATION;
-
     private Map<String, Grid> GRIDS;
     private Map<String, Ruleset> RULES;
 
@@ -91,8 +82,8 @@ public class Engine {
 	PROGRAM_TIMELINE = new Timeline();
 	PROGRAM_TIMELINE.setCycleCount(Timeline.INDEFINITE);
 	PROGRAM_TIMELINE.getKeyFrames().add(frame);
-	playAnimation();    
-	// attach a Scene to the primaryStage 
+	initializeMaps();
+	playAnimation();	
 	generateStartScene(width, height);
     }
 
@@ -116,28 +107,6 @@ public class Engine {
 	Parent root = new SimulationScreen(this, SIMULATION).getRoot();
 	PROGRAM_SCENE.setRoot(root);
 	playAnimation();
-    }
-
-    /**
-     * Performs one frame or step in the animation
-     */
-    public void singleStep() {
-	pauseAnimation();
-	step(SECOND_DELAY);
-    }
-
-    /**
-     * Pauses the animation
-     */
-    public void pauseAnimation() {
-	PROGRAM_TIMELINE.pause();
-    }
-
-    /**
-     * Starts the animation
-     */
-    public void playAnimation() {
-	PROGRAM_TIMELINE.play();
     }
 
     /**
@@ -169,9 +138,7 @@ public class Engine {
     public ObservableList<String> getSimulations() {
 	List<String> typeList = new ArrayList<String>();
 	for (String type : GRIDS.keySet()) {
-	    if (RULES.containsKey(type)) {
-		typeList.add(type);
-	    }
+	    if (RULES.containsKey(type)) typeList.add(type);
 	}
 	ObservableList<String> retList = FXCollections.observableArrayList(typeList);
 	return retList;
@@ -189,33 +156,6 @@ public class Engine {
     }
 
     /**
-     * 
-     * @return SIMULATION_NAME: the current simulation being animated 
-     */
-    public String getSimulationName() {
-	return SIMULATION_NAME;
-    }
-
-    /**
-     * 
-     * @return GENERATION: the current generation number in the simulation
-     */
-    public int getGeneration() {
-	return GENERATION;
-    }
-
-    public String resourceString(String key) {
-	return DEFAULT_RESOURCES.getString(key);
-    }
-
-    /**
-     * Sets grids
-     */
-    public void setGrids(Map<String, Grid> grids) {
-	GRIDS = grids;
-    }
-
-    /**
      * Sets rules
      */
     public void setRules() {
@@ -223,26 +163,6 @@ public class Engine {
 	    Grid g = getGrid(key);
 	    RULES.get(key).setGrid(g);
 	}
-    }
-
-    public Grid currentGrid() {
-	return getGrid(SIMULATION_NAME);
-    }
-
-    public Ruleset currentRules() {
-	return RULES.get(SIMULATION_NAME);
-    }
-
-    public String currentShapeType() {
-	return SHAPE_TYPE;
-    }
-
-    public ReadOnlyDoubleProperty sceneWidth() {
-	return PROGRAM_STAGE.widthProperty();
-    }
-
-    public ReadOnlyDoubleProperty sceneHeight() {
-	return PROGRAM_STAGE.heightProperty();
     }
 
     /**
@@ -264,11 +184,8 @@ public class Engine {
 	}
     }
 
-
     /**
-     * 
-     * @param name: the key that maps to a Grid object in the map @param GRIDS.
-     * @return the Grid object @param name maps to. 
+     * Returns the grid corresponding to the key 'name' 
      */
     public Grid getGrid(String name) {
 	Grid cloneGrid = null;
@@ -310,14 +227,7 @@ public class Engine {
     }
 
     /**
-     * Gets state count
-     */
-    public int getStateCount(int state) {
-	return SIMULATION.stateCount(currentGrid(), state);
-    }
-
-    /**
-     * Gets state count
+     * Initiates writing current grid to XML file
      */
     public void writeGridtoXML(String name) {
 	XMLWriter writer = new XMLWriter();
@@ -329,24 +239,96 @@ public class Engine {
 	}
     }
 
-    public double currentShapeHeight() {
-	return SHAPE_HEIGHT;
+    /**
+     * Returns resource string
+     * 
+     * @param key: desired string title
+     * @return String: corresponding resource string
+     */
+    public String resourceString(String key) {
+	return DEFAULT_RESOURCES.getString(key);
     }
 
-    public double currentShapeWidth() {
-	return SHAPE_WIDTH;
+    /**
+     * Return the name of the current simulation being animated 
+     */
+    public String getSimulationName() {
+	return SIMULATION_NAME;
     }
 
-    public double currentShapeSpace() {
-	return SHAPE_SPACE;
+    /**
+     * Returns the current generation number in the simulation
+     */
+    public int getGeneration() {
+	return GENERATION;
     }
 
+    /**
+     * Sets grids
+     */
+    public void setGrids(Map<String, Grid> grids) {
+	GRIDS = grids;
+    }
 
+    /**
+     * Gets state count
+     */
+    public int getStateCount(int state) {
+	return currentGrid().stateCount(state);
+    }
+
+    /**
+     * Performs one frame or step in the animation
+     */
+    public void singleStep() {
+	pauseAnimation();
+	step(SECOND_DELAY);
+    }
+
+    /**
+     * Pauses the animation
+     */
+    public void pauseAnimation() {
+	PROGRAM_TIMELINE.pause();
+    }
+
+    /**
+     * Starts the animation
+     */
+    public void playAnimation() {
+	PROGRAM_TIMELINE.play();
+    }
+
+    /**
+     * Returns current grid
+     */
+    public Grid currentGrid() {
+	return getGrid(SIMULATION_NAME);
+    }
+
+    /**
+     * Returns current ruleset
+     */
+    public Ruleset currentRules() {
+	return RULES.get(SIMULATION_NAME);
+    }
+
+    /**
+     * Returns scene width
+     */
+    public ReadOnlyDoubleProperty sceneWidth() {
+	return PROGRAM_STAGE.widthProperty();
+    }
+
+    /**
+     * Returns scene height
+     */
+    public ReadOnlyDoubleProperty sceneHeight() {
+	return PROGRAM_STAGE.heightProperty();
+    }
 
     /**
      * Change properties of shapes to animate them 
-     * 
-     * @param elapsedTime: time since last animation update
      */
     private void step (double elapsedTime) {     
 	if (SIMULATING) {

@@ -13,7 +13,7 @@ import simulation.ruleSet.*;
  *
  */
 public class GameOfLifeXMLData extends XMLData {
-	private String GAMEOFLIFE = "Game of Life";
+	private final String GAMEOFLIFE = "Game of Life";
 	protected static final List<String> PARAM_DATA_FIELDS = Arrays.asList(new String[] {
 			"minLife",
 			"maxLife",
@@ -28,7 +28,7 @@ public class GameOfLifeXMLData extends XMLData {
 	}
 	
 	/**
-	 * Returns data fields
+	 * Returns simulation specific datafields
 	 */
 	@Override
 	public List<String> getParameterFields() {
@@ -36,7 +36,7 @@ public class GameOfLifeXMLData extends XMLData {
 	}
 	
 	/**
-	 * Returns Fire XML data fields 
+	 * All data fields (general and simulation specific)
 	 */
 	@Override
 	public List<String> getDataFields() {
@@ -46,7 +46,7 @@ public class GameOfLifeXMLData extends XMLData {
 	}
 	
 	/**
-	 * Gets Ruleset object from XML parser
+	 * Returns Ruleset object from XML parser
 	 */
 	@Override
 	public GameOfLifeRuleset getRules() {
