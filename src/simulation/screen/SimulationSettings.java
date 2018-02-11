@@ -320,6 +320,7 @@ public class SimulationSettings extends Screen {
     
     private void processInputs() {
 	//SIMULATE.setDisable(!(EDGE_VALID && SHAPE_VALID && SIMULATION_VALID));
+	SIMULATE.setDisable(!SIMULATION_VALID);
     }
 
     /**
