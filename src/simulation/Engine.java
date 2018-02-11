@@ -35,9 +35,9 @@ import simulation.screen.StartScreen;
 public class Engine {
 
     private final String DEFAULT_STYLESHEET = 
-            Engine.class.getClassLoader().getResource("default.css").toExternalForm();
+	    Engine.class.getClassLoader().getResource("default.css").toExternalForm();
     private final ResourceBundle DEFAULT_RESOURCES = 
-            ResourceBundle.getBundle("simulation.default");
+	    ResourceBundle.getBundle("simulation.default");
 
     private final String PROGRAM_TITLE;   
 
@@ -64,9 +64,9 @@ public class Engine {
 
     // Give the program a title
     public Engine() {
-        PROGRAM_TITLE = resourceString("programTitleString");
-        GRIDS = null;
-        RULES = null;
+	PROGRAM_TITLE = resourceString("programTitleString");
+	GRIDS = null;
+	RULES = null;
     }
 
     /**
@@ -75,29 +75,29 @@ public class Engine {
      * @param primaryStage: the Stage placed in the Application
      */
     public void startProgram(Stage primaryStage, int width, int height) {
-        PROGRAM_STAGE = primaryStage;
-        PROGRAM_STAGE.setResizable(false);
-        PROGRAM_STAGE.initStyle(StageStyle.UTILITY);
-        PROGRAM_STAGE.setTitle(PROGRAM_TITLE);
-        // initialize maps with values from XML files
-        initializeMaps();
-        // attach "program loop" to time line to play it
-        KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
-                e -> step(SECOND_DELAY));
-        PROGRAM_TIMELINE = new Timeline();
-        PROGRAM_TIMELINE.setCycleCount(Timeline.INDEFINITE);
-        PROGRAM_TIMELINE.getKeyFrames().add(frame);
-        playAnimation();    
-        // attach a Scene to the primaryStage 
-        generateStartScene(width, height);
+	PROGRAM_STAGE = primaryStage;
+	PROGRAM_STAGE.setResizable(false);
+	PROGRAM_STAGE.initStyle(StageStyle.UTILITY);
+	PROGRAM_STAGE.setTitle(PROGRAM_TITLE);
+	// initialize maps with values from XML files
+	initializeMaps();
+	// attach "program loop" to time line to play it
+	KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
+		e -> step(SECOND_DELAY));
+	PROGRAM_TIMELINE = new Timeline();
+	PROGRAM_TIMELINE.setCycleCount(Timeline.INDEFINITE);
+	PROGRAM_TIMELINE.getKeyFrames().add(frame);
+	playAnimation();    
+	// attach a Scene to the primaryStage 
+	generateStartScene(width, height);
     }
 
     /**
      * Presents a screen to the user that allows them to style the simulation
      */
     public void styleSimulation() {
-        Parent root = new SimulationSettings(this).getRoot();
-        PROGRAM_SCENE.setRoot(root);
+	Parent root = new SimulationSettings(this).getRoot();
+	PROGRAM_SCENE.setRoot(root);
     }
 
     /**
@@ -105,37 +105,37 @@ public class Engine {
      * @param type: The type of simulation to start
      */
     public void startSimulation(String type) {
-        //System.out.println("Start simulation!");
-        if (SIMULATING) {
-            stopSimulation();
-        }
-        // reset instance variables
-        initializeSimulation(type);
-        Parent root = new SimulationScreen(this, SIMULATION).getRoot();
-        PROGRAM_SCENE.setRoot(root);
-        playAnimation();
+	//System.out.println("Start simulation!");
+	if (SIMULATING) {
+	    stopSimulation();
+	}
+	// reset instance variables
+	initializeSimulation(type);
+	Parent root = new SimulationScreen(this, SIMULATION).getRoot();
+	PROGRAM_SCENE.setRoot(root);
+	playAnimation();
     }
 
     /**
      * Performs one frame or step in the animation
      */
     public void singleStep() {
-        pauseAnimation();
-        step(SECOND_DELAY);
+	pauseAnimation();
+	step(SECOND_DELAY);
     }
 
     /**
      * Pauses the animation
      */
     public void pauseAnimation() {
-        PROGRAM_TIMELINE.pause();
+	PROGRAM_TIMELINE.pause();
     }
 
     /**
      * Starts the animation
      */
     public void playAnimation() {
-        PROGRAM_TIMELINE.play();
+	PROGRAM_TIMELINE.play();
     }
 
     /**
@@ -145,15 +145,15 @@ public class Engine {
      * @param speed: new Generation Speed to use for the animation
      */
     public void setGenerationSpeed(double speed) {
-        GENERATIONS_PER_SECOND = speed;
-        // update instance variables
-        MILLISECOND_DELAY = 1000 / GENERATIONS_PER_SECOND;
-        SECOND_DELAY = 1.0 / GENERATIONS_PER_SECOND;
-        KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
-                e -> step(SECOND_DELAY));
-        PROGRAM_TIMELINE.stop();
-        PROGRAM_TIMELINE.getKeyFrames().setAll(frame);
-        playAnimation();
+	GENERATIONS_PER_SECOND = speed;
+	// update instance variables
+	MILLISECOND_DELAY = 1000 / GENERATIONS_PER_SECOND;
+	SECOND_DELAY = 1.0 / GENERATIONS_PER_SECOND;
+	KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
+		e -> step(SECOND_DELAY));
+	PROGRAM_TIMELINE.stop();
+	PROGRAM_TIMELINE.getKeyFrames().setAll(frame);
+	playAnimation();
     }
 
     /**
@@ -165,30 +165,30 @@ public class Engine {
      * @return the Simulation titles to be displayed to the user
      */
     public ObservableList<String> getSimulations() {
-        List<String> typeList = new ArrayList<String>();
-        for (String type : GRIDS.keySet()) {
-            if (RULES.containsKey(type)) {
-                typeList.add(type);
-            }
-        }
-        ObservableList<String> retList = FXCollections.observableArrayList(typeList);
-        return retList;
+	List<String> typeList = new ArrayList<String>();
+	for (String type : GRIDS.keySet()) {
+	    if (RULES.containsKey(type)) {
+		typeList.add(type);
+	    }
+	}
+	ObservableList<String> retList = FXCollections.observableArrayList(typeList);
+	return retList;
     }
 
     /**
      * Initializes the values in the maps GRIDS and RULES
      */
     public void initializeMaps() {
-        FileController filecontrol = new FileController();
-        filecontrol.parseFiles();
-        Map<String, Grid> grids = filecontrol.getGrid();
-        Map<String, Ruleset> rules = filecontrol.getRules();
-        for (String key : rules.keySet()) {
-            Grid g = grids.get(key);
-            rules.get(key).setGrid(g);
-        }
-        RULES = rules;
-        GRIDS = grids;
+	FileController filecontrol = new FileController();
+	filecontrol.parseFiles();
+	Map<String, Grid> grids = filecontrol.getGrid();
+	Map<String, Ruleset> rules = filecontrol.getRules();
+	for (String key : rules.keySet()) {
+	    Grid g = grids.get(key);
+	    rules.get(key).setGrid(g);
+	}
+	RULES = rules;
+	GRIDS = grids;
     }
 
     /**
@@ -196,7 +196,7 @@ public class Engine {
      * @return SIMULATION_NAME: the current simulation being animated 
      */
     public String getSimulationName() {
-        return SIMULATION_NAME;
+	return SIMULATION_NAME;
     }
 
     /**
@@ -204,7 +204,7 @@ public class Engine {
      * @return SIMULATION_TYOE: the type of the current simulation being animated 
      */
     public String getSimulationType() {
-        return SIMULATION_NAME;
+	return SIMULATION_NAME;
     }
 
     /**
@@ -212,65 +212,65 @@ public class Engine {
      * @return GENERATION: the current generation number in the simulation
      */
     public int getGeneration() {
-        return GENERATION;
+	return GENERATION;
     }
 
     public String resourceString(String key) {
-        return DEFAULT_RESOURCES.getString(key);
+	return DEFAULT_RESOURCES.getString(key);
     }
 
     /**
      * Sets grids
      */
     public void setGrids(Map<String, Grid> grids) {
-        GRIDS = grids;
+	GRIDS = grids;
     }
 
     /**
      * Sets rules
      */
     public void setRules(Map<String, Ruleset> rules) {
-        for (String key : rules.keySet()) {
-            Grid g = getGrid(key);
-            rules.get(key).setGrid(g);
-        }
+	for (String key : rules.keySet()) {
+	    Grid g = getGrid(key);
+	    rules.get(key).setGrid(g);
+	}
 
-        RULES = rules;
+	RULES = rules;
     }
 
     public Grid currentGrid() {
-        return getGrid(SIMULATION_NAME);
+	return getGrid(SIMULATION_NAME);
     }
 
     public Ruleset currentRules() {
-        return RULES.get(SIMULATION_NAME);
+	return RULES.get(SIMULATION_NAME);
     }
 
     public String currentShapeType() {
-        return SHAPE_TYPE;
+	return SHAPE_TYPE;
     }
 
     public ReadOnlyDoubleProperty sceneWidth() {
-        return PROGRAM_STAGE.widthProperty();
+	return PROGRAM_STAGE.widthProperty();
     }
 
     public ReadOnlyDoubleProperty sceneHeight() {
-        return PROGRAM_STAGE.heightProperty();
+	return PROGRAM_STAGE.heightProperty();
     }
 
     private void initializeSimulation(String type) {
-        // reset instance variables
-        SIMULATION_NAME = type;
-        SIMULATING = true;
-        GENERATION = 0;
-        initializeMaps();
-        PROGRAM_STAGE.setTitle(SIMULATION_NAME);
-        if (SIMULATION != null) {
-            SIMULATION.reset();
-        }
-        else {
-            SIMULATION = new CurrentSimulation(this);
-        }
+	// reset instance variables
+	SIMULATION_NAME = type;
+	SIMULATING = true;
+	GENERATION = 0;
+	initializeMaps();
+	PROGRAM_STAGE.setTitle(SIMULATION_NAME);
+	if (SIMULATION != null) {
+	    SIMULATION.reset();
+	}
+	else {
+	    SIMULATION = new CurrentSimulation(this);
+	}
     }
 
 
@@ -280,14 +280,14 @@ public class Engine {
      * @return the Grid object @param name maps to. 
      */
     public Grid getGrid(String name) {
-        Grid cloneGrid = null;
-        try {
-            cloneGrid = (Grid) GRIDS.get(name);
-            return cloneGrid;
-        } catch ( NullPointerException e) {
-            System.out.printf("Could not get Grid object with key %s\n", name);
-        }
-        return cloneGrid;
+	Grid cloneGrid = null;
+	try {
+	    cloneGrid = (Grid) GRIDS.get(name);
+	    return cloneGrid;
+	} catch ( NullPointerException e) {
+	    System.out.printf("Could not get Grid object with key %s\n", name);
+	}
+	return cloneGrid;
     }
 
     /**
@@ -296,10 +296,10 @@ public class Engine {
      * @param PROGRAM_SCENE to allow for easy root changes to change scenes. 
      */
     private void generateStartScene(int width, int height) {
-        Parent root = new StartScreen(this).getRoot();
-        PROGRAM_SCENE = new Scene(root, width, height);   
-        PROGRAM_SCENE.getStylesheets().add(DEFAULT_STYLESHEET);
-        PROGRAM_STAGE.setScene(PROGRAM_SCENE);
+	Parent root = new StartScreen(this).getRoot();
+	PROGRAM_SCENE = new Scene(root, width, height);   
+	PROGRAM_SCENE.getStylesheets().add(DEFAULT_STYLESHEET);
+	PROGRAM_STAGE.setScene(PROGRAM_SCENE);
     }
 
     /**
@@ -307,47 +307,47 @@ public class Engine {
      * to their default values.
      */
     private void stopSimulation() {
-        SIMULATING = false;
-        GENERATIONS_PER_SECOND = 1;
-        // update instance variables
-        MILLISECOND_DELAY = 1000 / GENERATIONS_PER_SECOND;
-        SECOND_DELAY = 1.0 / GENERATIONS_PER_SECOND;
-        KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
-                e -> step(SECOND_DELAY));
-        PROGRAM_TIMELINE.stop();
-        PROGRAM_TIMELINE.getKeyFrames().setAll(frame);
+	SIMULATING = false;
+	GENERATIONS_PER_SECOND = 1;
+	// update instance variables
+	MILLISECOND_DELAY = 1000 / GENERATIONS_PER_SECOND;
+	SECOND_DELAY = 1.0 / GENERATIONS_PER_SECOND;
+	KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
+		e -> step(SECOND_DELAY));
+	PROGRAM_TIMELINE.stop();
+	PROGRAM_TIMELINE.getKeyFrames().setAll(frame);
     }
 
     /**
      * Gets state count
      */
     public int getStateCount(int state) {
-        return SIMULATION.stateCount(currentGrid(), state);
+	return SIMULATION.stateCount(currentGrid(), state);
     }
 
     /**
      * Gets state count
      */
     public void writeGridtoXML(String name) {
-        XMLWriter writer = new XMLWriter();
-        try {
-            writer.createDoc(currentGrid().getType(), name, currentGrid(), currentRules());
-        } catch (TransformerConfigurationException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+	XMLWriter writer = new XMLWriter();
+	try {
+	    writer.createDoc(currentGrid().getType(), name, currentGrid(), currentRules());
+	} catch (TransformerConfigurationException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
     }
 
     public double currentShapeHeight() {
-        return SHAPE_HEIGHT;
+	return SHAPE_HEIGHT;
     }
 
     public double currentShapeWidth() {
-        return SHAPE_WIDTH;
+	return SHAPE_WIDTH;
     }
 
     public double currentShapeSpace() {
-        return SHAPE_SPACE;
+	return SHAPE_SPACE;
     }
 
 
@@ -358,9 +358,9 @@ public class Engine {
      * @param elapsedTime: time since last animation update
      */
     private void step (double elapsedTime) {     
-        if (SIMULATING) {
-            SIMULATION.update();
-            GENERATION++;
-        }
+	if (SIMULATING) {
+	    SIMULATION.update();
+	    GENERATION++;
+	}
     }
 }
