@@ -7,7 +7,7 @@ import java.util.ResourceBundle;
 
 import javax.xml.transform.TransformerConfigurationException;
 
-import configuration.XMLWriter;
+import configuration.XMLWriting.XMLWriter;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.ReadOnlyDoubleProperty;
@@ -49,9 +49,9 @@ public class Engine {
 
     private String SIMULATION_NAME;
     private String SHAPE_TYPE = "rectangle";
-    private double SHAPE_HEIGHT = -1;
-    private double SHAPE_WIDTH = -1;
-    private double SHAPE_SPACE = 1;
+    protected double SHAPE_HEIGHT = -1;
+    protected double SHAPE_WIDTH = -1;
+    protected double SHAPE_SPACE = 1;
 
     private int GENERATION;
     private boolean SIMULATING;

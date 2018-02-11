@@ -3,7 +3,8 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.util.HashMap;
 import java.util.Map;
-import configuration.XMLParser;
+
+import configuration.XMLParsing.XMLParser;
 import simulation.grid.Grid;
 import simulation.ruleSet.*;
 
