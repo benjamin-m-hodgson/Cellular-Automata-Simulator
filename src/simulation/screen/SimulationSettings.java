@@ -9,6 +9,8 @@ import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
@@ -17,6 +19,7 @@ import simulation.Engine;
 public class SimulationSettings extends Screen {
 
     private final int VERTICAL_SPACING = 20;
+    private final int LABEL_SPACING = 5;
     private final int FRAMES_PER_SECOND = 60;
     private final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
     private final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
@@ -55,6 +58,7 @@ public class SimulationSettings extends Screen {
 	ComboBox<Object> simulationChoices = simulatorChooser();
 	ComboBox<Object> shapeChoices = shapeChooser();
 	ComboBox<Object> edgeChoices = edgeChooser();
+	//VBox cellSizing = cellSizeOptions();
 	SIMULATE = makeButton(PROGRAM_ENGINE.resourceString("simulateString"));
 	VBox simulationStyles = new VBox(VERTICAL_SPACING, simulationChoices,
 		edgeChoices, shapeChoices, SIMULATE);
@@ -123,10 +127,10 @@ public class SimulationSettings extends Screen {
     
     /**
      * Creates a drop down menu that changes the value of the instance 
-     * variable @param SHAPE upon selection. 
+     * variable @param EDGE upon selection. 
      * 
      * @return dropDownMenu: a drop down menu that lets the user choose the
-     * shape of the cells to animate
+     * edge handling for the simulation
      */
     private ComboBox<Object> edgeChooser() {
 	String defaultPrompt = PROGRAM_ENGINE.resourceString("edgePromptString");
@@ -152,7 +156,13 @@ public class SimulationSettings extends Screen {
 	});
 	return dropDownMenu;
     }
-
+    
+    private VBox cellSizeOptions() {
+	Label defaultPropmt = new Label(PROGRAM_ENGINE.resourceString("sizePromptString"));
+	TextField cellSize = new TextField();
+	VBox sizePanel = new VBox(LABEL_SPACING, defaultPropmt, cellSize);
+	return sizePanel;
+    }
 
     /**
      * Creates a drop down menu that changes the value of the instance 
