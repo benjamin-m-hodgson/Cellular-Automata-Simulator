@@ -1,5 +1,6 @@
 package simulation.shapes;
 
+import factoryClasses.ShapeFactory;
 import javafx.beans.binding.DoubleBinding;
 import simulation.Engine;
 
@@ -10,7 +11,7 @@ import simulation.Engine;
  * 
  * Class to determine a Shape's position in the Scene
  */
-public abstract class ShapeHandler {
+public abstract class ShapeHandler extends ShapeFactory {
     
     private final double DEFAULT_INDICATOR = -1;
     protected Engine PROGRAM_ENGINE;
