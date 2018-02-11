@@ -4,6 +4,12 @@ import java.util.List;
 import configuration.datatemplates.*;
 import simulation.Engine;
 
+/**
+ * Grid styling choices
+ * 
+ * @author Katherine Van Dyk
+ *
+ */
 public class StyleFactory extends Engine {
     private static final String FIRE = "Fire";
     private static final String WATOR = "WaTor";

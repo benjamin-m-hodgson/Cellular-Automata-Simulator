@@ -53,8 +53,6 @@ public class ShapeFactory {
     
     /**
      * Returns current height of shape 
-     * 
-     * @return double representing height of shape
      */
     public double currentShapeHeight() {
 	return SHAPE_HEIGHT;
@@ -62,8 +60,6 @@ public class ShapeFactory {
 
     /**
      * Returns current width of shape 
-     * 
-     * @return double representing width of shape
      */
     public double currentShapeWidth() {
 	return SHAPE_WIDTH;
@@ -71,8 +67,6 @@ public class ShapeFactory {
 
     /**
      * Returns current shape space
-     * 
-     * @return double representing shape space
      */
     public double currentShapeSpace() {
 	return SHAPE_SPACE;
@@ -80,8 +74,6 @@ public class ShapeFactory {
     
     /**
      * Returns current shape type
-     * 
-     * @return
      */
     public String currentShapeType() {
 	return SHAPE_TYPE;
@@ -89,7 +81,6 @@ public class ShapeFactory {
     
     /**
      * Sets shape type
-     * 
      */
     public void setShapeType(String s) {
 	this.SHAPE_TYPE = s;

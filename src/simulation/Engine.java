@@ -48,7 +48,6 @@ public class Engine {
     private int GENERATION;
     private boolean SIMULATING;
     private CurrentSimulation SIMULATION;
-
     private Map<String, Grid> GRIDS;
     private Map<String, Ruleset> RULES;
 
@@ -128,9 +127,7 @@ public class Engine {
     public ObservableList<String> getSimulations() {
 	List<String> typeList = new ArrayList<String>();
 	for (String type : GRIDS.keySet()) {
-	    if (RULES.containsKey(type)) {
-		typeList.add(type);
-	    }
+	    if (RULES.containsKey(type)) typeList.add(type);
 	}
 	ObservableList<String> retList = FXCollections.observableArrayList(typeList);
 	return retList;
@@ -177,9 +174,7 @@ public class Engine {
     }
 
     /**
-     * 
-     * @param name: the key that maps to a Grid object in the map @param GRIDS.
-     * @return the Grid object @param name maps to. 
+     * Returns the grid corresponding to the key 'name' 
      */
     public Grid getGrid(String name) {
 	Grid cloneGrid = null;
@@ -221,7 +216,7 @@ public class Engine {
     }
 
     /**
-     * Gets state count
+     * Initiates writing current grid to XML file
      */
     public void writeGridtoXML(String name) {
 	XMLWriter writer = new XMLWriter();
@@ -232,7 +227,7 @@ public class Engine {
 	    e.printStackTrace();
 	}
     }
-    
+
     /**
      * Returns resource string
      * 
@@ -242,18 +237,16 @@ public class Engine {
     public String resourceString(String key) {
 	return DEFAULT_RESOURCES.getString(key);
     }
-    
+
     /**
-     * 
-     * @return SIMULATION_NAME: the current simulation being animated 
+     * Return the name of the current simulation being animated 
      */
     public String getSimulationName() {
 	return SIMULATION_NAME;
     }
 
     /**
-     * 
-     * @return GENERATION: the current generation number in the simulation
+     * Returns the current generation number in the simulation
      */
     public int getGeneration() {
 	return GENERATION;
@@ -265,14 +258,14 @@ public class Engine {
     public void setGrids(Map<String, Grid> grids) {
 	GRIDS = grids;
     }
-    
+
     /**
      * Gets state count
      */
     public int getStateCount(int state) {
 	return currentGrid().stateCount(state);
     }
-    
+
     /**
      * Performs one frame or step in the animation
      */
@@ -294,7 +287,7 @@ public class Engine {
     public void playAnimation() {
 	PROGRAM_TIMELINE.play();
     }
-    
+
     /**
      * Returns current grid
      */
@@ -322,11 +315,9 @@ public class Engine {
     public ReadOnlyDoubleProperty sceneHeight() {
 	return PROGRAM_STAGE.heightProperty();
     }
-    
+
     /**
      * Change properties of shapes to animate them 
-     * 
-     * @param elapsedTime: time since last animation update
      */
     private void step (double elapsedTime) {   	
 	if (SIMULATING) {
@@ -334,5 +325,4 @@ public class Engine {
 	    GENERATION++;
 	}
     }
-
 }
