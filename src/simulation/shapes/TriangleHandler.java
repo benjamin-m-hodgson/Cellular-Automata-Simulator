@@ -1,19 +1,32 @@
 package simulation.shapes;
 
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.DoubleBinding;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.shape.Polygon;
 import simulation.Engine;
 import simulation.grid.Grid;
 
 public class TriangleHandler extends ShapeHandler {
 
-    private final double HEIGHT_SCALING = 200;
-    private final double WIDTH_SCALING = 400;
+    private final double DEFAULT_INDICATOR = -1;
+    private final double SCENE_HEIGHT = 400;
+    private final double SCENE_WIDTH = 400;
     private final double TRIANGLE_SCALING = 1.5;
+    private double SIZE;
+    private double WIDTH;
+    private double HEIGHT;
 
-    public TriangleHandler(Engine programEngine, double height, double width, double spacing) {
-        super(programEngine, height, width, spacing);
+    public TriangleHandler(Engine programEngine, double size, double spacing) {
+        super(programEngine, size, spacing);
+        SIZE = size;
+        if (SIZE == DEFAULT_INDICATOR) {
+            calculateDefaultWidth();
+            calculateDefaultHeight();
+        }
+        else {
+            calculateWidth(size);
+            calculateHeight(size);
+        }
     }
 
     public Polygon generateTriangle(int row, int col) {
@@ -27,48 +40,50 @@ public class TriangleHandler extends ShapeHandler {
         cellShape.setId("defaultCell");
         return cellShape;
     }
-
+    
     @Override
-    public DoubleBinding calculateHeight() {
-        // TODO Auto-generated method stub
-        return null;
+    public ObservableValue<Double> calculateHeight(double size) {
+	HEIGHT = size;
+        ObservableValue<Double> height = new SimpleDoubleProperty(size).asObject(); 
+        return height;
     }
 
     @Override
-    public DoubleBinding calculateWidth() {
-        // TODO Auto-generated method stub
-        return null;
+    public ObservableValue<Double> calculateWidth(double size) {
+	WIDTH = size;
+	ObservableValue<Double> width = new SimpleDoubleProperty(size).asObject(); 
+        return width;
     }
 
     @Override
-    public DoubleBinding calculateDefaultHeight() {
+    public ObservableValue<Double> calculateDefaultHeight() {
         Grid currentGrid = PROGRAM_ENGINE.currentGrid();
         double numCells = currentGrid.getYSize();
-        DoubleBinding paneHeight = Bindings.subtract(PROGRAM_ENGINE.sceneHeight(), HEIGHT_SCALING);
-        DoubleBinding height = Bindings.divide(paneHeight, numCells);
-        DoubleBinding retHeight = Bindings.subtract(height, getSpacing());
+        double height = (SCENE_HEIGHT/numCells) - getSpacing();
+        HEIGHT = height;
+        ObservableValue<Double> retHeight = new SimpleDoubleProperty(height).asObject();
         return retHeight;
     }
 
     @Override
-    public DoubleBinding calculateDefaultWidth() {
+    public ObservableValue<Double> calculateDefaultWidth() {
         Grid currentGrid = PROGRAM_ENGINE.currentGrid();
         double numCells = currentGrid.getXSize();
-        DoubleBinding paneWidth = Bindings.subtract(PROGRAM_ENGINE.sceneWidth(), WIDTH_SCALING);
-        DoubleBinding width = Bindings.divide(paneWidth, numCells);
-        DoubleBinding retWidth = Bindings.subtract(width, getSpacing());
-        DoubleBinding scaleWidth = Bindings.multiply(retWidth, TRIANGLE_SCALING);
-        return scaleWidth;
+        double width = (SCENE_WIDTH/numCells) - getSpacing();
+        double scaleWidth = width*TRIANGLE_SCALING;
+        WIDTH = scaleWidth;
+        ObservableValue<Double> retWidth = new SimpleDoubleProperty(scaleWidth).asObject();
+        return retWidth;
     }
 
     // points listed (tip, left, right)
     private void upTriangle(Polygon triangle, int row, int col) {
-        double xTip = ((col+1)*(getWidth().doubleValue() / 2) + (col+1)*getSpacing());
-        double yTip = row*getHeight().doubleValue() + (row+1)*getSpacing();
-        double xLeft = col*(getWidth().doubleValue() / 2) + (col+1)*getSpacing();
-        double yLeft = (row+1)*getHeight().doubleValue() + (row+1)*getSpacing();
-        double xRight = (col+2)*(getWidth().doubleValue() / 2) + (col+1)*getSpacing();
-        double yRight = (row+1)*getHeight().doubleValue() + (row+1)*getSpacing();
+        double xTip = ((col+1)*(WIDTH / 2) + (col+1)*getSpacing());
+        double yTip = row*HEIGHT + (row+1)*getSpacing();
+        double xLeft = col*(WIDTH / 2) + (col+1)*getSpacing();
+        double yLeft = (row+1)*HEIGHT + (row+1)*getSpacing();
+        double xRight = (col+2)*(WIDTH / 2) + (col+1)*getSpacing();
+        double yRight = (row+1)*HEIGHT + (row+1)*getSpacing();
         triangle.getPoints().addAll(new Double[] {
                 xTip, yTip,
                 xLeft, yLeft,
@@ -78,12 +93,12 @@ public class TriangleHandler extends ShapeHandler {
 
     // points listed (tip, left, right)
     private void downTriangle(Polygon triangle, int row, int col) {
-        double xTip = ((col + 1)*(getWidth().doubleValue() / 2) + (col+1)*getSpacing());
-        double yTip = (row+1)*getHeight().doubleValue() + (row+1)*getSpacing();
-        double xLeft = col*(getWidth().doubleValue() / 2) + (col+1)*getSpacing();
-        double yLeft = row*getHeight().doubleValue() + (row+1)*getSpacing();
-        double xRight = (col+2)*(getWidth().doubleValue() / 2) + (col+1)*getSpacing();
-        double yRight = row*getHeight().doubleValue() + (row+1)*getSpacing();
+        double xTip = ((col + 1)*(WIDTH / 2) + (col+1)*getSpacing());
+        double yTip = (row+1)*HEIGHT + (row+1)*getSpacing();
+        double xLeft = col*(WIDTH / 2) + (col+1)*getSpacing();
+        double yLeft = row*HEIGHT + (row+1)*getSpacing();
+        double xRight = (col+2)*(WIDTH / 2) + (col+1)*getSpacing();
+        double yRight = row*HEIGHT + (row+1)*getSpacing();
         triangle.getPoints().addAll(new Double[] {
                 xTip, yTip,
                 xLeft, yLeft,

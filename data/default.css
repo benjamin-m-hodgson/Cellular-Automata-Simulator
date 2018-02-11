@@ -39,7 +39,7 @@
     -fx-border-width: 0px;
     -fx-border-color: #ffffff;
     -fx-text-fill: #696969;
-    -fx-font: 14px Excelsior;
+    -fx-font: 12px Excelsior;
 }
 #simulatorChooser .list-view {
     -fx-background-color: #ffffff, #ffffff;
@@ -95,7 +95,7 @@
     -fx-border-width: 0px;
     -fx-border-color: #d3d3d3;
     -fx-text-fill: #696969;
-    -fx-font: 14px Excelsior;
+    -fx-font: 12px Excelsior;
 }
 #simulatorChooser:showing .arrow {
 	-fx-background-color: #696969;
@@ -431,6 +431,15 @@
 #simulationSettingsRoot {
 	-fx-alignment: center;
 	-fx-background-color: #d3d3d3;
+	-fx-padding: 0 15 0 15;
+	-fx-border-style: solid inside;
+	-fx-border-width: 2;
+	-fx-border-insets: 1;
+	-fx-border-radius: 1;
+	-fx-border-color: #696969;
+	-fx-pref-width: 200px;
+	-fx-max-width: 200px;
+	-fx-min-width: 200px;
 }
 /******************************************************************************************/
 /* The text field where the user can enter custom cell sizes */
@@ -438,7 +447,7 @@
 #simulationTextField {
 	-fx-alignment: center;
     -fx-text-fill: #696969;
-    -fx-font: 14px Excelsior;
+    -fx-font: 12px Excelsior;
 	-fx-pref-width: 70;
 	-fx-min-width: 70;
 	-fx-max-width: 70;
@@ -464,7 +473,7 @@
 	-fx-pref-width: 130;
 	-fx-text-alignment: center;
 	-fx-wrap-text: true;
-	-fx-font: 14px Excelsior;
+	-fx-font: 12px Excelsior;
 	-fx-text-fill: #696969;
 }
 #simpleLabel .text {

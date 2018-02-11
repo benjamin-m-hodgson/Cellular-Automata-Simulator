@@ -29,13 +29,14 @@ public class SimulationSettings extends Screen {
 
     private final int VERTICAL_SPACING = 20;
     private final int LABEL_SPACING = 5;
-    private final double FRAMES_PER_SECOND = 1;
+    private final double FRAMES_PER_SECOND = 120;
     private final long MILLISECOND_DELAY = Math.round(1000 / FRAMES_PER_SECOND);
     private final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
     private final double CELL_MAX_SIZE = 50;
     private final double CELL_MIN_SIZE = 0.1;
     private final double SPACE_MAX_SIZE = 5;
     private final double SPACE_MIN_SIZE = 0;
+    private final double INVALID_INDICATOR = -1;
     private String DEFAULT_INDICATOR;
     private String SIMULATION;
     private boolean SIMULATION_VALID;
@@ -49,25 +50,22 @@ public class SimulationSettings extends Screen {
     private TextField SPACE_SIZE;
     private Button SIMULATE;
     private List<String> SHAPE_FIELDS = Arrays.asList(new String[] {
-	    "rectangle",
-	    "triangle"
+	    "Rectangle",
+	    "Triangle"
     });
     private List<String> EDGE_HANDLING_FIELDS = Arrays.asList(new String[] {
-	    "finite",
-	    "toroidal"
+	    "Finite",
+	    "Toroidal"
     });
 
     public SimulationSettings(Engine programEngine) {
 	super(programEngine);
 	DEFAULT_INDICATOR = PROGRAM_ENGINE.resourceString("defaultString");
-	SIMULATION = DEFAULT_INDICATOR;
-	SHAPE = DEFAULT_INDICATOR;
     }
 
     @Override
     public void makeRoot() {
 	VBox simulationStyles = makeStylePanel();
-	simulationStyles.setId("simulationSettingsRoot");
 	ROOT = simulationStyles;
 	// attach "animation loop" to time line to play it
 	KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
@@ -98,7 +96,24 @@ public class SimulationSettings extends Screen {
 	simulateButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 	    @Override
 	    public void handle(MouseEvent arg0) {
-		PROGRAM_ENGINE.startSimulation(SIMULATION, SHAPE, true);  
+		// get cellSize from text field
+		double cellSize;
+		try {
+		    cellSize = Double.parseDouble(CELL_SIZE.getText());
+		}
+		catch(Exception e) {
+		    cellSize = INVALID_INDICATOR;
+		}
+		// get spaceSize from text field
+		double spaceSize;
+		try {
+		    spaceSize = Double.parseDouble(SPACE_SIZE.getText());
+		}
+		catch(Exception e) {
+		    spaceSize = INVALID_INDICATOR;
+		}
+		PROGRAM_ENGINE.startSimulation(SIMULATION, true, SHAPE, COLOR, 
+			cellSize, spaceSize);  
 	    }
 	});
 	simulateButton.setDisable(true);
@@ -243,7 +258,7 @@ public class SimulationSettings extends Screen {
 		    // check input to make sure the value is within bounds
 		    try {
 			double sizeVal = Double.parseDouble(numberTextField.getText());
-			if (sizeVal >= min && sizeVal <= CELL_MAX_SIZE) {			    
+			if (sizeVal >= min && sizeVal <= max) {			    
 			    numberTextField.setText(Double.toString(sizeVal));
 			}
 			else {
@@ -260,7 +275,7 @@ public class SimulationSettings extends Screen {
 	});
 	return numberTextField;
     }
- 
+
 
     /**
      * Creates a drop down menu that changes the value of the instance 
@@ -293,7 +308,7 @@ public class SimulationSettings extends Screen {
 	});
 	return dropDownMenu;
     }
-    
+
     /**
      * Creates a drop down menu that changes the value of the instance 
      * variable @param COLOR upon selection. 
@@ -326,9 +341,9 @@ public class SimulationSettings extends Screen {
 	});
 	return dropDownMenu;
     }
-    
+
     private void processInputs() {
-	SIMULATE.setDisable(!(EDGE_VALID && SHAPE_VALID && SIMULATION_VALID));
+	SIMULATE.setDisable(!(EDGE_VALID && SHAPE_VALID && SIMULATION_VALID && COLOR_VALID));
     }
 
     /**

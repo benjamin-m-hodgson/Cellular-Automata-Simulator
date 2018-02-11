@@ -1,74 +1,78 @@
 package simulation.shapes;
 
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.DoubleBinding;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.shape.Rectangle;
 import simulation.Engine;
 import simulation.grid.Grid;
 
 public class RectangleHandler extends ShapeHandler {
     
-    private final double HEIGHT_SCALING = 200;
-    private final double WIDTH_SCALING = 400;
+    private final double DEFAULT_INDICATOR = -1;
+    private final double SCENE_HEIGHT = 400;
+    private final double SCENE_WIDTH = 400;
    
     private Rectangle CELL_SHAPE;
+    private double SIZE;
+    private double WIDTH;
+    private double HEIGHT;
 
-    public RectangleHandler(Engine programEngine, double height, double width, double spacing) {
-        super(programEngine, height, width, spacing);
+    public RectangleHandler(Engine programEngine, double size, double spacing) {
+        super(programEngine, size, spacing);
+        SIZE = size;
     }
     
     public Rectangle generateRectangle(int row, int col) {
         CELL_SHAPE = new Rectangle();
-        CELL_SHAPE.heightProperty().bind(getHeight());
-        CELL_SHAPE.widthProperty().bind(getWidth());
-        double xPos = col*getWidth().doubleValue() + (col+1)*getSpacing();
-        double yPos = row*getHeight().doubleValue() + (row+1)*getSpacing();
+        if (SIZE == DEFAULT_INDICATOR) {
+            CELL_SHAPE.heightProperty().bind(calculateDefaultHeight());
+            CELL_SHAPE.widthProperty().bind(calculateDefaultWidth());
+        }
+        else {
+            CELL_SHAPE.heightProperty().bind(calculateHeight(SIZE));
+            CELL_SHAPE.widthProperty().bind(calculateWidth(SIZE));
+        }
+        double xPos = col*WIDTH + (col+1)*getSpacing();
+        double yPos = row*HEIGHT + (row+1)*getSpacing();
         CELL_SHAPE.setX(xPos);
         CELL_SHAPE.setY(yPos);
         return CELL_SHAPE;
     }
 
-    // broken need to fix
     @Override
-    public DoubleBinding calculateHeight() {
-        Grid currentGrid = PROGRAM_ENGINE.currentGrid();
-        double numCells = currentGrid.getYSize();
-        double defaultHeight = getDefaultHeight().doubleValue();
-        double scaleFactor = defaultHeight / SHAPE_HEIGHT;
-        DoubleBinding height = Bindings.divide(PROGRAM_ENGINE.sceneHeight(), 
-                numCells*scaleFactor);
+    public ObservableValue<Double> calculateHeight(double size) {
+	HEIGHT = size;
+        ObservableValue<Double> height = new SimpleDoubleProperty(size).asObject(); 
         return height;
     }
 
-    // broken need to fix
     @Override
-    public DoubleBinding calculateWidth() {
-        Grid currentGrid = PROGRAM_ENGINE.currentGrid();
-        double numCells = currentGrid.getXSize();
-        double defaultWidth = getDefaultWidth().doubleValue();
-        double scaleFactor = defaultWidth / SHAPE_WIDTH;
-        DoubleBinding width = Bindings.divide(PROGRAM_ENGINE.sceneWidth(), 
-                numCells*scaleFactor);
+    public ObservableValue<Double> calculateWidth(double size) {
+	WIDTH = size;
+	ObservableValue<Double> width = new SimpleDoubleProperty(size).asObject(); 
         return width;
     }
     
     @Override
-    public DoubleBinding calculateDefaultHeight() {
+    public ObservableValue<Double> calculateDefaultHeight() {
         Grid currentGrid = PROGRAM_ENGINE.currentGrid();
         double numCells = currentGrid.getYSize();
-        DoubleBinding paneHeight = Bindings.subtract(PROGRAM_ENGINE.sceneHeight(), HEIGHT_SCALING);
-        DoubleBinding height = Bindings.divide(paneHeight, numCells);
-        DoubleBinding retHeight = Bindings.subtract(height, getSpacing());
+        System.out.printf("Num cells %f%n", numCells);
+        double height = (SCENE_HEIGHT/numCells) - getSpacing();
+        HEIGHT = height;
+        System.out.printf("Cell height %f%n", height);
+        ObservableValue<Double> retHeight = new SimpleDoubleProperty(height).asObject();
+        System.out.println(retHeight);
         return retHeight;
     }
     
     @Override
-    public DoubleBinding calculateDefaultWidth() {
+    public ObservableValue<Double> calculateDefaultWidth() {
         Grid currentGrid = PROGRAM_ENGINE.currentGrid();
         double numCells = currentGrid.getXSize();
-        DoubleBinding paneWidth = Bindings.subtract(PROGRAM_ENGINE.sceneWidth(), WIDTH_SCALING);
-        DoubleBinding width = Bindings.divide(paneWidth, numCells);
-        DoubleBinding retWidth = Bindings.subtract(width, getSpacing());
+        double width = (SCENE_WIDTH/numCells) - getSpacing();
+        WIDTH = width;
+        ObservableValue<Double> retWidth = new SimpleDoubleProperty(width).asObject();
         return retWidth;
     }
 }

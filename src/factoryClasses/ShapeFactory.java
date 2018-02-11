@@ -34,22 +34,24 @@ public class ShapeFactory {
      * @param c: column position of shape
      * @param currentShape: Shape object to display on screen
      */
-    public Shape chooseShape(int r, int c, Engine PROGRAM_ENGINE) {
-	if (SHAPE_TYPE.equalsIgnoreCase(RECTANGLE)) {
-	    RectangleHandler shapeHandler = new RectangleHandler(PROGRAM_ENGINE,
-		    DEFAULT_INDICATOR, DEFAULT_INDICATOR, DEFAULT_SPACING);
-	    Rectangle cellShape = shapeHandler.generateRectangle(r, c);
-	    cellShape.setId("defaultCell");
-	    return cellShape;
-	}
-	else if (SHAPE_TYPE.equalsIgnoreCase(TRIANGLE)) {
+    public Shape chooseShape(int r, int c, Engine PROGRAM_ENGINE, 
+	    double SHAPE_SIZE, double SPACE_SIZE) {
+	if (SHAPE_TYPE.equalsIgnoreCase(TRIANGLE)) {
 	    TriangleHandler shapeHandler = new TriangleHandler(PROGRAM_ENGINE,
-		    DEFAULT_INDICATOR, DEFAULT_INDICATOR, DEFAULT_SPACING);
+		    SHAPE_SIZE, SPACE_SIZE);
 	    Polygon cellShape = shapeHandler.generateTriangle(r, c);
 	    cellShape.setId("defaultCell");
 	    return cellShape;
 
 	}
-	return null;
+	//else if (SHAPE_TYPE.equalsIgnoreCase(RECTANGLE)) {
+	// only two options, make sure return isnt' null
+	else {
+	    RectangleHandler shapeHandler = new RectangleHandler(PROGRAM_ENGINE,
+		    SHAPE_SIZE, SPACE_SIZE);
+	    Rectangle cellShape = shapeHandler.generateRectangle(r, c);
+	    cellShape.setId("defaultCell");
+	    return cellShape;
+	}
     }
 }

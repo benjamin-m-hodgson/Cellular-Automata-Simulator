@@ -5,11 +5,9 @@ import java.text.DecimalFormat;
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
@@ -35,25 +33,25 @@ public class SimulationControlPanel {
     private final double SPEED_MIN = 0.25;
     private final double SPEED_MAX = 2;
 
-    private VBox CONTROL_PANEL;
+    private Parent CONTROL_PANEL;
     private Engine PROGRAM_ENGINE;
+    private SimulationScreen ROOT_SCREEN;
 
     private Label GENERATION;
     private Label SPEED;
-    private String TYPE;
-    private boolean VALID;
     private Button SIMULATE;
     private Button PLAY;
     private Button PAUSE;
 
 
 
-    public SimulationControlPanel(Engine programEngine) {
+    public SimulationControlPanel(Engine programEngine, SimulationScreen rootScreen) {
 	PROGRAM_ENGINE = programEngine;
+	ROOT_SCREEN = rootScreen;
 	CONTROL_PANEL = sidePanel();
     }
 
-    public VBox construct() {
+    public Parent construct() {
 	return CONTROL_PANEL;
     }
 
@@ -64,12 +62,6 @@ public class SimulationControlPanel {
      */
     public void update() {
 	GENERATION.setText(Integer.toString(PROGRAM_ENGINE.getGeneration()));
-	if (VALID && SIMULATE.isDisabled()) {
-	    SIMULATE.setDisable(false);
-	}
-	else if (!VALID && !SIMULATE.isDisabled()) {
-	    SIMULATE.setDisable(true);
-	}
     }
 
     /**
@@ -130,64 +122,49 @@ public class SimulationControlPanel {
     private VBox makeMenu() {
 	Label simulationPrompt = makeInfoLabel(PROGRAM_ENGINE.
 		resourceString("changeSimulationString")); 
-	ComboBox<Object> simulationChoices = simulatorChooser();
-	SIMULATE = makeSimulateButton(PROGRAM_ENGINE.resourceString("simulateString"));
-	VBox simulationMenu = new VBox(LABEL_SPACING, simulationPrompt, 
-		simulationChoices, SIMULATE);
+	SIMULATE = makeButton(PROGRAM_ENGINE.resourceString("newSimulateString"));
+	VBox simulationMenu = new VBox(LABEL_SPACING, simulationPrompt, SIMULATE);
 	return simulationMenu;
     }
 
     /**
-     * Creates a drop down menu that changes the value of the instance 
-     * variable @param TYPE upon selection. When a valid type is selected 
-     * from the choices, the boolean @param VALID is flagged true. 
+     * Make button to bring up simulation settings panel to simulation styling screen
      * 
-     * @return dropDownMenu: a drop down menu that lets the user choose a 
-     * simulation to simulate
+     * @param text: Text to put in button
+     * @return Button
      */
-    private ComboBox<Object> simulatorChooser() {
-	ComboBox<Object> dropDownMenu = new ComboBox<Object>();
-	dropDownMenu.setVisibleRowCount(5);
-	String defaultChoice = PROGRAM_ENGINE.resourceString("chooserPromptString");
-	dropDownMenu.setValue(defaultChoice);
-	ObservableList<Object> simulationChoices = 
-		FXCollections.observableArrayList(defaultChoice);
-	simulationChoices.addAll(PROGRAM_ENGINE.getSimulations());
-	dropDownMenu.setItems(simulationChoices);
-	dropDownMenu.setValue(PROGRAM_ENGINE.getSimulationName());
-	dropDownMenu.setId("simulatorChooser");
-	dropDownMenu.getSelectionModel().selectedIndexProperty()
-	.addListener(new ChangeListener<Number>() {
-	    @Override
-	    public void changed(ObservableValue<? extends Number> arg0, 
-		    Number arg1, Number arg2) {
-		TYPE = (String) simulationChoices.get((Integer) arg2);
-		VALID = !(TYPE.equals(defaultChoice) ||
-			TYPE.equals(PROGRAM_ENGINE.getSimulationName())); 
-	    }
-	});
-	return dropDownMenu;
-    }
-
-    /**
-     * 
-     * @param text: text to be displayed on the button
-     * @return simulateButton: a button to begin the selected simulation
-     */
-    private Button makeSimulateButton(String text) {
-	Button simulateButton = new Button(text);
-	simulateButton.setId("simulateButton");
-	// handle click event
-	simulateButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-	    @Override
-	    public void handle(MouseEvent arg0) {
-		CurrentSimulation currentSim = PROGRAM_ENGINE.getCurrentSimulation();
-		PROGRAM_ENGINE.startSimulation(TYPE, currentSim.getShape(), currentSim.getEdge() );
-	    }
-	});
-	simulateButton.setDisable(true);
-	return simulateButton;
-    }
+     public Button makeButton(String text) {
+         Button simulateButton = new Button(text);
+         simulateButton.setId("newSimulationButton");
+         simulateButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+             @Override
+             public void handle(MouseEvent arg0) {
+        	 VBox newPanel = new VBox(LABEL_SPACING,
+        		 new SimulationSettings(PROGRAM_ENGINE).getRoot(),
+        		 exitButton());
+        	 newPanel.setId("simulationSettingsRoot");
+                 ROOT_SCREEN.getRootPane().setRight(newPanel);
+             }
+         });
+         return simulateButton;
+     }
+     
+     /**
+      * Make button to bring up control settings panel to simulation styling screen
+      * 
+      * @return Button
+      */
+     public Button exitButton() {
+	 Button exitButton = new Button(PROGRAM_ENGINE.resourceString("backPrompt"));
+	 exitButton.setId("simulateButton");
+         exitButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+             @Override
+             public void handle(MouseEvent arg0) {
+        	 ROOT_SCREEN.getRootPane().setRight(CONTROL_PANEL);
+             }
+         });
+	 return exitButton;
+     }
 
     /**
      * Creates the section of the side panel with the play, pause, reset, step, and speed
@@ -270,7 +247,9 @@ public class SimulationControlPanel {
 	    @Override
 	    public void handle(MouseEvent arg0) {
 		CurrentSimulation simulation = PROGRAM_ENGINE.getCurrentSimulation();
-                PROGRAM_ENGINE.startSimulation(PROGRAM_ENGINE.getSimulationName(), simulation.getShape(), simulation.getEdge());
+                PROGRAM_ENGINE.startSimulation(PROGRAM_ENGINE.getSimulationName(), 
+                	simulation.getEdge(), simulation.getShape(), simulation.getColor(),
+                	simulation.getSize(), simulation.getSpace());
 	    }
 	});
 	return resetButton;
