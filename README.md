@@ -21,6 +21,7 @@
 	* https://www.iconfinder.com/icons/352446/replay_icon#size=128
 	 * https://docs.oracle.com/javafx/2/api/javafx/scene/doc-files/cssref.html#label
 	 * https://www.tutorialspoint.com/javafx/2dshapes_polygon.htm
+	 * https://docs.oracle.com/javase/8/javafx/api/javafx/scene/control/TextFormatter.html
      
 * Katie Van Dyk
 	*  https://stackoverflow.com/questions/5751335/using-file-listfiles-with-filenameextensionfilter

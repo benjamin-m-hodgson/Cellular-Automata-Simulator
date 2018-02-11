@@ -1,5 +1,6 @@
 package simulation.screen;
 
+import java.util.Timer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
@@ -7,11 +8,17 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import simulation.Engine;
@@ -20,9 +27,12 @@ public class SimulationSettings extends Screen {
 
     private final int VERTICAL_SPACING = 20;
     private final int LABEL_SPACING = 5;
-    private final int FRAMES_PER_SECOND = 60;
-    private final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
+    private final double FRAMES_PER_SECOND = 1;
+    private final long MILLISECOND_DELAY = Math.round(1000 / FRAMES_PER_SECOND);
     private final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
+    private final double INVALID_INDICATOR = -1.0;
+    private final double CELL_MAX_SIZE = 50;
+    private final double CELL_MIN_SIZE = 0.1;
 
     private String DEFAULT_INDICATOR;
     private String SIMULATION;
@@ -31,6 +41,7 @@ public class SimulationSettings extends Screen {
     private boolean EDGE_VALID;
     private String SHAPE;
     private boolean SHAPE_VALID;
+    private TextField CELL_SIZE;
     private Button SIMULATE;
 
     public SimulationSettings(Engine programEngine) {
@@ -53,15 +64,15 @@ public class SimulationSettings extends Screen {
 	animation.getKeyFrames().add(frame);
 	animation.play();     
     }
-    
+
     private VBox makeStylePanel() {
 	ComboBox<Object> simulationChoices = simulatorChooser();
 	ComboBox<Object> shapeChoices = shapeChooser();
 	ComboBox<Object> edgeChoices = edgeChooser();
-	//VBox cellSizing = cellSizeOptions();
+	VBox cellSizing = cellSizeOptions();
 	SIMULATE = makeButton(PROGRAM_ENGINE.resourceString("simulateString"));
 	VBox simulationStyles = new VBox(VERTICAL_SPACING, simulationChoices,
-		edgeChoices, shapeChoices, SIMULATE);
+		edgeChoices, shapeChoices, cellSizing, SIMULATE);
 	return simulationStyles;
     }
 
@@ -124,7 +135,7 @@ public class SimulationSettings extends Screen {
 	});
 	return dropDownMenu;
     }
-    
+
     /**
      * Creates a drop down menu that changes the value of the instance 
      * variable @param EDGE upon selection. 
@@ -149,19 +160,75 @@ public class SimulationSettings extends Screen {
 		if (!selected.equals(defaultPrompt)) {
 		    EDGE_VALID = true;
 		    EDGE = selected;
-		} else {
+		} 
+		else {
 		    EDGE_VALID = false;
 		}
 	    }
 	});
 	return dropDownMenu;
     }
-    
+
     private VBox cellSizeOptions() {
-	Label defaultPropmt = new Label(PROGRAM_ENGINE.resourceString("sizePromptString"));
-	TextField cellSize = new TextField();
-	VBox sizePanel = new VBox(LABEL_SPACING, defaultPropmt, cellSize);
+	Label defaultPrompt = new Label(PROGRAM_ENGINE.resourceString("sizePromptString"));
+	defaultPrompt.setId("simpleLabel");
+	VBox sizePanel = new VBox(LABEL_SPACING);
+	sizePanel.setId("sizePanel");
+	VBox sizeOption = sizeOption(sizePanel);
+	sizePanel.getChildren().addAll(defaultPrompt, sizeOption);
 	return sizePanel;
+    }
+    
+    private VBox sizeOption(Parent sizePanel){
+	VBox sizeOption = new VBox(LABEL_SPACING);
+	sizeOption.setAlignment(Pos.CENTER);
+	CELL_SIZE = numberField(sizePanel, CELL_MIN_SIZE, CELL_MAX_SIZE);
+	CELL_SIZE.setId("cellSizeField");
+	Label maxPrompt = new Label(PROGRAM_ENGINE.resourceString("maxString") + CELL_MAX_SIZE);
+	Label minPrompt = new Label(PROGRAM_ENGINE.resourceString("minString") + CELL_MIN_SIZE);
+	maxPrompt.setId("simpleLabel");
+	minPrompt.setId("simpleLabel");
+	HBox infoLabels = new HBox(LABEL_SPACING, minPrompt, maxPrompt);
+	infoLabels.setId("sizeOptionLabels");
+	infoLabels.setAlignment(Pos.CENTER);
+	sizeOption.getChildren().addAll(CELL_SIZE, infoLabels);
+	return sizeOption;
+    }
+    
+    private TextField numberField(Parent root, double min, double max) {
+	TextField numberTextField = new TextField();
+	numberTextField.setText(DEFAULT_INDICATOR);
+	// clear when the mouse clicks on the text field
+	numberTextField.setOnMouseClicked(new EventHandler<MouseEvent>() {
+	    @Override
+	    public void handle(MouseEvent arg0) {
+		numberTextField.clear();
+	    }
+	});
+	numberTextField.setOnKeyPressed(new EventHandler<KeyEvent>() {
+	    @Override
+	    public void handle(KeyEvent key) {
+		if (key.getCode() == KeyCode.ENTER) {
+		    // check input to make sure the value is within bounds
+		    try {
+			double sizeVal = Double.parseDouble(CELL_SIZE.getText());
+			if (sizeVal >= min && sizeVal <= CELL_MAX_SIZE) {			    
+			    numberTextField.setText(Double.toString(sizeVal));
+			}
+			else {
+			    numberTextField.setText(DEFAULT_INDICATOR);
+			}
+
+		    }
+		    catch(Exception e) {
+			numberTextField.setText(DEFAULT_INDICATOR);
+		    }
+		    root.requestFocus();
+		}
+	    }
+	});
+	return numberTextField;
+
     }
 
     /**
@@ -204,6 +271,7 @@ public class SimulationSettings extends Screen {
      * @param elapsedTime: time since last animation update
      */
     private void step (double elapsedTime) {
+	// reset text fields if they're empty or invalid input
 	if (!SIMULATION.equals(DEFAULT_INDICATOR) && SIMULATE.isDisabled()) {
 	    SIMULATE.setDisable(false);
 	}
