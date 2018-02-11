@@ -4,8 +4,6 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import simulation.Engine;
 
@@ -23,11 +21,18 @@ public class StartScreen extends Screen {
     
     private final int DEFAULT_SPACING = 20;
     
+    /**
+     * Constructor for start screen subclass
+     * 
+     * @param programEngine
+     */
     public StartScreen(Engine programEngine) {
         super(programEngine);
     }
 
-    // make the root for the start screen to display on application start up
+    /**
+     * Make the root for the start screen to display on application start up
+     */
     @Override
     public void makeRoot() {
         Label programTitle = makeLabel(PROGRAM_ENGINE.resourceString("programTitleString"));
@@ -37,18 +42,27 @@ public class StartScreen extends Screen {
         ROOT = newRoot;
     }
 
-    // assign the node Id and use css document to format
+    /**
+     * Assign the Node ID and use CSS document to format
+     * 
+     * @param text: Text to be made into label
+     * @return: Label object
+     */
     public Label makeLabel(String text) {
         Label textLabel = new Label(text);
         textLabel.setId("startLabel");
         return textLabel;
     }
 
-    // make a simulate button
+   /**
+    * Make button to transition from start screen to simulation styling screen
+    * 
+    * @param text: Text to put in button
+    * @return
+    */
     public Button makeButton(String text) {
         Button simulateButton = new Button(text);
         simulateButton.setId("newSimulationButton");
-        // handle click event
         simulateButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent arg0) {

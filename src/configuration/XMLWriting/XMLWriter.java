@@ -3,8 +3,8 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import configuration.XMLException;
 import configuration.XMLParsing.XMLDataFactory;
-import configuration.XMLParsing.XMLException;
 import simulation.FileController;
 import simulation.grid.Grid;
 import simulation.ruleSet.Ruleset;
@@ -141,8 +141,7 @@ public class XMLWriter extends FileController {
 		try {
 			transformer.transform(source, result);
 		} catch (TransformerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		    	throw new XMLException(e,"Cannot convert XML format to document");
 		}
 	}
 
