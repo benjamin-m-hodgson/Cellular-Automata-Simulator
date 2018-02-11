@@ -3,8 +3,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import simulation.cell.Cell;
-import simulation.cell.WaTorCell;
 import simulation.grid.Grid;
+import simulation.neighborhoods.Neighborhood;
 
 /**
  * Gets neighbors in certain positions/configurations
@@ -13,9 +13,16 @@ import simulation.grid.Grid;
  *
  */
 public abstract class NeighborManager {
-
+	
+	protected Neighborhood NEIGHBORHOOD;
+	protected boolean FINITE;
+	
+	public NeighborManager(Neighborhood n, boolean finite) {
+		this.NEIGHBORHOOD = n;
+		this.FINITE = finite;
+ 	}
+ 
 	protected abstract Cell[] getNeighbors(Cell c, Grid g);
-
 
 
 	/**
@@ -41,7 +48,7 @@ public abstract class NeighborManager {
 	 * @param neighbors: Arraylist of all cell's neighbors 
 	 * @return
 	 */
-	public Cell getNeighbor(WaTorCell c, Grid g, int param) {
+	public Cell getNeighbor(Cell c, Grid g, int param) {
 		Random rand = new Random();
 		ArrayList<Cell> freeNeighbors = new ArrayList<>();		
 		

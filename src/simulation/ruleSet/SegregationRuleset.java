@@ -1,5 +1,7 @@
 package simulation.ruleSet;
 import simulation.cell.*;
+import simulation.neighborhoods.Neighborhood;
+import simulation.neighborhoods.SquareNeighborhood;
 import simulation.ruleSet.neighborManager.*;
 
 /**
@@ -12,55 +14,64 @@ import simulation.ruleSet.neighborManager.*;
  */
 public class SegregationRuleset extends Ruleset {
 
-	private int VACANT = 2;
-	private double TOLERANCE;
-	private SegregationNeighborManager NEIGHBOR_MANAGER;
+    private int VACANT = 2;
+    private double TOLERANCE;
 
-	/**
-	 * Constructor that sets simulation parameters
-	 * 
-	 * @param tolerance: tolerance of neighbors of opposite group
-	 */
-	public SegregationRuleset(double tolerance) {
-		this.TOLERANCE = tolerance;
-		this.NEIGHBOR_MANAGER = new SegregationNeighborManager("Square");
-	}
+    private SegregationNeighborManager NEIGHBOR_MANAGER;
 
-	/**
-	 * Updates all states in current grid
-	 * 
-	 * @param cell : Cell to be processed
-	 */
-	@Override
-	public int processCell(Cell cell) {
-		SegregationCell sCell = (SegregationCell) cell;
-		if(NEIGHBOR_MANAGER.getNeighborSatisfaction(sCell, GRID) < TOLERANCE && sCell.getState() != VACANT) {
-			return moveCell(sCell);
-		}
-		else {
-			return  sCell.getState();
-		}
+    /**
+     * Constructor that sets simulation parameters
+     * 
+     * @param tolerance: tolerance of neighbors of opposite group
+     */
+    public SegregationRuleset(double tolerance) {
+	this.TOLERANCE = tolerance;
+	this.NEIGHBOR_MANAGER = new SegregationNeighborManager(new SquareNeighborhood(), false);
+    }
+
+
+    @Override
+    public void setNeighborManager(Neighborhood n, boolean finite) {
+	this.NEIGHBOR_MANAGER = new SegregationNeighborManager(n, finite);
+
+    }
+
+    /**
+     * Updates all states in current grid
+     * 
+     * @param cell : Cell to be processed
+     */
+    @Override
+    public int processCell(Cell cell) {
+	SegregationCell sCell = (SegregationCell) cell;
+	if(NEIGHBOR_MANAGER.getNeighborSatisfaction(sCell, GRID) < TOLERANCE && sCell.getState() != VACANT) {
+	    return moveCell(sCell);
 	}
-	
-	/**
-	 * Moves cell to vacant spot
-	 * 
-	 * @param cell
-	 */
-	private int moveCell(SegregationCell cell) {
-		SegregationCell newCell = NEIGHBOR_MANAGER.findVacantCell(GRID);
-		if(newCell == null) {
-			return cell.getState();
-		}
-		else{
-			newCell.setState(cell.getState());
-			newCell.setMove(true);
-			return VACANT;
-		}
+	else {
+	    return  sCell.getState();
 	}
-	
-	public double getTolerance() {
-		return TOLERANCE;
+    }
+
+    /**
+     * Moves cell to vacant spot
+     * 
+     * @param cell
+     */
+    private int moveCell(SegregationCell cell) {
+	SegregationCell newCell = NEIGHBOR_MANAGER.findVacantCell(GRID);
+	if(newCell == null) {
+	    return cell.getState();
 	}
+	else{
+	    newCell.setState(cell.getState());
+	    newCell.setMove(true);
+	    return VACANT;
+	}
+    }
+
+    public double getTolerance() {
+	return TOLERANCE;
+    }
+
 }
 

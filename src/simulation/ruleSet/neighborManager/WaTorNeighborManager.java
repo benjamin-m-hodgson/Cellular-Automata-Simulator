@@ -5,7 +5,6 @@ import java.util.Random;
 import simulation.cell.*;
 import simulation.grid.*;
 import simulation.neighborhoods.Neighborhood;
-import simulation.neighborhoods.SquareNeighborhood;
 
 /**
  * Manages neighbors of current WaTor Grid
@@ -17,11 +16,9 @@ public class WaTorNeighborManager extends NeighborManager {
 
 	private int FISH = 0;
 	private int VACANT = 2;
-	private Neighborhood NEIGHBORHOOD;
 
-	
-	public WaTorNeighborManager(String CellType) {
-		if(CellType.equals("Square")) NEIGHBORHOOD = new SquareNeighborhood();
+	public WaTorNeighborManager(Neighborhood n, boolean finite) {
+		super(n, finite);
  	}
 	
 	/**
@@ -54,7 +51,12 @@ public class WaTorNeighborManager extends NeighborManager {
 	@Override
 	protected Cell[] getNeighbors(Cell c, Grid g) {
 		ArrayList<Cell> neighbors = new ArrayList<>();
-		neighbors.addAll(Arrays.asList(NEIGHBORHOOD.NSEWCells(c , g)));
+		if(FINITE) {
+			neighbors.addAll(Arrays.asList(NEIGHBORHOOD.FiniteCardinal(c , g)));
+		}
+		else {
+			neighbors.addAll(Arrays.asList(NEIGHBORHOOD.TorodialCardinal(c , g)));
+		}
 		return neighbors.toArray(new Cell[neighbors.size()]);
 	}
 

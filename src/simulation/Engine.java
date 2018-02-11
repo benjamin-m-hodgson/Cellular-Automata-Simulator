@@ -7,7 +7,7 @@ import java.util.ResourceBundle;
 
 import javax.xml.transform.TransformerConfigurationException;
 
-import configuration.XMLWriter;
+import configuration.XMLWriting.XMLWriter;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.ReadOnlyDoubleProperty;
@@ -62,7 +62,9 @@ public class Engine {
     private Map<String, Grid> GRIDS;
     private Map<String, Ruleset> RULES;
 
-    // Give the program a title
+    /**
+     * Constructor for Engine class, creates Title string
+     */
     public Engine() {
 	PROGRAM_TITLE = resourceString("programTitleString");
 	GRIDS = null;
@@ -73,6 +75,8 @@ public class Engine {
      * Initializes the animation time line and assigns instance variables
      * 
      * @param primaryStage: the Stage placed in the Application
+     * @param w: scene width
+     * @param h: scene height 
      */
     public void startProgram(Stage primaryStage, int width, int height) {
 	PROGRAM_STAGE = primaryStage;
@@ -105,11 +109,9 @@ public class Engine {
      * @param type: The type of simulation to start
      */
     public void startSimulation(String type) {
-	//System.out.println("Start simulation!");
 	if (SIMULATING) {
 	    stopSimulation();
 	}
-	// reset instance variables
 	initializeSimulation(type);
 	Parent root = new SimulationScreen(this, SIMULATION).getRoot();
 	PROGRAM_SCENE.setRoot(root);
@@ -181,14 +183,9 @@ public class Engine {
     public void initializeMaps() {
 	FileController filecontrol = new FileController();
 	filecontrol.parseFiles();
-	Map<String, Grid> grids = filecontrol.getGrid();
-	Map<String, Ruleset> rules = filecontrol.getRules();
-	for (String key : rules.keySet()) {
-	    Grid g = grids.get(key);
-	    rules.get(key).setGrid(g);
-	}
-	RULES = rules;
-	GRIDS = grids;
+	RULES = filecontrol.getRules();
+	GRIDS = filecontrol.getGrids();
+	setRules();
     }
 
     /**
@@ -196,14 +193,6 @@ public class Engine {
      * @return SIMULATION_NAME: the current simulation being animated 
      */
     public String getSimulationName() {
-	return SIMULATION_NAME;
-    }
-
-    /**
-     * 
-     * @return SIMULATION_TYOE: the type of the current simulation being animated 
-     */
-    public String getSimulationType() {
 	return SIMULATION_NAME;
     }
 
@@ -229,13 +218,11 @@ public class Engine {
     /**
      * Sets rules
      */
-    public void setRules(Map<String, Ruleset> rules) {
-	for (String key : rules.keySet()) {
+    public void setRules() {
+	for (String key : RULES.keySet()) {
 	    Grid g = getGrid(key);
-	    rules.get(key).setGrid(g);
+	    RULES.get(key).setGrid(g);
 	}
-
-	RULES = rules;
     }
 
     public Grid currentGrid() {
@@ -258,8 +245,12 @@ public class Engine {
 	return PROGRAM_STAGE.heightProperty();
     }
 
+    /**
+     * Resets all instance variables when simulation begins
+     * 
+     * @param type: type of simulation
+     */
     private void initializeSimulation(String type) {
-	// reset instance variables
 	SIMULATION_NAME = type;
 	SIMULATING = true;
 	GENERATION = 0;
@@ -297,7 +288,7 @@ public class Engine {
      */
     private void generateStartScene(int width, int height) {
 	Parent root = new StartScreen(this).getRoot();
-	PROGRAM_SCENE = new Scene(root, width, height);   
+	PROGRAM_SCENE = new Scene(root, width, height);	
 	PROGRAM_SCENE.getStylesheets().add(DEFAULT_STYLESHEET);
 	PROGRAM_STAGE.setScene(PROGRAM_SCENE);
     }

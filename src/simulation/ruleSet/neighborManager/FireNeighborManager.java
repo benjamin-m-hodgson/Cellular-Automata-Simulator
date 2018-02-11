@@ -12,11 +12,11 @@ import simulation.neighborhoods.*;
  *
  */
 public class FireNeighborManager extends NeighborManager {
-	private Neighborhood NEIGHBORHOOD;
-	
-	public FireNeighborManager(String CellType) {
-		if(CellType.equals("Square")) NEIGHBORHOOD = new SquareNeighborhood();
- 	}
+
+
+	public FireNeighborManager(Neighborhood n, boolean finite) {
+		super(n, finite);
+	}
 
 	/**
 	 * Returns number of cell's burning neighbors
@@ -44,9 +44,15 @@ public class FireNeighborManager extends NeighborManager {
 	@Override
 	protected Cell[] getNeighbors(Cell c, Grid g) {
 		ArrayList<Cell> neighbors = new ArrayList<>();
-		neighbors.addAll(Arrays.asList(NEIGHBORHOOD.NSEWCells(c , g)));
-		neighbors.addAll(Arrays.asList(NEIGHBORHOOD.diagonalCells(c ,g)));
+		if(FINITE) {
+			neighbors.addAll(Arrays.asList(NEIGHBORHOOD.FiniteCardinal(c , g)));
+			neighbors.addAll(Arrays.asList(NEIGHBORHOOD.FiniteDiagonal(c ,g)));
+		}
+		else {
+			neighbors.addAll(Arrays.asList(NEIGHBORHOOD.TorodialCardinal(c , g)));
+			neighbors.addAll(Arrays.asList(NEIGHBORHOOD.TorodialDiagonal(c ,g)));
+		}
 		return neighbors.toArray(new Cell[neighbors.size()]);
 	}
-	
+
 }

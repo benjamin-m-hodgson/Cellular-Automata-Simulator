@@ -1,7 +1,8 @@
 package simulation;
 
 import javax.xml.transform.TransformerConfigurationException;
-import configuration.XMLWriter;
+
+import configuration.XMLWriting.XMLWriter;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
