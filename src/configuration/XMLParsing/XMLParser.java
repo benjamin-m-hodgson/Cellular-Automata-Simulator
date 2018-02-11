@@ -4,6 +4,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import configuration.XMLException;
 import configuration.datatemplates.*;
 import simulation.grid.Grid;
 import simulation.ruleSet.*;

@@ -1,7 +1,6 @@
 package simulation;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -21,6 +20,7 @@ import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import simulation.grid.Grid;
 import simulation.ruleSet.Ruleset;
+import simulation.screen.ErrorScreen;
 import simulation.screen.SimulationScreen;
 import simulation.screen.SimulationSettings;
 import simulation.screen.StartScreen;
@@ -53,7 +53,6 @@ public class Engine {
     private CurrentSimulation SIMULATION;
     private Map<String, Grid> GRIDS;
     private Map<String, Ruleset> RULES;
-    private SimulationSettings STYLE;
 
     /**
      * Constructor for Engine class, creates Title string
@@ -93,8 +92,7 @@ public class Engine {
      * Presents a screen to the user that allows them to style the simulation
      */
     public void styleSimulation() {
-	STYLE =  new SimulationSettings(this);
-	Parent root = STYLE.getRoot();
+	Parent root =  new SimulationSettings(this).getRoot();
 	PROGRAM_SCENE.setRoot(root);
     }
 
@@ -102,16 +100,17 @@ public class Engine {
      * 
      * @param type: The type of simulation to start
      */
-    public void startSimulation(String type) {
+    public void startSimulation(String type, String shape, boolean edge) {
 	if (SIMULATING) {
 	    stopSimulation();
 	}
-	initializeSimulation(type);
+	System.out.println(type);
+	initializeSimulation(type, shape, edge);
 	Parent root = new SimulationScreen(this, SIMULATION).getRoot();
 	PROGRAM_SCENE.setRoot(root);
 	playAnimation();
     }
-
+    
     /**
      * Changes @param GENERATIONS_PER_SECOND to @param speed, which has the 
      * effect of visually changing the speed of the simulation animation.
@@ -173,7 +172,7 @@ public class Engine {
      * 
      * @param type: type of simulation
      */
-    private void initializeSimulation(String type) {
+    private void initializeSimulation(String type, String shape, boolean edge) {
 	SIMULATION_NAME = type;
 	SIMULATING = true;
 	GENERATION = 0;
@@ -183,7 +182,7 @@ public class Engine {
 	    SIMULATION.reset();
 	}
 	else {
-	    SIMULATION = new CurrentSimulation(this);
+	    SIMULATION = new CurrentSimulation(this, shape, edge);
 	}
     }
 
@@ -213,6 +212,14 @@ public class Engine {
 	PROGRAM_STAGE.setScene(PROGRAM_SCENE);
     }
 
+    private void generateErrorScene(String error) {
+	ErrorScreen err = new ErrorScreen(this);
+	err.setError(error);
+	Parent root  = err.getRoot();
+	PROGRAM_SCENE.setRoot(root);
+    }
+
+
     /**
      * Stops and clears the current animation, resetting instance variables
      * to their default values.
@@ -237,8 +244,7 @@ public class Engine {
 	try {
 	    writer.createDoc(currentGrid().getType(), name, currentGrid(), currentRules());
 	} catch (TransformerConfigurationException e) {
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
+	    generateErrorScene("Cannot write " + name + " to XML File.");
 	}
     }
 
@@ -257,6 +263,13 @@ public class Engine {
      */
     public String getSimulationName() {
 	return SIMULATION_NAME;
+    }
+    
+    /**
+     * Return the name of the current simulation being animated 
+     */
+    public void setSimulationName(String s) {
+	SIMULATION_NAME = s;
     }
 
     /**
@@ -342,33 +355,4 @@ public class Engine {
 	    GENERATION++;
 	}
     }
-
-    /**
-     * Returns list of ways for grid edges to be handled
-     */
-    public ObservableList<String> getEdgeHandling(){
-	 List<String> EDGE_HANDLING_FIELDS = Arrays.asList(new String[] {
-		    "finite",
-		    "toroidal"
-	    });
-	ArrayList<String> options = new ArrayList<>();
-	options.addAll(EDGE_HANDLING_FIELDS);
-	ObservableList<String> retList = FXCollections.observableArrayList(options);
-	return retList;
-    }
-    
-    /**
-     * Returns list of different shapes
-     */
-    public ObservableList<String> getShapes(){
-	 List<String> SHAPE_FIELDS = Arrays.asList(new String[] {
-		    "rectangle",
-		    "triangle"
-	    });
-	ArrayList<String> options = new ArrayList<>();
-	options.addAll(SHAPE_FIELDS);
-	ObservableList<String> retList = FXCollections.observableArrayList(options);
-	return retList;
-    }
 }
-

@@ -1,6 +1,9 @@
 package simulation.screen;
 
-import java.util.Timer;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
@@ -18,7 +21,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import simulation.Engine;
@@ -34,7 +36,6 @@ public class SimulationSettings extends Screen {
     private final double CELL_MIN_SIZE = 0.1;
     private final double SPACE_MAX_SIZE = 5;
     private final double SPACE_MIN_SIZE = 0;
-
     private String DEFAULT_INDICATOR;
     private String SIMULATION;
     private boolean SIMULATION_VALID;
@@ -45,6 +46,14 @@ public class SimulationSettings extends Screen {
     private TextField CELL_SIZE;
     private TextField SPACE_SIZE;
     private Button SIMULATE;
+    private List<String> SHAPE_FIELDS = Arrays.asList(new String[] {
+	    "rectangle",
+	    "triangle"
+    });
+    private List<String> EDGE_HANDLING_FIELDS = Arrays.asList(new String[] {
+	    "finite",
+	    "toroidal"
+    });
 
     public SimulationSettings(Engine programEngine) {
 	super(programEngine);
@@ -86,7 +95,7 @@ public class SimulationSettings extends Screen {
 	simulateButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 	    @Override
 	    public void handle(MouseEvent arg0) {
-		PROGRAM_ENGINE.startSimulation(SIMULATION);  
+		PROGRAM_ENGINE.startSimulation(SIMULATION, SHAPE, true);  
 	    }
 	});
 	simulateButton.setDisable(true);
@@ -150,7 +159,7 @@ public class SimulationSettings extends Screen {
 	ComboBox<Object> dropDownMenu = makeComboBox(defaultPrompt);
 	ObservableList<Object> simulationChoices = 
 		FXCollections.observableArrayList(defaultPrompt);
-	simulationChoices.addAll(PROGRAM_ENGINE.getEdgeHandling());
+	simulationChoices.addAll(getEdgeHandling());
 	dropDownMenu.setItems(simulationChoices);
 	dropDownMenu.setId("simulatorChooser");
 	dropDownMenu.getSelectionModel().selectedIndexProperty()
@@ -181,7 +190,7 @@ public class SimulationSettings extends Screen {
 	sizePanel.getChildren().addAll(defaultPrompt, sizeOption, spaceOption);
 	return sizePanel;
     }
-    
+
     private VBox spaceOption(Parent sizePanel) {
 	VBox spaceOption = new VBox(LABEL_SPACING);
 	spaceOption.setAlignment(Pos.CENTER);
@@ -197,7 +206,7 @@ public class SimulationSettings extends Screen {
 	spaceOption.getChildren().addAll(SPACE_SIZE, infoLabels);
 	return spaceOption;
     }
-    
+
     private VBox sizeOption(Parent sizePanel){
 	VBox sizeOption = new VBox(LABEL_SPACING);
 	sizeOption.setAlignment(Pos.CENTER);
@@ -213,7 +222,7 @@ public class SimulationSettings extends Screen {
 	sizeOption.getChildren().addAll(CELL_SIZE, infoLabels);
 	return sizeOption;
     }
-    
+
     private TextField numberField(Parent root, double min, double max) {
 	TextField numberTextField = new TextField();
 	numberTextField.setText(DEFAULT_INDICATOR);
@@ -262,7 +271,7 @@ public class SimulationSettings extends Screen {
 	ComboBox<Object> dropDownMenu = makeComboBox(defaultPrompt);
 	ObservableList<Object> simulationChoices = 
 		FXCollections.observableArrayList(defaultPrompt);
-	simulationChoices.addAll(PROGRAM_ENGINE.getShapes());
+	simulationChoices.addAll(getShapes());
 	dropDownMenu.setItems(simulationChoices);
 	dropDownMenu.setId("simulatorChooser");
 	dropDownMenu.getSelectionModel().selectedIndexProperty()
@@ -281,9 +290,9 @@ public class SimulationSettings extends Screen {
 	});
 	return dropDownMenu;
     }
-    
+
     private void processInputs() {
-	//SIMULATE.setDisable(!(EDGE_VALID && SHAPE_VALID && SIMULATION_VALID));
+	SIMULATE.setDisable(!(EDGE_VALID && SHAPE_VALID && SIMULATION_VALID));
     }
 
     /**
@@ -296,13 +305,30 @@ public class SimulationSettings extends Screen {
     private void step (double elapsedTime) {
 	processInputs();
     }
-    
-    public String getShape() {
-	return SHAPE;
-    }
 
     public boolean getEdge() {
 	if(EDGE.equals("finite")) return true;
 	else return false;
     }
+
+    /**
+     * Returns list of ways for grid edges to be handled
+     */
+    public ObservableList<String> getEdgeHandling(){
+	ArrayList<String> options = new ArrayList<>();
+	options.addAll(EDGE_HANDLING_FIELDS);
+	ObservableList<String> retList = FXCollections.observableArrayList(options);
+	return retList;
+    }
+
+    /**
+     * Returns list of different shapes
+     */
+    public ObservableList<String> getShapes(){
+	ArrayList<String> options = new ArrayList<>();
+	options.addAll(SHAPE_FIELDS);
+	ObservableList<String> retList = FXCollections.observableArrayList(options);
+	return retList;
+    }
+
 }

@@ -10,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import simulation.CurrentSimulation;
 import simulation.Engine;
 
 /**
@@ -119,7 +120,8 @@ public class AnimationControls {
         resetButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent arg0) {
-                PROGRAM_ENGINE.startSimulation(PROGRAM_ENGINE.getSimulationName());
+        		CurrentSimulation simulation = PROGRAM_ENGINE.getCurrentSimulation();
+                PROGRAM_ENGINE.startSimulation(PROGRAM_ENGINE.getSimulationName(), simulation.getShape(), simulation.getEdge());
             }
         });
         return resetButton;
