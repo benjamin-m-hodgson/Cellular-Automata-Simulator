@@ -1,9 +1,9 @@
 package simulation.ruleSet;
 
-import java.util.ArrayList;
-
 import simulation.cell.Cell;
 import simulation.cell.SugarCell;
+import simulation.neighborhoods.Neighborhood;
+import simulation.neighborhoods.SquareNeighborhood;
 import simulation.ruleSet.neighborManager.SugarNeighborManager;
 
 public class SugarRuleset extends Ruleset{
@@ -14,9 +14,15 @@ public class SugarRuleset extends Ruleset{
 	private int myRegenInterval;
 	private SugarNeighborManager NEIGHBOR_MANAGER;
 	
+	@Override
+	public void setNeighborManager(Neighborhood n, boolean finite) {
+	    this.NEIGHBOR_MANAGER = new SugarNeighborManager(n, finite); 
+	}
+	
 	public SugarRuleset(int regenRate, int regenInterval) {
 		myRegenRate = regenRate;
 		myRegenInterval = regenInterval;
+		NEIGHBOR_MANAGER = new SugarNeighborManager(new SquareNeighborhood(), false);
 	}
 	
 	@Override
@@ -43,7 +49,6 @@ public class SugarRuleset extends Ruleset{
 	
 	private void processAgent(SugarCell c) {
 		Cell[] neighbors = NEIGHBOR_MANAGER.getNeighbors(c,GRID,c.getVision());
-		ArrayList<SugarCell> maxNeighbors = new ArrayList<SugarCell>();
 		int max = 0;
 		int maxIndex = 0;
 		for (int k = 0; k < neighbors.length; k++) {
@@ -73,5 +78,6 @@ public class SugarRuleset extends Ruleset{
 		c.setSugar(0);
 		c.resetTicks();
 	}
+
 
 }

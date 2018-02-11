@@ -23,7 +23,7 @@ public class ShapeFactory {
     protected double SHAPE_HEIGHT = -1;
     protected double SHAPE_WIDTH = -1;
     private double SHAPE_SPACE = 1;
-    private String SHAPE_TYPE = "triangle";
+    private String SHAPE_TYPE;
 
     /**
      * Chooses shape type to display on grid

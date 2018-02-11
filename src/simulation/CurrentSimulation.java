@@ -4,6 +4,7 @@ import factoryClasses.ShapeFactory;
 import javafx.scene.shape.Shape;
 import simulation.cell.*;
 import simulation.grid.*;
+import simulation.neighborhoods.*;
 import simulation.ruleSet.Ruleset;
 
 /**
@@ -19,7 +20,8 @@ public class CurrentSimulation {
 
     protected Engine PROGRAM_ENGINE;
     protected Shape[][] SIMULATION_SHAPES;
-
+    protected String SHAPE_TYPE;
+ 
     /**
      * Holds shape array to be displayed
      * 
@@ -113,4 +115,14 @@ public class CurrentSimulation {
 	    }
 	}
     }
+    
+    public void setNeighborhood(String shape, boolean finite) {
+	SHAPE_TYPE = shape;
+	Neighborhood n;
+	// MAKE TRIANGLE
+	if(shape.equals("triangle")) n = new SquareNeighborhood();
+	else n = new SquareNeighborhood();
+	PROGRAM_ENGINE.currentRules().setNeighborManager(n, finite);
+    }
+    
 }

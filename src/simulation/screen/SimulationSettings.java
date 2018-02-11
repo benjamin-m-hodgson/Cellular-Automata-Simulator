@@ -137,7 +137,7 @@ public class SimulationSettings extends Screen {
 	ComboBox<Object> dropDownMenu = makeComboBox(defaultPrompt);
 	ObservableList<Object> simulationChoices = 
 		FXCollections.observableArrayList(defaultPrompt);
-	//simulationChoices.addAll(PROGRAM_ENGINE.getEdgeHandling());
+	simulationChoices.addAll(PROGRAM_ENGINE.getEdgeHandling());
 	dropDownMenu.setItems(simulationChoices);
 	dropDownMenu.setId("simulatorChooser");
 	dropDownMenu.getSelectionModel().selectedIndexProperty()
@@ -176,7 +176,7 @@ public class SimulationSettings extends Screen {
 	ComboBox<Object> dropDownMenu = makeComboBox(defaultPrompt);
 	ObservableList<Object> simulationChoices = 
 		FXCollections.observableArrayList(defaultPrompt);
-	//simulationChoices.addAll(PROGRAM_ENGINE.getShapes());
+	simulationChoices.addAll(PROGRAM_ENGINE.getShapes());
 	dropDownMenu.setItems(simulationChoices);
 	dropDownMenu.setId("simulatorChooser");
 	dropDownMenu.getSelectionModel().selectedIndexProperty()
@@ -211,5 +211,13 @@ public class SimulationSettings extends Screen {
 	    SIMULATE.setDisable(true);
 	}
     }
+    
+    public String getShape() {
+	return SHAPE;
+    }
 
+    public boolean getEdge() {
+	if(EDGE.equals("finite")) return true;
+	else return false;
+    }
 }

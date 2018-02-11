@@ -1,6 +1,7 @@
 package simulation;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -52,6 +53,7 @@ public class Engine {
     private CurrentSimulation SIMULATION;
     private Map<String, Grid> GRIDS;
     private Map<String, Ruleset> RULES;
+    private SimulationSettings STYLE;
 
     /**
      * Constructor for Engine class, creates Title string
@@ -91,7 +93,8 @@ public class Engine {
      * Presents a screen to the user that allows them to style the simulation
      */
     public void styleSimulation() {
-	Parent root = new SimulationSettings(this).getRoot();
+	STYLE =  new SimulationSettings(this);
+	Parent root = STYLE.getRoot();
 	PROGRAM_SCENE.setRoot(root);
     }
 
@@ -339,4 +342,33 @@ public class Engine {
 	    GENERATION++;
 	}
     }
+
+    /**
+     * Returns list of ways for grid edges to be handled
+     */
+    public ObservableList<String> getEdgeHandling(){
+	 List<String> EDGE_HANDLING_FIELDS = Arrays.asList(new String[] {
+		    "finite",
+		    "toroidal"
+	    });
+	ArrayList<String> options = new ArrayList<>();
+	options.addAll(EDGE_HANDLING_FIELDS);
+	ObservableList<String> retList = FXCollections.observableArrayList(options);
+	return retList;
+    }
+    
+    /**
+     * Returns list of different shapes
+     */
+    public ObservableList<String> getShapes(){
+	 List<String> SHAPE_FIELDS = Arrays.asList(new String[] {
+		    "rectangle",
+		    "triangle"
+	    });
+	ArrayList<String> options = new ArrayList<>();
+	options.addAll(SHAPE_FIELDS);
+	ObservableList<String> retList = FXCollections.observableArrayList(options);
+	return retList;
+    }
 }
+
