@@ -4,6 +4,8 @@ import java.util.Random;
 
 import simulation.cell.Cell;
 import simulation.cell.RPSCell;
+import simulation.neighborhoods.Neighborhood;
+import simulation.neighborhoods.SquareNeighborhood;
 import simulation.ruleSet.neighborManager.RPSNeighborManager;
 
 public class RPSRuleset extends Ruleset {
@@ -13,9 +15,21 @@ public class RPSRuleset extends Ruleset {
 	private int PAPER = 2;
 	private int SCISSORS = 3;
 	private RPSNeighborManager NEIGHBOR_MANAGER;
+	double PROBCATCH;
 	
-	public RPSRuleset() {
-		NEIGHBOR_MANAGER = new RPSNeighborManager();
+	/**
+	 * Sets initial parameters for current simulation
+	 * 
+	 * @param probCatch
+	 */
+	public RPSRuleset(double probCatch) {
+		this.PROBCATCH = probCatch;
+		this.NEIGHBOR_MANAGER = new RPSNeighborManager(new SquareNeighborhood(), false); // default neighbor manager
+	}
+	
+	@Override
+	public void setNeighborManager(Neighborhood n, boolean finite) {
+	    this.NEIGHBOR_MANAGER = new RPSNeighborManager(n, finite); 
 	}
 	
 	@Override
@@ -64,5 +78,4 @@ public class RPSRuleset extends Ruleset {
 		} else c.setState(n.getState());
 		if(n.getGradient() > 0) n.upgrade();
 	}
-
 }
