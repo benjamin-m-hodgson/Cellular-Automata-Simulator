@@ -1,6 +1,7 @@
 package simulation.ruleSet;
 import simulation.cell.Cell;
 import simulation.grid.*;
+import simulation.neighborhoods.Neighborhood;
 
 /**
  * Superclasss for handling processing of cells based on simulation rules
@@ -25,6 +26,8 @@ public abstract class Ruleset {
 	 * @return int representing state of next cell
 	 */
 	public abstract int processCell(Cell cell);
+	
+	public abstract void setNeighborManager(Neighborhood n, boolean finite);
 
 	/**
 	 * Returns new cell states for entire grid

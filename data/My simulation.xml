@@ -1,3 +1,17 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><simulation format="locations" simulation="CA" type="WaTor"><name>My simulation</name><sizeX>2</sizeX><sizeY>2</sizeY><cell>2 0 
-2 0 
-</cell><fishBreedTime>3</fishBreedTime><fishEnergy>4</fishEnergy><sharkInitEnergy>20</sharkInitEnergy><sharkBreedEnergy>25</sharkBreedEnergy></simulation>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><simulation format="locations" simulation="CA" type="Fire"><name>My simulation</name><sizeX>16</sizeX><sizeY>16</sizeY><cell>0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 
+0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 
+0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 
+0 1 1 1 1 1 1 1 1 1 2 1 1 1 1 0 
+0 1 1 1 1 1 1 0 1 2 2 1 1 1 1 0 
+0 1 1 1 1 1 2 2 0 0 2 1 1 1 1 0 
+0 1 1 1 1 1 2 0 0 0 0 2 1 1 1 0 
+0 1 1 1 1 2 0 2 0 0 2 2 1 1 1 0 
+0 1 1 1 1 1 2 0 1 1 2 1 1 1 1 0 
+0 1 1 1 1 1 1 1 2 1 2 1 1 1 1 0 
+0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 
+0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 
+0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 
+0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+</cell><probCatch>0.5</probCatch></simulation>

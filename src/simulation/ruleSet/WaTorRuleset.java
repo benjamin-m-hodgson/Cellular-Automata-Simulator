@@ -1,5 +1,7 @@
 package simulation.ruleSet;
 import simulation.cell.*;
+import simulation.neighborhoods.Neighborhood;
+import simulation.neighborhoods.SquareNeighborhood;
 import simulation.ruleSet.neighborManager.*;
 
 /**
@@ -20,7 +22,7 @@ public class WaTorRuleset extends Ruleset {
 	private int SHARK_BREEDENERGY;
 	private int FISH_INITENERGY;
 	private int SHARK_INITENERGY;
-	private simulation.ruleSet.neighborManager.WaTorNeighborManager NEIGHBOR_MANAGER;
+	private WaTorNeighborManager NEIGHBOR_MANAGER;
 
 	/**
 	 * Constructor that sets simulation parameters
@@ -33,7 +35,13 @@ public class WaTorRuleset extends Ruleset {
 		this.SHARK_BREEDENERGY = sharkBreedEnergy;
 		this.FISH_INITENERGY = fishInitEnergy;
 		this.SHARK_INITENERGY = sharkInitEnergy;
-		this.NEIGHBOR_MANAGER = new WaTorNeighborManager("Square");
+		this.NEIGHBOR_MANAGER = new WaTorNeighborManager(new SquareNeighborhood(), false);
+	}
+	
+	@Override
+	public void setNeighborManager(Neighborhood n, boolean finite) {
+		this.NEIGHBOR_MANAGER = new WaTorNeighborManager(n, finite);
+		
 	}
 
 	/**

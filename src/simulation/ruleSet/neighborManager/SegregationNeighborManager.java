@@ -6,8 +6,6 @@ import java.util.Random;
 import simulation.cell.*;
 import simulation.grid.*;
 import simulation.neighborhoods.Neighborhood;
-import simulation.neighborhoods.SquareNeighborhood;
-
 
 /**
  * Manages neighbors of current segregation grid 
@@ -18,12 +16,10 @@ import simulation.neighborhoods.SquareNeighborhood;
 public class SegregationNeighborManager extends NeighborManager {
 
 	private int VACANT = 2; 
-	private Neighborhood NEIGHBORHOOD;
 
-	public SegregationNeighborManager(String CellType) {
-		if(CellType.equals("Square")) NEIGHBORHOOD = new SquareNeighborhood();
+	public SegregationNeighborManager(Neighborhood n, boolean finite) {
+		super(n, finite);
  	}
-	
 	
 	/**
 	 * Returns a random vacant cell
@@ -61,8 +57,16 @@ public class SegregationNeighborManager extends NeighborManager {
 	protected Cell[] getNeighbors(Cell c, Grid g) {
 		ArrayList<Cell> neighbors = new ArrayList<>();
 		ArrayList<Cell> agents = new ArrayList<>();
-		neighbors.addAll(Arrays.asList(NEIGHBORHOOD.NSEWCells(c , g)));
-		neighbors.addAll(Arrays.asList(NEIGHBORHOOD.diagonalCells(c ,g)));
+		
+		if(FINITE) {
+			neighbors.addAll(Arrays.asList(NEIGHBORHOOD.FiniteCardinal(c , g)));
+			neighbors.addAll(Arrays.asList(NEIGHBORHOOD.FiniteDiagonal(c ,g)));
+		}
+		else {
+			neighbors.addAll(Arrays.asList(NEIGHBORHOOD.TorodialCardinal(c , g)));
+			neighbors.addAll(Arrays.asList(NEIGHBORHOOD.TorodialDiagonal(c ,g)));
+		}
+
 		for(Cell neighbor: neighbors) {
 			if(neighbor.getState() != VACANT) {
 				agents.add(neighbor);

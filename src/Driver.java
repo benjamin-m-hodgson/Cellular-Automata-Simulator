@@ -15,7 +15,6 @@ public class Driver extends Application {
 
 	private final int DEFAULT_HEIGHT = 600;
 	private final int DEFAULT_WIDTH = 800;
-
 	private Engine programEngine = new Engine();
 
 	/**

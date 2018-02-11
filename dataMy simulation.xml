@@ -1,1 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><simulation name="WaTor" type="CA">2<sizeX/>2<sizeY/>0 0 2 %n2 2 2 %n<cell/>0 0 2 %n2 2 2 %n<cell type="locations"/>0 0 2 %n2 2 2 %n<cell/>3<fishBreedTime/>4<fishEnergy/>20<sharkInitEnergy/>25<sharkBreedEnergy/></simulation>

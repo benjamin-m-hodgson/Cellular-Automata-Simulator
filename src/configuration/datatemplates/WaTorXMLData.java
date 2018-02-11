@@ -88,5 +88,4 @@ public class WaTorXMLData extends XMLData {
 		}
 		return g;
 	}
-
 }

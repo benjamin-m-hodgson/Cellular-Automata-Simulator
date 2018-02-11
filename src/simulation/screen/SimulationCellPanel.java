@@ -26,7 +26,7 @@ public class SimulationCellPanel {
         PROGRAM_ENGINE = programEngine;
         SIMULATION = simulation;
         CELL_PANEL = cellPanel();
-        CELL_PANEL.setId("simulatCellPanel");
+        CELL_PANEL.setId("simulateCellPanel");
     }
 
     public ScrollPane construct() {
@@ -54,7 +54,7 @@ public class SimulationCellPanel {
      */
 
     private void addCells(Pane cellPanel) {
-        Grid typeGrid = PROGRAM_ENGINE.getGrid(PROGRAM_ENGINE.getSimulationType());
+        Grid typeGrid = PROGRAM_ENGINE.getGrid(PROGRAM_ENGINE.getSimulationName());
         Cell[][] simulationCells = typeGrid.getCells();
         for (int i = 0; i < simulationCells.length; i++) {
             for (int j = 0; j < simulationCells[i].length; j++) {
