@@ -1,6 +1,6 @@
 <?xml version = "1.0" encoding = "UTF-8" ?>
 <simulation simulation = "CA" type = "WaTor" format = "locations" >
-	<name>"WaTor"</name>
+	<name>"Standard WaTor"</name>
     <sizeX>8</sizeX>
     <sizeY>8</sizeY>
 	<cell>2 1 1 2 0 2 1 2

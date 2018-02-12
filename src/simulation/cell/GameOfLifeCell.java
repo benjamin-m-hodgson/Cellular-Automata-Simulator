@@ -1,5 +1,6 @@
 package simulation.cell;
 import javafx.scene.paint.Color;
+import simulation.factoryClasses.ColorMapper;
 
 
 /**
@@ -11,7 +12,7 @@ import javafx.scene.paint.Color;
  */
 public class GameOfLifeCell extends Cell {
 
-    private final int LIVE = 0;
+    private String[] COLORS;
 
     /**
      * Constructor for Game of Life cell
@@ -22,6 +23,7 @@ public class GameOfLifeCell extends Cell {
      */
     public GameOfLifeCell(int x, int y, int state) {
 	super(x, y, state);
+	COLORS = new ColorMapper().getColors("DefaultGameOfLife");
     }
 
     /**
@@ -29,9 +31,11 @@ public class GameOfLifeCell extends Cell {
      */
     @Override
     public Color colorCell() {
-	if (myState == LIVE) {
-	    return Color.LIGHTGREEN;
-	}
-	return Color.DIMGRAY;
+	return Color.web(COLORS[myState]);
+    }
+    
+    @Override
+    public void setColors(String[] color) {
+	COLORS = color;
     }
 }

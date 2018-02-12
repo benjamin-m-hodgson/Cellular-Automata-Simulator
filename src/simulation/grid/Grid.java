@@ -124,4 +124,14 @@ public abstract class Grid implements Cloneable{
 	}
 	return count;
     }
+    
+    public void setColors(String[] colors) {
+	for(Cell[] row : this.getCells()) {
+	    for(Cell cell : row) {
+		cell.setColors(colors);
+	    }
+	}
+    }
+    
+    
 }
