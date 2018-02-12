@@ -24,23 +24,37 @@ public class StyleFactory extends Engine {
     private static final String WATOR = "WaTor";
     private static final String SEGREGATION = "Segregation";
     private static final String GAMEOFLIFE = "Game of Life";
+    private static final String SUGAR = "Sugar";
+    private static final String RPS = "Rock, Paper, Scissors";
 
     public List<String> getParameters(String simType){
-	if(simType.equals(FIRE)) {
+	if(simType.equalsIgnoreCase(FIRE)) {
 	    FireXMLData fire = new FireXMLData();
 	    return fire.getParameterFields();
 	}
-	else if(simType.equals(WATOR)) {
+	else if(simType.equalsIgnoreCase(WATOR)) {
 	    WaTorXMLData wator = new WaTorXMLData();
 	    return wator.getParameterFields();
 	}
-	else if(simType.equals(SEGREGATION)) {
+	else if(simType.equalsIgnoreCase(SEGREGATION)) {
 	    SegregationXMLData segregation = new SegregationXMLData();
 	    return segregation.getParameterFields();
 	}
-	else if(simType.equals(GAMEOFLIFE)) {
-	    FireXMLData gol = new FireXMLData();
+	else if(simType.equalsIgnoreCase(GAMEOFLIFE)) {
+	    GameOfLifeXMLData gol = new GameOfLifeXMLData();
 	    return gol.getParameterFields();
+	}
+	else if(simType.equalsIgnoreCase(SUGAR)) {
+	    SugarXMLData sugar = new SugarXMLData();
+	    return sugar.getParameterFields();
+	}
+	else if(simType.equalsIgnoreCase(SUGAR)) {
+	    SugarXMLData sugar = new SugarXMLData();
+	    return sugar.getParameterFields();
+	}
+	else if(simType.equalsIgnoreCase(RPS)) {
+	    RPSXMLData rps = new RPSXMLData();
+	    return rps.getParameterFields();
 	}
 	return null;
     }
