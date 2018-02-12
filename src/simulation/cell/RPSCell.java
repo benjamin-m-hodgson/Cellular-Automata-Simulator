@@ -62,6 +62,6 @@ public class RPSCell extends Cell {
 
     @Override
     public void setColors(String[] colors) {
-	COLORS = colors;
+	if(colors != null) COLORS = colors;
     }
 }

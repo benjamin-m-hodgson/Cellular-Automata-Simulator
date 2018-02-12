@@ -26,6 +26,10 @@ public class ColorMapper {
     }
     
     public String[] getColors(String color) {
-	return getPallettesMap().get(color);
+	HashMap<String, String[]> colors = new HashMap<>();
+	for(String scheme : COLOR_RESOURCES.keySet()) {
+	    colors.put(scheme, COLOR_RESOURCES.getString(scheme).split(" "));
+	}
+	return colors.get(color);
     }
 }

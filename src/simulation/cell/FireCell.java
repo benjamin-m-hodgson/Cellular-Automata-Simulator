@@ -25,13 +25,19 @@ public class FireCell extends Cell {
 	super(x, y, state);
 	COLORS = new ColorMapper().getColors("DefaultFire");
     }
-    
-    public void setColors(String[] color) {
-	COLORS = color;
-    }
+ 
 
     @Override
     public Color colorCell() {
 	return Color.web(COLORS[myState]);
+    }
+
+
+    @Override
+    public void setColors(String[] colors) {
+	if(colors != null) {
+	    COLORS = colors;
+	}
+	
     }
 }
