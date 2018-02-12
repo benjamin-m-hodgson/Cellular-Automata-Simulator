@@ -9,12 +9,12 @@ Larger GameOfLife grid that survives for several generations.
 ###  randomGameOfLife.xml	
 Randomly generated GameOfLife grid. 
 ### Fire
- #### randomFire.xml
+#### randomFire.xml
  Large, randomly generated fire grid. 
- #### standardFire.xml	
+#### standardFire.xml	
  Standard fire grid, generated exactly as the Fire Simulation ruleset suggests (one burning tree in the middle surrounded by regular trees and a layer of empty cells around the border).
 
- ### Segregation
+### Segregation
 #### standardSegregation.xml
  Standard-sized segregation grid. 
 ####  randomSegregation.xml
