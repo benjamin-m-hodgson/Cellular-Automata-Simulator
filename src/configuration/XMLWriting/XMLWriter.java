@@ -98,8 +98,6 @@ public class XMLWriter extends FileController {
     private void addParameterElements(String simType, Element rootElement, Ruleset r) {
 	List<String> params = CONVERTER.rulesetParam(simType, r);
 	for(int i = 0; i < PARAM_DATA_FIELDS.size(); i++) {
-	    System.out.println("PARAM_DATA_FIELD " + PARAM_DATA_FIELDS.get(i));
-	    System.out.println("params  " + params.get(i));
 	    addElement(PARAM_DATA_FIELDS.get(i), params.get(i), rootElement);
 	}
     }
