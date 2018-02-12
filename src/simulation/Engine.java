@@ -8,7 +8,6 @@ import java.util.ResourceBundle;
 import javax.xml.transform.TransformerConfigurationException;
 
 import configuration.XMLWriting.XMLWriter;
-import factoryClasses.StyleFactory;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.ReadOnlyDoubleProperty;
@@ -19,9 +18,10 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
+import simulation.factoryClasses.ColorMapper;
+import simulation.factoryClasses.StyleFactory;
 import simulation.grid.Grid;
 import simulation.ruleSet.Ruleset;
-import simulation.screen.ErrorScreen;
 import simulation.screen.SimulationScreen;
 import simulation.screen.SimulationSettings;
 import simulation.screen.StartScreen;
@@ -41,18 +41,21 @@ public class Engine {
     private final ResourceBundle DEFAULT_RESOURCES = 
 	    ResourceBundle.getBundle("simulation.default");
     private final String PROGRAM_TITLE;   
-    private double GENERATIONS_PER_SECOND = 1;
-    private double MILLISECOND_DELAY = 1000 / GENERATIONS_PER_SECOND;
-    private double SECOND_DELAY = 1.0 / GENERATIONS_PER_SECOND;
     private Timeline PROGRAM_TIMELINE;
     private Stage PROGRAM_STAGE;
-    private Scene PROGRAM_SCENE;
-    private String SIMULATION_NAME;
+    private Scene PROGRAM_SCENE; 
+
+    private double GENERATIONS_PER_SECOND = 1;
+    protected double MILLISECOND_DELAY = 1000 / GENERATIONS_PER_SECOND;
+    protected double SECOND_DELAY = 1.0 / GENERATIONS_PER_SECOND;
     private int GENERATION;
+
+    private String SIMULATION_NAME;
     private boolean SIMULATING;
     private CurrentSimulation SIMULATION;
     private Map<String, Grid> GRIDS;
     private Map<String, Ruleset> RULES;
+    private String[] COLORS;
 
     /**
      * Constructor for Engine class, creates Title string
@@ -71,15 +74,12 @@ public class Engine {
      * @param h: scene height 
      */
     public void startProgram(Stage primaryStage, int width, int height) {
+	KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
+		e -> step(SECOND_DELAY));
 	PROGRAM_STAGE = primaryStage;
 	PROGRAM_STAGE.setResizable(false);
 	PROGRAM_STAGE.initStyle(StageStyle.UTILITY);
 	PROGRAM_STAGE.setTitle(PROGRAM_TITLE);
-	// initialize maps with values from XML files
-	initializeMaps();
-	// attach "program loop" to time line to play it
-	KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
-		e -> step(SECOND_DELAY));
 	PROGRAM_TIMELINE = new Timeline();
 	PROGRAM_TIMELINE.setCycleCount(Timeline.INDEFINITE);
 	PROGRAM_TIMELINE.getKeyFrames().add(frame);
@@ -98,8 +98,9 @@ public class Engine {
     }
 
     /**
+     * Starts new simulation screen with given grid edge type @param edge and shape style @param shape
      * 
-     * @param type: The type of simulation to start
+     * @param name: The name of the current simulation
      */
     public void startSimulation(String type, boolean edge, String shape, String color,
 	    double size, double space) {
@@ -111,7 +112,7 @@ public class Engine {
 	PROGRAM_SCENE.setRoot(root);
 	playAnimation();
     }
-    
+
     /**
      * Changes @param GENERATIONS_PER_SECOND to @param speed, which has the 
      * effect of visually changing the speed of the simulation animation.
@@ -169,29 +170,29 @@ public class Engine {
     }
 
     /**
-     * Resets all instance variables when simulation begins
+     * Resets all instance variables when simulation called @param name  begins
      * 
-     * @param type: type of simulation
+     * @param shape: shape style to be displayed
+     * @param edge: grid edge type
      */
-    private void initializeSimulation(String type, boolean edge, String shape, String color,
+    private void initializeSimulation(String name, boolean edge, String shape, String color,
 	    double size, double space) {
-	SIMULATION_NAME = type;
+	SIMULATION_NAME = name;
 	SIMULATING = true;
 	GENERATION = 0;
-	initializeMaps();
 	PROGRAM_STAGE.setTitle(SIMULATION_NAME);
 	SIMULATION = new CurrentSimulation(this, edge, shape, color, size, space);
     }
 
     /**
-     * Returns the grid corresponding to the key 'name' 
+     * Returns the grid corresponding to the key @param name 
      */
     public Grid getGrid(String name) {
 	Grid cloneGrid = null;
 	try {
 	    cloneGrid = (Grid) GRIDS.get(name);
 	    return cloneGrid;
-	} catch ( NullPointerException e) {
+	} catch (NullPointerException e) {
 	    System.out.printf("Could not get Grid object with key %s\n", name);
 	}
 	return cloneGrid;
@@ -208,14 +209,6 @@ public class Engine {
 	PROGRAM_SCENE.getStylesheets().add(DEFAULT_STYLESHEET);
 	PROGRAM_STAGE.setScene(PROGRAM_SCENE);
     }
-
-    private void generateErrorScene(String error) {
-	ErrorScreen err = new ErrorScreen(this);
-	err.setError(error);
-	Parent root  = err.getRoot();
-	PROGRAM_SCENE.setRoot(root);
-    }
-
 
     /**
      * Stops and clears the current animation, resetting instance variables
@@ -241,7 +234,7 @@ public class Engine {
 	try {
 	    writer.createDoc(currentGrid().getType(), name, currentGrid(), currentRules());
 	} catch (TransformerConfigurationException e) {
-	    generateErrorScene("Cannot write " + name + " to XML File.");
+	    System.out.println("Cannot write " + name + " to XML File.");
 	}
     }
 
@@ -261,7 +254,7 @@ public class Engine {
     public String getSimulationName() {
 	return SIMULATION_NAME;
     }
-    
+
     /**
      * Return the name of the current simulation being animated 
      */
@@ -313,14 +306,14 @@ public class Engine {
     }
 
     /**
-     * Returns current grid
+     * @return current grid
      */
     public Grid currentGrid() {
 	return getGrid(SIMULATION_NAME);
     }
 
     /**
-     * Returns current ruleset
+     * @return current ruleset
      */
     public Ruleset currentRules() {
 	return RULES.get(SIMULATION_NAME);
@@ -329,27 +322,34 @@ public class Engine {
     public CurrentSimulation getCurrentSimulation() {
 	return SIMULATION;
     }
-    
+
     /**
-     * Returns scene width
+     * @return scene width
      */
     public ReadOnlyDoubleProperty sceneWidth() {
 	return PROGRAM_STAGE.widthProperty();
     }
 
     /**
-     * Returns scene height
+     * @return scene height
      */
     public ReadOnlyDoubleProperty sceneHeight() {
 	return PROGRAM_STAGE.heightProperty();
     }
 
-    
     /**
-     * Returns list of parameters specific to simulation
+     * @return list of parameters specific to simulation
      */
     public List<String> getParameters() {
 	return new StyleFactory().getParameters(currentGrid().getType());
+    }
+
+    /**
+     * @return list of color options
+     */
+    public ObservableList<String> getDisplayColors() {
+	ObservableList<String> retList = FXCollections.observableArrayList(new ColorMapper().getColorOptions());
+	return retList;
     }
 
     /**
@@ -360,5 +360,16 @@ public class Engine {
 	    SIMULATION.update();
 	    GENERATION++;
 	}
+    }
+
+    public void setColor(String scheme) {
+	ColorMapper colorMap = new ColorMapper();
+	if(!scheme.equals("Default")){
+	    COLORS = colorMap.getColors(scheme);
+	}
+    }
+
+    public String[] getColors() {
+	return COLORS;
     }
 }

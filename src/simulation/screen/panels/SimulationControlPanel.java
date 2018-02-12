@@ -1,4 +1,4 @@
-package simulation.screen;
+package simulation.screen.panels;
 
 import java.text.DecimalFormat;
 
@@ -16,6 +16,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import simulation.CurrentSimulation;
 import simulation.Engine;
+import simulation.screen.SimulationScreen;
+import simulation.screen.SimulationSettings;
 
 /**
  * 

@@ -2,6 +2,8 @@ package simulation.neighborhoods;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+
 import simulation.grid.*;
 import simulation.cell.*;
 
@@ -49,15 +51,6 @@ public class TriangleNeighborhood extends Neighborhood {
      * @return Neighbors diagonally (if in bounds)
      */
     public Cell[] FiniteDiagonal(Cell c, Grid g) {
-	if ((c.getX() + c.getY()) % 2 == 0) {
-	    return upTriangleFiniteDiagonal(c, g);
-	}
-	else {
-	    return downTriangleFiniteDiagonal(c, g);
-	}
-    }
-
-    public Cell[] upTriangleFiniteDiagonal(Cell c, Grid g) {
 	int x = c.getX();
 	int y = c.getY();
 	ArrayList<Cell> neighbors = new ArrayList<>();
@@ -71,44 +64,45 @@ public class TriangleNeighborhood extends Neighborhood {
 	if(x > 0 && y > 0) {
 	    neighbors.add(g.getCell(x - 1, y - 1));
 	}
-	if(x > 1 && y > 0) {
-	    neighbors.add(g.getCell(x - 2, y - 1));
-	}
 	if(x < g.getXSize() - 1 && y > 0) {
 	    neighbors.add(g.getCell(x + 1, y - 1));
+	}
+
+	if ((c.getX() + c.getY()) % 2 == 0) {
+	    neighbors.addAll(upTriangleFiniteDiagonal(c, g));
+	}
+	else {
+	    neighbors.addAll(downTriangleFiniteDiagonal(c, g));
+	}
+	Cell[] retNeighbors = neighbors.toArray(new Cell[neighbors.size()]);
+	return retNeighbors;
+    }
+
+    public List<Cell> upTriangleFiniteDiagonal(Cell c, Grid g) {
+	int x = c.getX();
+	int y = c.getY();
+	ArrayList<Cell> neighbors = new ArrayList<>();
+	if(x > 1 && y > 0) {
+	    neighbors.add(g.getCell(x - 2, y - 1));
 	}
 	if(x < g.getXSize() - 2 && y > 0) {
 	    neighbors.add(g.getCell(x + 2, y - 1));
 	}
-	Cell[] retNeighbors = neighbors.toArray(new Cell[neighbors.size()]);
-	return retNeighbors;
+	return neighbors;
     }
 
-    public Cell[] downTriangleFiniteDiagonal(Cell c, Grid g) {
+    public List<Cell> downTriangleFiniteDiagonal(Cell c, Grid g) {
 	int x = c.getX();
 	int y = c.getY();
 	ArrayList<Cell> neighbors = new ArrayList<>();
 
-	if(x < g.getXSize() - 1 && y < g.getYSize() - 1) {
-	    neighbors.add(g.getCell(x + 1, y + 1));
+	if(x < g.getXSize() - 2 && y > 0) {
+	    neighbors.add(g.getCell(x + 2, y - 1));
 	}
-	if(x < g.getXSize() - 2 && y < g.getYSize() - 1) {
-	    neighbors.add(g.getCell(x + 2, y + 1));
+	if(x > 1 && y > 0) {
+	    neighbors.add(g.getCell(x - 2, y - 1));
 	}
-	if(x > 0 && y > 0) {
-	    neighbors.add(g.getCell(x - 1, y - 1));
-	}
-	if(x > 0 && y < g.getYSize() - 1) {
-	    neighbors.add(g.getCell(x - 1, y + 1));
-	}
-	if(x > 1 && y < g.getYSize() - 1) {
-	    neighbors.add(g.getCell(x - 2, y + 1));
-	}
-	if(x < g.getXSize() - 1 && y > 0) {
-	    neighbors.add(g.getCell(x + 1, y - 1));
-	}
-	Cell[] retNeighbors = neighbors.toArray(new Cell[neighbors.size()]);
-	return retNeighbors;
+	return neighbors;
     }
 
 
@@ -154,12 +148,13 @@ public class TriangleNeighborhood extends Neighborhood {
 	int y = c.getY();
 	ArrayList<Cell> neighbors = new ArrayList<>(); 
 	neighbors.addAll(Arrays.asList(FiniteDiagonal(c ,g)));
-	// Handling x-coordinates on edge
+
+	// X-Coordinates on edge
 	if(x == 0 && y < g.getYSize() - 1) {
 	    neighbors.add(g.getCell(g.getXSize() -1, y + 1));
 	}
 	if(x == 0 && y > 0) {
-	    neighbors.add(g.getCell(g.getXSize() -1, y -1));
+	    neighbors.add(g.getCell(g.getXSize() -1, y - 1));
 	}
 	if(x == g.getXSize() - 1 && y > 0) {
 	    neighbors.add(g.getCell(0, y - 1));
@@ -167,7 +162,7 @@ public class TriangleNeighborhood extends Neighborhood {
 	if(x == g.getXSize() - 1 && y < g.getYSize() - 1) {
 	    neighbors.add(g.getCell(0, y + 1));
 	}
-	// Handling y-coordinates on edge
+	// Y-coordinates on edge
 	if(x < g.getXSize() -1 && y == 0) {
 	    neighbors.add(g.getCell(x + 1, g.getYSize() -1));
 	}
@@ -188,33 +183,49 @@ public class TriangleNeighborhood extends Neighborhood {
 	    neighbors.add(g.getCell(0, 0));
 	}
 	if ((c.getX() + c.getY()) % 2 == 0) {
-	//    neighbors.addAll(Arrays.asList(upTriangleTorodialDiagonal(c, g)));
-
+	    neighbors.addAll(upTriangleTorodialDiagonal(c, g));
 	}
 	else {
-	//    neighbors.addAll(Arrays.asList(downTriangleTorodialDiagonal(c, g)));
+	    neighbors.addAll(downTriangleTorodialDiagonal(c, g));
 	}
 	Cell[] retNeighbors = neighbors.toArray(new Cell[neighbors.size()]);
 	return retNeighbors;
     }
 
-    // TO-DO 
-    public Cell[] upTriangleTorodialDiagonal(Cell c, Grid g) {
+    
+    /**
+     * @return neighbors specific to upward facing triangles for @param c in grid @param g
+     */
+    public List<Cell> upTriangleTorodialDiagonal(Cell c, Grid g) {
 	int x = c.getX();
 	int y = c.getY();
 	ArrayList<Cell> neighbors = new ArrayList<>(); 
-
-	Cell[] retNeighbors = neighbors.toArray(new Cell[neighbors.size()]);
-	return retNeighbors;
+	// X-Coordinates on edge
+	if(x == 1 && y < g.getYSize() - 1) {
+	    neighbors.add(g.getCell(g.getXSize() - 2, y + 1));
+	}
+	if(x == g.getXSize() - 1 && y < g.getYSize() - 1) {
+	    neighbors.add(g.getCell(1, y + 1));
+	}
+	return neighbors;
     }
 
-    // TO-DO
-    public Cell[] downTriangleTorodialDiagonal(Cell c, Grid g) {
+    /**
+     * @return neighbors specific to downward facing triangles for @param c in grid @param g
+     */
+    public List<Cell> downTriangleTorodialDiagonal(Cell c, Grid g) {
 	int x = c.getX();
 	int y = c.getY();
 	ArrayList<Cell> neighbors = new ArrayList<>(); 
-
-	Cell[] retNeighbors = neighbors.toArray(new Cell[neighbors.size()]);
-	return retNeighbors;
+	// Boundary check
+	if(g.getXSize() < 2 || g.getYSize() < 2) return null;
+	// X-Coordinates on edge
+	if(x == 1 && y > 0) {
+	    neighbors.add(g.getCell(g.getXSize() - 2, y - 1));
+	}
+	if(x == g.getXSize() - 1 && y < g.getYSize() - 1) {
+	    neighbors.add(g.getCell(1, y - 1));
+	}
+	return neighbors;
     }
 }

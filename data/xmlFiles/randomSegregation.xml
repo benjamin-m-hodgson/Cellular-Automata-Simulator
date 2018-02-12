@@ -1,6 +1,6 @@
 <?xml version = "1.0" encoding = "UTF-8" ?>
 <simulation simulation = "CA" type = "Segregation" format = "random">
-	<name>"Random states"</name>
+	<name>"Random Segregation"</name>
     <sizeX>100</sizeX>
     <sizeY>100</sizeY>
 	<tolerance>.7</tolerance>

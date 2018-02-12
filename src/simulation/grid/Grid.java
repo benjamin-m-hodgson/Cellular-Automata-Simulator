@@ -60,8 +60,6 @@ public abstract class Grid implements Cloneable{
     }
 
     /**
-     * Gets all cells in simulation
-     * 
      * @return myCells: a 2-dimensional array containing cells for a simulation
      */
     public Cell[][] getCells() {
@@ -69,8 +67,6 @@ public abstract class Grid implements Cloneable{
     }
 
     /**
-     * Returns x dimension of grid
-     * 
      * @return size of grid in x direction
      */
     public int getXSize() {
@@ -78,18 +74,22 @@ public abstract class Grid implements Cloneable{
     }
 
     /**
-     * Returns y dimension of grid
-     * 
-     * @return size of grid in y direction
+     * @return y dimension of grid
      */
     public int getYSize() {
 	return this.myY;
     }
 
+    /**
+     * Sets type of simulation grid represents to string @param s
+     */
     public void setType(String s) {
 	this.TYPE = s;
     }
-
+    
+    /**
+     * @return type of simulation grid represents
+     */
     public String getType() {
 	return this.TYPE;
     }
@@ -124,4 +124,14 @@ public abstract class Grid implements Cloneable{
 	}
 	return count;
     }
+    
+    public void setColors(String[] colors) {
+	for(Cell[] row : this.getCells()) {
+	    for(Cell cell : row) {
+		cell.setColors(colors);
+	    }
+	}
+    }
+    
+    
 }

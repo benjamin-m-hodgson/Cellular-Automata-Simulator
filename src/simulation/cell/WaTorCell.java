@@ -1,6 +1,7 @@
 package simulation.cell;
 
 import javafx.scene.paint.Color;
+import simulation.factoryClasses.ColorMapper;
 
 /**
  * Cell object for WaTor simulation
@@ -14,19 +15,19 @@ public class WaTorCell extends Cell {
     private int ENERGY;
     private int ENERGY_HOLDER;
     private int BREEDINGTIME;
-    private int FISH = 0;
-    private int SHARK = 1; 
+    private String[] COLORS;
 
     /**
-     * Constructor for WaTor cell
+     * Constructor for fire cell
      * 
-     * @param x
-     * @param y
+     * @param x: x-location of cell
+     * @param y: y-location of cell
      * @param state
-     * @param initEnergy
+     * @param initEnergy: initial energy of cell
      */
     public WaTorCell(int x, int y, int state, int initEnergy) {
 	super(x, y, state);
+	COLORS = new ColorMapper().getColors("DefaultWaTor");
 	ENERGY = initEnergy;
 	ENERGY_HOLDER = initEnergy;
 	BREEDINGTIME = 0;
@@ -102,23 +103,21 @@ public class WaTorCell extends Cell {
 	this.MOVED = true;
     }
     
+
+    public int getInitEnergy() {
+	return ENERGY_HOLDER;
+    }
+    
     /**
      * Colors cell based on current state
      */
     @Override
     public Color colorCell() {
-	if (myState == SHARK) {
-	    return Color.DEEPSKYBLUE;
-	}
-	else if (myState == FISH) {
-	    return Color.POWDERBLUE;
-	}
-	else {
-	    return Color.DIMGRAY;
-	}
-    }	
-
-    public int getInitEnergy() {
-	return ENERGY_HOLDER;
+	return Color.web(COLORS[myState]);
+    }
+    
+    @Override
+    public void setColors(String[] color) {
+	if(color != null) COLORS = color;
     }
 }

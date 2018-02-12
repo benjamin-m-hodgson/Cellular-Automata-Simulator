@@ -3,7 +3,9 @@ package simulation.cell;
 import javafx.scene.paint.Color;
 
 /**
- * Cell object to be placed in grid 
+ * Cell superclass creates a cell object to be placed at position (x,y) in the grid. 
+ * A cell knows its previous, next and current state, and whether or not it has been 
+ * moved/moved to in the current generation.
  * 
  * @author Katherine Van Dyk
  *
@@ -31,52 +33,42 @@ public abstract class Cell implements Cloneable{
     }
 
     /**
-     * Returns x position on grid
-     * 
-     * @return int of array position
+     * @return int: x-array position of cell on grid
      */
     public int getX() {
 	return this.myXPos;
     }
 
     /**
-     * Sets x position on grid
-     * 
-     * @param int of array position
+     * Sets x position of cell on grid to @param x
      */
     public void setX(int x) {
 	this.myXPos = x;
     }
 
     /**
-     * Returns y position on grid
-     * 
-     * @param int of array position
+     * @return int: y-array position of cell on grid
      */
     public int getY() {
 	return this.myYPos;
     }
 
     /**
-     * Sets y position on grid
-     * 
-     * @param int of array position
+     * Sets x position of cell on grid to @param x
      */
     public void setY(int y) {
 	this.myYPos = y;
     }
 
     /**
-     * Gets state of cell object
-     * 
-     * @return int representing current state
+     * @return int representing current state of cell object
      */
     public int getState() {
 	return myState;
     }
 
     /**
-     * Makes the next state the current state
+     * Updates the states in the cell array- makes the current state equal to the next (calculated) state
      */
     public void updateState() {
 	myState = myNextState;
@@ -85,8 +77,6 @@ public abstract class Cell implements Cloneable{
     /**
      * Takes @param state and updates the state of the Cell along with any
      * related properties
-     * 
-     * @param state: new state to update
      */
     public void setState(int state) {
 	myPreviousState = myState;
@@ -94,14 +84,12 @@ public abstract class Cell implements Cloneable{
     }
 
     /**
-     * Changes the color of the cell to reflect state changes for animation
-     * 
-     * @param state: the current state of the cell
+     * Changes the color of the cell to reflect the new @param state of the cell
      */
     public abstract Color colorCell();
 
     /**
-     * Set that cell has moved so that it is not overwritten in later iterations
+     * Set that cell has moved to so that it is not overwritten in later iterations
      * 
      * @param b: true if moved, false otherwise
      */
@@ -110,12 +98,12 @@ public abstract class Cell implements Cloneable{
     }
 
     /**
-     * Returns if cell has been moved during iteration
-     * 
-     * @return boolean: true if it has been moved, false otherwise
+     * @return boolean: true if it has been moved during the current iteration, false otherwise
      */
     public boolean getMove() {
 	return MOVED;
     }
+
+    public abstract void setColors(String[] colors);
 
 }

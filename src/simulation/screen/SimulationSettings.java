@@ -322,7 +322,7 @@ public class SimulationSettings extends Screen {
 	ObservableList<Object> simulationChoices = 
 		FXCollections.observableArrayList(defaultPrompt);
 	simulationChoices.add(DEFAULT_INDICATOR);
-	//simulationChoices.addAll(PROGRAM_ENGINE.getColors());
+	simulationChoices.addAll(PROGRAM_ENGINE.getDisplayColors());
 	dropDownMenu.setItems(simulationChoices);
 	dropDownMenu.setId("simulatorChooser");
 	dropDownMenu.getSelectionModel().selectedIndexProperty()
@@ -333,6 +333,7 @@ public class SimulationSettings extends Screen {
 		String selected = (String) simulationChoices.get((Integer) arg2);
 		if (!selected.equals(defaultPrompt)) {
 		    COLOR = selected;
+		    PROGRAM_ENGINE.setColor(COLOR);
 		    COLOR_VALID = true;
 		} else {
 		    COLOR_VALID = false;
