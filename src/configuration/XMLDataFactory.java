@@ -57,6 +57,9 @@ public class XMLDataFactory {
 	else if(simType.equals(getSimulation("SEGREGATION"))) {
 	    return new SegregationXMLData();
 	}
+	else if(simType.equals(getSimulation("ROCKPAPERSCISSORS"))) {
+	    return new RPSXMLData();
+	}
 	else return null;
     }
 

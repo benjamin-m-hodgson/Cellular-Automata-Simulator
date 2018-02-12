@@ -3,6 +3,7 @@ package configuration.datatemplates;
 import java.util.Arrays;
 import java.util.List;
 
+import configuration.XMLParsing.CellStateGenerator;
 import simulation.grid.Grid;
 import simulation.cell.RPSCell;
 import simulation.grid.StandardGrid;
@@ -13,11 +14,8 @@ import simulation.ruleSet.Ruleset;
 public class RPSXMLData extends XMLData {
 	
 	private final String RPS = "RockPaperScissors";
-	private final int WHITE = 0;
-	private final int ROCK = 1;
-	private final int PAPER = 2;
-	private final int SCISSORS = 3;
 	protected static final List<String> PARAM_DATA_FIELDS = Arrays.asList(new String[] {
+		"gradient"
 	});
 
 	/**
@@ -60,10 +58,11 @@ public class RPSXMLData extends XMLData {
 	public Grid getGrid(int[][] states) {
 		Grid g = new StandardGrid(this.getXSize(), this.getYSize());
 		g.setType(RPS);
-		int gradient = Integer.parseInt(myDataValues.get(PARAM_DATA_FIELDS.get(0)));
+		String gradient = myDataValues.get(PARAM_DATA_FIELDS.get(0));
+		int[][] gradientStates = new CellStateGenerator().locationStates(gradient, getXSize(), getYSize());
 		for(int r= 0; r < this.getXSize(); r++) {
 			for(int c = 0; c < this.getYSize(); c++) {
-				g.addCell(new RPSCell(r, c, states[r][c], gradient));
+				g.addCell(new RPSCell(r, c, states[r][c], gradientStates[r][c]));
 			}
 		}
 		return g;

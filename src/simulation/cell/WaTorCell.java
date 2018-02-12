@@ -116,8 +116,11 @@ public class WaTorCell extends Cell {
 	return Color.web(COLORS[myState]);
     }
     
+    /**
+     * Sets colors of cell if default colors are not chosen
+     */
     @Override
     public void setColors(String[] color) {
-	if(color != null) COLORS = color;
+	COLORS = color;
     }
 }

@@ -46,8 +46,8 @@ public class RPSRuleset extends Ruleset {
 	public int processCell(Cell c) {
 		Random rand = new Random();
 		RPSCell cell = (RPSCell) c;
-		int neighbor = rand.nextInt(8);
-		RPSCell neighborCell = (RPSCell) NEIGHBOR_MANAGER.getNeighbors(c, GRID)[neighbor];
+		Cell[] neighbors = NEIGHBOR_MANAGER.getNeighbors(c, GRID);
+		RPSCell neighborCell = ((RPSCell) neighbors[rand.nextInt(neighbors.length)]);
 		if (cell.getState() == WHITE) {
 			if(neighborCell.getState() != WHITE && neighborCell.getGradient() < 9) {
 				cell.setState(neighborCell.getState());

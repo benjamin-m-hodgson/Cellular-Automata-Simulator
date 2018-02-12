@@ -125,6 +125,11 @@ public abstract class Grid implements Cloneable{
 	return count;
     }
     
+    /**
+     * Sets color scheme of each cell based on user input 
+     * 
+     * @param colors: String array of color hex values based on user input
+     */
     public void setColors(String[] colors) {
 	for(Cell[] row : this.getCells()) {
 	    for(Cell cell : row) {

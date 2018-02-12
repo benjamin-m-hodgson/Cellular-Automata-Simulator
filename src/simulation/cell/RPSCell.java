@@ -1,5 +1,6 @@
 package simulation.cell;
 import javafx.scene.paint.Color;
+import simulation.factoryClasses.ColorMapper;
 
 /**
  * 
@@ -9,10 +10,7 @@ import javafx.scene.paint.Color;
 
 public class RPSCell extends Cell {
 
-    private int WHITE = 0;
-    private int ROCK = 1;
-    private int PAPER = 2;
-    private int SCISSORS = 3;
+    private String[] COLORS;
     private int myGradient;
 
     /**
@@ -25,6 +23,7 @@ public class RPSCell extends Cell {
     public RPSCell(int x, int y, int state, int gradient) {
 	super(x, y, state);
 	myGradient = gradient;
+	COLORS = new ColorMapper().getColors("DefaultRPS");
     }
 
     /**
@@ -36,15 +35,7 @@ public class RPSCell extends Cell {
 	if (myGradient != 0) {
 	    gradient = 1.0 / ((double) myGradient + 1.0);
 	}
-	if (myState == WHITE) {
-	    return Color.WHITE;
-	} else if (myState == ROCK) {
-	    return Color.web("#FF0000", gradient);
-	} else if (myState == PAPER) {
-	    return Color.web("#008000", gradient);
-	} else if (myState == SCISSORS) {
-	    return Color.web("#0000FF", gradient);
-	} else return Color.BLACK;
+	return Color.web(COLORS[myState], gradient);
     }
 
     public int getGradient() {
@@ -69,4 +60,8 @@ public class RPSCell extends Cell {
 	if(myGradient < 9) myGradient++;
     }
 
+    @Override
+    public void setColors(String[] colors) {
+	COLORS = colors;
+    }
 }
