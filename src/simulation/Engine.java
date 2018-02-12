@@ -91,6 +91,7 @@ public class Engine {
      */
     public void styleSimulation() {
 	Parent root =  new SimulationSettings(this).getRoot();
+	root.setId("simulationSettingsRoot");
 	PROGRAM_SCENE.setRoot(root);
     }
 
@@ -99,11 +100,12 @@ public class Engine {
      * 
      * @param name: The name of the current simulation
      */
-    public void startSimulation(String name, String shape, boolean edge) {
+    public void startSimulation(String type, boolean edge, String shape, String color,
+	    double size, double space) {
 	if (SIMULATING) {
 	    stopSimulation();
 	}
-	initializeSimulation(name, shape, edge);
+	initializeSimulation(type, edge, shape, color, size, space);
 	Parent root = new SimulationScreen(this, SIMULATION).getRoot();
 	PROGRAM_SCENE.setRoot(root);
 	playAnimation();
@@ -171,17 +173,13 @@ public class Engine {
      * @param shape: shape style to be displayed
      * @param edge: grid edge type
      */
-    private void initializeSimulation(String name, String shape, boolean edge) {
+    private void initializeSimulation(String name, boolean edge, String shape, String color,
+	    double size, double space) {
 	SIMULATION_NAME = name;
 	SIMULATING = true;
 	GENERATION = 0;
 	PROGRAM_STAGE.setTitle(SIMULATION_NAME);
-	if (SIMULATION != null) {
-	    SIMULATION.reset();
-	}
-	else {
-	    SIMULATION = new CurrentSimulation(this, shape, edge);
-	}
+	SIMULATION = new CurrentSimulation(this, edge, shape, color, size, space);
     }
 
     /**
@@ -319,18 +317,15 @@ public class Engine {
 	return RULES.get(SIMULATION_NAME);
     }
 
+    public CurrentSimulation getCurrentSimulation() {
+	return SIMULATION;
+    }
+    
     /**
      * @return scene width
      */
     public ReadOnlyDoubleProperty sceneWidth() {
 	return PROGRAM_STAGE.widthProperty();
-    }
-
-    /**
-     * @return Current simulation being displayed
-     */
-    public CurrentSimulation getCurrentSimulation() {
-	return SIMULATION;
     }
 
     /**

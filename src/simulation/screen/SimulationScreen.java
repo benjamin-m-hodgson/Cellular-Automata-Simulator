@@ -2,10 +2,10 @@ package simulation.screen;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.scene.Parent;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import simulation.CurrentSimulation;
 import simulation.Engine;
@@ -27,27 +27,25 @@ public class SimulationScreen extends Screen {
     private SimulationControlPanel CONTROL_PANEL;
     private SimulationCellPanel CELL_PANEL;
     private SimulationGraphPanel GRAPH_PANEL;
-    private SimulationSettingsPanel SETTINGS_PANEL;
+    private BorderPane ROOT_PANE;
 
     // need to save the Engine to call functions on button clicks
     public SimulationScreen(Engine programEngine, CurrentSimulation simulation) {
         super(programEngine);
         SIMULATION = simulation;
-        CONTROL_PANEL = new SimulationControlPanel(PROGRAM_ENGINE);
+        CONTROL_PANEL = new SimulationControlPanel(PROGRAM_ENGINE, this);
         CELL_PANEL = new SimulationCellPanel(PROGRAM_ENGINE, SIMULATION);
         GRAPH_PANEL = new SimulationGraphPanel(PROGRAM_ENGINE);
-        SETTINGS_PANEL = new SimulationSettingsPanel(PROGRAM_ENGINE);
     }
 
     @Override
     public void makeRoot() {
-        VBox controlPanel = CONTROL_PANEL.construct();
-        VBox settingsPanel = SETTINGS_PANEL.construct();
-        BorderPane newRoot = new BorderPane();
-        newRoot.setCenter(this.getCenterPane());
-        newRoot.setRight(controlPanel);
-        newRoot.setId("simulateScreenRoot");
-        ROOT = newRoot;
+        Parent controlPanel = CONTROL_PANEL.construct();
+        ROOT_PANE = new BorderPane();
+        ROOT_PANE.setCenter(getCenterPane());
+        ROOT_PANE.setRight(controlPanel);
+        ROOT_PANE.setId("simulateScreenRoot");
+        ROOT = ROOT_PANE;
         // attach "animation loop" to time line to play it
         KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
                 e -> step(SECOND_DELAY));
@@ -57,6 +55,17 @@ public class SimulationScreen extends Screen {
         animation.play();     
     }
 
+    /**
+     * Creates stacked cell grid and graph
+     * 
+     * @return
+     */
+    public BorderPane getRootPane() {
+	if (ROOT_PANE == null) {
+	    makeRoot();
+	}
+        return ROOT_PANE;
+    }
 
     /**
      * Creates stacked cell grid and graph

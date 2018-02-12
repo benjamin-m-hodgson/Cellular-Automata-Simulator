@@ -1,6 +1,6 @@
 package simulation.shapes;
 
-import javafx.beans.binding.DoubleBinding;
+import javafx.beans.value.ObservableValue;
 import simulation.Engine;
 
 /**
@@ -13,15 +13,9 @@ import simulation.Engine;
 public abstract class ShapeHandler {
     
     private final double DEFAULT_INDICATOR = -1;
+    private final double DEFAULT_SPACING = 0.5;   
     protected Engine PROGRAM_ENGINE;
-    
-    private DoubleBinding DEFAULT_HEIGHT;
-    private DoubleBinding DEFAULT_WIDTH;
     private double SPACING;
-    private DoubleBinding HEIGHT;
-    private DoubleBinding WIDTH;
-    protected double SHAPE_HEIGHT = -1;
-    protected double SHAPE_WIDTH = -1;
 
     /**
      * Class constructor, ensures object knows its engine and sets a cells
@@ -29,28 +23,14 @@ public abstract class ShapeHandler {
      * 
      * @param gameEngine: application engine
      */
-    public ShapeHandler(Engine programEngine, double height, double width, double spacing) {
+    public ShapeHandler(Engine programEngine, double size, double spacing) {
         PROGRAM_ENGINE = programEngine;
-        SPACING = spacing;
-        // calculate and assign correct cell values
-        DEFAULT_HEIGHT = calculateDefaultHeight();
-        DEFAULT_WIDTH = calculateDefaultWidth();
-        if (height == DEFAULT_INDICATOR || width == DEFAULT_INDICATOR) {
-            HEIGHT = DEFAULT_HEIGHT;
-            WIDTH = DEFAULT_WIDTH;
+        if (spacing == DEFAULT_INDICATOR) {
+            SPACING = DEFAULT_SPACING;
         }
-        else { 
-            HEIGHT = calculateHeight();
-            WIDTH = calculateWidth();
+        else {
+            SPACING = spacing;
         }
-    }
-    
-    public DoubleBinding getDefaultHeight() {
-        return DEFAULT_HEIGHT;
-    }
-    
-    public DoubleBinding getDefaultWidth() {
-        return DEFAULT_WIDTH;
     }
     
     /**
@@ -58,28 +38,20 @@ public abstract class ShapeHandler {
      * 
      * @return int: default cell height
      */
-    public abstract DoubleBinding calculateDefaultHeight();
+    public abstract ObservableValue<Double> calculateDefaultHeight();
     
     /**
      * Calculates the default value for a cell shape's width from the screen size
      * 
      * @return int: default cell width
      */
-    public abstract DoubleBinding calculateDefaultWidth();
+    public abstract ObservableValue<Double> calculateDefaultWidth();
     
-    public abstract DoubleBinding calculateHeight();
+    public abstract ObservableValue<Double> calculateHeight(double height);
     
-    public abstract DoubleBinding calculateWidth();
+    public abstract ObservableValue<Double> calculateWidth(double width);
     
     public double getSpacing() {
         return SPACING;
-    }
-
-    public DoubleBinding getHeight() {
-        return HEIGHT;
-    }
-
-    public DoubleBinding getWidth() {
-        return WIDTH;
     }
 }

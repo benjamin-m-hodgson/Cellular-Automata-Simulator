@@ -51,15 +51,6 @@ public class SimulationSettingsPanel {
     }
 
     /**
-     * Updates the information displayed in the control panel. Primarily 
-     * updates @param GENERATION to reflect the current generation
-     * in the simulation and checks to see if another simulation was selected.
-     */
-    public void update() {
-
-    }
-
-    /**
      * Method to create and return the side panel that contains information about the 
      * current simulation and gives the user some control buttons to manipulate
      * the simulation animation. 
