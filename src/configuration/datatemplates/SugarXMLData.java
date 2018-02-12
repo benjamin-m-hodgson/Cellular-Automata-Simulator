@@ -14,8 +14,6 @@ import simulation.ruleSet.SugarRuleset;
 public class SugarXMLData extends XMLData {
 	
 	private final String SUGAR = "SugarScape";
-	private final int PATCH = 0;
-	private final int AGENT = 1; 
 	protected static final List<String> PARAM_DATA_FIELDS = Arrays.asList(new String[] {
 			"regenRate",
 			"regenInterval",
@@ -78,7 +76,6 @@ public class SugarXMLData extends XMLData {
 		int[][] agentMetabolismStates = new CellStateGenerator().locationStates(agentMetabolism, getXSize(), getYSize());
 		String agentVision = myDataValues.get(PARAM_DATA_FIELDS.get(6));
 		int[][] agentVisionStates = new CellStateGenerator().locationStates(agentVision, getXSize(), getYSize());
-		//public SugarCell(int x, int y, int state, int sugar, int maxSugar, int agentSugar, int agentMetabolism, int agentVision)
 		for(int r= 0; r < this.getXSize(); r++) {
 			for(int c = 0; c < this.getYSize(); c++) {
 				g.addCell(new SugarCell(r, c, states[r][c], sugarStates[r][c], maxSugarStates[r][c], agentSugarStates[r][c], agentMetabolismStates[r][c], agentVisionStates[r][c]));
