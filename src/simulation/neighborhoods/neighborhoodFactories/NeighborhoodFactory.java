@@ -6,6 +6,14 @@ import java.util.List;
 import simulation.cell.Cell;
 import simulation.grid.Grid;
 
+/**
+ * Super-class for handling basic bounds checking for neighbors. Checks in compass directions, extended
+ * by more complicated shapes that have different cells serving as diagonals, etc. 
+ * 
+ * @author Katherine Van Dyk
+ * @date 2/11/18
+ *
+ */
 public class NeighborhoodFactory {
 
     /**

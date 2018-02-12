@@ -3,9 +3,12 @@ import simulation.grid.*;
 import simulation.cell.*;
 
 /**
- * Gets neighbors in certain positions/configurations
+ * Defines the neighborhood for a specific type cell, for both finite
+ * and toroidal grid edges. A neighborhood is the collection of cells around a 
+ * certain cell c that influence c's next state.
  * 
  * @author Katherine Van Dyk
+ * @date 2/9/18
  *
  */
 public abstract class Neighborhood {

@@ -6,6 +6,14 @@ import java.util.List;
 import simulation.cell.Cell;
 import simulation.grid.Grid;
 
+/**
+ * Extends the neighbor factory class to include diagonal cells not accounted for
+ * in the 8 compass directions. Different methods for upwards/downwards facing triangles.
+ * 
+ * @author Katherine Van Dyk
+ * @date 2/11/18
+ *
+ */
 public class TriangleNeighborhoodFactory extends NeighborhoodFactory {
 
 
