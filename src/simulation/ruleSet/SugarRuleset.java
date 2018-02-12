@@ -75,7 +75,7 @@ public class SugarRuleset extends Ruleset{
 	 * @param c
 	 */
 	private void processAgent(SugarCell c) {
-		Cell[] neighbors = NEIGHBOR_MANAGER.getNeighbors(c,GRID,c.getVision());
+		Cell[] neighbors = NEIGHBOR_MANAGER.getNeighbors(c, GRID, c.getVision());
 		int max = 0;
 		int maxIndex = 0;
 		for (int k = 0; k < neighbors.length; k++) {
@@ -110,6 +110,4 @@ public class SugarRuleset extends Ruleset{
 		c.setSugar(0);
 		c.resetTicks();
 	}
-
-
 }

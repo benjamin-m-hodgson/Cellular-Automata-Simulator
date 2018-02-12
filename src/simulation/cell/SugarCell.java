@@ -49,24 +49,18 @@ public class SugarCell extends Cell {
      */
     @Override
     public Color colorCell() {
+	double gradient = (double) mySugar / (double) myMaxSugar;
 	if(myState == PATCH) {
-	    double gradient = (double) mySugar / (double) myMaxSugar;
 	    return Color.web(COLORS[myState], gradient);
 	}
 	else {
-	    double gradient = (double) mySugar / (double) myMaxSugar;
 	    return Color.web(COLORS[myState], gradient);
 	}
     }
-    
+
     /**
      * Gets number of ticks until new sugar generates
      * @return number of ticks
-     */
-
-    /**
-     * 
-     * @return
      */
     public int getTicks() {
 	return myTicks;
