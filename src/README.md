@@ -1,17 +1,5 @@
 # cellsociety
 
-# Team 1
-
-## Ben Hodgson (bmh43)
- * January 25- February 6
- * ~20 hours
-
-## Katherine Van Dyk (kmv10)
- * January 25- February 6
- * ~20 hours
-
-##  Michael Acker
-
 # Source Code
  * Ben Hodgson
 	* http://hg.openjdk.java.net/openjfx/8/master/rt/file/f89b7dc932af/modules/controls/src/main/resources/com/sun/javafx/scene/control/skin/modena/modena.css
@@ -29,9 +17,3 @@
 	* https://www.mkyong.com/java/how-to-create-xml-file-in-java-dom/
 	* https://docs.oracle.com/javafx/2/charts/line-chart.htm#CIHGBCFI
 
-## Roles
-### Ben Hodgson
-Developed the front-end, including the user interface, scene controller, driver and engine classes. Helped configure rulesets and updateCell() methods, as well as debugging.
-### Katherine Van Dyk
-Developed the back-end, including XML configuration/parsing, ruleset classes, cell/grid classes and neighbor managers. 
-### Michael Acker
