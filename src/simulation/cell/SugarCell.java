@@ -1,26 +1,30 @@
 package simulation.cell;
 
 import javafx.scene.paint.Color;
+import simulation.factoryClasses.ColorMapper;
 
 /**
+ * Cell object used in Sugar simulation.
  * 
- * Cell object for SugarScape simulation
+ * @author Michael Acker
+ * @author Katherine Van Dyk
+ * @date 2/10/18
  *
  */
-
 public class SugarCell extends Cell {
 
-    private int PATCH = 0;
-    private int AGENT = 1;
+    private final int PATCH = 1;
     private int mySugar;
     private int myMaxSugar;
     private int myAgentSugar;
     private int myAgentMetabolism;
     private int myAgentVision;
     private int myTicks;
-    
+    private String[] COLORS;
+
     /**
-     * Constructor for Sugar Cell
+     * Sugar cell constructor method.
+     * 
      * @param x
      * @param y
      * @param state
@@ -30,7 +34,6 @@ public class SugarCell extends Cell {
      * @param agentMetabolism
      * @param agentVision
      */
-
     public SugarCell(int x, int y, int state, int sugar, int maxSugar, int agentSugar, int agentMetabolism, int agentVision) {
 	super(x, y, state);
 	mySugar = sugar;
@@ -38,22 +41,22 @@ public class SugarCell extends Cell {
 	myAgentSugar = agentSugar;
 	myAgentMetabolism = agentMetabolism;
 	myAgentVision = agentVision;
+	COLORS = new ColorMapper().getColors("DefaultSugar");
     }
 
     /**
-     * Determines color of Sugar Cell based on state and amount of sugar
-     * @return new color of cell
+     * Colors cell based on current cell state.
      */
-    
     @Override
     public Color colorCell() {
-	if (myState == AGENT) {
-	    return Color.RED;
-	} else if (myState == PATCH) {
+	if(myState == PATCH) {
 	    double gradient = (double) mySugar / (double) myMaxSugar;
-	    return Color.web("#FFA500", gradient);
-	} else return Color.BLACK;
-
+	    return Color.web(COLORS[myState], gradient);
+	}
+	else {
+	    double gradient = (double) mySugar / (double) myMaxSugar;
+	    return Color.web(COLORS[myState], gradient);
+	}
     }
     
     /**
@@ -61,6 +64,10 @@ public class SugarCell extends Cell {
      * @return number of ticks
      */
 
+    /**
+     * 
+     * @return
+     */
     public int getTicks() {
 	return myTicks;
     }
@@ -146,8 +153,7 @@ public class SugarCell extends Cell {
 
     @Override
     public void setColors(String[] colors) {
-	// TODO Auto-generated method stub
-	
+	COLORS = colors;
     }
 
 }
