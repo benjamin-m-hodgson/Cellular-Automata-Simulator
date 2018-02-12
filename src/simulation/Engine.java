@@ -18,6 +18,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
+import simulation.factoryClasses.ColorMapper;
 import simulation.factoryClasses.StyleFactory;
 import simulation.grid.Grid;
 import simulation.ruleSet.Ruleset;
@@ -54,6 +55,7 @@ public class Engine {
     private CurrentSimulation SIMULATION;
     private Map<String, Grid> GRIDS;
     private Map<String, Ruleset> RULES;
+    private String[] COLORS;
 
     /**
      * Constructor for Engine class, creates Title string
@@ -320,7 +322,7 @@ public class Engine {
     public CurrentSimulation getCurrentSimulation() {
 	return SIMULATION;
     }
-    
+
     /**
      * @return scene width
      */
@@ -343,6 +345,14 @@ public class Engine {
     }
 
     /**
+     * @return list of color options
+     */
+    public ObservableList<String> getDisplayColors() {
+	ObservableList<String> retList = FXCollections.observableArrayList(new ColorMapper().getColorOptions());
+	return retList;
+    }
+
+    /**
      * Change properties of shapes to animate them 
      */
     private void step (double elapsedTime) {     
@@ -350,5 +360,16 @@ public class Engine {
 	    SIMULATION.update();
 	    GENERATION++;
 	}
+    }
+
+    public void setColor(String scheme) {
+	ColorMapper colorMap = new ColorMapper();
+	if(!scheme.equals("Default")){
+	    COLORS = colorMap.getColors(scheme);
+	}
+    }
+
+    public String[] getColors() {
+	return COLORS;
     }
 }

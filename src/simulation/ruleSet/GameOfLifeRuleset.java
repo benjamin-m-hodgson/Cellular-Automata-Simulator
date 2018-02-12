@@ -52,7 +52,7 @@ public class GameOfLifeRuleset extends Ruleset {
     public int processCell(Cell c) {
 	int liveCount = NEIGHBOR_MANAGER.neighborCount(c, GRID, LIVE);
 	if(c.getState() == LIVE) {
-	    if(liveCount > this.MINLIFE || liveCount < this.MAXLIFE) return LIVE;
+	    if(liveCount > this.MINLIFE && liveCount < this.MAXLIFE) return LIVE;
 	    else return DEAD;
 	}
 	else {

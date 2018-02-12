@@ -78,4 +78,10 @@ public class SugarCell extends Cell {
 	myAgentMetabolism = metabolism;
     }
 
+    @Override
+    public void setColors(String[] colors) {
+	// TODO Auto-generated method stub
+	
+    }
+
 }

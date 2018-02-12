@@ -1,6 +1,7 @@
 package simulation.cell;
 
 import javafx.scene.paint.Color;
+import simulation.factoryClasses.ColorMapper;
 
 /**
  * Cell object specific to fire simulation
@@ -11,8 +12,7 @@ import javafx.scene.paint.Color;
  */
 public class FireCell extends Cell {
 
-    private final int TREE = 1;
-    private final int BURNING = 2;
+    private String[] COLORS;
 
     /**
      * Constructor for FIRE cell
@@ -23,20 +23,15 @@ public class FireCell extends Cell {
      */
     public FireCell(int x, int y, int state) {
 	super(x, y, state);
+	COLORS = new ColorMapper().getColors("DefaultFire");
+    }
+    
+    public void setColors(String[] color) {
+	COLORS = color;
     }
 
-    /**
-     * Colors cell based on current state
-     */
+    @Override
     public Color colorCell() {
-	if (myState == BURNING) {
-	    return Color.INDIANRED;
-	}
-	else if (myState == TREE) {
-	    return Color.LIGHTGREEN;
-	} 
-	else {
-	    return Color.DIMGRAY;
-	}
+	return Color.web(COLORS[myState]);
     }
 }

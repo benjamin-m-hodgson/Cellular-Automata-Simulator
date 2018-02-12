@@ -85,12 +85,9 @@ public class RectangleHandler extends ShapeHandler {
     public ObservableValue<Double> calculateDefaultHeight() {
         Grid currentGrid = PROGRAM_ENGINE.currentGrid();
         double numCells = currentGrid.getYSize();
-        System.out.printf("Num cells %f%n", numCells);
         double height = (SCENE_HEIGHT/numCells) - getSpacing();
         HEIGHT = height;
-        System.out.printf("Cell height %f%n", height);
         ObservableValue<Double> retHeight = new SimpleDoubleProperty(height).asObject();
-        System.out.println(retHeight);
         return retHeight;
     }
     

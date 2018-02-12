@@ -40,6 +40,7 @@ public class CurrentSimulation {
 	PROGRAM_ENGINE = currentEngine;
 	setNeighborManager(shape, edge);
 	initializeShapes();
+	setColors();
 	populateShapes();
     }
 
@@ -163,5 +164,11 @@ public class CurrentSimulation {
 
     public double getSpace() {
 	return SPACE_SIZE;
+    }
+    
+    public void setColors() {
+	if(PROGRAM_ENGINE.getColors() != null) {
+	    PROGRAM_ENGINE.currentGrid().setColors(PROGRAM_ENGINE.getColors());
+	}
     }
 }

@@ -103,4 +103,7 @@ public abstract class Cell implements Cloneable{
     public boolean getMove() {
 	return MOVED;
     }
+
+    public abstract void setColors(String[] colors);
+
 }
