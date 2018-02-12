@@ -342,7 +342,7 @@ public class SimulationSettingsPanel {
     }
 
     /**
-     * Creates a text field that simply displays the state of the currently defined cells 
+     * Creates a text field that simply displays the state of the currently defined cells state
      * 
      * @return a text field
      */
@@ -356,7 +356,8 @@ public class SimulationSettingsPanel {
     }
     
     /**
-     * Creates a text field that simply displays the state of the currently defined cells 
+     * Creates a text field that simply displays the state of the currently running 
+     * simulations selected parameter value.
      * 
      * @return a text field
      */
@@ -418,7 +419,7 @@ public class SimulationSettingsPanel {
     /**
      * 
      * @param text: text to be displayed on the button
-     * @return simulateButton: a button to begin the selected simulation
+     * @return Paramater Change Button: A button to change a selected parameters value.
      */
     private Button makeParamChangerButton(String text) {
 	Button changerButton = new Button(text);
@@ -437,7 +438,7 @@ public class SimulationSettingsPanel {
     /**
      * 
      * @param text: text to be displayed on the button
-     * @return simulateButton: a button to begin the selected simulation
+     * @return State Change Button: A button to change a selected cells state.
      */
     private Button makeStateChangerButton(String text) {
 	Button changerButton = new Button(text);
@@ -454,6 +455,10 @@ public class SimulationSettingsPanel {
     }
 
 
+    /**
+     * Enables the @param CHANGE_PARAM button if the user has given a valid input for the new
+     * parameter value.  
+     */
     private void processParamInputs() {
 	CHANGE_PARAM.setDisable(!(PARAM_VALID && NEW_VAL_VALID));
 	if (PARAM_VALID) {
@@ -465,6 +470,10 @@ public class SimulationSettingsPanel {
 	}
     }
 
+    /**
+     * Enables the @param CHANGE_STATE button if the user has given a valid input for the new
+     * state of a valid cell in the currently running simulation
+     */
     private void processStateInputs() {
 	CHANGE_STATE.setDisable(!(X_VALID && Y_VALID));
 	if (X_VALID && Y_VALID) {
@@ -479,6 +488,10 @@ public class SimulationSettingsPanel {
 	}
     }
 
+    /**
+     * Changes the parameter of simulation wtih name @param PARAM to the text stored in
+     * the text field @param PARAM_FIELD if the provided input is valid.
+     */
     private void changeParamValue() {
 	if(NEW_VAL_VALID && PARAM_VALID) {
 	    double newVal = Double.parseDouble(PARAM_FIELD.getText());
@@ -486,6 +499,10 @@ public class SimulationSettingsPanel {
 	}
     }
 
+    /**
+     * Changes the state of the cell with x and y coordinates taken from @param xFIELD and
+     * @param yFIELD, respectively, so long as the inputted coordinates and state are valid.
+     */
     private void changeStateValue() {
 	if(X_VALID && Y_VALID) {
 	    Grid currentGrid = PROGRAM_ENGINE.getGrid(PROGRAM_ENGINE.getSimulationName());

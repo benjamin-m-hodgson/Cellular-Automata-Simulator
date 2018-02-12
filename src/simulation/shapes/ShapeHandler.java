@@ -47,10 +47,26 @@ public abstract class ShapeHandler {
      */
     public abstract ObservableValue<Double> calculateDefaultWidth();
     
+    /**
+     * Determines the height of the shape that represents the cell
+     * 
+     * @param double height: the desired height value to be used for the cell shape
+     * @return the double height as an ObservableValue<Double> 
+     */
     public abstract ObservableValue<Double> calculateHeight(double height);
     
+    /**
+     * Determines the height of the shape that represents the cell
+     * 
+     * @param double height: the desired height value to be used for the cell shape
+     * @return the double height as an ObservableValue<Double> 
+     */
     public abstract ObservableValue<Double> calculateWidth(double width);
     
+    /**
+     * 
+     * @return SPACING: the spacing value to be used between cell shapes in the display
+     */
     public double getSpacing() {
         return SPACING;
     }

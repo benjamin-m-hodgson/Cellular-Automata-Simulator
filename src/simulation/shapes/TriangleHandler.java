@@ -29,6 +29,15 @@ public class TriangleHandler extends ShapeHandler {
         }
     }
 
+    /**
+     * Creates a Polygon Shape object to represent the cell in the simulation on the display.
+     * Takes the cells height and width components along with its row and column position in the
+     * grid to calculate its position on the screen.
+     * 
+     * @param row: the cells row position in the grid
+     * @param col: the cells column position in the grid
+     * @return Polygon: a Polygon shape, in this specific method this represents a Triangle
+     */
     public Polygon generateTriangle(int row, int col) {
         Polygon cellShape = new Polygon();
         if ((row + col) % 2 == 0) {
@@ -76,7 +85,16 @@ public class TriangleHandler extends ShapeHandler {
         return retWidth;
     }
 
-    // points listed (tip, left, right)
+    /**
+     * Creates an upward facing Polygon Shape object to represent the cell in the simulation on 
+     * the display. Takes the cells height and width components along with its row and 
+     * column position in the grid to calculate its position on the screen. Upward facing means
+     * the tip of this triangle is pointing towards the top of the screen. 
+     * 
+     * @param row: the cells row position in the grid
+     * @param col: the cells column position in the grid
+     * @return Polygon: a Polygon shape, in this specific method this represents a Triangle
+     */
     private void upTriangle(Polygon triangle, int row, int col) {
         double xTip = ((col+1)*(WIDTH / 2) + (col+1)*getSpacing());
         double yTip = row*HEIGHT + (row+1)*getSpacing();
@@ -91,7 +109,16 @@ public class TriangleHandler extends ShapeHandler {
         });
     }
 
-    // points listed (tip, left, right)
+    /**
+     * Creates a downward facing Polygon Shape object to represent the cell in the simulation on 
+     * the display. Takes the cells height and width components along with its row and 
+     * column position in the grid to calculate its position on the screen. Upward facing means
+     * the tip of this triangle is pointing towards the bottom of the screen. 
+     * 
+     * @param row: the cells row position in the grid
+     * @param col: the cells column position in the grid
+     * @return Polygon: a Polygon shape, in this specific method this represents a Triangle
+     */
     private void downTriangle(Polygon triangle, int row, int col) {
         double xTip = ((col + 1)*(WIDTH / 2) + (col+1)*getSpacing());
         double yTip = (row+1)*HEIGHT + (row+1)*getSpacing();

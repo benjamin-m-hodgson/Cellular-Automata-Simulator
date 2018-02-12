@@ -36,10 +36,13 @@ public class RectangleHandler extends ShapeHandler {
     }
     
     /**
+     * Creates a Rectangle Shape object to represent the cell in the simulation on the display.
+     * Takes the cells height and width components along with its row and column position in the
+     * grid to calculate its position on the screen.
      * 
-     * @param row
-     * @param col
-     * @return
+     * @param row: the cells row position in the grid
+     * @param col: the cells column position in the grid
+     * @return Rectangle: a Rectangle Shape
      */
     public Rectangle generateRectangle(int row, int col) {
         CELL_SHAPE = new Rectangle();

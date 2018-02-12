@@ -22,14 +22,14 @@ In the simulation package, developed cell subclasses, rulesets, neighborhood man
 To run the project, run the ‘Main’ method in the Driver class.
 ##### Resource Files Required By Project
 * Ben Hodgson
-	* http://hg.openjdk.java.net/openjfx/8/master/rt/file/f89b7dc932af/modules/controls/src/main/resources/com/sun/javafx/scene/control/skin/modena/modena.css
-	* https://www.iconfinder.com/icons/2561367/pause_icon#size=128
-	* https://www.iconfinder.com/icons/227568/play_icon#size=128
-	 * https://www.iconfinder.com/icons/2561275/forward_skip_icon#size=128
-	* https://www.iconfinder.com/icons/352446/replay_icon#size=128
-	 * https://docs.oracle.com/javafx/2/api/javafx/scene/doc-files/cssref.html#label
-	 * https://www.tutorialspoint.com/javafx/2dshapes_polygon.htm
-	 * https://docs.oracle.com/javase/8/javafx/api/javafx/scene/control/TextFormatter.html
+    * http://hg.openjdk.java.net/openjfx/8/master/rt/file/f89b7dc932af/modules/controls/src/main/resources/com/sun/javafx/scene/control/skin/modena/modena.css
+    * https://www.iconfinder.com/icons/2561367/pause_icon#size=128
+    * https://www.iconfinder.com/icons/227568/play_icon#size=128
+    * https://www.iconfinder.com/icons/2561275/forward_skip_icon#size=128
+    * https://www.iconfinder.com/icons/352446/replay_icon#size=128
+    * https://docs.oracle.com/javafx/2/api/javafx/scene/doc-files/cssref.html#label
+    * https://www.tutorialspoint.com/javafx/2dshapes_polygon.htm
+    * https://docs.oracle.com/javase/8/javafx/api/javafx/scene/control/TextFormatter.html
    
 * Katie Van Dyk
 	* https://stackoverflow.com/questions/5751335/using-file-listfiles-with-filenameextensionfilter

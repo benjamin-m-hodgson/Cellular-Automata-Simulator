@@ -202,6 +202,12 @@ public class SimulationSettings extends Screen {
 	return dropDownMenu;
     }
 
+    /**
+     * Creates a section of the settings pane where the user can input desired cell size
+     * and space size styles.
+     * 
+     * @return A VBox containing text fields and labels related to setting the cell and space size
+     */
     private VBox cellSizeOptions() {
 	Label defaultPrompt = new Label(PROGRAM_ENGINE.resourceString("sizePromptString"));
 	defaultPrompt.setId("simpleLabel");
@@ -215,6 +221,11 @@ public class SimulationSettings extends Screen {
 	return sizePanel;
     }
 
+    /**
+     * Creates a section of the settings pane where the user can input desired space size
+     * 
+     * @return A HBox containing text fields and labels related to setting the space size
+     */
     private HBox spaceOption(Parent sizePanel) {
 	SPACE_SIZE = numberField(sizePanel, SPACE_MIN_SIZE, SPACE_MAX_SIZE);
 	SPACE_SIZE.setId("simulationTextField");
@@ -228,6 +239,11 @@ public class SimulationSettings extends Screen {
 	return spaceOption;
     }
 
+    /**
+     * Creates a section of the settings pane where the user can input desired cell size
+     * 
+     * @return A HBox containing text fields and labels related to setting the cell size
+     */
     private HBox sizeOption(Parent sizePanel){
 	CELL_SIZE = numberField(sizePanel, CELL_MIN_SIZE, CELL_MAX_SIZE);
 	CELL_SIZE.setId("simulationTextField");
@@ -241,6 +257,15 @@ public class SimulationSettings extends Screen {
 	return sizeOption;
     }
 
+    /**
+     * Creates a default text field designed to only accept valid number inputs from the user.
+     * Inputs are deemed valid if they lie between @param min and @param max.
+     * 
+     * @param root: the Parent node this child will be placed in
+     * @param min: the minimum value allowed to be input into the text field
+     * @param max: the maximum value allowed to be input into the text field
+     * @return numberField: a text field that allows the user to input numbers
+     */
     private TextField numberField(Parent root, double min, double max) {
 	TextField numberTextField = new TextField();
 	numberTextField.setText(DEFAULT_INDICATOR);
@@ -343,6 +368,11 @@ public class SimulationSettings extends Screen {
 	return dropDownMenu;
     }
 
+    /**
+     * Enables the @param SIMULATE button if the user has given a valid input for the
+     * other simulation properties. These properties include: how edge cells are handled, 
+     * the cell shape, the simulation, and the simulation color palette. 
+     */
     private void processInputs() {
 	SIMULATE.setDisable(!(EDGE_VALID && SHAPE_VALID && SIMULATION_VALID && COLOR_VALID));
     }
@@ -358,6 +388,11 @@ public class SimulationSettings extends Screen {
 	processInputs();
     }
 
+    /**
+     * Returns a boolean to distinguish between different methods for handling edge cells.
+     * 
+     * @return boolean: true if edge handling is set to "finite", false otherwise
+     */
     public boolean getEdge() {
 	if(EDGE.equals("finite")) return true;
 	else return false;
