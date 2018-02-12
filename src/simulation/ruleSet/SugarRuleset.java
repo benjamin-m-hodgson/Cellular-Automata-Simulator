@@ -42,6 +42,39 @@ public class SugarRuleset extends Ruleset{
 	}
 	
 	/**
+	 * 
+	 * @return the regeneration rate for cells in the sugar simulation
+	 */
+	public int getRegenRate() {
+	    return myRegenRate;
+	}
+	
+	/**
+	 * 
+	 * @param rate: the new regeneration rate to be used for the sugar simulation
+	 */
+	public void setRegenRate(int rate) {
+	    myRegenRate = rate;
+	}
+	
+	/**
+	 * 
+	 * @return the regeneration interval for cells in the sugar simulation
+	 */
+	public int getRegenInterval() {
+	    return myRegenInterval;
+	}
+	
+	/**
+	 * 
+	 * @param interval: the new regeneration interval to be used for the sugar simulation
+	 */
+	public void setRegenInterval(int interval) {
+	    myRegenInterval = interval;
+	}
+	
+	
+	/**
 	 * Processes cells for each turn, determines whether a cell should behave as a patch or an agent
 	 */
 	@Override
