@@ -1,4 +1,4 @@
-package simulation.screen;
+package simulation.screen.panels;
 
 import java.text.DecimalFormat;
 

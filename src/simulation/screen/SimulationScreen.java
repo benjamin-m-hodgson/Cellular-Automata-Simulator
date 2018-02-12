@@ -9,6 +9,9 @@ import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import simulation.CurrentSimulation;
 import simulation.Engine;
+import simulation.screen.panels.SimulationCellPanel;
+import simulation.screen.panels.SimulationGraphPanel;
+import simulation.screen.panels.SimulationControlPanel;
 
 /**
  * 

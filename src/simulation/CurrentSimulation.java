@@ -31,6 +31,7 @@ public class CurrentSimulation {
 	SHAPE_TYPE = shape;
 	EDGE_TYPE = edge;
 	PROGRAM_ENGINE = currentEngine;
+	setNeighborManager(shape, edge);
 	initializeShapes();
 	populateShapes();
     }
@@ -144,5 +145,12 @@ public class CurrentSimulation {
      */
     public boolean getEdge() {
 	return EDGE_TYPE;
+    }
+    
+    public void setNeighborManager(String shape, boolean edge) {
+	if(shape.equals("triangle")){
+	    PROGRAM_ENGINE.currentRules().setNeighborManager(new TriangleNeighborhood(), edge);
+	}
+	else PROGRAM_ENGINE.currentRules().setNeighborManager(new SquareNeighborhood(), edge);
     }
 }

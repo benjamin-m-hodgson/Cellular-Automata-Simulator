@@ -1,7 +1,6 @@
 package simulation.ruleSet;
 import simulation.cell.*;
 import simulation.neighborhoods.Neighborhood;
-import simulation.neighborhoods.SquareNeighborhood;
 import simulation.ruleSet.neighborManager.*;
 
 /**
@@ -36,7 +35,6 @@ public class WaTorRuleset extends Ruleset {
 	this.SHARK_BREEDENERGY = sharkBreedEnergy;
 	this.FISH_INITENERGY = fishInitEnergy;
 	this.SHARK_INITENERGY = sharkInitEnergy;
-	this.NEIGHBOR_MANAGER = new WaTorNeighborManager(new SquareNeighborhood(), false); // default neighbor manager
     }
 
     /**
@@ -45,7 +43,6 @@ public class WaTorRuleset extends Ruleset {
     @Override
     public void setNeighborManager(Neighborhood n, boolean finite) {
 	this.NEIGHBOR_MANAGER = new WaTorNeighborManager(n, finite);
-
     }
 
     /**
@@ -181,37 +178,60 @@ public class WaTorRuleset extends Ruleset {
 	b.setBreedingTime(aTime);
     }
 
+    /**
+     * @return int representing fish breed time
+     */
     public int getFishBreedTime() {
 	return FISH_BREEDTIME;
     }
-
+    
+    /**
+     * @return int representing shark breed energy
+     */
     public int getSharkBreedEnergy() {
 	return SHARK_BREEDENERGY;
     }
     
+    /**
+     * @return int representing shark initial energy
+     */
     public int getSharkInitEnergy() {
 	return SHARK_INITENERGY;
     }
 
+    /**
+     * @return int representing fish initial energy
+     */
     public int getFishInitEnergy() {
 	return FISH_INITENERGY;
     }
     
+    /**
+     * Sets fish breed time to @param n
+     */
     public void setFishBreedTime(int n) {
 	FISH_BREEDTIME = n;
     }
 
+    /**
+     * Sets shark breed energy to @param n
+     */
     public void setSharkBreedEnergy(int n) {
 	SHARK_BREEDENERGY = n;
     }
 
+    /**
+     * Sets fish initial energy to @param n
+     */
     public void setFishInitEnergy(int n) {
 	FISH_INITENERGY = n;
     }
 
+    /**
+     * Sets shark initial energy to @param n
+     */
     public void setSharkInitEnergy(int n) {
 	SHARK_INITENERGY = n;
-    }
-   
+    }  
 }
 

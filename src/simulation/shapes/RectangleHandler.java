@@ -6,17 +6,36 @@ import javafx.scene.shape.Rectangle;
 import simulation.Engine;
 import simulation.grid.Grid;
 
+/**
+ * Handles drawing rectangle shapes for grid based on grid dimensions
+ *
+ * @author Ben Hodgson
+ * @date 2/9/18
+ */
 public class RectangleHandler extends ShapeHandler {
     
     private final double HEIGHT_SCALING = 200;
     private final double WIDTH_SCALING = 400;
-   
     private Rectangle CELL_SHAPE;
 
+    /**
+     * Constructor for Rectangle Handler
+     *
+     * @param programEngine: current instance of program engine
+     * @param height: height of shape
+     * @param width: width of shape
+     * @param spacing: spacing between shapes
+     */
     public RectangleHandler(Engine programEngine, double height, double width, double spacing) {
         super(programEngine, height, width, spacing);
     }
     
+    /**
+     * 
+     * @param row
+     * @param col
+     * @return
+     */
     public Rectangle generateRectangle(int row, int col) {
         CELL_SHAPE = new Rectangle();
         CELL_SHAPE.heightProperty().bind(getHeight());
@@ -28,7 +47,9 @@ public class RectangleHandler extends ShapeHandler {
         return CELL_SHAPE;
     }
 
-    // broken need to fix
+    /**
+     * Calculataes height of shape based on number of cells in grid and scene height
+     */
     @Override
     public DoubleBinding calculateHeight() {
         Grid currentGrid = PROGRAM_ENGINE.currentGrid();
@@ -40,7 +61,9 @@ public class RectangleHandler extends ShapeHandler {
         return height;
     }
 
-    // broken need to fix
+    /**
+     * Calculates width of shape based on number of cells in grid and scene height
+     */
     @Override
     public DoubleBinding calculateWidth() {
         Grid currentGrid = PROGRAM_ENGINE.currentGrid();
@@ -52,6 +75,9 @@ public class RectangleHandler extends ShapeHandler {
         return width;
     }
     
+    /**
+     * Calculates default height of shape based on scene height and window scaling
+     */
     @Override
     public DoubleBinding calculateDefaultHeight() {
         Grid currentGrid = PROGRAM_ENGINE.currentGrid();
@@ -62,6 +88,9 @@ public class RectangleHandler extends ShapeHandler {
         return retHeight;
     }
     
+    /**
+     * Calculates default width of shape based on scene height and window scaling
+     */
     @Override
     public DoubleBinding calculateDefaultWidth() {
         Grid currentGrid = PROGRAM_ENGINE.currentGrid();
