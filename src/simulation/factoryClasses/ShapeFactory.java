@@ -1,4 +1,4 @@
-package factoryClasses;
+package simulation.factoryClasses;
 
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
@@ -18,7 +18,6 @@ public class ShapeFactory {
 
     //private final String RECTANGLE = "Rectangle";
     private final String TRIANGLE = "Triangle";
-
     private String SHAPE_TYPE;
     
     public ShapeFactory(String shape) {

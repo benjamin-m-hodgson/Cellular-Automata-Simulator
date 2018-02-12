@@ -1,7 +1,6 @@
 package simulation.ruleSet;
 import simulation.cell.*;
 import simulation.neighborhoods.Neighborhood;
-import simulation.neighborhoods.SquareNeighborhood;
 import simulation.ruleSet.neighborManager.*;
 
 /**
@@ -26,14 +25,14 @@ public class SegregationRuleset extends Ruleset {
      */
     public SegregationRuleset(double tolerance) {
 	this.TOLERANCE = tolerance;
-	this.NEIGHBOR_MANAGER = new SegregationNeighborManager(new SquareNeighborhood(), false);
     }
 
-
+    /**
+     * Sets neighbor manager based on edge type @param finite and neighborhood based on shape type @param n
+     */
     @Override
     public void setNeighborManager(Neighborhood n, boolean finite) {
 	this.NEIGHBOR_MANAGER = new SegregationNeighborManager(n, finite);
-
     }
 
     /**
@@ -69,10 +68,16 @@ public class SegregationRuleset extends Ruleset {
 	}
     }
 
+    /**
+     * @return double representing tolerance parameter for segregation ruleset
+     */
     public double getTolerance() {
 	return TOLERANCE;
     }
     
+    /**
+     * Sets tolerance parameter to @param n
+     */
     public void setTolerance(double n) {
 	TOLERANCE = n;
     }

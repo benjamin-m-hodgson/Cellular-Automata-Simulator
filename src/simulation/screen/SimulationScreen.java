@@ -9,6 +9,9 @@ import javafx.scene.layout.HBox;
 import javafx.util.Duration;
 import simulation.CurrentSimulation;
 import simulation.Engine;
+import simulation.screen.panels.SimulationCellPanel;
+import simulation.screen.panels.SimulationGraphPanel;
+import simulation.screen.panels.SimulationControlPanel;
 
 /**
  * 
@@ -19,12 +22,8 @@ import simulation.Engine;
  * 
  */
 public class SimulationScreen extends Screen {
-
-    private final int FRAMES_PER_SECOND = 60;
-    private final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
-    private final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
+    
     private final CurrentSimulation SIMULATION;
-
     private SimulationControlPanel CONTROL_PANEL;
     private SimulationCellPanel CELL_PANEL;
     private SimulationGraphPanel GRAPH_PANEL;

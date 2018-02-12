@@ -1,6 +1,7 @@
 package simulation.cell;
 
 import javafx.scene.paint.Color;
+import simulation.factoryClasses.ColorMapper;
 
 /**
  * Cell object for segregation simulation
@@ -10,8 +11,8 @@ import javafx.scene.paint.Color;
  */
 public class SegregationCell extends Cell {
 
-    private final int GROUP1 = 0;
-    private final int GROUP2 = 1;
+    private String[] COLORS;
+    
 
     /**
      * Constructor for segregation cell
@@ -22,23 +23,16 @@ public class SegregationCell extends Cell {
      */
     public SegregationCell(int x, int y, int state) {
 	super(x, y, state); 		
+	COLORS = new ColorMapper().getColors("DefaultSegregation");
     }
 
-    /**
-     * Colors cell based on current state
-     * 
-     * @param state: current state
-     */
     @Override
     public Color colorCell() {
-	if (myState == GROUP1) {
-	    return Color.THISTLE;
-	}
-	else if(myState == GROUP2) {
-	    return Color.AZURE;
-	}
-	else {
-	    return Color.DIMGRAY;
-	}
+	return Color.web(COLORS[myState]);
+    }
+    
+    @Override
+    public void setColors(String[] color) {
+	COLORS = color;
     }
 }
