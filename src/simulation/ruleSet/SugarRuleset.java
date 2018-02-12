@@ -82,10 +82,10 @@ public class SugarRuleset extends Ruleset{
 		SugarCell c = (SugarCell) cell;
 		if (c.getState() == PATCH) {
 			processPatch(c);
-			return PATCH;
+			return c.getState();
 		} else if (c.getState() == AGENT) {
 			processAgent(c);
-			return AGENT;
+			return c.getState();
 		}
 		return 0;
 	}
