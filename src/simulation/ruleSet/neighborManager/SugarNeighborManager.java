@@ -5,9 +5,21 @@ import simulation.cell.Cell;
 import simulation.grid.Grid;
 import simulation.neighborhoods.Neighborhood;
 
+/**
+ * 
+ * Fetches sets of neighbors for Sugar Cells
+ * @author Michael Acker
+ * @date 2/9/18
+ *
+ */
 public class SugarNeighborManager extends NeighborManager {
     private int VISION;
 
+    /**
+     * Constructor
+     * @param n
+     * @param finite
+     */
     public SugarNeighborManager(Neighborhood n, boolean finite) {
 	super(n, finite);
     }
@@ -17,6 +29,9 @@ public class SugarNeighborManager extends NeighborManager {
 	return getNeighbors(c, g);
     }
 
+    /**
+     * Fetches neighbors in cardinal directions up to a distance vision
+     */
     @Override
     protected Cell[] getNeighbors(Cell c, Grid g) {
 	ArrayList<Cell> neighborsList = new ArrayList<Cell>();
