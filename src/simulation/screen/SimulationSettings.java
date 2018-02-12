@@ -25,6 +25,12 @@ import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import simulation.Engine;
 
+/**
+ * 
+ * @author Benjamin Hodgson
+ * 
+ * Creates a panel with settings that allows the user to customize simulation options.
+ */
 public class SimulationSettings extends Screen {
 
     private final int VERTICAL_SPACING = 20;

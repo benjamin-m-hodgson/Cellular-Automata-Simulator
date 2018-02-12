@@ -42,6 +42,7 @@ public class SimulationSettingsPanel {
     private final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
     private final int STATE_MIN = 0;
     private final int STATE_MAX = 2;
+    private final int DEFAULT_MAX = 10;
     private VBox CONTROL_PANEL;
     private Engine PROGRAM_ENGINE;    
     private StyleFactory STYLE = new StyleFactory();
@@ -217,11 +218,9 @@ public class SimulationSettingsPanel {
 		if (key.getCode() == KeyCode.ENTER) {
 		    if (PARAM_VALID) {
 			// check input to make sure the value is within bounds
-			int min = 0;
-			int max = 10;
 			try {
 			    double sizeVal = Double.parseDouble(numberTextField.getText());
-			    if (sizeVal >= min && sizeVal <= max) {			    
+			    if (sizeVal >= STATE_MIN && sizeVal <= DEFAULT_MAX) {			    
 				numberTextField.setText(Double.toString(sizeVal));
 				NEW_VAL_VALID = true;
 			    }
