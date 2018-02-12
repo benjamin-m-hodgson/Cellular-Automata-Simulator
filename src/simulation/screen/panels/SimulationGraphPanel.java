@@ -59,6 +59,7 @@ public class SimulationGraphPanel{
 	yAxis = new NumberAxis();
 	configureAxes(xAxis, yAxis);
 	LineChart<Number,Number> lineChart = new LineChart<>(xAxis,yAxis);
+	lineChart.setId("stateChart");
 	configureChart(lineChart);
 	return lineChart;
     }

@@ -76,6 +76,10 @@ public class SimulationSettings extends Screen {
 	animation.play();     
     }
 
+    /**
+     * 
+     * @return the Style Panel that contains all of the user input options
+     */
     private VBox makeStylePanel() {
 	ComboBox<Object> simulationChoices = simulatorChooser();
 	ComboBox<Object> shapeChoices = shapeChooser();
