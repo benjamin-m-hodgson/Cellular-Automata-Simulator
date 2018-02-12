@@ -36,6 +36,7 @@ To run the project, run the ‘Main’ method in the Driver class.
 	* https://www.tutorialspoint.com/java_xml/java_dom_parse_document.htm
 	* https://www.mkyong.com/java/how-to-create-xml-file-in-java-dom/
 	* https://docs.oracle.com/javafx/2/charts/line-chart.htm#CIHGBCFI
+
 ### Features of Project
 #### Configuration
 #### The Start/Settings Screen
