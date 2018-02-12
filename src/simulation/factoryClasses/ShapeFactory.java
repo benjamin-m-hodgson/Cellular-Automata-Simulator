@@ -1,4 +1,4 @@
-package factoryClasses;
+package simulation.factoryClasses;
 
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
@@ -44,8 +44,6 @@ public class ShapeFactory {
 	    return cellShape;
 
 	}
-	//else if (SHAPE_TYPE.equalsIgnoreCase(RECTANGLE)) {
-	// only two options, make sure return isnt' null
 	else {
 	    RectangleHandler shapeHandler = new RectangleHandler(PROGRAM_ENGINE,
 		    SHAPE_SIZE, SPACE_SIZE);

@@ -6,22 +6,41 @@ import javafx.scene.shape.Rectangle;
 import simulation.Engine;
 import simulation.grid.Grid;
 
+/**
+ * Handles drawing rectangle shapes for grid based on grid dimensions
+ *
+ * @author Ben Hodgson
+ * @date 2/9/18
+ */
 public class RectangleHandler extends ShapeHandler {
     
     private final double DEFAULT_INDICATOR = -1;
     private final double SCENE_HEIGHT = 400;
     private final double SCENE_WIDTH = 400;
-   
     private Rectangle CELL_SHAPE;
     private double SIZE;
     private double WIDTH;
     private double HEIGHT;
 
+    /**
+     * Constructor for Rectangle Handler
+     *
+     * @param programEngine: current instance of program engine
+     * @param height: height of shape
+     * @param width: width of shape
+     * @param spacing: spacing between shapes
+     */
     public RectangleHandler(Engine programEngine, double size, double spacing) {
         super(programEngine, size, spacing);
         SIZE = size;
     }
     
+    /**
+     * 
+     * @param row
+     * @param col
+     * @return
+     */
     public Rectangle generateRectangle(int row, int col) {
         CELL_SHAPE = new Rectangle();
         if (SIZE == DEFAULT_INDICATOR) {
@@ -39,6 +58,9 @@ public class RectangleHandler extends ShapeHandler {
         return CELL_SHAPE;
     }
 
+    /**
+     * Calculates height of shape based on number of cells in grid and scene height
+     */
     @Override
     public ObservableValue<Double> calculateHeight(double size) {
 	HEIGHT = size;
@@ -46,6 +68,9 @@ public class RectangleHandler extends ShapeHandler {
         return height;
     }
 
+    /**
+     * Calculates width of shape based on number of cells in grid and scene height
+     */
     @Override
     public ObservableValue<Double> calculateWidth(double size) {
 	WIDTH = size;
@@ -53,6 +78,9 @@ public class RectangleHandler extends ShapeHandler {
         return width;
     }
     
+    /**
+     * Calculates default height of shape based on scene height and window scaling
+     */
     @Override
     public ObservableValue<Double> calculateDefaultHeight() {
         Grid currentGrid = PROGRAM_ENGINE.currentGrid();
@@ -66,6 +94,9 @@ public class RectangleHandler extends ShapeHandler {
         return retHeight;
     }
     
+    /**
+     * Calculates default width of shape based on scene height and window scaling
+     */
     @Override
     public ObservableValue<Double> calculateDefaultWidth() {
         Grid currentGrid = PROGRAM_ENGINE.currentGrid();

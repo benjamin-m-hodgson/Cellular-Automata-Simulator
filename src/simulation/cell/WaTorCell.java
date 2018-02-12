@@ -18,12 +18,12 @@ public class WaTorCell extends Cell {
     private int SHARK = 1; 
 
     /**
-     * Constructor for WaTor cell
+     * Constructor for fire cell
      * 
-     * @param x
-     * @param y
+     * @param x: x-location of cell
+     * @param y: y-location of cell
      * @param state
-     * @param initEnergy
+     * @param initEnergy: initial energy of cell
      */
     public WaTorCell(int x, int y, int state, int initEnergy) {
 	super(x, y, state);

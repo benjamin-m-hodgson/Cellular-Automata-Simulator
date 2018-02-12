@@ -110,6 +110,7 @@ public class SquareNeighborhood extends Neighborhood {
 	int y = c.getY();
 	ArrayList<Cell> neighbors = new ArrayList<>(); 
 	neighbors.addAll(Arrays.asList(FiniteDiagonal(c ,g)));
+	
 	// Handling x-coordinates on edge
 	if(x == 0 && y < g.getYSize() - 1) {
 	    neighbors.add(g.getCell(g.getXSize() -1, y + 1));
@@ -123,6 +124,7 @@ public class SquareNeighborhood extends Neighborhood {
 	if(x == g.getXSize() - 1 && y < g.getYSize() - 1) {
 	    neighbors.add(g.getCell(0, y + 1));
 	}
+	
 	// Handling y-coordinates on edge
 	if(x < g.getXSize() -1 && y == 0) {
 	    neighbors.add(g.getCell(x + 1, g.getYSize() -1));
@@ -136,6 +138,7 @@ public class SquareNeighborhood extends Neighborhood {
 	if(x > 0 && y == g.getYSize() - 1) {
 	    neighbors.add(g.getCell(x - 1, 0));
 	}
+	
 	// Handling both
 	if(x == 0 && y == 0) {
 	    neighbors.add(g.getCell(g.getXSize() - 1, g.getYSize() -1));
