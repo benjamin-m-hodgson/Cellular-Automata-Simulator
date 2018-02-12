@@ -9,10 +9,12 @@ import simulation.grid.Grid;
 import simulation.ruleSet.*;
 
 /**
- * Parses all files and holds grid/ruleset data in respective objects
+ * Parses all files and holds grid/rule set data in respective objects. Use during 
+ * the initial configuration of the program, when the engine requests that all files
+ * in the directory be parsed at once. 
  * 
  * @author Katherine Van Dyk
- *
+ * @date 2/4/18
  */
 public class FileController{
     protected String FILEPATH = "./data/xmlFiles/"; 
@@ -22,7 +24,7 @@ public class FileController{
     private XMLParser parser;
 
     /**
-     * Constructor
+     * Constructor for File Controller object
      */
     public FileController() {
 	grids = new HashMap<>();
@@ -57,14 +59,14 @@ public class FileController{
     }
 
     /**
-     * Return grids to game engine
+     * @return Map<String, Grid>: Containing simulation name as key, and corresponding Grid object as value
      */
     public Map<String, Grid> getGrids() {
 	return grids;
     }
 
     /**
-     * Return rules to game engine
+     * @return Map<String, Ruleset>: Containing simulation name as key, and corresponding Ruleset object as value
      */
     public Map<String, Ruleset> getRules() {
 	return rules;

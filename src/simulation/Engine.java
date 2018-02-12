@@ -362,6 +362,9 @@ public class Engine {
 	}
     }
 
+    /**
+     * Sets color scheme to @param scheme
+     */
     public void setColor(String scheme) {
 	ColorMapper colorMap = new ColorMapper();
 	if(!scheme.equals("Default")){
@@ -369,6 +372,9 @@ public class Engine {
 	}
     }
 
+    /**
+     * @return String[] representing color scheme of current simulation
+     */
     public String[] getColors() {
 	return COLORS;
     }
