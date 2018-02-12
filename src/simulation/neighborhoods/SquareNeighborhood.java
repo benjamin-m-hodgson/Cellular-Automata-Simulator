@@ -2,7 +2,9 @@ package simulation.neighborhoods;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+
 import simulation.grid.*;
+import simulation.neighborhoods.neighborhoodFactories.NeighborhoodFactory;
 import simulation.cell.*;
 
 /**
@@ -12,6 +14,7 @@ import simulation.cell.*;
  *
  */
 public class SquareNeighborhood extends Neighborhood {
+	private NeighborhoodFactory FACTORY = new NeighborhoodFactory();
 
     /**
      * Returns neighbors in t formation
@@ -21,22 +24,7 @@ public class SquareNeighborhood extends Neighborhood {
      * @return Neighbors north, south, east and west (if in bounds)
      */
     public Cell[] FiniteCardinal(Cell c, Grid g) {
-	int x = c.getX();
-	int y = c.getY();
-	ArrayList<Cell> neighbors = new ArrayList<>();
-
-	if(x + 1 < g.getXSize()) {
-	    neighbors.add(g.getCell(x + 1, y));
-	}
-	if(x - 1 >= 0) {
-	    neighbors.add(g.getCell(x - 1, y));
-	}
-	if(y + 1 < g.getYSize()) {
-	    neighbors.add(g.getCell(x, y + 1));
-	}
-	if(y - 1 >= 0) {
-	    neighbors.add(g.getCell(x, y - 1));
-	}
+	ArrayList<Cell> neighbors = (ArrayList<Cell>) FACTORY.cardinalFiniteCheck(c, g);
 	Cell[] retNeighbors = neighbors.toArray(new Cell[neighbors.size()]);
 	return retNeighbors;
     }
@@ -49,22 +37,7 @@ public class SquareNeighborhood extends Neighborhood {
      * @return Neighbors diagonally (if in bounds)
      */
     public Cell[] FiniteDiagonal(Cell c, Grid g) {
-	int x = c.getX();
-	int y = c.getY();
-	ArrayList<Cell> neighbors = new ArrayList<>();
-
-	if(x < g.getXSize() - 1 && y < g.getYSize() - 1) {
-	    neighbors.add(g.getCell(x + 1, y + 1));
-	}
-	if(x > 0 && y > 0) {
-	    neighbors.add(g.getCell(x - 1, y - 1));
-	}
-	if(x > 0 && y < g.getYSize() - 1) {
-	    neighbors.add(g.getCell(x - 1, y + 1));
-	}
-	if(x < g.getXSize() - 1 && y > 0) {
-	    neighbors.add(g.getCell(x + 1, y - 1));
-	}
+	ArrayList<Cell> neighbors = (ArrayList<Cell>) FACTORY.diagonalFiniteCheck(c, g);
 	Cell[] retNeighbors = neighbors.toArray(new Cell[neighbors.size()]);
 	return retNeighbors;
     }
@@ -77,23 +50,9 @@ public class SquareNeighborhood extends Neighborhood {
      * @return Neighbors north, south, east and west (if wrappable)
      */
     public Cell[] TorodialCardinal(Cell c, Grid g) {
-	int x = c.getX();
-	int y = c.getY();
 	ArrayList<Cell> neighbors = new ArrayList<>();
-	neighbors.addAll(Arrays.asList(FiniteCardinal(c ,g)));
-
-	if(x == 0) {
-	    neighbors.add(g.getCell(g.getXSize() - 1, y));
-	}
-	if(x == g.getXSize() - 1) {
-	    neighbors.add(g.getCell(0, y));
-	}
-	if(y == 0) {
-	    neighbors.add(g.getCell(x, g.getYSize() - 1));
-	}
-	if(y == g.getYSize() - 1) {
-	    neighbors.add(g.getCell(0, y));
-	}
+	neighbors.addAll(FACTORY.cardinalFiniteCheck(c, g));
+	neighbors.addAll(FACTORY.cardinalWrapCheck(c,g));
 	Cell[] retNeighbors = neighbors.toArray(new Cell[neighbors.size()]);
 	return retNeighbors;
     }
@@ -106,49 +65,13 @@ public class SquareNeighborhood extends Neighborhood {
      * @return Diagonal neighbors if wrappable
      */
     public Cell[] TorodialDiagonal(Cell c, Grid g) {
-	int x = c.getX();
-	int y = c.getY();
 	ArrayList<Cell> neighbors = new ArrayList<>(); 
 	neighbors.addAll(Arrays.asList(FiniteDiagonal(c ,g)));
-	
-	// Handling x-coordinates on edge
-	if(x == 0 && y < g.getYSize() - 1) {
-	    neighbors.add(g.getCell(g.getXSize() -1, y + 1));
-	}
-	if(x == 0 && y > 0) {
-	    neighbors.add(g.getCell(g.getXSize() -1, y -1));
-	}
-	if(x == g.getXSize() - 1 && y > 0) {
-	    neighbors.add(g.getCell(0, y - 1));
-	}
-	if(x == g.getXSize() - 1 && y < g.getYSize() - 1) {
-	    neighbors.add(g.getCell(0, y + 1));
-	}
-	
-	// Handling y-coordinates on edge
-	if(x < g.getXSize() -1 && y == 0) {
-	    neighbors.add(g.getCell(x + 1, g.getYSize() -1));
-	}
-	if(x > 0 && y == 0) {
-	    neighbors.add(g.getCell(x - 1, g.getYSize() -1));
-	}
-	if(x < g.getXSize() - 1 && y == g.getYSize() - 1) {
-	    neighbors.add(g.getCell(x + 1, 0));
-	}
-	if(x > 0 && y == g.getYSize() - 1) {
-	    neighbors.add(g.getCell(x - 1, 0));
-	}
-	
-	// Handling both
-	if(x == 0 && y == 0) {
-	    neighbors.add(g.getCell(g.getXSize() - 1, g.getYSize() -1));
-	}
-	if(x == g.getXSize() -1 && y == g.getYSize() - 1) {
-	    neighbors.add(g.getCell(0, 0));
-	}
+	neighbors.addAll(FACTORY.xBoundCheck(c ,g));
+	neighbors.addAll(FACTORY.yBoundCheck(c ,g));
+	neighbors.addAll(FACTORY.cornersCheck(c ,g));
 	Cell[] retNeighbors = neighbors.toArray(new Cell[neighbors.size()]);
 	return retNeighbors;
     }
-
-
+   
 }

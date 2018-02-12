@@ -39,7 +39,7 @@ public class StyleFactory extends Engine {
 	    return segregation.getParameterFields();
 	}
 	else if(simType.equals(resourceString("GAMEOFLIFE"))) {
-	    FireXMLData gol = new FireXMLData();
+	    GameOfLifeXMLData gol = new GameOfLifeXMLData();
 	    return gol.getParameterFields();
 	}
 	return null;

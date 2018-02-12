@@ -1,4 +1,4 @@
-# cellsociety 
+# cell society 
 
 ## XML Files
 ### Game of Life
