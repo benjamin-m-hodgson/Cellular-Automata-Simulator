@@ -60,6 +60,9 @@ public class XMLDataFactory {
 	else if(simType.equals(getSimulation("ROCKPAPERSCISSORS"))) {
 	    return new RPSXMLData();
 	}
+	else if(simType.equals(getSimulation("SUGARSCAPE"))) {
+	    return new SugarXMLData();
+	}
 	else return null;
     }
 
