@@ -1,0 +1,32 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<simulation simulation = "CA" type = "SugarScape" format = "locations">
+	<name>"SugarScape"</name>
+    <sizeX>16</sizeX>
+    <sizeY>16</sizeY>
+	<cell>0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+	0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+	0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+	0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+	0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0
+	0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0
+	0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+	0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0
+	0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+	0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+	0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+	0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+	0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0
+	0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+	0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+	0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 </cell>
+	<regenRate>1</regenRate>
+	<regenInterval>1</regenInterval>
+	<sugar></sugar>
+	<maxSugar></maxSugar>
+	<agentSugar></agentSugar>
+	<agentMetabolism></agentMetabolism>
+	<agentVision></agentVision>
+	<author>Michael Acker</author>
+</simulation>
+	
+
