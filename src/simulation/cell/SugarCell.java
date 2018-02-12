@@ -51,10 +51,12 @@ public class SugarCell extends Cell {
     public Color colorCell() {
 	double gradient = (double) mySugar / (double) myMaxSugar;
 	if(myState == PATCH) {
-	    return Color.web(COLORS[myState], gradient);
+		if (mySugar == 0) {
+			return Color.web(COLORS[2]);
+		} else return Color.web(COLORS[myState], gradient);
 	}
 	else {
-	    return Color.web(COLORS[myState], gradient);
+	    return Color.web(COLORS[myState]);
 	}
     }
 
