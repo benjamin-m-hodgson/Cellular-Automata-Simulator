@@ -12,9 +12,11 @@ import simulation.ruleSet.Ruleset;
 
 public class RPSXMLData extends XMLData {
 	
-	private final String SUGAR = "SugarScape";
-	private final int PATCH = 0;
-	private final int AGENT = 1; 
+	private final String RPS = "RockPaperScissors";
+	private final int WHITE = 0;
+	private final int ROCK = 1;
+	private final int PAPER = 2;
+	private final int SCISSORS = 3;
 	protected static final List<String> PARAM_DATA_FIELDS = Arrays.asList(new String[] {
 	});
 
@@ -57,7 +59,7 @@ public class RPSXMLData extends XMLData {
 	@Override
 	public Grid getGrid(int[][] states) {
 		Grid g = new StandardGrid(this.getXSize(), this.getYSize());
-		g.setType(SUGAR);
+		g.setType(RPS);
 		int gradient = Integer.parseInt(myDataValues.get(PARAM_DATA_FIELDS.get(0)));
 		for(int r= 0; r < this.getXSize(); r++) {
 			for(int c = 0; c < this.getYSize(); c++) {
