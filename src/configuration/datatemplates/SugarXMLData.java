@@ -10,7 +10,15 @@ import simulation.grid.StandardGrid;
 import simulation.ruleSet.Ruleset;
 import simulation.ruleSet.SugarRuleset;
 
-
+/**
+ * 
+ * Used to parse XML data files for SugarScape simulations.
+ * 
+ * @author Michael Acker
+ * @author Katherine Van Dyk
+ * @date 2/11/18
+ *
+ */
 public class SugarXMLData extends XMLData {
 	
 	private final String SUGAR = "SugarScape";

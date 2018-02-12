@@ -13,7 +13,7 @@ import simulation.factoryClasses.ColorMapper;
  */
 public class SugarCell extends Cell {
 
-    private final int PATCH = 1;
+    private final int PATCH = 0;
     private int mySugar;
     private int myMaxSugar;
     private int myAgentSugar;

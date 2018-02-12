@@ -10,7 +10,14 @@ import simulation.grid.StandardGrid;
 import simulation.ruleSet.RPSRuleset;
 import simulation.ruleSet.Ruleset;
 
-
+/**
+ * Used to parse XML data files for Rock, Paper, Scissors simulations.
+ * 
+ * @author Michael Acker
+ * @author Katherine Van Dyk
+ * @date 2/11/18
+ *
+ */
 public class RPSXMLData extends XMLData {
 	
 	private final String RPS = "RockPaperScissors";
@@ -42,7 +49,7 @@ public class RPSXMLData extends XMLData {
 	}
 	
 	/**
-	 * Returns Sugar XML data fields 
+	 * Returns RPS XML data fields 
 	 */
 	@Override
 	public List<String> getDataFields() {
