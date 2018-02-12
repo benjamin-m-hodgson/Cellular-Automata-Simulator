@@ -10,37 +10,58 @@ import simulation.Engine;
 import simulation.ruleSet.FireRuleset;
 import simulation.ruleSet.GameOfLifeRuleset;
 import simulation.ruleSet.SegregationRuleset;
+import simulation.ruleSet.SugarRuleset;
 import simulation.ruleSet.WaTorRuleset;
 
 /**
- * Handles grid styling choices based on simulation type and user input
- * (grid edges and shape style)
+ * Handles grid/ruleset styling choices displayed in settings panel and edited by
+ * user input.
  * 
  * @author Katherine Van Dyk
+ * @date 2/10/18
  */
 public class StyleFactory extends Engine {
+    private static final double DEFAULT_VALUE = 0.0;
+    private static final String FIRE = "Fire";
+    private static final String WATOR = "WaTor";
+    private static final String SEGREGATION = "Segregation";
+    private static final String GAMEOFLIFE = "Game of Life";
+    private static final String SUGAR = "SugarScape";
+    private static final String RPS = "Rock, Paper, Scissors";
 
     /**
-     * @return simulation-specific parameter fields for drop-down menus and 
-     * XML file writing
-     * @param simType: Simulation type
+     * Returns list of parameters for specific simulation type
+     * 
+     * @param simType: current simulation in Engine
+     * @return List<String> to be displayed in drop-down menus
      */
     public List<String> getParameters(String simType){
-	if(simType.equals(resourceString("FIRE"))) {
+	if(simType.equalsIgnoreCase(FIRE)) {
 	    FireXMLData fire = new FireXMLData();
 	    return fire.getParameterFields();
 	}
-	else if(simType.equals(resourceString("WATOR"))) {
+	else if(simType.equalsIgnoreCase(WATOR)) {
 	    WaTorXMLData wator = new WaTorXMLData();
 	    return wator.getParameterFields();
 	}
-	else if(simType.equals(resourceString("SEGREGATION"))) {
+	else if(simType.equalsIgnoreCase(SEGREGATION)) {
 	    SegregationXMLData segregation = new SegregationXMLData();
 	    return segregation.getParameterFields();
 	}
-	else if(simType.equals(resourceString("GAMEOFLIFE"))) {
+	else if(simType.equalsIgnoreCase(GAMEOFLIFE)) {
 	    GameOfLifeXMLData gol = new GameOfLifeXMLData();
 	    return gol.getParameterFields();
+	}
+	else if(simType.equalsIgnoreCase(SUGAR)) {
+	    SugarXMLData sugar = new SugarXMLData();
+	    List<String> completeList = sugar.getParameterFields();
+	    // only the first two parameters are global parameters
+	    List<String> globalParameters = completeList.subList(0, 2);
+	    return globalParameters;
+	}
+	else if(simType.equalsIgnoreCase(RPS)) {
+	    // RPS has no global variables to change
+	    return new ArrayList<String>();
 	}
 	return null;
     }
@@ -74,74 +95,118 @@ public class StyleFactory extends Engine {
     }
 
     /**
-     * Sets parameters of ruleset to values based on user input
      * 
-     * @param engine: Current instance of game engine
-     * @param param: All possible game parameters
-     * @param newVal: Updated values
+     * @param engine
+     * @param param
+     * @param newVal
      */
     public void setParameter(Engine engine, String param, double newVal){
 	String simType = engine.currentGrid().getType();
-	if(simType.equals(resourceString("FIRE"))) {
-	    handleFireChange((FireRuleset) engine.currentRules(), newVal);
+	if(simType.equals(FIRE)) {
+	    FireRuleset fr = ((FireRuleset) engine.currentRules());
+	    fr.setProbCatch(newVal);
 	}
-	else if(simType.equals(resourceString("WATOR"))) {
+	else if(simType.equals(WATOR)) {
+	    WaTorRuleset wr = ((WaTorRuleset) engine.currentRules());
 	    List<String> parameters = getParameters(simType);
-	    handleWaTorChange((WaTorRuleset) engine.currentRules(), newVal, param, parameters);
+	    if(param.equals(parameters.get(0))) {
+		wr.setFishBreedTime((int) newVal);
+	    }
+	    else if(param.equals(parameters.get(1))) {
+		wr.setFishInitEnergy((int) newVal);
+	    }
+	    else if(param.equals(parameters.get(2))) {
+		wr.setSharkInitEnergy((int) newVal);
+	    }
+	    else if(param.equals(parameters.get(3))){
+		wr.setSharkBreedEnergy((int) newVal);
+	    }		
 	}
-	else if(simType.equals(resourceString("SEGREGATION"))) {
-	    handleSegregationChange((SegregationRuleset) engine.currentRules(), newVal);
+	else if(simType.equals(SEGREGATION)) {
+	    SegregationRuleset sr = ((SegregationRuleset) engine.currentRules());
+	    sr.setTolerance(newVal);
 	}
-	else if(simType.equals(resourceString("GAMEOFLIFE"))) {
+	else if(simType.equals(GAMEOFLIFE)) {
+	    GameOfLifeRuleset gr = ((GameOfLifeRuleset) engine.currentRules());
 	    List<String> parameters = getParameters(simType);
-	    handleGameOfLifeChange((GameOfLifeRuleset) engine.currentRules(), newVal, param, parameters);
+	    if(param.equals(parameters.get(0))) {
+		gr.setMinLife((int) newVal);
+	    }
+	    else if(param.equals(parameters.get(2))) {
+		gr.setMaxLife((int) newVal);
+	    }
+	    else if(param.equals(parameters.get(3))){
+		gr.setBirth((int) newVal);
+	    }		
+	}
+	else if(simType.equalsIgnoreCase(SUGAR)) {
+	    SugarRuleset sugar = ((SugarRuleset) engine.currentRules());
+	    List<String> parameters = getParameters(simType);
+	    if(param.equals(parameters.get(0))) {
+		sugar.setRegenRate((int) newVal); 
+	    }
+	    else if(param.equals(parameters.get(1))) {
+		sugar.setRegenInterval((int) newVal);
+	    }
 	}
     }
 
     /**
-     * Changes value in current FireRuleset @param r to new value @param newVal
+     * Gets specific parameter value from current simulation
+     * 
+     * @param engine
+     * @param param
+     * @return
      */
-    private void handleFireChange(FireRuleset r, double newVal) {
-	r.setProbCatch(newVal);
-    }
-
-    /**
-     * Changes value in current WaTorRuleset @param r to new value @param newVal
-     */
-    private void handleWaTorChange(WaTorRuleset r, double newVal, String param, List<String> parameters) {
-	if(param.equals(parameters.get(0))) {
-	    r.setFishBreedTime((int) newVal);
+    public double getParameter(Engine engine, String param){
+	String simType = engine.currentGrid().getType();
+	if(simType.equals(FIRE)) {
+	    FireRuleset fr = ((FireRuleset) engine.currentRules());
+	    return fr.getProbCatch();
 	}
-	else if(param.equals(parameters.get(1))) {
-	    r.setFishInitEnergy((int) newVal);
+	else if(simType.equals(WATOR)) {
+	    WaTorRuleset wr = ((WaTorRuleset) engine.currentRules());
+	    List<String> parameters = getParameters(simType);
+	    if(param.equals(parameters.get(0))) {
+		return wr.getFishBreedTime();
+	    }
+	    else if(param.equals(parameters.get(1))) {
+		return wr.getFishInitEnergy();
+	    }
+	    else if(param.equals(parameters.get(2))) {
+		return wr.getSharkInitEnergy();
+	    }
+	    else if(param.equals(parameters.get(3))) {
+		return wr.getSharkBreedEnergy();
+	    }		
 	}
-	else if(param.equals(parameters.get(2))) {
-	    r.setSharkInitEnergy((int) newVal);
+	else if(simType.equals(SEGREGATION)) {
+	    SegregationRuleset sr = ((SegregationRuleset) engine.currentRules());
+	    return sr.getTolerance();
 	}
-	else if(param.equals(parameters.get(3))){
-	    r.setSharkBreedEnergy((int) newVal);
-	}		
-    }
-
-    /**
-     * Changes value in current SegregationRuleset @param r to new value @param newVal
-     */
-    private void handleSegregationChange(SegregationRuleset r,  double newVal) {
-	r.setTolerance(newVal);
-    }
-
-    /**
-     * Changes value in current GameoOfLifeRuleset @param r to new value @param newVal
-     */
-    private void handleGameOfLifeChange(GameOfLifeRuleset r, double newVal, String param, List<String> parameters) {
-	if(param.equals(parameters.get(0))) {
-	    r.setMinLife((int) newVal);
+	else if(simType.equals(GAMEOFLIFE)) {
+	    GameOfLifeRuleset gr = ((GameOfLifeRuleset) engine.currentRules());
+	    List<String> parameters = getParameters(simType);
+	    if(param.equals(parameters.get(0))) {
+		return gr.getMinLife();
+	    }
+	    else if(param.equals(parameters.get(2))) {
+		return gr.getMaxLife();
+	    }
+	    else if(param.equals(parameters.get(3))) {
+		return gr.getBirth();
+	    }		
 	}
-	else if(param.equals(parameters.get(2))) {
-	    r.setMaxLife((int) newVal);
+	else if(simType.equals(SUGAR)) {
+	    SugarRuleset sugar = ((SugarRuleset) engine.currentRules());
+	    List<String> parameters = getParameters(simType);
+	    if(param.equals(parameters.get(0))) {
+		return sugar.getRegenRate();
+	    }
+	    else if(param.equals(parameters.get(1))) {
+		return sugar.getRegenInterval();
+	    }
 	}
-	else if(param.equals(parameters.get(3))){
-	    r.setBirth((int) newVal);
-	}	
+	return DEFAULT_VALUE;
     }
 }

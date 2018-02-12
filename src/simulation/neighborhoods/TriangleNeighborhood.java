@@ -7,9 +7,11 @@ import simulation.neighborhoods.neighborhoodFactories.TriangleNeighborhoodFactor
 import simulation.cell.*;
 
 /**
- * Gets neighbors in certain positions/configurations
+ * Gets neighbors in both cardinal and diagonal configurations for both
+ * finite and toroid grid edges, assuming a triangle shape
  * 
  * @author Katherine Van Dyk
+ * @date 2/9/18
  *
  */
 public class TriangleNeighborhood extends Neighborhood {

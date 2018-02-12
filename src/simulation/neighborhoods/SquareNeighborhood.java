@@ -8,9 +8,11 @@ import simulation.neighborhoods.neighborhoodFactories.NeighborhoodFactory;
 import simulation.cell.*;
 
 /**
- * Gets neighbors in certain positions/configurations
+ * Gets neighbors in both cardinal and diagonal configurations for both
+ * finite and toroid grid edges, assuming a rectangle shape
  * 
  * @author Katherine Van Dyk
+ * @date 2/9/18
  *
  */
 public class SquareNeighborhood extends Neighborhood {

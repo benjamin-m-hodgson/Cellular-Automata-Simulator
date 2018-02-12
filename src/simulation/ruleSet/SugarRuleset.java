@@ -82,10 +82,10 @@ public class SugarRuleset extends Ruleset{
 		SugarCell c = (SugarCell) cell;
 		if (c.getState() == PATCH) {
 			processPatch(c);
-			return PATCH;
+			return c.getState();
 		} else if (c.getState() == AGENT) {
 			processAgent(c);
-			return AGENT;
+			return c.getState();
 		}
 		return 0;
 	}
@@ -122,7 +122,7 @@ public class SugarRuleset extends Ruleset{
 		agentEat(c, target);
 		SugarCell newAgent = target;
 		newAgent.setAgentSugar(newAgent.getAgentSugar() - newAgent.getMetabolism());
-		if (newAgent.getMetabolism() <= 0) {
+		if (newAgent.getAgentSugar() <= 0) {
 			newAgent.setState(PATCH);
 			newAgent.resetTicks();
 		}

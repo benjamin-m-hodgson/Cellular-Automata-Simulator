@@ -43,6 +43,16 @@ public class SugarCell extends Cell {
 	myAgentVision = agentVision;
 	COLORS = new ColorMapper().getColors("DefaultSugar");
     }
+    
+    /**
+     * Sets state actively to accommodate unique needs
+     */
+    @Override
+    public void setState(int state) {
+    	myPreviousState = myState;
+    	myState = state;
+    	myNextState = state;
+        }
 
     /**
      * Colors cell based on current cell state.
