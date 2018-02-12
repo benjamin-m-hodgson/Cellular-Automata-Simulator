@@ -19,17 +19,24 @@ import simulation.ruleSet.Ruleset;
 public class CurrentSimulation {
     protected Engine PROGRAM_ENGINE;
     protected Shape[][] SIMULATION_SHAPES;
-    protected String SHAPE_TYPE;
     protected boolean EDGE_TYPE;
+    protected String SHAPE_TYPE;
+    protected String COLOR;
+    protected double SHAPE_SIZE;
+    protected double SPACE_SIZE;
  
     /**
      * Holds shape array to be displayed
      * 
      * @param currentEngine
      */
-    public CurrentSimulation(Engine currentEngine, String shape, boolean edge) {
-	SHAPE_TYPE = shape;
+    public CurrentSimulation(Engine currentEngine, boolean edge, 
+	    String shape, String color, double size, double space) {
 	EDGE_TYPE = edge;
+	SHAPE_TYPE = shape;
+	COLOR = color;
+	SHAPE_SIZE = size;
+	SPACE_SIZE = space;
 	PROGRAM_ENGINE = currentEngine;
 	initializeShapes();
 	populateShapes();
@@ -44,14 +51,6 @@ public class CurrentSimulation {
 	processCells(grid, r);
 	grid.updateStates();
 	updateDisplay();
-    }
-
-    /**
-     * Resets shapes to initial states
-     */
-    public void reset() {
-	initializeShapes();
-	populateShapes();
     }
 
     /**
@@ -85,7 +84,7 @@ public class CurrentSimulation {
 	for (int i = 0; i < SIMULATION_SHAPES.length; i++) {
 	    for (int j = 0; j < SIMULATION_SHAPES[i].length; j ++) {
 		SIMULATION_SHAPES[i][j] = 
-			shapeFactory.chooseShape(i, j, PROGRAM_ENGINE);
+			shapeFactory.chooseShape(i, j, PROGRAM_ENGINE, SHAPE_SIZE, SPACE_SIZE);
 	    }
 	}
     }
@@ -133,5 +132,17 @@ public class CurrentSimulation {
     
     public boolean getEdge() {
 	return EDGE_TYPE;
+    }
+    
+    public String getColor() {
+	return COLOR;
+    }
+    
+    public double getSize() {
+	return SHAPE_SIZE;
+    }
+    
+    public double getSpace() {
+	return SPACE_SIZE;
     }
 }

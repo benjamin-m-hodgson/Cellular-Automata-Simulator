@@ -93,6 +93,7 @@ public class Engine {
      */
     public void styleSimulation() {
 	Parent root =  new SimulationSettings(this).getRoot();
+	root.setId("simulationSettingsRoot");
 	PROGRAM_SCENE.setRoot(root);
     }
 
@@ -100,12 +101,12 @@ public class Engine {
      * 
      * @param type: The type of simulation to start
      */
-    public void startSimulation(String type, String shape, boolean edge) {
+    public void startSimulation(String type, boolean edge, String shape, String color,
+	    double size, double space) {
 	if (SIMULATING) {
 	    stopSimulation();
 	}
-	System.out.println(type);
-	initializeSimulation(type, shape, edge);
+	initializeSimulation(type, edge, shape, color, size, space);
 	Parent root = new SimulationScreen(this, SIMULATION).getRoot();
 	PROGRAM_SCENE.setRoot(root);
 	playAnimation();
@@ -172,18 +173,14 @@ public class Engine {
      * 
      * @param type: type of simulation
      */
-    private void initializeSimulation(String type, String shape, boolean edge) {
+    private void initializeSimulation(String type, boolean edge, String shape, String color,
+	    double size, double space) {
 	SIMULATION_NAME = type;
 	SIMULATING = true;
 	GENERATION = 0;
 	initializeMaps();
 	PROGRAM_STAGE.setTitle(SIMULATION_NAME);
-	if (SIMULATION != null) {
-	    SIMULATION.reset();
-	}
-	else {
-	    SIMULATION = new CurrentSimulation(this, shape, edge);
-	}
+	SIMULATION = new CurrentSimulation(this, edge, shape, color, size, space);
     }
 
     /**
@@ -329,6 +326,10 @@ public class Engine {
 	return RULES.get(SIMULATION_NAME);
     }
 
+    public CurrentSimulation getCurrentSimulation() {
+	return SIMULATION;
+    }
+    
     /**
      * Returns scene width
      */
@@ -336,16 +337,13 @@ public class Engine {
 	return PROGRAM_STAGE.widthProperty();
     }
 
-    public CurrentSimulation getCurrentSimulation() {
-	return SIMULATION;
-    }
-    
     /**
      * Returns scene height
      */
     public ReadOnlyDoubleProperty sceneHeight() {
 	return PROGRAM_STAGE.heightProperty();
     }
+
     
     /**
      * Returns list of parameters specific to simulation
