@@ -25,7 +25,7 @@ For the second simulation, I further developed the XML configuration files, incl
 In the simulation package, developed cell subclasses, rulesets, neighborhood managers, and XMLData classes for SugarScape and Rock, Paper, Scissors simulations.
 ##### Resources
 ##### Running the Project
-To run the project, run the ‘Main’ method in the Driver class.
+To run the project, run the â€˜Mainâ€™ method in the Driver class.
 ##### Resource Files Required By Project
 * Ben Hodgson
 	* http://hg.openjdk.java.net/openjfx/8/master/rt/file/f89b7dc932af/modules/controls/src/main/resources/com/sun/javafx/scene/control/skin/modena/modena.css
@@ -42,9 +42,10 @@ To run the project, run the ‘Main’ method in the Driver class.
 	* https://www.tutorialspoint.com/java_xml/java_dom_parse_document.htm
 	* https://www.mkyong.com/java/how-to-create-xml-file-in-java-dom/
 	* https://docs.oracle.com/javafx/2/charts/line-chart.htm#CIHGBCFI
+
 ### Features of Project
 #### Configuration
-Able to parse all XML files in the ‘xml’ directory before the simulation begins based on simulation data templates. The XML writer saves the current grid into an XML file with the filename of the user’s choice. The XML parser can parse files with hard-coded cell locations and also by randomly generating states.
+Able to parse all XML files in the â€˜xmlâ€™ directory before the simulation begins based on simulation data templates. The XML writer saves the current grid into an XML file with the filename of the userâ€™s choice. The XML parser can parse files with hard-coded cell locations and also by randomly generating states.
 #### The Start/Settings Screen
 Our program automatically parses any XML input file in the XML directory. It error checks by first not parsing any file that doesn't end in ".xml" and also by throwing a specific error if a file includes invalid parameters. The settings screen allows a user to style any feature of the grid, such as cell coloring scheme, shape, size, and how grid edges behave.
 #### The Control Panel
