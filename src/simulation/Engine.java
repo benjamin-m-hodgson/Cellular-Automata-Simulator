@@ -40,7 +40,6 @@ public class Engine {
 	    Engine.class.getClassLoader().getResource("default.css").toExternalForm();
     private final ResourceBundle DEFAULT_RESOURCES = 
 	    ResourceBundle.getBundle("simulation.default");
-
     private final String PROGRAM_TITLE;   
     private double GENERATIONS_PER_SECOND = 1;
     private double MILLISECOND_DELAY = 1000 / GENERATIONS_PER_SECOND;
