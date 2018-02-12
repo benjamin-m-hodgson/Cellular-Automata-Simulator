@@ -180,6 +180,7 @@ public class Engine {
 	SIMULATION_NAME = name;
 	SIMULATING = true;
 	GENERATION = 0;
+	initializeMaps();
 	PROGRAM_STAGE.setTitle(SIMULATION_NAME);
 	SIMULATION = new CurrentSimulation(this, edge, shape, color, size, space);
     }

@@ -10,6 +10,7 @@ import simulation.Engine;
 import simulation.ruleSet.FireRuleset;
 import simulation.ruleSet.GameOfLifeRuleset;
 import simulation.ruleSet.SegregationRuleset;
+import simulation.ruleSet.SugarRuleset;
 import simulation.ruleSet.WaTorRuleset;
 
 /**
@@ -24,7 +25,7 @@ public class StyleFactory extends Engine {
     private static final String WATOR = "WaTor";
     private static final String SEGREGATION = "Segregation";
     private static final String GAMEOFLIFE = "Game of Life";
-    private static final String SUGAR = "Sugar";
+    private static final String SUGAR = "SugarScape";
     private static final String RPS = "Rock, Paper, Scissors";
 
     public List<String> getParameters(String simType){
@@ -46,15 +47,14 @@ public class StyleFactory extends Engine {
 	}
 	else if(simType.equalsIgnoreCase(SUGAR)) {
 	    SugarXMLData sugar = new SugarXMLData();
-	    return sugar.getParameterFields();
-	}
-	else if(simType.equalsIgnoreCase(SUGAR)) {
-	    SugarXMLData sugar = new SugarXMLData();
-	    return sugar.getParameterFields();
+	    List<String> completeList = sugar.getParameterFields();
+	    // only the first two parameters are global parameters
+	    List<String> globalParameters = completeList.subList(0, 2);
+	    return globalParameters;
 	}
 	else if(simType.equalsIgnoreCase(RPS)) {
-	    RPSXMLData rps = new RPSXMLData();
-	    return rps.getParameterFields();
+	    // RPS has no global variables to change
+	    return new ArrayList<String>();
 	}
 	return null;
     }
@@ -132,6 +132,16 @@ public class StyleFactory extends Engine {
 		gr.setBirth((int) newVal);
 	    }		
 	}
+	else if(simType.equalsIgnoreCase(SUGAR)) {
+	    SugarRuleset sugar = ((SugarRuleset) engine.currentRules());
+	    List<String> parameters = getParameters(simType);
+	    if(param.equals(parameters.get(0))) {
+		sugar.setRegenRate((int) newVal); 
+	    }
+	    else if(param.equals(parameters.get(1))) {
+		sugar.setRegenInterval((int) newVal);
+	    }
+	}
     }
     
     /**
@@ -178,6 +188,16 @@ public class StyleFactory extends Engine {
 	    else if(param.equals(parameters.get(3))) {
 		return gr.getBirth();
 	    }		
+	}
+	else if(simType.equals(SUGAR)) {
+	    SugarRuleset sugar = ((SugarRuleset) engine.currentRules());
+	    List<String> parameters = getParameters(simType);
+	    if(param.equals(parameters.get(0))) {
+		return sugar.getRegenRate();
+	    }
+	    else if(param.equals(parameters.get(1))) {
+		return sugar.getRegenInterval();
+	    }
 	}
 	return DEFAULT_VALUE;
     }

@@ -134,11 +134,13 @@ public class SimulationSettingsPanel {
 	Label changeParam = makeInfoLabel(PROGRAM_ENGINE.
 		resourceString("updateStatePrompt"));
 	Label cellPrompt = new Label(PROGRAM_ENGINE.resourceString("coordinatesPrompt"));
+	cellPrompt.setId("simpleLabel");
+	cellPrompt.setAlignment(Pos.CENTER);
 	Grid currentGrid = PROGRAM_ENGINE.currentGrid();
 	Label gridPrompt = new Label(PROGRAM_ENGINE.resourceString("gridSizeString")
 		+ Integer.toString(currentGrid.getXSize()) + " x " 
 		+ Integer.toString(currentGrid.getYSize()));
-	cellPrompt.setAlignment(Pos.CENTER);
+	gridPrompt.setId("simpleLabel");
 	int xMax = PROGRAM_ENGINE.getGrid(PROGRAM_ENGINE.getSimulationName()).getXSize() - 1;
 	int yMax = PROGRAM_ENGINE.getGrid(PROGRAM_ENGINE.getSimulationName()).getYSize() - 1;
 	xFIELD = xField(0, xMax);
@@ -147,6 +149,7 @@ public class SimulationSettingsPanel {
 	coordinateBox.setAlignment(Pos.CENTER);
 	coordinateBox.setId("optionLabels");
 	Label statePrompt = new Label(PROGRAM_ENGINE.resourceString("statePrompt"));
+	statePrompt.setId("simpleLabel");
 	CURRENT_STATE = currentField();
 	DESIRED_STATE = desiredField(coordinateBox, STATE_MIN, STATE_MAX);
 	HBox stateBox = new HBox(LABEL_SPACING, CURRENT_STATE, DESIRED_STATE);

@@ -205,43 +205,39 @@ public class SimulationSettings extends Screen {
     private VBox cellSizeOptions() {
 	Label defaultPrompt = new Label(PROGRAM_ENGINE.resourceString("sizePromptString"));
 	defaultPrompt.setId("simpleLabel");
+	Label spacePrompt = new Label(PROGRAM_ENGINE.resourceString("spacePromptString"));
+	spacePrompt.setId("simpleLabel");
 	VBox sizePanel = new VBox(LABEL_SPACING);
 	sizePanel.setId("sizePanel");
-	VBox sizeOption = sizeOption(sizePanel);
-	VBox spaceOption = spaceOption(sizePanel);
-	sizePanel.getChildren().addAll(defaultPrompt, sizeOption, spaceOption);
+	HBox sizeOption = sizeOption(sizePanel);
+	HBox spaceOption = spaceOption(sizePanel);
+	sizePanel.getChildren().addAll(defaultPrompt, sizeOption, spacePrompt, spaceOption);
 	return sizePanel;
     }
 
-    private VBox spaceOption(Parent sizePanel) {
-	VBox spaceOption = new VBox(LABEL_SPACING);
-	spaceOption.setAlignment(Pos.CENTER);
+    private HBox spaceOption(Parent sizePanel) {
 	SPACE_SIZE = numberField(sizePanel, SPACE_MIN_SIZE, SPACE_MAX_SIZE);
 	SPACE_SIZE.setId("simulationTextField");
-	Label maxPrompt = new Label(PROGRAM_ENGINE.resourceString("maxString") + SPACE_MAX_SIZE);
-	Label minPrompt = new Label(PROGRAM_ENGINE.resourceString("minString") + SPACE_MIN_SIZE);
+	Label maxPrompt = new Label(Double.toString(SPACE_MAX_SIZE));
+	Label minPrompt = new Label(Double.toString(SPACE_MIN_SIZE));
 	maxPrompt.setId("simpleLabel");
 	minPrompt.setId("simpleLabel");
-	HBox infoLabels = new HBox(LABEL_SPACING, minPrompt, maxPrompt);
-	infoLabels.setId("optionLabels");
-	infoLabels.setAlignment(Pos.CENTER);
-	spaceOption.getChildren().addAll(SPACE_SIZE, infoLabels);
+	HBox spaceOption = new HBox(LABEL_SPACING, minPrompt, SPACE_SIZE, maxPrompt);
+	spaceOption.setId("optionLabels");
+	spaceOption.setAlignment(Pos.CENTER);
 	return spaceOption;
     }
 
-    private VBox sizeOption(Parent sizePanel){
-	VBox sizeOption = new VBox(LABEL_SPACING);
-	sizeOption.setAlignment(Pos.CENTER);
+    private HBox sizeOption(Parent sizePanel){
 	CELL_SIZE = numberField(sizePanel, CELL_MIN_SIZE, CELL_MAX_SIZE);
 	CELL_SIZE.setId("simulationTextField");
-	Label maxPrompt = new Label(PROGRAM_ENGINE.resourceString("maxString") + CELL_MAX_SIZE);
-	Label minPrompt = new Label(PROGRAM_ENGINE.resourceString("minString") + CELL_MIN_SIZE);
+	Label maxPrompt = new Label(Double.toString(CELL_MAX_SIZE));
+	Label minPrompt = new Label(Double.toString(CELL_MIN_SIZE));
 	maxPrompt.setId("simpleLabel");
 	minPrompt.setId("simpleLabel");
-	HBox infoLabels = new HBox(LABEL_SPACING, minPrompt, maxPrompt);
-	infoLabels.setId("optionLabels");
-	infoLabels.setAlignment(Pos.CENTER);
-	sizeOption.getChildren().addAll(CELL_SIZE, infoLabels);
+	HBox sizeOption = new HBox(LABEL_SPACING, minPrompt, CELL_SIZE, maxPrompt);
+	sizeOption.setId("optionLabels");
+	sizeOption.setAlignment(Pos.CENTER);
 	return sizeOption;
     }
 

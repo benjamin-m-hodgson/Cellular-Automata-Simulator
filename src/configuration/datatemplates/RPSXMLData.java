@@ -13,7 +13,7 @@ import simulation.ruleSet.Ruleset;
 
 public class RPSXMLData extends XMLData {
 	
-	private final String RPS = "RockPaperScissors";
+	private final String RPS = "Rock, Paper, Scissors";
 	protected static final List<String> PARAM_DATA_FIELDS = Arrays.asList(new String[] {
 		"gradient"
 	});
@@ -30,7 +30,7 @@ public class RPSXMLData extends XMLData {
 	 */
 	@Override
 	public Ruleset getRules() {
-		return new RPSRuleset();
+	    	return new RPSRuleset();
 	}
 	
 	/**
