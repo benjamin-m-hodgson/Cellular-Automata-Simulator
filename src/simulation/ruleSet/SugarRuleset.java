@@ -122,7 +122,7 @@ public class SugarRuleset extends Ruleset{
 		agentEat(c, target);
 		SugarCell newAgent = target;
 		newAgent.setAgentSugar(newAgent.getAgentSugar() - newAgent.getMetabolism());
-		if (newAgent.getMetabolism() <= 0) {
+		if (newAgent.getAgentSugar() <= 0) {
 			newAgent.setState(PATCH);
 			newAgent.resetTicks();
 		}
