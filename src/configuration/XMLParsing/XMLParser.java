@@ -105,11 +105,6 @@ public class XMLParser {
 	}
     }
 
-
-    public String getType() {
-	return simulationType;
-    }
-
     /**
      * Returns root element of XML File
      * 
