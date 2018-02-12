@@ -17,6 +17,7 @@ import simulation.ruleSet.WaTorRuleset;
  * Handles grid/ruleset styling choices displayed in settings panel and edited by
  * user input.
  * 
+ * @author Ben Hodgson
  * @author Katherine Van Dyk
  * @date 2/10/18
  */
@@ -152,11 +153,9 @@ public class StyleFactory extends Engine {
     }
 
     /**
-     * Gets specific parameter value from current simulation
+     * Returns the value of @param param for the current simulation
+     * running on the @param engine
      * 
-     * @param engine
-     * @param param
-     * @return
      */
     public double getParameter(Engine engine, String param){
 	String simType = engine.currentGrid().getType();
