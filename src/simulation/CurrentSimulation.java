@@ -65,6 +65,11 @@ public class CurrentSimulation {
     public Shape drawShape(int x, int y) {
 	return SIMULATION_SHAPES[x][y];
     }
+    
+    public void colorCell(Cell currentCell, int x, int y) {
+	Shape cell = SIMULATION_SHAPES[x][y];
+	cell.setFill(currentCell.colorCell());
+    }
 
     /**
      * Creates an initial empty array of shapes to be displayed
@@ -113,8 +118,8 @@ public class CurrentSimulation {
 	Cell[][] currentCells = currentGrid.getCells();
 	for (int i = 0; i < SIMULATION_SHAPES.length; i++) {
 	    for (int j = 0; j < SIMULATION_SHAPES[i].length; j++) {
-		Shape cell = SIMULATION_SHAPES[i][j];
-		cell.setFill(currentCells[i][j].colorCell());
+		Cell currentCell = currentCells[i][j];
+		colorCell(currentCell, i, j);
 	    }
 	}
     }
