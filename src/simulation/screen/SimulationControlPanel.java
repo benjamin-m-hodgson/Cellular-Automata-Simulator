@@ -123,7 +123,8 @@ public class SimulationControlPanel {
 	Label simulationPrompt = makeInfoLabel(PROGRAM_ENGINE.
 		resourceString("changeSimulationString")); 
 	SIMULATE = makeButton(PROGRAM_ENGINE.resourceString("newSimulateString"));
-	VBox simulationMenu = new VBox(LABEL_SPACING, simulationPrompt, SIMULATE);
+	Button settings = settingsButton();
+	VBox simulationMenu = new VBox(LABEL_SPACING, simulationPrompt, settings, SIMULATE);
 	return simulationMenu;
     }
 
@@ -147,6 +148,22 @@ public class SimulationControlPanel {
              }
          });
          return simulateButton;
+     }
+     
+     public Button settingsButton() {
+	 Button settingsButton = new Button(PROGRAM_ENGINE.resourceString("settingsPrompt"));
+	 settingsButton.setId("simulateButton");
+         settingsButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+             @Override
+             public void handle(MouseEvent arg0) {
+        	 VBox newPanel = new VBox(GROUP_SPACING,
+        		 new SimulationSettingsPanel(PROGRAM_ENGINE).construct(),
+        		 exitButton());
+        	 newPanel.setId("simulationSettingsRoot");
+                 ROOT_SCREEN.getRootPane().setRight(newPanel);
+             }
+         });
+	 return settingsButton;
      }
      
      /**

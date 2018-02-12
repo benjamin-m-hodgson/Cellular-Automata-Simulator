@@ -465,6 +465,9 @@
 	-fx-border-radius: 1;
 	-fx-border-color: #696969;
 }
+#simulationTextField:disabled {
+	-fx-opacity: 1;
+}
 /******************************************************************************************/
 /* The simple label */
 /******************************************************************************************/
@@ -499,5 +502,28 @@
 	-fx-max-width: 140px;
 	-fx-pref-height: 20px;
 	-fx-background-color: #d3d3d3;
+}
+/******************************************************************************************/
+/* The chart that plots the distribution of cell states in a simulation */
+/******************************************************************************************/
+#stateChart .chart-plot-background {
+	-fx-background-color: transparent;
+	-fx-border-style: solid;
+	-fx-border-width: 2;
+	-fx-border-radius: 1;
+	-fx-border-insets: -1;
+	-fx-border-color: #696969;
+}
+#stateChart .chart-vertical-grid-lines {
+	-fx-stroke: #696969;
+}
+#stateChart .chart-horizontal-grid-lines {
+	-fx-stroke: #696969;
+}
+#stateChart .chart-line-symbol {
+	-fx-background-color: transparent;
+}
+#stateChart .chart-series-line {
+	-fx-stroke-width: 2;
 }
 }
