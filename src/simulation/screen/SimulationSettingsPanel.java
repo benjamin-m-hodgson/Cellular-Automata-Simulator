@@ -20,7 +20,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
+import simulation.CurrentSimulation;
 import simulation.Engine;
+import simulation.cell.Cell;
+import simulation.grid.Grid;
 
 /**
  * 
@@ -37,14 +40,22 @@ public class SimulationSettingsPanel {
     private final double FRAMES_PER_SECOND = 120;
     private final long MILLISECOND_DELAY = Math.round(1000 / FRAMES_PER_SECOND);
     private final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
+    private final int STATE_MIN = 0;
+    private final int STATE_MAX = 2;
     private VBox CONTROL_PANEL;
     private Engine PROGRAM_ENGINE;    
     private StyleFactory STYLE = new StyleFactory();
+    private ComboBox<Object> PARAM_MENU;
     private boolean PARAM_VALID;
     private boolean NEW_VAL_VALID;
+    private boolean X_VALID;
+    private boolean Y_VALID;
     private String NEW_VAL;
     private String PARAM;
-    private Button CHANGE;
+    private Button CHANGE_PARAM;
+    private Button CHANGE_STATE;
+    private TextField PARAM_FIELD;
+    private TextField CURRENT_PARAM;
     private TextField xFIELD;
     private TextField yFIELD;
     private TextField CURRENT_STATE;
@@ -104,11 +115,14 @@ public class SimulationSettingsPanel {
     private VBox makeMenu() {
 	Label changeParam = makeInfoLabel(PROGRAM_ENGINE.
 		resourceString("updateParamPrompt"));
-	ComboBox<Object> simulationChoices = paramChooser();
-	simulationChoices.setId("simulatorChooser");
-	CHANGE = makeChangerButton(PROGRAM_ENGINE.resourceString("updateParamString"));
-	VBox changeParamMenu = new VBox(LABEL_SPACING, changeParam, simulationChoices);
-	changeParamMenu.getChildren().add(CHANGE);
+	PARAM_MENU = paramChooser();
+	PARAM_MENU.setId("simulatorChooser");
+	CHANGE_PARAM = makeParamChangerButton(PROGRAM_ENGINE.resourceString("applyString"));
+	VBox changeParamMenu = new VBox(LABEL_SPACING, changeParam, PARAM_MENU);
+	//CURRENT_PARAM
+	PARAM_FIELD = paramField(changeParamMenu);
+	changeParamMenu.getChildren().addAll(PARAM_FIELD, CHANGE_PARAM);
+	changeParamMenu.setAlignment(Pos.CENTER);
 	return changeParamMenu;
     }
 
@@ -121,6 +135,10 @@ public class SimulationSettingsPanel {
 	Label changeParam = makeInfoLabel(PROGRAM_ENGINE.
 		resourceString("updateStatePrompt"));
 	Label cellPrompt = new Label(PROGRAM_ENGINE.resourceString("coordinatesPrompt"));
+	Grid currentGrid = PROGRAM_ENGINE.currentGrid();
+	Label gridPrompt = new Label(PROGRAM_ENGINE.resourceString("gridSizeString")
+		+ Integer.toString(currentGrid.getXSize()) + " x " 
+		+ Integer.toString(currentGrid.getYSize()));
 	cellPrompt.setAlignment(Pos.CENTER);
 	int xMax = PROGRAM_ENGINE.getGrid(PROGRAM_ENGINE.getSimulationName()).getXSize() - 1;
 	int yMax = PROGRAM_ENGINE.getGrid(PROGRAM_ENGINE.getSimulationName()).getYSize() - 1;
@@ -131,14 +149,13 @@ public class SimulationSettingsPanel {
 	coordinateBox.setId("optionLabels");
 	Label statePrompt = new Label(PROGRAM_ENGINE.resourceString("statePrompt"));
 	CURRENT_STATE = currentField();
-	int stateMin = 0;
-	int stateMax = 3;
-	DESIRED_STATE = desiredField(coordinateBox, stateMin, stateMax);
+	DESIRED_STATE = desiredField(coordinateBox, STATE_MIN, STATE_MAX);
 	HBox stateBox = new HBox(LABEL_SPACING, CURRENT_STATE, DESIRED_STATE);
 	stateBox.setAlignment(Pos.CENTER);
 	stateBox.setId("optionLabels");
-	VBox changeStateMenu = new VBox(LABEL_SPACING, changeParam, cellPrompt, 
-		coordinateBox, statePrompt, stateBox);
+	CHANGE_STATE = makeStateChangerButton(PROGRAM_ENGINE.resourceString("applyString"));
+	VBox changeStateMenu = new VBox(LABEL_SPACING, changeParam, cellPrompt, gridPrompt,
+		coordinateBox, statePrompt, stateBox, CHANGE_STATE);
 	changeStateMenu.setAlignment(Pos.CENTER);
 	return changeStateMenu;
 
@@ -176,6 +193,57 @@ public class SimulationSettingsPanel {
     }
 
     /**
+     * Creates a text field that takes input to change a parameter value
+     * 
+     * @return paramField: a text field that allows the user to input a new parameter value
+     */
+    private TextField paramField(Parent root) {
+	TextField numberTextField = new TextField();
+	numberTextField.setId("simulationTextField");
+	numberTextField.setText(PROGRAM_ENGINE.resourceString("newValuePrompt"));
+	// clear when the mouse clicks on the text field
+	numberTextField.setOnMouseClicked(new EventHandler<MouseEvent>() {
+	    @Override
+	    public void handle(MouseEvent arg0) {
+		numberTextField.clear();
+		NEW_VAL_VALID = false;
+	    }
+	});
+	numberTextField.setOnKeyPressed(new EventHandler<KeyEvent>() {
+	    @Override
+	    public void handle(KeyEvent key) {
+		if (key.getCode() == KeyCode.ENTER) {
+		    if (PARAM_VALID) {
+			// check input to make sure the value is within bounds
+			int min = 0;
+			int max = 10;
+			try {
+			    int sizeVal = Integer.parseInt(numberTextField.getText());
+			    if (sizeVal >= min && sizeVal <= max) {			    
+				numberTextField.setText(Integer.toString(sizeVal));
+				NEW_VAL_VALID = true;
+			    }
+			    else {
+				numberTextField.setText(PROGRAM_ENGINE.resourceString(
+					"newValuePrompt"));
+				NEW_VAL_VALID = false;
+			    }
+
+			}
+			catch(Exception e) {
+			    numberTextField.setText(PROGRAM_ENGINE.resourceString(
+				    "newValuePrompt"));
+			    NEW_VAL_VALID = false;
+			}
+		    }
+		    root.requestFocus();
+		}
+	    }
+	});
+	return numberTextField;
+    }
+
+    /**
      * Creates a text field that takes integer only input to get the x coordinate of a cell 
      * in the simulation
      * 
@@ -192,6 +260,7 @@ public class SimulationSettingsPanel {
 	    @Override
 	    public void handle(MouseEvent arg0) {
 		numberTextField.clear();
+		X_VALID = false;
 	    }
 	});
 	numberTextField.setOnKeyPressed(new EventHandler<KeyEvent>() {
@@ -200,17 +269,20 @@ public class SimulationSettingsPanel {
 		if (key.getCode() == KeyCode.ENTER) {
 		    // check input to make sure the value is within bounds
 		    try {
-			double sizeVal = Integer.parseInt(numberTextField.getText());
+			int sizeVal = Integer.parseInt(numberTextField.getText());
 			if (sizeVal >= min && sizeVal <= max) {			    
-			    numberTextField.setText(Double.toString(sizeVal));
+			    numberTextField.setText(Integer.toString(sizeVal));
+			    X_VALID = true;
 			}
 			else {
 			    numberTextField.setText(PROGRAM_ENGINE.resourceString("xPrompt"));
+			    X_VALID = false;
 			}
 
 		    }
 		    catch(Exception e) {
 			numberTextField.setText(PROGRAM_ENGINE.resourceString("xPrompt"));
+			X_VALID = false;
 		    }
 		    yFIELD.requestFocus();
 		}
@@ -236,6 +308,7 @@ public class SimulationSettingsPanel {
 	    @Override
 	    public void handle(MouseEvent arg0) {
 		numberTextField.clear();
+		Y_VALID = false;
 	    }
 	});
 	numberTextField.setOnKeyPressed(new EventHandler<KeyEvent>() {
@@ -244,17 +317,20 @@ public class SimulationSettingsPanel {
 		if (key.getCode() == KeyCode.ENTER) {
 		    // check input to make sure the value is within bounds
 		    try {
-			double sizeVal = Integer.parseInt(numberTextField.getText());
+			int sizeVal = Integer.parseInt(numberTextField.getText());
 			if (sizeVal >= min && sizeVal <= max) {			    
-			    numberTextField.setText(Double.toString(sizeVal));
+			    numberTextField.setText(Integer.toString(sizeVal));
+			    Y_VALID = true;
 			}
 			else {
 			    numberTextField.setText(PROGRAM_ENGINE.resourceString("yPrompt"));
+			    Y_VALID = false;
 			}
 
 		    }
 		    catch(Exception e) {
 			numberTextField.setText(PROGRAM_ENGINE.resourceString("yPrompt"));
+			Y_VALID = false;
 		    }
 		    DESIRED_STATE.requestFocus();
 		}
@@ -302,9 +378,9 @@ public class SimulationSettingsPanel {
 		if (key.getCode() == KeyCode.ENTER) {
 		    // check input to make sure the value is within bounds
 		    try {
-			double sizeVal = Integer.parseInt(numberTextField.getText());
-			if (sizeVal >= min && sizeVal <= max) {			    
-			    numberTextField.setText(Double.toString(sizeVal));
+			int sizeVal = Integer.parseInt(numberTextField.getText());
+			if (sizeVal >= min && sizeVal <= max) {	
+			    numberTextField.setText(Integer.toString(sizeVal));
 			}
 			else {
 			    numberTextField.setText(
@@ -328,14 +404,33 @@ public class SimulationSettingsPanel {
      * @param text: text to be displayed on the button
      * @return simulateButton: a button to begin the selected simulation
      */
-    private Button makeChangerButton(String text) {
+    private Button makeParamChangerButton(String text) {
 	Button changerButton = new Button(text);
 	changerButton.setId("simulateButton");
 	// handle click event
 	changerButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 	    @Override
 	    public void handle(MouseEvent arg0) {
-		changeValue();
+		changeParamValue();
+	    }
+	});
+	changerButton.setDisable(true);
+	return changerButton;
+    }
+
+    /**
+     * 
+     * @param text: text to be displayed on the button
+     * @return simulateButton: a button to begin the selected simulation
+     */
+    private Button makeStateChangerButton(String text) {
+	Button changerButton = new Button(text);
+	changerButton.setId("simulateButton");
+	// handle click event
+	changerButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+	    @Override
+	    public void handle(MouseEvent arg0) {
+		changeStateValue();
 	    }
 	});
 	changerButton.setDisable(true);
@@ -343,17 +438,43 @@ public class SimulationSettingsPanel {
     }
 
 
-    private void processInputs() {
-	CHANGE.setDisable(!(PARAM_VALID && NEW_VAL_VALID));
+    private void processParamInputs() {
+	CHANGE_PARAM.setDisable(!(PARAM_VALID && NEW_VAL_VALID));
+    }
+
+    private void processStateInputs() {
+	CHANGE_STATE.setDisable(!(X_VALID && Y_VALID));
+	if (X_VALID && Y_VALID) {
+	    Grid currentGrid = PROGRAM_ENGINE.getGrid(PROGRAM_ENGINE.getSimulationName());
+	    int xVal = Integer.parseInt(xFIELD.getText());
+	    int yVal = Integer.parseInt(yFIELD.getText());
+	    Cell currentCell = currentGrid.getCell(xVal, yVal);
+	    CURRENT_STATE.setText(Integer.toString(currentCell.getState()));
+	}
+	else {
+	    CURRENT_STATE.setText(PROGRAM_ENGINE.resourceString("currentStatePrompt"));
+	}
     }
 
 
-    private void changeValue() {
+    private void changeParamValue() {
 	if(NEW_VAL_VALID && PARAM_VALID) {
 	    STYLE.setParameter(PROGRAM_ENGINE, PARAM, Double.parseDouble(NEW_VAL));
 	}
     }
-    
+
+    private void changeStateValue() {
+	if(X_VALID && Y_VALID) {
+	    Grid currentGrid = PROGRAM_ENGINE.getGrid(PROGRAM_ENGINE.getSimulationName());
+	    int xVal = Integer.parseInt(xFIELD.getText());
+	    int yVal = Integer.parseInt(yFIELD.getText());
+	    Cell currentCell = currentGrid.getCell(xVal, yVal);
+	    currentCell.changeState(Integer.parseInt(DESIRED_STATE.getText()));
+	    CurrentSimulation cellSimulation = PROGRAM_ENGINE.getCurrentSimulation();
+	    cellSimulation.colorCell(currentCell, xVal, yVal);
+	}
+    }
+
     /**
      * Change properties of shapes to animate them. In this instance,
      * primarily checks to see if the selected simulation is valid and
@@ -362,7 +483,8 @@ public class SimulationSettingsPanel {
      * @param elapsedTime: time since last animation update
      */
     private void step (double elapsedTime) {
-	processInputs();
+	processParamInputs();
+	processStateInputs();
     }
 
 }

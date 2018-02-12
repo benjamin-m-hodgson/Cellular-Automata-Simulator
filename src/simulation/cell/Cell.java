@@ -92,6 +92,16 @@ public abstract class Cell implements Cloneable{
 	myPreviousState = myState;
 	myNextState = state;
     }
+    
+    /**
+     * Takes @param state and updates the state of the Cell immediately. Differs from 
+     * setState(int state) because the effect happens immediately. 
+     * 
+     * @param state: new state to update
+     */
+    public void changeState(int state) {
+	myState = state;
+    }
 
     /**
      * Changes the color of the cell to reflect state changes for animation

@@ -448,9 +448,9 @@
 	-fx-alignment: center;
     -fx-text-fill: #696969;
     -fx-font: 12px Excelsior;
-	-fx-pref-width: 70;
-	-fx-min-width: 70;
-	-fx-max-width: 70;
+	-fx-pref-width: 80;
+	-fx-min-width: 80;
+	-fx-max-width: 80;
 	-fx-min-height: 30;
 	-fx-pref-height: 30;
 	-fx-max-height: 30;
