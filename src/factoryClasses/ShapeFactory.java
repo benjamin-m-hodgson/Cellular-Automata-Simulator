@@ -16,10 +16,8 @@ import simulation.shapes.TriangleHandler;
  */
 public class ShapeFactory {
 
-    private final String RECTANGLE = "Rectangle";
+    //private final String RECTANGLE = "Rectangle";
     private final String TRIANGLE = "Triangle";
-    private final double DEFAULT_SPACING = 0.5;
-    private final double DEFAULT_INDICATOR = -1;
 
     private String SHAPE_TYPE;
     
@@ -45,7 +43,7 @@ public class ShapeFactory {
 
 	}
 	//else if (SHAPE_TYPE.equalsIgnoreCase(RECTANGLE)) {
-	// only two options, make sure return isnt' null
+	// only two options, make sure return isn't null
 	else {
 	    RectangleHandler shapeHandler = new RectangleHandler(PROGRAM_ENGINE,
 		    SHAPE_SIZE, SPACE_SIZE);

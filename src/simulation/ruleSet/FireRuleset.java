@@ -39,7 +39,6 @@ public class FireRuleset extends Ruleset {
     
     public void setProbCatch(Double d) {
 	PROBCATCH = d;
-	System.out.println(PROBCATCH);
     }
 
     @Override

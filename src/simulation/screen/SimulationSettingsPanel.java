@@ -50,7 +50,6 @@ public class SimulationSettingsPanel {
     private boolean NEW_VAL_VALID;
     private boolean X_VALID;
     private boolean Y_VALID;
-    private String NEW_VAL;
     private String PARAM;
     private Button CHANGE_PARAM;
     private Button CHANGE_STATE;
@@ -119,9 +118,9 @@ public class SimulationSettingsPanel {
 	PARAM_MENU.setId("simulatorChooser");
 	CHANGE_PARAM = makeParamChangerButton(PROGRAM_ENGINE.resourceString("applyString"));
 	VBox changeParamMenu = new VBox(LABEL_SPACING, changeParam, PARAM_MENU);
-	//CURRENT_PARAM
+	CURRENT_PARAM = currentParamField();
 	PARAM_FIELD = paramField(changeParamMenu);
-	changeParamMenu.getChildren().addAll(PARAM_FIELD, CHANGE_PARAM);
+	changeParamMenu.getChildren().addAll(CURRENT_PARAM, PARAM_FIELD, CHANGE_PARAM);
 	changeParamMenu.setAlignment(Pos.CENTER);
 	return changeParamMenu;
     }
@@ -218,9 +217,9 @@ public class SimulationSettingsPanel {
 			int min = 0;
 			int max = 10;
 			try {
-			    int sizeVal = Integer.parseInt(numberTextField.getText());
+			    double sizeVal = Double.parseDouble(numberTextField.getText());
 			    if (sizeVal >= min && sizeVal <= max) {			    
-				numberTextField.setText(Integer.toString(sizeVal));
+				numberTextField.setText(Double.toString(sizeVal));
 				NEW_VAL_VALID = true;
 			    }
 			    else {
@@ -352,6 +351,20 @@ public class SimulationSettingsPanel {
 	numberTextField.setDisable(true);
 	return numberTextField;
     }
+    
+    /**
+     * Creates a text field that simply displays the state of the currently defined cells 
+     * 
+     * @return a text field
+     */
+    private TextField currentParamField() {
+	TextField numberTextField = new TextField();
+	numberTextField.setId("simulationTextField");
+	numberTextField.setText(PROGRAM_ENGINE.resourceString("oldValuePrompt"));
+	// turn of current state field because user can't input current state
+	numberTextField.setDisable(true);
+	return numberTextField;
+    }
 
     /**
      * Creates a text field that takes integer only input to change the state of a cell in the 
@@ -440,6 +453,13 @@ public class SimulationSettingsPanel {
 
     private void processParamInputs() {
 	CHANGE_PARAM.setDisable(!(PARAM_VALID && NEW_VAL_VALID));
+	if (PARAM_VALID) {
+	    CURRENT_PARAM.setText(Double.toString(STYLE.getParameter(PROGRAM_ENGINE, PARAM)));
+	}
+	else {
+	    CURRENT_PARAM.setText(PROGRAM_ENGINE.resourceString("oldValuePrompt"));
+	    PARAM_FIELD.setText(PROGRAM_ENGINE.resourceString("newValuePrompt"));
+	}
     }
 
     private void processStateInputs() {
@@ -456,10 +476,10 @@ public class SimulationSettingsPanel {
 	}
     }
 
-
     private void changeParamValue() {
 	if(NEW_VAL_VALID && PARAM_VALID) {
-	    STYLE.setParameter(PROGRAM_ENGINE, PARAM, Double.parseDouble(NEW_VAL));
+	    double newVal = Double.parseDouble(PARAM_FIELD.getText());
+	    STYLE.setParameter(PROGRAM_ENGINE, PARAM, newVal);
 	}
     }
 

@@ -19,6 +19,7 @@ import simulation.ruleSet.WaTorRuleset;
  *
  */
 public class StyleFactory extends Engine {
+    private static final double DEFAULT_VALUE = 0.0;
     private static final String FIRE = "Fire";
     private static final String WATOR = "WaTor";
     private static final String SEGREGATION = "Segregation";
@@ -72,6 +73,12 @@ public class StyleFactory extends Engine {
 	return retList;
     }
 
+    /**
+     * 
+     * @param engine
+     * @param param
+     * @param newVal
+     */
     public void setParameter(Engine engine, String param, double newVal){
 	String simType = engine.currentGrid().getType();
 	if(simType.equals(FIRE)) {
@@ -111,5 +118,53 @@ public class StyleFactory extends Engine {
 		gr.setBirth((int) newVal);
 	    }		
 	}
+    }
+    
+    /**
+     * 
+     * @param engine
+     * @param param
+     * @return
+     */
+    public double getParameter(Engine engine, String param){
+	String simType = engine.currentGrid().getType();
+	if(simType.equals(FIRE)) {
+	    FireRuleset fr = ((FireRuleset) engine.currentRules());
+	    return fr.getProbCatch();
+	}
+	else if(simType.equals(WATOR)) {
+	    WaTorRuleset wr = ((WaTorRuleset) engine.currentRules());
+	    List<String> parameters = getParameters(simType);
+	    if(param.equals(parameters.get(0))) {
+		return wr.getFishBreedTime();
+	    }
+	    else if(param.equals(parameters.get(1))) {
+		return wr.getFishInitEnergy();
+	    }
+	    else if(param.equals(parameters.get(2))) {
+		return wr.getSharkInitEnergy();
+	    }
+	    else if(param.equals(parameters.get(3))) {
+		return wr.getSharkBreedEnergy();
+	    }		
+	}
+	else if(simType.equals(SEGREGATION)) {
+	    SegregationRuleset sr = ((SegregationRuleset) engine.currentRules());
+	    return sr.getTolerance();
+	}
+	else if(simType.equals(GAMEOFLIFE)) {
+	    GameOfLifeRuleset gr = ((GameOfLifeRuleset) engine.currentRules());
+	    List<String> parameters = getParameters(simType);
+	    if(param.equals(parameters.get(0))) {
+		return gr.getMinLife();
+	    }
+	    else if(param.equals(parameters.get(2))) {
+		return gr.getMaxLife();
+	    }
+	    else if(param.equals(parameters.get(3))) {
+		return gr.getBirth();
+	    }		
+	}
+	return DEFAULT_VALUE;
     }
 }
