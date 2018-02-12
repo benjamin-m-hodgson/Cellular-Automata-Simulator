@@ -1,6 +1,6 @@
 package simulation.screen;
 
-import factoryClasses.StyleFactory;
+import simulation.factoryClasses.StyleFactory;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
