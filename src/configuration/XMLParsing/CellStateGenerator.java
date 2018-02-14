@@ -1,6 +1,5 @@
 package configuration.XMLParsing;
 import java.util.Random;
-import configuration.XMLDataFactory;
 
 /**
  * Generates cell states based on locations given in XML file or random distribution. Used by the XML
@@ -9,7 +8,7 @@ import configuration.XMLDataFactory;
  * @author Katherine Van Dyk
  * @date 2/11/18
  */
-public class CellStateGenerator extends XMLDataFactory {
+public class CellStateGenerator {
 
     /**
      * Returns int[][] of cell states based on string input of states in XML file
