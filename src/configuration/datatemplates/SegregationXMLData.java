@@ -1,6 +1,4 @@
 package configuration.datatemplates;
-import java.util.Arrays;
-import java.util.List;
 
 import simulation.cell.*;
 import simulation.grid.Grid;
@@ -17,50 +15,38 @@ import simulation.ruleSet.*;
  */
 public class SegregationXMLData extends XMLData {
     private final String SEGREGATION = "Segregation";
-    private static final List<String> PARAM_DATA_FIELDS = Arrays.asList(new String[] {
-	    "tolerance"
-    });
-
+    private String[] PARAMETERS;
+    
     /**
      * Constructor for Segregation data template
      */
     public SegregationXMLData() {
 	super();
+	PARAMETERS = getParameters(SEGREGATION);
     }
-
-    /**
-     * Returns simulation-specific (parameter) data fields
-     */
-    @Override
-    public List<String> getParameterFields() {
-	return PARAM_DATA_FIELDS;
-    }
-
-    /**
-     * Returns all Fire XML data fields (standard and simulation-specific)
-     */
-    @Override
-    public List<String> getDataFields() {
-	List<String> result = getStandardFields();
-	result.addAll(PARAM_DATA_FIELDS);
-	return result;
-    }
-
+    
     /**
      * Returns Segregation ruleset object initialized with parameters in XML file
      */
     @Override
     public SegregationRuleset getRules() {
-	return new SegregationRuleset(Double.parseDouble(myDataValues.get(PARAM_DATA_FIELDS.get(0))));
+	return new SegregationRuleset(Double.parseDouble(myDataValues.get(PARAMETERS[0])));
     }
 
     /**
-     * Returns grid object with cells initialized to states in XML file
+     * Returns grid object
      */
     @Override
+    public Grid getGrid() {
+	int[][] states  = getStates(3);
+	return getGrid(states);
+    }
+    
+    /**
+     * Returns grid object with cells initialized to states in XML file
+     */
     public Grid getGrid(int[][] states) {
-	Grid g = new StandardGrid(this.getXSize(), this.getYSize());
-	g.setType(SEGREGATION);
+	Grid g = new StandardGrid(SEGREGATION, this.getXSize(), this.getYSize());
 	for(int r= 0; r < this.getXSize(); r++) {
 	    for(int c = 0; c < this.getYSize(); c++) {
 		g.addCell(new SegregationCell(r, c, states[r][c]));
@@ -68,5 +54,4 @@ public class SegregationXMLData extends XMLData {
 	}
 	return g;
     }
-
 }

@@ -1,6 +1,4 @@
 package configuration.datatemplates;
-import java.util.Arrays;
-import java.util.List;
 
 import simulation.cell.*;
 import simulation.grid.*;
@@ -15,36 +13,15 @@ import simulation.ruleSet.*;
  *
  */
 public class GameOfLifeXMLData extends XMLData {
-    private final String GAMEOFLIFE = "Game of Life";
-    private static final List<String> PARAM_DATA_FIELDS = Arrays.asList(new String[] {
-	    "minLife",
-	    "maxLife",
-	    "birth"
-    });
+    private final String GAMEOFLIFE = "GameOfLife";   
+    private String[] PARAMETERS;
 
     /** 
      * Constructor for GameOfLife XML data template
      */
     public GameOfLifeXMLData() {
 	super();
-    }
-
-    /**
-     * Returns simulation specific parameters
-     */
-    @Override
-    public List<String> getParameterFields() {
-	return PARAM_DATA_FIELDS;
-    }
-
-    /**
-     * All data fields (general and simulation specific)
-     */
-    @Override
-    public List<String> getDataFields() {
-	List<String> result = getStandardFields();
-	result.addAll(PARAM_DATA_FIELDS);
-	return result;
+	PARAMETERS = getParameters(GAMEOFLIFE);
     }
 
     /**
@@ -52,9 +29,9 @@ public class GameOfLifeXMLData extends XMLData {
      */
     @Override
     public GameOfLifeRuleset getRules() {
-	int minLife = Integer.parseInt(myDataValues.get(PARAM_DATA_FIELDS.get(0)));
-	int maxLife = Integer.parseInt(myDataValues.get(PARAM_DATA_FIELDS.get(1)));
-	int birth = Integer.parseInt(myDataValues.get(PARAM_DATA_FIELDS.get(2)));
+	int minLife = Integer.parseInt(myDataValues.get(PARAMETERS[0]));
+	int maxLife = Integer.parseInt(myDataValues.get(PARAMETERS[1]));
+	int birth = Integer.parseInt(myDataValues.get(PARAMETERS[2]));
 	return new GameOfLifeRuleset(minLife, maxLife, birth);
     }
 
@@ -62,8 +39,7 @@ public class GameOfLifeXMLData extends XMLData {
      * Returns grid object with cells initialized to states in XML file
      */
     public Grid getGrid(int[][] states) {
-	Grid g = new StandardGrid(this.getXSize(), this.getYSize());
-	g.setType(GAMEOFLIFE);
+	Grid g = new StandardGrid(GAMEOFLIFE, this.getXSize(), this.getYSize());
 	for(int r= 0; r < this.getXSize(); r++) {
 	    for(int c = 0; c < this.getYSize(); c++) {
 		g.addCell(new GameOfLifeCell(r, c, states[r][c]));
@@ -72,4 +48,12 @@ public class GameOfLifeXMLData extends XMLData {
 	return g;
     }
 
+    /**
+     * Returns grid object
+     */
+    @Override
+    public Grid getGrid() {
+	int[][] states  = getStates(2);
+	return getGrid(states);
+    }
 }

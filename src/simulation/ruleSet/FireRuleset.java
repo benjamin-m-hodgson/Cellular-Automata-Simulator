@@ -8,9 +8,6 @@ import simulation.ruleSet.neighborManager.*;
 /**
  * Calculates updated cell states based on Fire Ruleset simulation.
  * 
- * RULES: 
- * Tree Cell: If tree surrounding it burns, and rand # < probCatch -> burn
- * Burning Cell: Always burning
  * 
  *  @param Cell c: cell whose state is being evaluated
  *  @param Cell[] neighbors: neighbors of c

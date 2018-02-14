@@ -1,9 +1,9 @@
 <?xml version = "1.0" encoding = "UTF-8" ?>
-<simulation simulation = "CA" type = "Fire" format = "random">
-	<name>"Random Fire"</name>
+<simulation simulation = "CA" type = "Fire">
+	<name>Random Fire</name>
     <sizeX>50</sizeX>
     <sizeY>50</sizeY>
-	<cell> </cell>
+	<cell>random</cell>
 	<probCatch>.5</probCatch>
 	<author>Katherine Van Dyk</author>
 </simulation>

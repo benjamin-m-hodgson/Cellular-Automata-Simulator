@@ -1,9 +1,9 @@
 <?xml version = "1.0" encoding = "UTF-8" ?>
-<simulation simulation = "CA" type = "Game of Life" format = "random">
-	<name>"Random States Game of Life"</name>
+<simulation simulation = "CA" type = "GameOfLife">
+	<name>Random States Game of Life</name>
     <sizeX>25</sizeX>
     <sizeY>25</sizeY>
-	<cell></cell>
+	<cell>random</cell>
 	<minLife>2</minLife>
 	<maxLife>3</maxLife>
 	<birth>3</birth>

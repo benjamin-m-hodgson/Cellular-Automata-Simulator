@@ -20,10 +20,11 @@ public abstract class Grid implements Cloneable{
      * @param x: x size
      * @param y: y size
      */
-    public Grid(int x, int y) {
+    public Grid(String type, int x, int y) {
 	myX = x;
 	myY = y;
 	myCells = new Cell[myX][myY];
+	TYPE = type;
     }
 
     /**
@@ -80,13 +81,6 @@ public abstract class Grid implements Cloneable{
 	return this.myY;
     }
 
-    /**
-     * Sets type of simulation grid represents to string @param s
-     */
-    public void setType(String s) {
-	this.TYPE = s;
-    }
-    
     /**
      * @return type of simulation grid represents
      */

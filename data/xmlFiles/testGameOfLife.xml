@@ -1,6 +1,6 @@
 <?xml version = "1.0" encoding = "UTF-8" ?>
-<simulation simulation = "CA" type = "Game of Life" format = "locations">
-	<name>"Simple Game of Life"</name>
+<simulation simulation = "CA" type = "GameOfLife" format = "locations">
+	<name>Simple Game of Life</name>
     <sizeX>5</sizeX>
     <sizeY>5</sizeY>
 	<cell>1 1 1 1 1 

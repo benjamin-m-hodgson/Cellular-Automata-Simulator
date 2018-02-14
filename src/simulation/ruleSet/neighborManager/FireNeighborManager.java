@@ -13,7 +13,6 @@ import simulation.neighborhoods.*;
  */
 public class FireNeighborManager extends NeighborManager {
 
-
 	public FireNeighborManager(Neighborhood n, boolean finite) {
 		super(n, finite);
 	}

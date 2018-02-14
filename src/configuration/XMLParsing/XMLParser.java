@@ -23,13 +23,10 @@ import java.util.Map;
  * @author Katherine Van Dyk
  */
 public class XMLParser {
-    protected static final String ERROR_MESSAGE = "XML file does not represent %s";
     private String TYPE_ATTRIBUTE = "simulation";
-    private String FORMAT_ATTRIBUTE = "format";
     private final DocumentBuilder DOCUMENT_BUILDER;
     private final XMLDataFactory XMLDATA_FACTORY;
     private String simulationType;
-    private String parserType;
     private XMLData data;
 
     /**
@@ -46,14 +43,12 @@ public class XMLParser {
      * @param dataFile	File to be parsed
      * @return Map containing field and file data
      */
-    private Map<String, String> getMap (File dataFile) {
-	Element root = getRootElement(dataFile);
+    private Map<String, String> getMap (File dataFile, Element root) {
 	if (! isValidFile(root, "CA")) {
-	    throw new XMLException(ERROR_MESSAGE, "simulation file type");
+	    throw new XMLException("XML file does not represent %s", "simulation file type");
 	}
-	parserType = root.getAttribute(FORMAT_ATTRIBUTE);
 	Map<String, String> results = new HashMap<>();
-	for (String field : data.getDataFields()) {
+	for (String field : XMLDATA_FACTORY.getDataFields(simulationType)) {
 	    results.put(field, getTextValue(root, field));
 	}
 	return results;
@@ -62,12 +57,10 @@ public class XMLParser {
     /**
      * Get grid object from XML Data Template
      * 
-     * @param dataFile
      * @return
      */
     public Grid getGrid() {
-	int[][] states = data.getStates(parserType, simulationType);
-	return data.getGrid(states);
+	return data.getGrid();
     }
 
     /**
@@ -82,7 +75,6 @@ public class XMLParser {
     /**
      * Get simulation name from XML Data Object
      * 
-     * @param dataFile
      * @return String containing simulation name
      */
     public String getName() {
@@ -94,11 +86,11 @@ public class XMLParser {
      * 
      * @param dataFile
      */
-    public void setType(File dataFile) {
+    public void initialize(File dataFile) {
 	try {
 	    this.simulationType = getAttribute(getRootElement(dataFile), "type");
 	    this.data = XMLDATA_FACTORY.chooseDataTemplate(simulationType);
-	    data.setMap(getMap(dataFile));
+	    data.setMap(getMap(dataFile, getRootElement(dataFile)));
 	}
 	catch (Exception e) {
 	    throw new XMLException(e);
@@ -162,7 +154,7 @@ public class XMLParser {
     }
 
     /**
-     * Helper method to do the boilerplate code needed to make a documentBuilder.
+     * Put in new comment
      * 
      * @return
      */

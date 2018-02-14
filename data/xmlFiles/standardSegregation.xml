@@ -1,6 +1,6 @@
 <?xml version = "1.0" encoding = "UTF-8" ?>
 <simulation simulation = "CA" type = "Segregation" format = "locations" >
-	<name>"Standard Segregation"</name>
+	<name>Standard Segregation</name>
     <sizeX>40</sizeX>
     <sizeY>40</sizeY>
 	<cell>0 1 0 1 0 1 2 1 0 1 0 1 0 1 0 1 0 1 0 1 2 1 0 1 0 0 1 0 1 0 1 0 1 1 0 1 2 1 0 1 

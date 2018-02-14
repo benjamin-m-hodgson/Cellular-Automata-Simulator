@@ -1,130 +1,102 @@
 package configuration.datatemplates;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import configuration.XMLParsing.CellStateGenerator;
 import simulation.grid.Grid;
 import simulation.ruleSet.Ruleset;
 
 /**
- * Abstract class for XML data templates. This class parses standard XML data (data consistent across XML files of all 
- * configurations) and creates a grid object and initializes a rule set based on the input parameters.
+ * XMLData serves as the superclass for all XML data templates, which are simulation-specific. The XML Data Template is 
+ * called by the parser to organize the input XML file information into a map of tags and values (both strings). Since the XML
+ * data template is needed beyond the configuration package, I chose to place the parameter fields within a properties file. This way,
+ * when adding a new simulation, the user only has to input parameter information once/XML data templates do not have to be instantiated
+ * beyond the configuration package. Subclasses of the XML Data Template create grid and rule set objects, and deal with handling
+ * simulation-specific parameters (the XMLData template parses STANDARD parameter data, common to all simulations).
  * 
  * @author Katherine Van Dyk
  * @date 1/30/18
- *
  */
 public abstract class XMLData {
-
-    public static final String DATA_TYPE = "simulation";
-    public static final String LOCATIONS = "locations";
+    private String STANDARD = "Standard";
+    private String RANDOM = "random";
+    private String[] STANDARD_FIELDS;
+    protected ResourceBundle DEFAULT_RESOURCES = ResourceBundle.getBundle("configuration.parameters");
     protected Map<String, String> myDataValues;
-    private static final List<String> STD_DATA_FIELDS = Arrays.asList(new String[] {
-	    "name",
-	    "sizeX",
-	    "sizeY",
-	    "cell"
-    });
 
     /**
-     * XML Data constructor
-     * 
-     * @param dataValues
+     * XML Data Template constructor, initializes myDataValues (the map of XML parsed data) to be null and accesses
+     * STANDARD fields within the resources file
      */
     public XMLData () {
+	STANDARD_FIELDS = getParameters(STANDARD);
 	myDataValues = null;
     }
 
     /**
-     * Sets map of datavalues (string and tag name) returned from the XML parser. 
-     * 
-     * @param dataValues
+     * Sets map of data values (string and tag name) returned from the XML parser. 
+     * @param dataValues: Map of XML tag to value contained within that tag
      */
     public void setMap(Map<String, String> dataValues) {
 	myDataValues = dataValues;
     }
 
     /**
-     * Parses input XML file for cell states, a double array of integers
-     * 
+     * Parses the field 'cell' field of any XML file and returns a double integer representing states
+     * of the cell. This array is filled either with hard-coded states within the XML file, or randomly
+     * if specified in the XML file.
      * @return int[][]: double array of integers representing initial states of all cells
      */
-    public int[][] getStates(String parserType, String simulationType) {
+    protected int[][] getStates(int maxStates) {
 	CellStateGenerator cellGen = new CellStateGenerator();
-	if(parserType.equals(LOCATIONS)) {
-		return cellGen.locationStates(myDataValues.get(STD_DATA_FIELDS.get(3)), getXSize(), getYSize());
+	if(!myDataValues.get(STANDARD_FIELDS[3]).equals(RANDOM)) {
+	    return cellGen.locationStates(myDataValues.get(STANDARD_FIELDS[3]), getXSize(), getYSize());
 	}
 	else {
-	    return cellGen.randomStates(simulationType, getXSize(), getYSize());
+	    return cellGen.randomStates(maxStates, getXSize(), getYSize());
 	}
     }
 
     /**
-     * Returns name of simulation
-     * Source Code to Parse Simulation Name:
-     * https://stackoverflow.com/questions/2608665/how-can-i-trim-beginning-and-ending-double-quotes-from-a-string
-     * 
+     * Returns the unique name of a simulation
      * @return String representing unique name of simulation
      */
     public String getName() {
-	return myDataValues.get(STD_DATA_FIELDS.get(0)).replaceAll("^\"|\"$", "");
+	return myDataValues.get(STANDARD_FIELDS[0]);
     }
 
     /**
      * Returns x-size of the grid object
-     * 
      * @return int: x-size of Grid
      */
     public int getXSize() {
-	return Integer.parseInt(myDataValues.get(STD_DATA_FIELDS.get(1))); 
+	return Integer.parseInt(myDataValues.get(STANDARD_FIELDS[1])); 
     }
 
     /**
      * Return y-size of the grid object
-     * 
      * @return int: y-size of grid
      */
     public int getYSize() {
-	return Integer.parseInt(myDataValues.get(STD_DATA_FIELDS.get(2))); 
+	return Integer.parseInt(myDataValues.get(STANDARD_FIELDS[2])); 
     }
 
     /**
-     * Returns grid object specified by XML File
-     * 
-     * @return Grid object (used in subclasses)
+     * @return Grid: Grid object using simulation-specific cell type
      */
-    public abstract Grid getGrid(int[][] states);
+    public abstract Grid getGrid();
 
     /**
-     * Returns ruleset object specified by XML file
-     * 
-     * @return Ruleset object
+     * @return Ruleset: Ruleset object specific to simulation/input parameters in XML File
      */
     public abstract Ruleset getRules();
 
     /**
-     * Gets list of all standard datafields in XML file
-     * 
-     * @return List<String> of all parameters
+     * Returns array of space separated strings in the XML file
+     * @param key: desired string title
+     * @return String[]: corresponding resource string array
      */
-    public List<String> getStandardFields() {
-	List<String> retFields = new ArrayList<String>(STD_DATA_FIELDS);
-	return retFields;
+    public String[] getParameters(String simType) {
+	return DEFAULT_RESOURCES.getString(simType).split(" ");
     }
-
-    /**
-     * Returns all standard/simulation-specific data fields
-     * 
-     * @return List of all data fields 
-     */
-    public abstract List<String> getDataFields();
-
-    /**
-     * Returns simulation-specific parameter fields
-     * 
-     * @return List of simulation-specific data fields 
-     */
-    public abstract List<String> getParameterFields();
 }

@@ -26,7 +26,7 @@ public abstract class NeighborManager {
 
 
 	/**
-	 * Return count of live neighbor cells
+	 * Return count of neighbors
 	 * 
 	 * @param neighbors: Arraylist of all cell's neighbors 
 	 * @return
@@ -62,7 +62,4 @@ public abstract class NeighborManager {
 		if(cells.length == 0) return null;
 		return cells[rand.nextInt(cells.length)];
 	}
-
-
-
 }

@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 
 import javax.xml.transform.TransformerConfigurationException;
 
+import configuration.FileController;
 import configuration.XMLWriting.XMLWriter;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;

@@ -3,9 +3,9 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import configuration.FileController;
 import configuration.XMLDataFactory;
 import configuration.XMLException;
-import simulation.FileController;
 import simulation.grid.Grid;
 import simulation.ruleSet.Ruleset;
 import java.io.File;

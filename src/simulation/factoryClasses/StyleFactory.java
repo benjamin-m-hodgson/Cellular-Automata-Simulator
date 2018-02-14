@@ -2,8 +2,7 @@ package simulation.factoryClasses;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import configuration.datatemplates.*;
+import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import simulation.Engine;
@@ -26,9 +25,10 @@ public class StyleFactory extends Engine {
     private static final String FIRE = "Fire";
     private static final String WATOR = "WaTor";
     private static final String SEGREGATION = "Segregation";
-    private static final String GAMEOFLIFE = "Game of Life";
+    private static final String GAMEOFLIFE = "GameofLife";
     private static final String SUGAR = "SugarScape";
-    private static final String RPS = "Rock, Paper, Scissors";
+    private static final String RPS = "RRPS";
+    protected ResourceBundle DEFAULT_RESOURCES = ResourceBundle.getBundle("configuration.parameters");
 
     /**
      * Returns list of parameters for specific simulation type
@@ -37,34 +37,15 @@ public class StyleFactory extends Engine {
      * @return List<String> to be displayed in drop-down menus
      */
     public List<String> getParameters(String simType){
-	if(simType.equalsIgnoreCase(FIRE)) {
-	    FireXMLData fire = new FireXMLData();
-	    return fire.getParameterFields();
-	}
-	else if(simType.equalsIgnoreCase(WATOR)) {
-	    WaTorXMLData wator = new WaTorXMLData();
-	    return wator.getParameterFields();
-	}
-	else if(simType.equalsIgnoreCase(SEGREGATION)) {
-	    SegregationXMLData segregation = new SegregationXMLData();
-	    return segregation.getParameterFields();
-	}
-	else if(simType.equalsIgnoreCase(GAMEOFLIFE)) {
-	    GameOfLifeXMLData gol = new GameOfLifeXMLData();
-	    return gol.getParameterFields();
-	}
-	else if(simType.equalsIgnoreCase(SUGAR)) {
-	    SugarXMLData sugar = new SugarXMLData();
-	    List<String> completeList = sugar.getParameterFields();
-	    // only the first two parameters are global parameters
-	    List<String> globalParameters = completeList.subList(0, 2);
+	List<String> returnList = Arrays.asList(getFields(simType));
+	if(simType.equalsIgnoreCase(SUGAR)) {
+	    List<String> globalParameters = returnList.subList(0, 2);
 	    return globalParameters;
 	}
 	else if(simType.equalsIgnoreCase(RPS)) {
-	    // RPS has no global variables to change
 	    return new ArrayList<String>();
 	}
-	return null;
+	return returnList;
     }
 
     /**
@@ -94,6 +75,7 @@ public class StyleFactory extends Engine {
 	ObservableList<String> retList = FXCollections.observableArrayList(options);
 	return retList;
     }
+
 
     /**
      * 
@@ -207,5 +189,15 @@ public class StyleFactory extends Engine {
 	    }
 	}
 	return DEFAULT_VALUE;
+    }
+
+    /**
+     * Returns resource string
+     * 
+     * @param key: desired string title
+     * @return String: corresponding resource string
+     */
+    public String[] getFields(String simType) {
+	return DEFAULT_RESOURCES.getString(simType).split(" ");
     }
 }

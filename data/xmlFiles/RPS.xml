@@ -1,6 +1,6 @@
 <?xml version = "1.0" encoding = "UTF-8" ?>
-<simulation simulation = "CA" type = "Rock Paper Scissors" format = "locations">
-	<name>"Rock, Paper, Scissors"</name>
+<simulation simulation = "CA" type = "RPS" format = "locations">
+	<name>Rock, Paper, Scissors</name>
     <sizeX>16</sizeX>
     <sizeY>16</sizeY>
 	<cell>0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 

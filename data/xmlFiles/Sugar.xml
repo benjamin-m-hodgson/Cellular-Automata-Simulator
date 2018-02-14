@@ -1,6 +1,6 @@
 <?xml version = "1.0" encoding = "UTF-8" ?>
 <simulation simulation = "CA" type = "SugarScape" format = "locations">
-	<name>"SugarScape"</name>
+	<name>SugarScape</name>
     <sizeX>16</sizeX>
     <sizeY>16</sizeY>
 	<cell>0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 

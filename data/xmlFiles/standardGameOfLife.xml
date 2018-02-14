@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><simulation format="locations" simulation="CA" type="Game of Life">
-<name>"Standard Game Of Life"</name>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><simulation format="locations" simulation="CA" type="GameOfLife">
+<name>Standard Game Of Life</name>
 <sizeX>25</sizeX>
 <sizeY>25</sizeY>
 <cell>1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 

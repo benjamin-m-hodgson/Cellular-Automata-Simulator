@@ -1,8 +1,5 @@
 package configuration.datatemplates;
 
-import java.util.Arrays;
-import java.util.List;
-
 import simulation.cell.*;
 import simulation.grid.Grid;
 import simulation.grid.StandardGrid;
@@ -18,62 +15,48 @@ import simulation.ruleSet.*;
  */
 public class WaTorXMLData extends XMLData {
     private final String WATOR = "WaTor";
+    private String[] PARAMETERS;
     private final int FISH = 0;
     private final int SHARK = 1; 
     private final int NOENERGY = 0;
-    private static final List<String> PARAM_DATA_FIELDS = Arrays.asList(new String[] {
-	    "fishBreedTime",
-	    "fishEnergy",
-	    "sharkInitEnergy",
-	    "sharkBreedEnergy",
-    });
-
+    
     /**
      * Constructor for WaTor XML Data template
      */
     public WaTorXMLData() {
 	super();
+	PARAMETERS = getParameters(WATOR);
     }
 
-    /**
-     * Returns data fields
-     */
-    @Override
-    public List<String> getParameterFields() {
-	return PARAM_DATA_FIELDS;
-    }
-
-    /**
-     * Returns Fire XML data fields 
-     */
-    @Override
-    public List<String> getDataFields() {
-	List<String> result = getStandardFields();
-	result.addAll(PARAM_DATA_FIELDS);
-	return result;
-    }
     
     /**
      * Returns WaTor ruleset object initialized with parameters in XML file
      */
     @Override
     public Ruleset getRules() {
-	int fishBreedTime = Integer.parseInt(myDataValues.get(PARAM_DATA_FIELDS.get(0)));
-	int fishInitEnergy = Integer.parseInt(myDataValues.get(PARAM_DATA_FIELDS.get(1)));
-	int sharkInitEnergy = Integer.parseInt(myDataValues.get(PARAM_DATA_FIELDS.get(2)));
-	int sharkBreedTime = Integer.parseInt(myDataValues.get(PARAM_DATA_FIELDS.get(3)));
+	int fishBreedTime = Integer.parseInt(myDataValues.get(PARAMETERS[0]));
+	int fishInitEnergy = Integer.parseInt(myDataValues.get(PARAMETERS[1]));
+	int sharkInitEnergy = Integer.parseInt(myDataValues.get(PARAMETERS[2]));
+	int sharkBreedTime = Integer.parseInt(myDataValues.get(PARAMETERS[3]));
 	return new WaTorRuleset(fishBreedTime, sharkBreedTime, fishInitEnergy, sharkInitEnergy);
+    }
+    
+    /**
+     * Returns grid object
+     */
+    @Override
+    public Grid getGrid() {
+	int[][] states  = getStates(3);
+	return getGrid(states);
     }
     
     /**
      * Returns WaTor grid object with cells initialized to data in XML file
      */
-    @Override
     public Grid getGrid(int[][] states) {
-	Grid g = new StandardGrid(this.getXSize(), this.getYSize());
-	g.setType(WATOR);
-	int sharkEnergy = Integer.parseInt(myDataValues.get(PARAM_DATA_FIELDS.get(2)));
-	int fishEnergy = Integer.parseInt(myDataValues.get(PARAM_DATA_FIELDS.get(1)));
+	Grid g = new StandardGrid(WATOR, this.getXSize(), this.getYSize());
+	int sharkEnergy = Integer.parseInt(myDataValues.get(PARAMETERS[2]));
+	int fishEnergy = Integer.parseInt(myDataValues.get(PARAMETERS[1]));
 	for(int r= 0; r < this.getXSize(); r++) {
 	    for(int c = 0; c < this.getYSize(); c++) {
 		if(states[r][c] == FISH) {

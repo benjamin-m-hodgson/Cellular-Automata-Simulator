@@ -1,9 +1,9 @@
 <?xml version = "1.0" encoding = "UTF-8" ?>
-<simulation simulation = "CA" type = "WaTor" format = "random" >
-	<name>"Random WaTor"</name>
+<simulation simulation = "CA" type = "WaTor">
+	<name>Random WaTor</name>
     <sizeX>75</sizeX>
     <sizeY>75</sizeY>
-	<cell></cell>
+	<cell>random</cell>
 	<fishBreedTime>3</fishBreedTime>
 	<fishEnergy>4</fishEnergy>
 	<sharkInitEnergy>7</sharkInitEnergy>

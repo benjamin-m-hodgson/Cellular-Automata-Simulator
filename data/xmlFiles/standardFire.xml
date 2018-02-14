@@ -1,6 +1,6 @@
 <?xml version = "1.0" encoding = "UTF-8" ?>
 <simulation simulation = "CA" type = "Fire" format = "locations">
-	<name>"Standard Fire"</name>
+	<name>Standard Fire</name>
     <sizeX>16</sizeX>
     <sizeY>16</sizeY>
 	<cell>0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 

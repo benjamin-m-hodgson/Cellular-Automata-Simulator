@@ -11,7 +11,7 @@ public class StandardGrid extends Grid {
     	/**
     	 * Constructor for a standard grid of size @param x by @param y
     	 */
-	public StandardGrid(int x, int y) {
-		super(x,y);
+	public StandardGrid(String type, int x, int y) {
+		super(type, x, y);
 	}
 }
