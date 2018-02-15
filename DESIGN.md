@@ -33,7 +33,7 @@ To add a new cell shape, two primary items need to be modified: the ShapeFactory
 First, a new ShapeHandler subclass must be created for the specific cell shape being added. The ShapeHandler generates a polygon object to represent the cell on the display. Each unique subclass of the ShapeHandler must define the cell's height and width components along with its row and column position in the grid to calculate its position on the screen.
 
 #### 2. Edit the ShapeFactory class
-Second, the ShapeFactory class in the simulation.factoryClass package must be adjusted to accommodate the new shape. The ShapeFactory class determines which shape should be used and handles its construction on the grid, so the new shape must be added as an option.
+Second, the ShapeFactory class in the simulation.factoryClass package must be adjusted to accommodate the new shape. The ShapeFactory class determines which shape should be used and handles its construction on the grid, so the new shape must be added as an option by incorporating a statement in the chooseShape() method that calls the relevant ShapeHandler subclass based on the user's choice.
 
 ## Justifying Major Design Choices
 ### Design Decisions
