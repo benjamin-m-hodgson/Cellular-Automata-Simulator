@@ -55,3 +55,17 @@ In the second sprint, cell colors were also read from a resources file and each 
 
 ## Assumptions
 
+#### 1. Simulation sizing and spacing in `SimulationSettings.java` class:
+The TextFields created in this class assume minimum and maximum possible values for the spacing between cells and the size of the cells. If a user attempts to enter in a value outside of these bounds the default value is selected instead. The bounds are listed at the top of the class in instance variables:
+`private final double CELL_MAX_SIZE = 50;`
+`private final double CELL_MIN_SIZE = 0.1;`
+`private final double SPACE_MAX_SIZE = 5;`
+`private final double SPACE_MIN_SIZE = 0;`
+
+#### 2. Cell panel sizing in the `ShapeHandler.java` class:
+The Cell panel size is defined at the top of each of the `ShapHandler.java` sub classes. This size is used to calculate the default size and position of the Shape objects. Currently both of the sub classes in the program have the size set in the following instance variables. 
+`private final double SCENE_HEIGHT = 400;`
+`private final double SCENE_WIDTH = 400;`
+
+#### 3. State graph in the `SimulationGraphPanel.java` class:
+This graph makes some assumptions that limit its flexibility. For example, the graph assumes the simulation only has three possible cell states. This is very limiting because to chart additional simulations with more than three states one has to add an additional Series in this class to represent this extra state.
