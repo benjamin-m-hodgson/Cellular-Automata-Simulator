@@ -23,6 +23,18 @@ Finally, in order to style the simulation, it needs to pop up in menus and have 
 #### 5. Add XML Files
 Finally, add XML files corresponding to the data template created above. The FileController() will automatically parse these files, and the simulation should automatically run if selected.
 
+### Adding New Color Schemes
+Adding a new color scheme is incredibly simple; all that must be changed is the color.properties file in the simulation package. To add a new color scheme, a new line should be created with the name of the simulation followed by five colors (the maximum number used by a simulation) in hexadecimal format. Then, that color scheme will be automatically added to the drop-down menu and applied to the relevant cells.
+
+### Adding New Cell Shapes
+To add a new cell shape, two primary items need to be modified: the ShapeFactory class and the ShapeHandler subclasses in the simulation.shapes package.
+
+#### 1. Add a new ShapeHandler subclass
+First, a new ShapeHandler subclass must be created for the specific cell shape being added. The ShapeHandler generates a polygon object to represent the cell on the display. Each unique subclass of the ShapeHandler must define the cell's height and width components along with its row and column position in the grid to calculate its position on the screen.
+
+#### 2. Edit the ShapeFactory class
+Second, the ShapeFactory class in the simulation.factoryClass package must be adjusted to accommodate the new shape. The ShapeFactory class determines which shape should be used and handles its construction on the grid, so the new shape must be added as an option.
+
 ## Justifying Major Design Choices
 ### Design Decisions
 #### Cell Neighborhood Management
